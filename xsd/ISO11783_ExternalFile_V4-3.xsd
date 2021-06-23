@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Schema revision date 2018-06-04, External File schema version 4.3, TC version 4, schema revision 3 -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+    <xs:include schemaLocation="ISO11783_Common_V4-3.xsd"/>
+	<xs:element name="XFC">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">
+				ExternalFileContents
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element ref="BSN" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation xml:lang="en">
+							BaseStation
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element ref="CCT" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation xml:lang="en">
+							CodedComment
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element ref="CCG" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation xml:lang="en">
+							CodedCommentGroup
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element ref="CLD" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation xml:lang="en">
+							ColourLegend
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element ref="CTP" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation xml:lang="en">
+							CropType
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element ref="CPC" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation xml:lang="en">
+							CulturalPractice
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element ref="CTR" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation xml:lang="en">
+							Customer
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element ref="DVC" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation xml:lang="en">
+							Device
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element ref="FRM" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation xml:lang="en">
+							Farm
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element ref="OTQ" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation xml:lang="en">
+							OperationTechnique
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element ref="PFD" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation xml:lang="en">
+							Partfield
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element ref="PDT" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation xml:lang="en">
+							Product
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element ref="PGP" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation xml:lang="en">
+							ProductGroup
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element ref="TSK" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation xml:lang="en">
+							Task
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element ref="VPN" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation xml:lang="en">
+							ValuePresentation
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element ref="WKR" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation xml:lang="en">
+							Worker
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

@@ -1,0 +1,415 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Schema revision date 2018-06-04, Schema version 4.3, TC version 4, schema revision 3 -->
+<!-- This schema file contains the XML elements that can be used in the TLGxxxxx.xml file -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+	<xs:simpleType name="emptyString">
+		<xs:restriction base="xs:string">
+			<xs:length value="0" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:element name="DLV">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">
+				DataLogValue
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:attribute name="A" use="required">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						ProcessDataDDI
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:hexBinary">
+						<xs:length value="2"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="B" type="emptyString" use="required">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						ProcessDataValue
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="C" use="required">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						DeviceElementIdRef
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:IDREF">
+						<xs:minLength value="4"/>
+						<xs:maxLength value="14"/>
+						<xs:pattern value="(DET|DET-)([0-9])+"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="D" use="optional">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						DataLogPGN
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:unsignedLong">
+						<xs:minInclusive value="0"/>
+						<xs:maxInclusive value="262143"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="E" use="optional">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						DataLogPGNStartBit
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:unsignedByte">
+						<xs:minInclusive value="0"/>
+						<xs:maxInclusive value="63"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="F" use="optional">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						DataLogPGNStopBit
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:unsignedByte">
+						<xs:minInclusive value="0"/>
+						<xs:maxInclusive value="63"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="PTN">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">
+				Position
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:attribute name="A" use="required">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						PositionNorth
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:union memberTypes="emptyString">
+						<xs:simpleType>
+							<xs:restriction base="xs:decimal">
+								<xs:minInclusive value="-90.0"/>
+								<xs:maxInclusive value="90.0"/>
+								<xs:fractionDigits value="9"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:union>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="B" use="required">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						PositionEast
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:union memberTypes="emptyString">
+						<xs:simpleType>
+							<xs:restriction base="xs:decimal">
+								<xs:minInclusive value="-180.0"/>
+								<xs:maxInclusive value="180.0"/>
+								<xs:fractionDigits value="9"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:union>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="C" use="optional">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						PositionUp
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:union memberTypes="emptyString">
+						<xs:simpleType>
+							<xs:restriction base="xs:long">
+								<xs:minInclusive value="-2147483648"/>
+								<xs:maxInclusive value="2147483647"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:union>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="D" use="required">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						PositionStatus
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:union memberTypes="emptyString">
+						<xs:simpleType>
+							<xs:restriction base="xs:NMTOKEN">
+								<xs:enumeration value="0">
+									<xs:annotation>
+										<xs:documentation xml:lang="en">
+											no GPS fix
+										</xs:documentation>
+									</xs:annotation>
+								</xs:enumeration>
+								<xs:enumeration value="1">
+									<xs:annotation>
+										<xs:documentation xml:lang="en">
+											GNSS fix
+										</xs:documentation>
+									</xs:annotation>
+								</xs:enumeration>
+								<xs:enumeration value="2">
+									<xs:annotation>
+										<xs:documentation xml:lang="en">
+											DGNSS fix
+										</xs:documentation>
+									</xs:annotation>
+								</xs:enumeration>
+								<xs:enumeration value="3">
+									<xs:annotation>
+										<xs:documentation xml:lang="en">
+											Precise GNSS
+										</xs:documentation>
+									</xs:annotation>
+								</xs:enumeration>
+								<xs:enumeration value="4">
+									<xs:annotation>
+										<xs:documentation xml:lang="en">
+											RTK fixed integer
+										</xs:documentation>
+									</xs:annotation>
+								</xs:enumeration>
+								<xs:enumeration value="5">
+									<xs:annotation>
+										<xs:documentation xml:lang="en">
+											RTK float
+										</xs:documentation>
+									</xs:annotation>
+								</xs:enumeration>
+								<xs:enumeration value="6">
+									<xs:annotation>
+										<xs:documentation xml:lang="en">
+											Est (DR) mode
+										</xs:documentation>
+									</xs:annotation>
+								</xs:enumeration>
+								<xs:enumeration value="7">
+									<xs:annotation>
+										<xs:documentation xml:lang="en">
+											Manual input
+										</xs:documentation>
+									</xs:annotation>
+								</xs:enumeration>
+								<xs:enumeration value="8">
+									<xs:annotation>
+										<xs:documentation xml:lang="en">
+											Simulate mode
+										</xs:documentation>
+									</xs:annotation>
+								</xs:enumeration>
+								<xs:enumeration value="9">
+									<xs:annotation>
+										<xs:documentation xml:lang="en">
+											Reserved
+										</xs:documentation>
+									</xs:annotation>
+								</xs:enumeration>
+								<xs:enumeration value="10">
+									<xs:annotation>
+										<xs:documentation xml:lang="en">
+											Reserved
+										</xs:documentation>
+									</xs:annotation>
+								</xs:enumeration>
+								<xs:enumeration value="11">
+									<xs:annotation>
+										<xs:documentation xml:lang="en">
+											Reserved
+										</xs:documentation>
+									</xs:annotation>
+								</xs:enumeration>
+								<xs:enumeration value="12">
+									<xs:annotation>
+										<xs:documentation xml:lang="en">
+											Reserved
+										</xs:documentation>
+									</xs:annotation>
+								</xs:enumeration>
+								<xs:enumeration value="13">
+									<xs:annotation>
+										<xs:documentation xml:lang="en">
+											Reserved
+										</xs:documentation>
+									</xs:annotation>
+								</xs:enumeration>
+								<xs:enumeration value="14">
+									<xs:annotation>
+										<xs:documentation xml:lang="en">
+											Error
+										</xs:documentation>
+									</xs:annotation>
+								</xs:enumeration>
+								<xs:enumeration value="15">
+									<xs:annotation>
+										<xs:documentation xml:lang="en">
+											PositionStatus value is not available
+										</xs:documentation>
+									</xs:annotation>
+								</xs:enumeration>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:union>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="E" use="optional">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						PDOP
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:union memberTypes="emptyString">
+						<xs:simpleType>
+							<xs:restriction base="xs:decimal">
+								<xs:minInclusive value="0.0"/>
+								<xs:maxInclusive value="99.9"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:union>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="F" use="optional">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						HDOP
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:union memberTypes="emptyString">
+						<xs:simpleType>
+							<xs:restriction base="xs:decimal">
+								<xs:minInclusive value="0.0"/>
+								<xs:maxInclusive value="99.9"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:union>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="G" use="optional">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						NumberOfSatellites
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:union memberTypes="emptyString">
+						<xs:simpleType>
+							<xs:restriction base="xs:unsignedByte">
+								<xs:minInclusive value="0"/>
+								<xs:maxInclusive value="254"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:union>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="H" use="optional">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						GpsUtcTime
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:union memberTypes="emptyString">
+						<xs:simpleType>
+							<xs:restriction base="xs:unsignedLong">
+								<xs:minInclusive value="0"/>
+								<xs:maxInclusive value="4294967294"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:union>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="I" use="optional">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						GpsUtcDate
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:union memberTypes="emptyString">
+						<xs:simpleType>
+							<xs:restriction base="xs:unsignedShort">
+								<xs:minInclusive value="0"/>
+								<xs:maxInclusive value="65534"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:union>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="TIM">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">
+				Time
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element ref="PTN" minOccurs="0" maxOccurs="2">
+					<xs:annotation>
+						<xs:documentation xml:lang="en">
+							Position
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element ref="DLV" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation xml:lang="en">
+							DataLogValue
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:choice>
+			<xs:attribute name="A" type="emptyString" use="required">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						Start
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="D" use="required">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						Type
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="4">
+							<xs:annotation>
+								<xs:documentation xml:lang="en">
+									Effective
+								</xs:documentation>
+							</xs:annotation>
+						</xs:enumeration>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

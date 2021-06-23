@@ -1,0 +1,47 @@
+import { ElementCompact } from 'xml-js'
+
+import { ISOXMLManager, registerEntityClass } from '../../src/ISOXMLManager'
+import { fromXML, toXML } from '../../src/utils'
+{{#children}}
+import { {{className}} } from './{{className}}'
+{{/children}}
+
+import {Entity, AttributesDescription, ISOXMLReference} from '../../src/types'
+
+export type {{name}}Attributes = {
+{{#attributes}}
+    {{name}}{{#if isOptional}}?{{/if}}: {{type}}
+{{/attributes}}
+{{#children}}
+    {{name}}?: {{className}}[]
+{{/children}}
+}
+
+const ATTRIBUTES: AttributesDescription = {
+    {{#attributes}}
+    {{xmlName}}: { name: '{{name}}', type: '{{xsdType}}' },
+    {{/attributes}}
+}
+const CHILD_TAGS = {
+    {{#children}}
+    {{tag}}: { name: '{{name}}' },
+    {{/children}}
+}
+
+export class {{name}} implements Entity {
+    public tag = '{{tag}}'
+
+    constructor(public attributes: {{name}}Attributes) {
+    }
+
+    static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager): Entity {
+        return fromXML(xml, isoxmlManager, {{name}}, ATTRIBUTES, CHILD_TAGS)
+    }
+
+    toXML(isoxmlManager: ISOXMLManager): ElementCompact {
+        return toXML(this.attributes, isoxmlManager, ATTRIBUTES, CHILD_TAGS)
+
+    }
+}
+
+registerEntityClass('{{tag}}', {{name}})

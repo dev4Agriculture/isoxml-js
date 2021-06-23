@@ -1,0 +1,499 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Schema revision date 2018-06-04, Schema version 4.3, TC version 4, schema revision 3 -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+    <xs:include schemaLocation="ISO11783_Common_V4-3.xsd"/>
+	<xs:element name="AFE">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">
+				AttachedFile
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:attribute name="A" use="required">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						FilenameWithExtension
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:ID">
+						<xs:length value="12"/>
+						<xs:pattern value="([0-9]|[A-Z]){8}.([0-9]|[A-Z]){3}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="B" use="required">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						Preserve
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="1">
+							<xs:annotation>
+								<xs:documentation xml:lang="en">
+									Task Controller does not need to preserve attached file
+								</xs:documentation>
+							</xs:annotation>
+						</xs:enumeration>
+						<xs:enumeration value="2">
+							<xs:annotation>
+								<xs:documentation xml:lang="en">
+									Preserve on Task Controller and send back to FMIS
+								</xs:documentation>
+							</xs:annotation>
+						</xs:enumeration>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="C" use="required">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						ManufacturerGLN
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:anyURI">
+						<xs:maxLength value="32"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="D" use="required">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						FileType
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:unsignedByte">
+						<xs:minInclusive value="1"/>
+						<xs:maxInclusive value="254"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="E" use="optional">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						FileVersion
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="32"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="F" use="optional">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						FileLength
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:unsignedLong">
+						<xs:minInclusive value="0"/>
+						<xs:maxInclusive value="4294967294"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ISO11783_TaskData">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">
+				ISO 11783 Task Data File</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element ref="AFE" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation xml:lang="en">
+							AttachedFile
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element ref="BSN" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation xml:lang="en">
+							BaseStation
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element ref="CCT" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation xml:lang="en">
+							CodedComment
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element ref="CCG" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation xml:lang="en">
+							CodedCommentGroup
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element ref="CLD" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation xml:lang="en">
+							ColourLegend
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element ref="CTP" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation xml:lang="en">
+							CropType
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element ref="CPC" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation xml:lang="en">
+							CulturalPractice
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element ref="CTR" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation xml:lang="en">
+							Customer
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element ref="DVC" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation xml:lang="en">
+							Device
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element ref="FRM" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation xml:lang="en">
+							Farm
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element ref="OTQ" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation xml:lang="en">
+							OperationTechnique
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element ref="PFD" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation xml:lang="en">
+							Partfield
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element ref="PDT" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation xml:lang="en">
+							Product
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element ref="PGP" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation xml:lang="en">
+							ProductGroup
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element ref="TSK" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation xml:lang="en">
+							Task
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element ref="TCC" minOccurs="0" maxOccurs="1">
+					<xs:annotation>
+						<xs:documentation xml:lang="en">
+							TaskControllerCapabilities
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element ref="VPN" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation xml:lang="en">
+							ValuePresentation
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element ref="WKR" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation xml:lang="en">
+							Worker
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element ref="XFR" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation xml:lang="en">
+							ExternalFileReference
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:choice>
+			<xs:attribute name="VersionMajor" use="required" fixed="4">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="4">
+							<xs:annotation>
+								<xs:documentation xml:lang="en">
+									The version of the second edition published as a Final Draft International Standard
+								</xs:documentation>
+							</xs:annotation>
+						</xs:enumeration>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="VersionMinor" use="required">
+				<xs:simpleType>
+                    <xs:annotation>
+                        <xs:documentation xml:lang="en">
+                            All minor versions up to 3 of the XML schema for this major version
+                        </xs:documentation>
+                    </xs:annotation>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="0"/>
+						<xs:enumeration value="1"/>
+						<xs:enumeration value="2"/>
+						<xs:enumeration value="3"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="ManagementSoftwareManufacturer" use="required">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="32"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="ManagementSoftwareVersion" use="required">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="32"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="TaskControllerManufacturer" use="optional">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="32"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="TaskControllerVersion" use="optional">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="32"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="DataTransferOrigin" use="required">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="1">
+							<xs:annotation>
+								<xs:documentation xml:lang="en">
+									FMIS
+								</xs:documentation>
+							</xs:annotation>
+						</xs:enumeration>
+						<xs:enumeration value="2">
+							<xs:annotation>
+								<xs:documentation xml:lang="en">
+									MICS
+								</xs:documentation>
+							</xs:annotation>
+						</xs:enumeration>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="lang" use="optional">
+				<xs:simpleType>
+					<xs:restriction base="xs:language">
+						<xs:maxLength value="32"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="TCC">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">
+				TaskControllerCapabilities
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:attribute name="A" use="required">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						TaskControllerControlFunctionNAME
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:hexBinary">
+						<xs:length value="8"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="B" use="required">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						TaskControllerDesignator
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="153"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="C" use="required">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						VersionNumber
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="0">
+							<xs:annotation>
+								<xs:documentation xml:lang="en">
+									The version of the DIS.1 (first draft international standard)
+								</xs:documentation>
+							</xs:annotation>
+						</xs:enumeration>
+						<xs:enumeration value="1">
+							<xs:annotation>
+								<xs:documentation xml:lang="en">
+									The version of the FDIS.1 (final draft international standard, first edition)
+								</xs:documentation>
+							</xs:annotation>
+						</xs:enumeration>
+						<xs:enumeration value="2">
+							<xs:annotation>
+								<xs:documentation xml:lang="en">
+									The version of the FDIS.2 and the first edition published as an international standard
+								</xs:documentation>
+							</xs:annotation>
+						</xs:enumeration>
+						<xs:enumeration value="3">
+							<xs:annotation>
+								<xs:documentation xml:lang="en">
+									The version of the second edition published as a draft international standard (E2.DIS)
+								</xs:documentation>
+							</xs:annotation>
+						</xs:enumeration>
+						<xs:enumeration value="4">
+							<xs:annotation>
+								<xs:documentation xml:lang="en">
+									The version of the second edition published as a final draft international standard (E2.FDIS)
+								</xs:documentation>
+							</xs:annotation>
+						</xs:enumeration>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="D" use="required">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						ProvidedCapabilities
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:unsignedByte">
+						<xs:minInclusive value="0"/>
+						<xs:maxInclusive value="63"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="E" use="required">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						NumberOfBoomsSectionControl
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:unsignedByte">
+						<xs:minInclusive value="0"/>
+						<xs:maxInclusive value="254"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="F" use="required">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						NumberOfSectionsSectionControl
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:unsignedByte">
+						<xs:minInclusive value="0"/>
+						<xs:maxInclusive value="254"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="G" use="required">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						NumberOfControlChannels
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:unsignedByte">
+						<xs:minInclusive value="0"/>
+						<xs:maxInclusive value="254"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="XFR">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">
+				ExternalFileReference
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:attribute name="A" use="required">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						Filename
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:ID">
+						<xs:length value="8"/>
+						<xs:pattern value="(BSN|CCG|CCT|CLD|CPC|CTP|CTR|DVC|FRM|OTQ|PDT|PFD|PGP|TSK|VPN|WKR)[0-9][0-9][0-9][0-9][0-9]"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="B" use="required">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						Filetype
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="1">
+							<xs:annotation>
+								<xs:documentation xml:lang="en">
+									XML
+								</xs:documentation>
+							</xs:annotation>
+						</xs:enumeration>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>
