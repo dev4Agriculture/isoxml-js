@@ -6,7 +6,7 @@ import { fromXML, toXML } from '../utils'
 import { Polygon } from './Polygon'
 import { ProcessDataVariable } from './ProcessDataVariable'
 
-import { Entity, AttributesDescription } from '../types'
+import { Entity, EntityConstructor, AttributesDescription } from '../types'
 
 export type TreatmentZoneAttributes = {
     TreatmentZoneCode: number
@@ -32,8 +32,8 @@ export class TreatmentZone implements Entity {
     constructor(public attributes: TreatmentZoneAttributes) {
     }
 
-    static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager): Entity {
-        return fromXML(xml, isoxmlManager, TreatmentZone, ATTRIBUTES, CHILD_TAGS)
+    static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, targetClass: EntityConstructor = TreatmentZone): Entity {
+        return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS)
     }
 
     toXML(isoxmlManager: ISOXMLManager): ElementCompact {

@@ -5,7 +5,7 @@ import { registerEntityClass } from '../classRegistry'
 import { fromXML, toXML } from '../utils'
 import { AllocationStamp } from './AllocationStamp'
 
-import { Entity, AttributesDescription, ISOXMLReference } from '../types'
+import { Entity, EntityConstructor, AttributesDescription, ISOXMLReference } from '../types'
 
 export type WorkerAllocationAttributes = {
     WorkerIdRef: ISOXMLReference
@@ -25,8 +25,8 @@ export class WorkerAllocation implements Entity {
     constructor(public attributes: WorkerAllocationAttributes) {
     }
 
-    static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager): Entity {
-        return fromXML(xml, isoxmlManager, WorkerAllocation, ATTRIBUTES, CHILD_TAGS)
+    static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, targetClass: EntityConstructor = WorkerAllocation): Entity {
+        return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS)
     }
 
     toXML(isoxmlManager: ISOXMLManager): ElementCompact {

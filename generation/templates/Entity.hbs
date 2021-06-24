@@ -9,7 +9,7 @@ import { {{className}} } from './{{className}}'
 {{/ifnoteq}}
 {{/children}}
 
-import { Entity, AttributesDescription{{#if includeReference}}, ISOXMLReference{{/if}} } from '../types'
+import { Entity, EntityConstructor, AttributesDescription{{#if includeReference}}, ISOXMLReference{{/if}} } from '../types'
 
 export type {{name}}Attributes = {
 {{#attributes}}
@@ -37,8 +37,8 @@ export class {{name}} implements Entity {
     constructor(public attributes: {{name}}Attributes) {
     }
 
-    static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager): Entity {
-        return fromXML(xml, isoxmlManager, {{name}}, ATTRIBUTES, CHILD_TAGS)
+    static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, targetClass: EntityConstructor = {{name}}): Entity {
+        return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS)
     }
 
     toXML(isoxmlManager: ISOXMLManager): ElementCompact {

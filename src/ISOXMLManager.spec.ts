@@ -10,6 +10,15 @@ describe('ISOXML Manager', () => {
     expect(entitiesManager.rootElement).toBeTruthy()
   })
 
+  it('should parse ISOXML with external files', async () => {
+    const isoxmlData = readFileSync('./data/2021-04-09T15_33_26_taskdata.zip')
+    const entitiesManager = new ISOXMLManager()
+    await entitiesManager.parseISOXMLFile(new Uint8Array(isoxmlData.buffer), 'application/zip', null)
+    expect(entitiesManager.rootElement.attributes.Task).toBeTruthy()
+    // const data = await entitiesManager.saveISOXML()
+    // writeFileSync('./data/test1_out.zip', data)
+  })
+
   it('should parse and save ISOXML', async () => {
     const isoxmlData = readFileSync('./data/test1.zip')
     const entitiesManager = new ISOXMLManager()

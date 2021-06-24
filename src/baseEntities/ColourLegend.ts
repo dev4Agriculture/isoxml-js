@@ -5,7 +5,7 @@ import { registerEntityClass } from '../classRegistry'
 import { fromXML, toXML } from '../utils'
 import { ColourRange } from './ColourRange'
 
-import { Entity, AttributesDescription } from '../types'
+import { Entity, EntityConstructor, AttributesDescription } from '../types'
 
 export type ColourLegendAttributes = {
     ColourLegendId: string
@@ -27,8 +27,8 @@ export class ColourLegend implements Entity {
     constructor(public attributes: ColourLegendAttributes) {
     }
 
-    static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager): Entity {
-        return fromXML(xml, isoxmlManager, ColourLegend, ATTRIBUTES, CHILD_TAGS)
+    static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, targetClass: EntityConstructor = ColourLegend): Entity {
+        return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS)
     }
 
     toXML(isoxmlManager: ISOXMLManager): ElementCompact {

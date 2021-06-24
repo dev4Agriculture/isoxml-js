@@ -4,7 +4,7 @@ import { ISOXMLManager } from '../ISOXMLManager'
 import { registerEntityClass } from '../classRegistry'
 import { fromXML, toXML } from '../utils'
 
-import { Entity, AttributesDescription, ISOXMLReference } from '../types'
+import { Entity, EntityConstructor, AttributesDescription, ISOXMLReference } from '../types'
 
 export type LinkAttributes = {
     ObjectIdRef: ISOXMLReference
@@ -26,8 +26,8 @@ export class Link implements Entity {
     constructor(public attributes: LinkAttributes) {
     }
 
-    static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager): Entity {
-        return fromXML(xml, isoxmlManager, Link, ATTRIBUTES, CHILD_TAGS)
+    static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, targetClass: EntityConstructor = Link): Entity {
+        return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS)
     }
 
     toXML(isoxmlManager: ISOXMLManager): ElementCompact {

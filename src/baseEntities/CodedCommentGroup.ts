@@ -4,7 +4,7 @@ import { ISOXMLManager } from '../ISOXMLManager'
 import { registerEntityClass } from '../classRegistry'
 import { fromXML, toXML } from '../utils'
 
-import { Entity, AttributesDescription } from '../types'
+import { Entity, EntityConstructor, AttributesDescription } from '../types'
 
 export type CodedCommentGroupAttributes = {
     CodedCommentGroupId: string
@@ -24,8 +24,8 @@ export class CodedCommentGroup implements Entity {
     constructor(public attributes: CodedCommentGroupAttributes) {
     }
 
-    static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager): Entity {
-        return fromXML(xml, isoxmlManager, CodedCommentGroup, ATTRIBUTES, CHILD_TAGS)
+    static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, targetClass: EntityConstructor = CodedCommentGroup): Entity {
+        return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS)
     }
 
     toXML(isoxmlManager: ISOXMLManager): ElementCompact {

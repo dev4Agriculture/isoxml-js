@@ -95,7 +95,7 @@ export class ISOXMLManager {
                 const filename = externalFile.attributes.Filename
                 const file = files.find(file => (file as any).filename.match(new RegExp(`${filename}\\.XML$`, 'i')))
                 const xml = xml2js((file as any).data, { compact: true, alwaysArray: true })
-                const fileContent = getEntityClassByTag('XFC').fromXML(xml, this)
+                const fileContent = getEntityClassByTag('XFC').fromXML(xml['XFC'][0], this)
                 this.rootElement.appendFromExternalFile(fileContent)
             })
         } else {

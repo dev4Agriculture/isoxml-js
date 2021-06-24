@@ -5,7 +5,7 @@ import { registerEntityClass } from '../classRegistry'
 import { fromXML, toXML } from '../utils'
 import { AllocationStamp } from './AllocationStamp'
 
-import { Entity, AttributesDescription, ISOXMLReference } from '../types'
+import { Entity, EntityConstructor, AttributesDescription, ISOXMLReference } from '../types'
 
 export type DeviceAllocationAttributes = {
     ClientNAMEValue: string
@@ -29,8 +29,8 @@ export class DeviceAllocation implements Entity {
     constructor(public attributes: DeviceAllocationAttributes) {
     }
 
-    static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager): Entity {
-        return fromXML(xml, isoxmlManager, DeviceAllocation, ATTRIBUTES, CHILD_TAGS)
+    static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, targetClass: EntityConstructor = DeviceAllocation): Entity {
+        return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS)
     }
 
     toXML(isoxmlManager: ISOXMLManager): ElementCompact {

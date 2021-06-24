@@ -5,7 +5,7 @@ import { registerEntityClass } from '../classRegistry'
 import { fromXML, toXML } from '../utils'
 import { DeviceObjectReference } from './DeviceObjectReference'
 
-import { Entity, AttributesDescription } from '../types'
+import { Entity, EntityConstructor, AttributesDescription } from '../types'
 
 export type DeviceElementAttributes = {
     DeviceElementId: string
@@ -35,8 +35,8 @@ export class DeviceElement implements Entity {
     constructor(public attributes: DeviceElementAttributes) {
     }
 
-    static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager): Entity {
-        return fromXML(xml, isoxmlManager, DeviceElement, ATTRIBUTES, CHILD_TAGS)
+    static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, targetClass: EntityConstructor = DeviceElement): Entity {
+        return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS)
     }
 
     toXML(isoxmlManager: ISOXMLManager): ElementCompact {

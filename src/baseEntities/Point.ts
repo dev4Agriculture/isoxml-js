@@ -4,7 +4,7 @@ import { ISOXMLManager } from '../ISOXMLManager'
 import { registerEntityClass } from '../classRegistry'
 import { fromXML, toXML } from '../utils'
 
-import { Entity, AttributesDescription } from '../types'
+import { Entity, EntityConstructor, AttributesDescription } from '../types'
 
 export type PointAttributes = {
     PointType: string
@@ -42,8 +42,8 @@ export class Point implements Entity {
     constructor(public attributes: PointAttributes) {
     }
 
-    static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager): Entity {
-        return fromXML(xml, isoxmlManager, Point, ATTRIBUTES, CHILD_TAGS)
+    static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, targetClass: EntityConstructor = Point): Entity {
+        return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS)
     }
 
     toXML(isoxmlManager: ISOXMLManager): ElementCompact {

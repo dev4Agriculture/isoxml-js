@@ -6,7 +6,7 @@ import { fromXML, toXML } from '../utils'
 import { GuidancePattern } from './GuidancePattern'
 import { Polygon } from './Polygon'
 
-import { Entity, AttributesDescription } from '../types'
+import { Entity, EntityConstructor, AttributesDescription } from '../types'
 
 export type GuidanceGroupAttributes = {
     GuidanceGroupId: string
@@ -30,8 +30,8 @@ export class GuidanceGroup implements Entity {
     constructor(public attributes: GuidanceGroupAttributes) {
     }
 
-    static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager): Entity {
-        return fromXML(xml, isoxmlManager, GuidanceGroup, ATTRIBUTES, CHILD_TAGS)
+    static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, targetClass: EntityConstructor = GuidanceGroup): Entity {
+        return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS)
     }
 
     toXML(isoxmlManager: ISOXMLManager): ElementCompact {

@@ -8,7 +8,7 @@ import { LineString } from './LineString'
 import { Point } from './Point'
 import { GuidanceGroup } from './GuidanceGroup'
 
-import { Entity, AttributesDescription, ISOXMLReference } from '../types'
+import { Entity, EntityConstructor, AttributesDescription, ISOXMLReference } from '../types'
 
 export type PartfieldAttributes = {
     PartfieldId: string
@@ -50,8 +50,8 @@ export class Partfield implements Entity {
     constructor(public attributes: PartfieldAttributes) {
     }
 
-    static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager): Entity {
-        return fromXML(xml, isoxmlManager, Partfield, ATTRIBUTES, CHILD_TAGS)
+    static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, targetClass: EntityConstructor = Partfield): Entity {
+        return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS)
     }
 
     toXML(isoxmlManager: ISOXMLManager): ElementCompact {

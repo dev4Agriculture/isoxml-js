@@ -23,7 +23,7 @@ import { ValuePresentation } from './ValuePresentation'
 import { Worker } from './Worker'
 import { ExternalFileReference } from './ExternalFileReference'
 
-import { Entity, AttributesDescription } from '../types'
+import { Entity, EntityConstructor, AttributesDescription } from '../types'
 
 export type ISO11783TaskDataFileAttributes = {
     VersionMajor: string
@@ -93,8 +93,8 @@ export class ISO11783TaskDataFile implements Entity {
     constructor(public attributes: ISO11783TaskDataFileAttributes) {
     }
 
-    static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager): Entity {
-        return fromXML(xml, isoxmlManager, ISO11783TaskDataFile, ATTRIBUTES, CHILD_TAGS)
+    static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, targetClass: EntityConstructor = ISO11783TaskDataFile): Entity {
+        return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS)
     }
 
     toXML(isoxmlManager: ISOXMLManager): ElementCompact {

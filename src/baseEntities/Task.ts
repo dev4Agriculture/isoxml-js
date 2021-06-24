@@ -17,7 +17,7 @@ import { Grid } from './Grid'
 import { ControlAssignment } from './ControlAssignment'
 import { GuidanceAllocation } from './GuidanceAllocation'
 
-import { Entity, AttributesDescription, ISOXMLReference } from '../types'
+import { Entity, EntityConstructor, AttributesDescription, ISOXMLReference } from '../types'
 
 export type TaskAttributes = {
     TaskId: string
@@ -79,8 +79,8 @@ export class Task implements Entity {
     constructor(public attributes: TaskAttributes) {
     }
 
-    static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager): Entity {
-        return fromXML(xml, isoxmlManager, Task, ATTRIBUTES, CHILD_TAGS)
+    static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, targetClass: EntityConstructor = Task): Entity {
+        return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS)
     }
 
     toXML(isoxmlManager: ISOXMLManager): ElementCompact {

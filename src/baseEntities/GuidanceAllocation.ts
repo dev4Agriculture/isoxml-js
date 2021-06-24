@@ -6,7 +6,7 @@ import { fromXML, toXML } from '../utils'
 import { AllocationStamp } from './AllocationStamp'
 import { GuidanceShift } from './GuidanceShift'
 
-import { Entity, AttributesDescription, ISOXMLReference } from '../types'
+import { Entity, EntityConstructor, AttributesDescription, ISOXMLReference } from '../types'
 
 export type GuidanceAllocationAttributes = {
     GuidanceGroupIdRef: ISOXMLReference
@@ -28,8 +28,8 @@ export class GuidanceAllocation implements Entity {
     constructor(public attributes: GuidanceAllocationAttributes) {
     }
 
-    static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager): Entity {
-        return fromXML(xml, isoxmlManager, GuidanceAllocation, ATTRIBUTES, CHILD_TAGS)
+    static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, targetClass: EntityConstructor = GuidanceAllocation): Entity {
+        return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS)
     }
 
     toXML(isoxmlManager: ISOXMLManager): ElementCompact {

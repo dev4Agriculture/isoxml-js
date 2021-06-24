@@ -61,6 +61,9 @@ function xml2attrs(
     const result = {}
     Object.keys(xml._attributes || {}).forEach(xmlAttr => {
         const attrDescription = attributesDescription[xmlAttr]
+        if (!attrDescription) {
+            return // allow unknown attributes
+        }
         const parser = PARSERS[attrDescription.type]
         result[attrDescription.name] = parser
             ? parser(xml._attributes[xmlAttr] as string, isoxmlManager)

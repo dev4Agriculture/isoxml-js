@@ -16,7 +16,7 @@ export class ExtendedISO11783TaskDataFile extends ISO11783TaskDataFile {
     }
 
     static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager): Entity {
-        return ISO11783TaskDataFile.fromXML(xml, isoxmlManager)
+        return ISO11783TaskDataFile.fromXML(xml, isoxmlManager, ExtendedISO11783TaskDataFile)
     }
 
     toXML(isoxmlManager: ISOXMLManager): ElementCompact {
@@ -26,7 +26,7 @@ export class ExtendedISO11783TaskDataFile extends ISO11783TaskDataFile {
     appendFromExternalFile(fileContents: ExternalFileContents) {
         Object.keys(fileContents.attributes).forEach(attrName => {
             this.attributes[attrName] = [
-                ...this.attributes[attrName],
+                ...(this.attributes[attrName] || []),
                 ...fileContents.attributes[attrName]
             ]
         })

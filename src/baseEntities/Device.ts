@@ -8,7 +8,7 @@ import { DeviceProperty } from './DeviceProperty'
 import { DeviceProcessData } from './DeviceProcessData'
 import { DeviceValuePresentation } from './DeviceValuePresentation'
 
-import { Entity, AttributesDescription } from '../types'
+import { Entity, EntityConstructor, AttributesDescription } from '../types'
 
 export type DeviceAttributes = {
     DeviceId: string
@@ -46,8 +46,8 @@ export class Device implements Entity {
     constructor(public attributes: DeviceAttributes) {
     }
 
-    static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager): Entity {
-        return fromXML(xml, isoxmlManager, Device, ATTRIBUTES, CHILD_TAGS)
+    static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, targetClass: EntityConstructor = Device): Entity {
+        return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS)
     }
 
     toXML(isoxmlManager: ISOXMLManager): ElementCompact {
