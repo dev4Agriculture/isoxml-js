@@ -5,8 +5,8 @@ import { registerEntityClass } from '../../src/classRegistry'
 
 import {Entity} from '../../src/types'
 
-import {ISO11783TaskDataFile, ISO11783TaskDataFileAttributes} from '../../dist/entities/ISO11783TaskDataFile'
-import {ExternalFileContents} from '../../dist/entities/ExternalFileContents'
+import {ISO11783TaskDataFile, ISO11783TaskDataFileAttributes} from '../baseEntities/ISO11783TaskDataFile'
+import {ExternalFileContents} from '../baseEntities/ExternalFileContents'
 
 export class ExtendedISO11783TaskDataFile extends ISO11783TaskDataFile {
     public tag = 'ISO11783_TaskData'

@@ -3,7 +3,7 @@ import JSZip from 'jszip'
 import { Entity, ISOXMLReference } from "./types";
 import { getEntityClassByTag } from './classRegistry'
 
-import '../dist/entities'
+import './baseEntities'
 import './entities'
 
 import { ExtendedISO11783TaskDataFile } from "./entities/ISO11783TaskDataFile";
@@ -45,63 +45,63 @@ export class ISOXMLManager {
         return entityClass.fromXML(xml, this)
     }
 
-  public async parseISOXMLFile(data: string, dataType: 'text/xml' | 'application/xml', fmisURI: string): Promise<void>
-  public async parseISOXMLFile(data: Uint8Array, dataType: 'application/zip', fmisURI: string): Promise<void>
-  public async parseISOXMLFile(data: Uint8Array|string, dataType: string, fmisURI: string): Promise<void> {
-    if (dataType === 'application/xml' || dataType === 'text/xml') {
-        const mainXML = xml2js(data as string, { compact: true, alwaysArray: true });
-        getEntityClassByTag('ISO11783_TaskData').fromXML(mainXML, this)
-    } else if (dataType === 'application/zip') {
-      const zip = await JSZip.loadAsync(data)
-      const mainFile = zip.file(new RegExp(MAIN_FILENAME + '$', 'i'))[0]
-      const matchFile = zip.file(new RegExp(LINKLIST_FILENAME + '$', 'i'))[0]
-      if (!mainFile) {
-        throw new Error("Zip file doesn't contain TASKDATA.XML")
-      }
+    public async parseISOXMLFile(data: string, dataType: 'text/xml' | 'application/xml', fmisURI: string): Promise<void>
+    public async parseISOXMLFile(data: Uint8Array, dataType: 'application/zip', fmisURI: string): Promise<void>
+    public async parseISOXMLFile(data: Uint8Array|string, dataType: string, fmisURI: string): Promise<void> {
+        if (dataType === 'application/xml' || dataType === 'text/xml') {
+            const mainXML = xml2js(data as string, { compact: true, alwaysArray: true })
+            getEntityClassByTag('ISO11783_TaskData').fromXML(mainXML, this)
+        } else if (dataType === 'application/zip') {
+            const zip = await JSZip.loadAsync(data)
+            const mainFile = zip.file(new RegExp(MAIN_FILENAME + '$', 'i'))[0]
+            const matchFile = zip.file(new RegExp(LINKLIST_FILENAME + '$', 'i'))[0]
+            if (!mainFile) {
+                throw new Error("Zip file doesn't contain TASKDATA.XML")
+            }
 
-      const mainXmlPromise = mainFile.async('string').then(xml => {
-        return xml2js(xml, { compact: true, alwaysArray: true });
-      });
+            const mainXmlPromise = mainFile.async('string').then(xml => {
+                return xml2js(xml, { compact: true, alwaysArray: true });
+            });
 
-      const matchXmlPromise = matchFile
-        ? matchFile.async('string').then(xml => {
-            return {}
-          })
-        : Promise.resolve({});
+            const matchXmlPromise = matchFile
+                ? matchFile.async('string').then(xml => {
+                    return {}
+                })
+                : Promise.resolve({});
 
-      const isBin = path => !!path.match(/\.bin$/i)
-      const isXml = path => !!path.match(/\.xml$/i)
+            const isBin = path => !!path.match(/\.bin$/i)
+            const isXml = path => !!path.match(/\.xml$/i)
 
-      const filePromises = zip
-        .filter((path, file) => file !== mainFile && file !== matchFile && (isBin(path) || isXml(path)))
-        .map(file => {
-          const isBinary = isBin(file.name)
-          return file
-            .async(isBinary ? 'uint8array' : 'string')
-            .then((fileData) => ({ isBinary, data: fileData, filename: file.name }));
-        });
+            const filePromises = zip
+                .filter((path, file) => file !== mainFile && file !== matchFile && (isBin(path) || isXml(path)))
+                .map(file => {
+                    const isBinary = isBin(file.name)
+                    return file
+                        .async(isBinary ? 'uint8array' : 'string')
+                        .then((fileData) => ({ isBinary, data: fileData, filename: file.name }));
+                });
 
-        const [mainXml, matchIDs, ...files] = await Promise.all([mainXmlPromise, matchXmlPromise, ...filePromises]);
-        // const externalReferences = mainXml['ISO11783_TaskData'][0][TAGS.ExternalFileReference] || []
+            const [mainXml, matchIDs, ...files] = await Promise.all([mainXmlPromise, matchXmlPromise, ...filePromises]);
+            // const externalReferences = mainXml['ISO11783_TaskData'][0][TAGS.ExternalFileReference] || []
 
-        if (!mainXml['ISO11783_TaskData']) {
-            throw new Error('Incorrect structure of TASKDATA.XML')
+            if (!mainXml['ISO11783_TaskData']) {
+                throw new Error('Incorrect structure of TASKDATA.XML')
+            }
+
+            this.rootElement = getEntityClassByTag('ISO11783_TaskData').fromXML(mainXml['ISO11783_TaskData'][0], this) as ExtendedISO11783TaskDataFile
+            const externalFiles = this.rootElement.attributes.ExternalFileReference || []
+
+            externalFiles.forEach(externalFile => {
+                const filename = externalFile.attributes.Filename
+                const file = files.find(file => (file as any).filename.match(new RegExp(`${filename}\\.XML$`, 'i')))
+                const xml = xml2js((file as any).data, { compact: true, alwaysArray: true })
+                const fileContent = getEntityClassByTag('XFC').fromXML(xml, this)
+                this.rootElement.appendFromExternalFile(fileContent)
+            })
+        } else {
+            throw new Error('This data type is not supported')
         }
-
-        this.rootElement = getEntityClassByTag('ISO11783_TaskData').fromXML(mainXml['ISO11783_TaskData'][0], this) as ExtendedISO11783TaskDataFile
-        const externalFiles = this.rootElement.attributes.ExternalFileReference || []
-
-        externalFiles.forEach(externalFile => {
-            const filename = externalFile.attributes.Filename
-            const file = files.find(file => (file as any).filename.match(new RegExp(`${filename}\\.XML$`, 'i')))
-            const xml = xml2js((file as any).data, { compact: true, alwaysArray: true })
-            const fileContent = getEntityClassByTag('XFC').fromXML(xml, this)
-            this.rootElement.appendFromExternalFile(fileContent)
-        })
-    } else {
-      throw new Error('This data type is not supported')
     }
-  }
 
     public async saveISOXML(): Promise<Uint8Array> {
         const json = {

@@ -1,15 +1,15 @@
 import { ElementCompact } from 'xml-js'
 
-import { ISOXMLManager } from '../../src/ISOXMLManager'
-import { registerEntityClass } from '../../src/classRegistry'
-import { fromXML, toXML } from '../../src/utils'
+import { ISOXMLManager } from '../ISOXMLManager'
+import { registerEntityClass } from '../classRegistry'
+import { fromXML, toXML } from '../utils'
 {{#children}}
 {{#ifnoteq className ../name }}
 import { {{className}} } from './{{className}}'
 {{/ifnoteq}}
 {{/children}}
 
-import { Entity, AttributesDescription{{#if includeReference}}, ISOXMLReference{{/if}} } from '../../src/types'
+import { Entity, AttributesDescription{{#if includeReference}}, ISOXMLReference{{/if}} } from '../types'
 
 export type {{name}}Attributes = {
 {{#attributes}}

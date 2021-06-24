@@ -108,14 +108,14 @@ function parseClassesFromFile(filename: string): any[] {
 
 
 const tags = [
-    ...parseClassesFromFile('./xsd/ISO11783_Common_V4-3.xsd'),
-    ...parseClassesFromFile('./xsd/ISO11783_TaskFile_V4-3.xsd'),
-    ...parseClassesFromFile('./xsd/ISO11783_LinkListFile_V4-3.xsd'),
-    ...parseClassesFromFile('./xsd/ISO11783_ExternalFile_V4-3.xsd')
+    ...parseClassesFromFile('./generation/xsd/ISO11783_Common_V4-3.xsd'),
+    ...parseClassesFromFile('./generation/xsd/ISO11783_TaskFile_V4-3.xsd'),
+    ...parseClassesFromFile('./generation/xsd/ISO11783_LinkListFile_V4-3.xsd'),
+    ...parseClassesFromFile('./generation/xsd/ISO11783_ExternalFile_V4-3.xsd')
 ]
 
-rmSync('./dist', {recursive: true, force: true})
-mkdirSync('./dist/entities', {recursive: true})
+rmSync('./src/baseEntities', {recursive: true, force: true})
+mkdirSync('./src/baseEntities', {recursive: true})
 
 tags.forEach(tag => {
     tag.children.forEach(child => {
@@ -129,7 +129,7 @@ tags.forEach(tag => {
 
 tags.forEach((tag: any) => {
     const classDefinition = entityTemplate(tag)
-    writeFileSync(join('dist/entities', `${tag.name}.ts`), classDefinition)
+    writeFileSync(join('src/baseEntities', `${tag.name}.ts`), classDefinition)
 })
 
-writeFileSync('dist/entities/index.ts', indexTemplate({tags}))
+writeFileSync('src/baseEntities/index.ts', indexTemplate({tags}))

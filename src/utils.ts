@@ -77,13 +77,13 @@ function attrs2xml(
 ): {[xmlId: string]: string} {
     const result = {}
     Object.keys(attrs).forEach(attrName => {
-        const xmlId = Object.keys(attributesDescription).find(xmlId => attributesDescription[xmlId].name === attrName)
-        const attrDescription = attributesDescription[xmlId]
+        const xmlAttr = Object.keys(attributesDescription).find(xmlId => attributesDescription[xmlId].name === attrName)
+        const attrDescription = attributesDescription[xmlAttr]
         if (!attrDescription) {
             return
         }
         const generator = GENERATORS[attrDescription.type]
-        result[attrDescription.name] = generator
+        result[xmlAttr] = generator
             ? generator(attrs[attrName], isoxmlManager)
             : attrs[attrName]
     })
@@ -103,7 +103,7 @@ export function xml2ChildTags(
             return 
         }
 
-        result[refDescription.name] = xml[tagName].forEach(childXml => isoxmlManager.createEntity(tagName, childXml))
+        result[refDescription.name] = xml[tagName].map(childXml => isoxmlManager.createEntity(tagName, childXml))
     })
     return result 
 }
@@ -121,7 +121,7 @@ export function childTags2Xml(
             return 
         }
 
-        result[tagName] = (attrs[attrName] as Entity[]).forEach(entity => entity.toXML(isoxmlManager))
+        result[tagName] = (attrs[attrName] as Entity[]).map(entity => entity.toXML(isoxmlManager))
     })
     return result 
 }
