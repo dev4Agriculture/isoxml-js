@@ -19,6 +19,15 @@ describe('ISOXML Manager', () => {
     // writeFileSync('./data/test1_out.zip', data)
   })
 
+  it('should parse and save grid files', async () => {
+    const isoxmlData = readFileSync('./data/task_with_grid.zip')
+    const entitiesManager = new ISOXMLManager()
+    await entitiesManager.parseISOXMLFile(new Uint8Array(isoxmlData.buffer), 'application/zip', null)
+    const data = await entitiesManager.saveISOXML()
+    // writeFileSync('./data/test1_out.zip', data)
+    expect(data.length).toBe(13757)
+  })
+
   it('should parse and save ISOXML', async () => {
     const isoxmlData = readFileSync('./data/test1.zip')
     const entitiesManager = new ISOXMLManager()

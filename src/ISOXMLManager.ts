@@ -1,6 +1,6 @@
 import { js2xml, xml2js, ElementCompact } from "xml-js";
-import JSZip from 'jszip'
-import { Entity, ISOXMLReference } from "./types";
+import JSZip, { file } from 'jszip'
+import { Entity, ISOFileInformation, ISOXMLReference } from "./types";
 import { getEntityClassByTag } from './classRegistry'
 
 import './baseEntities'
@@ -20,8 +20,33 @@ export class ISOXMLManager {
     private xmlReferences: {[xmlId: string]: ISOXMLReference} = {}
     private nextIds: {[xmlId: string]: number} = {}
     public rootElement: ExtendedISO11783TaskDataFile
+    public parsedFiles: ISOFileInformation[]
+    public filesToSave: {[filename: string]: {binaryData?: Uint8Array, textData?: string}}
+
 
     constructor(private options: ISOXMLManagerOptions = {}) {}
+
+    public addFileToSave(data: Uint8Array, isBinary: true, xmlTag: string, filename?: string): string
+    public addFileToSave(data: string, isBinary: false, xmlTag: string, filename?: string): string
+    public addFileToSave(data: Uint8Array | string, isBinary: boolean, xmlTag: string, filename?: string): string {
+        if (!filename) {
+            const indexes = Object.keys(this.filesToSave)
+                .filter(filename => filename.startsWith(xmlTag))
+                .map(filename => parseInt(filename.match(/^\w{3}(.*)$/)[1], 10))
+            const nextIndex = Math.max.apply(null, indexes) + 1
+            filename = xmlTag + ('0000' + nextIndex).substr(-5) + (isBinary ? 'BIN' : 'XML')
+        }
+
+        this.filesToSave[filename] = this.filesToSave[filename] || {}
+
+        if (isBinary) {
+            this.filesToSave[filename].binaryData = data as Uint8Array
+        } else {
+            this.filesToSave[filename].textData = data as string
+        }
+
+        return filename
+    }
 
     public registerXMLReference(xmlId: string): ISOXMLReference {
         this.xmlReferences[xmlId] = this.xmlReferences[xmlId] || {xmlId}
@@ -74,14 +99,14 @@ export class ISOXMLManager {
 
             const filePromises = zip
                 .filter((path, file) => file !== mainFile && file !== matchFile && (isBin(path) || isXml(path)))
-                .map(file => {
+                .map(async file => {
                     const isBinary = isBin(file.name)
-                    return file
-                        .async(isBinary ? 'uint8array' : 'string')
-                        .then((fileData) => ({ isBinary, data: fileData, filename: file.name }));
+                    const fileData = await file.async(isBinary ? 'uint8array' : 'string')
+                    return { isBinary, data: fileData, filename: file.name.split('/').pop() }
                 });
 
             const [mainXml, matchIDs, ...files] = await Promise.all([mainXmlPromise, matchXmlPromise, ...filePromises]);
+            this.parsedFiles = files as ISOFileInformation[]
             // const externalReferences = mainXml['ISO11783_TaskData'][0][TAGS.ExternalFileReference] || []
 
             if (!mainXml['ISO11783_TaskData']) {
@@ -104,6 +129,7 @@ export class ISOXMLManager {
     }
 
     public async saveISOXML(): Promise<Uint8Array> {
+        this.filesToSave = {}
         const json = {
             _declaration: {
                 _attributes: {
@@ -118,6 +144,16 @@ export class ISOXMLManager {
 
         const zipWriter = new JSZip()
         zipWriter.file(`${ROOT_FOLDER}/${MAIN_FILENAME}`, mainXML)
+
+        Object.keys(this.filesToSave).forEach(filename => {
+            const fileInfo = this.filesToSave[filename]
+            if (fileInfo.binaryData) {
+                zipWriter.file(`${ROOT_FOLDER}/${filename}.BIN`, fileInfo.binaryData, {binary: true})
+            }
+            if (fileInfo.textData) {
+                zipWriter.file(`${ROOT_FOLDER}/${filename}.BIN`, fileInfo.textData, {binary: false})
+            }
+        })
 
         return zipWriter.generateAsync({type: 'uint8array'})
     }

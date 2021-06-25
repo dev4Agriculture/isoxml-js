@@ -25,3 +25,17 @@ export interface EntityConstructor {
     fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager): Entity
     new (attributes: any): Entity
 }
+
+interface ISOBinaryFileInformation {
+  isBinary: true
+  data: Uint8Array
+  filename: string
+}
+
+interface ISOXMLFileInformation {
+  isBinary: false
+  data: string
+  filename: string
+}
+
+export type ISOFileInformation = ISOBinaryFileInformation | ISOXMLFileInformation
