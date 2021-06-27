@@ -2,7 +2,7 @@ import { ElementCompact } from "xml-js";
 import { ISOXMLManager } from './ISOXMLManager'
 
 export interface AttributesDescription {
-    [xmlTag: string]: {name: string, type: string}
+    [xmlTag: string]: {name: string, type: string, isPrimaryId: boolean}
 }
 
 export interface ReferencesDescription {
@@ -12,18 +12,19 @@ export interface ReferencesDescription {
 export type ISOXMLReference = {
     xmlId: string
     fmisId?: string
-    reference?: Entity
+    entity?: Entity
 }
 
 export interface Entity {
+    isoxmlManager: ISOXMLManager
     attributes: {[name: string]: any}
     tag: string
-    toXML (isoxmlManager: ISOXMLManager): ElementCompact
+    toXML (): ElementCompact
 }
 
 export interface EntityConstructor {
     fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager): Entity
-    new (attributes: any): Entity
+    new (attributes: any, isoxmlManager: ISOXMLManager, xmlId?: string, fmisId?: string): Entity
 }
 
 interface ISOBinaryFileInformation {

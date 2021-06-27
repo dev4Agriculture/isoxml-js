@@ -12,16 +12,15 @@ export type PolygonAttributes = {
     PolygonDesignator?: string
     PolygonArea?: number
     PolygonColour?: number
-    PolygonId?: string
     LineString?: LineString[]
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    A: { name: 'PolygonType', type: 'xs:NMTOKEN' },
-    B: { name: 'PolygonDesignator', type: 'xs:string' },
-    C: { name: 'PolygonArea', type: 'xs:unsignedLong' },
-    D: { name: 'PolygonColour', type: 'xs:unsignedByte' },
-    E: { name: 'PolygonId', type: 'xs:ID' },
+    A: { name: 'PolygonType', type: 'xs:NMTOKEN', isPrimaryId: false },
+    B: { name: 'PolygonDesignator', type: 'xs:string', isPrimaryId: false },
+    C: { name: 'PolygonArea', type: 'xs:unsignedLong', isPrimaryId: false },
+    D: { name: 'PolygonColour', type: 'xs:unsignedByte', isPrimaryId: false },
+    E: { name: 'PolygonId', type: 'xs:ID', isPrimaryId: true },
 }
 const CHILD_TAGS = {
     LSG: { name: 'LineString' },
@@ -30,16 +29,15 @@ const CHILD_TAGS = {
 export class Polygon implements Entity {
     public tag = 'PLN'
 
-    constructor(public attributes: PolygonAttributes) {
+    constructor(public attributes: PolygonAttributes, public isoxmlManager: ISOXMLManager) {
     }
 
     static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, targetClass: EntityConstructor = Polygon): Entity {
         return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS)
     }
 
-    toXML(isoxmlManager: ISOXMLManager): ElementCompact {
-        return toXML(this.attributes, isoxmlManager, ATTRIBUTES, CHILD_TAGS)
-
+    toXML(): ElementCompact {
+        return toXML(this, ATTRIBUTES, CHILD_TAGS)
     }
 }
 

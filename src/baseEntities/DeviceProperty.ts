@@ -15,11 +15,11 @@ export type DevicePropertyAttributes = {
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    A: { name: 'DevicePropertyObjectId', type: 'xs:unsignedShort' },
-    B: { name: 'DevicePropertyDDI', type: 'xs:hexBinary' },
-    C: { name: 'DevicePropertyValue', type: 'xs:long' },
-    D: { name: 'DevicePropertyDesignator', type: 'xs:string' },
-    E: { name: 'DeviceValuePresentationObjectId', type: 'xs:unsignedShort' },
+    A: { name: 'DevicePropertyObjectId', type: 'xs:unsignedShort', isPrimaryId: false },
+    B: { name: 'DevicePropertyDDI', type: 'xs:hexBinary', isPrimaryId: false },
+    C: { name: 'DevicePropertyValue', type: 'xs:long', isPrimaryId: false },
+    D: { name: 'DevicePropertyDesignator', type: 'xs:string', isPrimaryId: false },
+    E: { name: 'DeviceValuePresentationObjectId', type: 'xs:unsignedShort', isPrimaryId: false },
 }
 const CHILD_TAGS = {
 }
@@ -27,16 +27,15 @@ const CHILD_TAGS = {
 export class DeviceProperty implements Entity {
     public tag = 'DPT'
 
-    constructor(public attributes: DevicePropertyAttributes) {
+    constructor(public attributes: DevicePropertyAttributes, public isoxmlManager: ISOXMLManager) {
     }
 
     static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, targetClass: EntityConstructor = DeviceProperty): Entity {
         return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS)
     }
 
-    toXML(isoxmlManager: ISOXMLManager): ElementCompact {
-        return toXML(this.attributes, isoxmlManager, ATTRIBUTES, CHILD_TAGS)
-
+    toXML(): ElementCompact {
+        return toXML(this, ATTRIBUTES, CHILD_TAGS)
     }
 }
 

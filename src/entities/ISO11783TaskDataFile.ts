@@ -11,16 +11,16 @@ import {ExternalFileContents} from '../baseEntities/ExternalFileContents'
 export class ExtendedISO11783TaskDataFile extends ISO11783TaskDataFile {
     public tag = 'ISO11783_TaskData'
 
-    constructor(attributes: ISO11783TaskDataFileAttributes) {
-        super(attributes)
+    constructor(attributes: ISO11783TaskDataFileAttributes, isoxmlManager: ISOXMLManager) {
+        super(attributes, isoxmlManager)
     }
 
     static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager): Entity {
         return ISO11783TaskDataFile.fromXML(xml, isoxmlManager, ExtendedISO11783TaskDataFile)
     }
 
-    toXML(isoxmlManager: ISOXMLManager): ElementCompact {
-        return super.toXML(isoxmlManager)
+    toXML(): ElementCompact {
+        return super.toXML()
     }
 
     appendFromExternalFile(fileContents: ExternalFileContents) {

@@ -11,7 +11,6 @@ import { DeviceValuePresentation } from './DeviceValuePresentation'
 import { Entity, EntityConstructor, AttributesDescription } from '../types'
 
 export type DeviceAttributes = {
-    DeviceId: string
     DeviceDesignator?: string
     DeviceSoftwareVersion?: string
     ClientNAME: string
@@ -25,13 +24,13 @@ export type DeviceAttributes = {
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    A: { name: 'DeviceId', type: 'xs:ID' },
-    B: { name: 'DeviceDesignator', type: 'xs:string' },
-    C: { name: 'DeviceSoftwareVersion', type: 'xs:string' },
-    D: { name: 'ClientNAME', type: 'xs:hexBinary' },
-    E: { name: 'DeviceSerialNumber', type: 'xs:string' },
-    F: { name: 'DeviceStructureLabel', type: 'xs:hexBinary' },
-    G: { name: 'DeviceLocalizationLabel', type: 'xs:hexBinary' },
+    A: { name: 'DeviceId', type: 'xs:ID', isPrimaryId: true },
+    B: { name: 'DeviceDesignator', type: 'xs:string', isPrimaryId: false },
+    C: { name: 'DeviceSoftwareVersion', type: 'xs:string', isPrimaryId: false },
+    D: { name: 'ClientNAME', type: 'xs:hexBinary', isPrimaryId: false },
+    E: { name: 'DeviceSerialNumber', type: 'xs:string', isPrimaryId: false },
+    F: { name: 'DeviceStructureLabel', type: 'xs:hexBinary', isPrimaryId: false },
+    G: { name: 'DeviceLocalizationLabel', type: 'xs:hexBinary', isPrimaryId: false },
 }
 const CHILD_TAGS = {
     DET: { name: 'DeviceElement' },
@@ -43,16 +42,15 @@ const CHILD_TAGS = {
 export class Device implements Entity {
     public tag = 'DVC'
 
-    constructor(public attributes: DeviceAttributes) {
+    constructor(public attributes: DeviceAttributes, public isoxmlManager: ISOXMLManager) {
     }
 
     static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, targetClass: EntityConstructor = Device): Entity {
         return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS)
     }
 
-    toXML(isoxmlManager: ISOXMLManager): ElementCompact {
-        return toXML(this.attributes, isoxmlManager, ATTRIBUTES, CHILD_TAGS)
-
+    toXML(): ElementCompact {
+        return toXML(this, ATTRIBUTES, CHILD_TAGS)
     }
 }
 

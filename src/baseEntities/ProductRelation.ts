@@ -12,8 +12,8 @@ export type ProductRelationAttributes = {
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    A: { name: 'ProductIdRef', type: 'xs:IDREF' },
-    B: { name: 'QuantityValue', type: 'xs:long' },
+    A: { name: 'ProductIdRef', type: 'xs:IDREF', isPrimaryId: false },
+    B: { name: 'QuantityValue', type: 'xs:long', isPrimaryId: false },
 }
 const CHILD_TAGS = {
 }
@@ -21,16 +21,15 @@ const CHILD_TAGS = {
 export class ProductRelation implements Entity {
     public tag = 'PRN'
 
-    constructor(public attributes: ProductRelationAttributes) {
+    constructor(public attributes: ProductRelationAttributes, public isoxmlManager: ISOXMLManager) {
     }
 
     static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, targetClass: EntityConstructor = ProductRelation): Entity {
         return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS)
     }
 
-    toXML(isoxmlManager: ISOXMLManager): ElementCompact {
-        return toXML(this.attributes, isoxmlManager, ATTRIBUTES, CHILD_TAGS)
-
+    toXML(): ElementCompact {
+        return toXML(this, ATTRIBUTES, CHILD_TAGS)
     }
 }
 

@@ -8,7 +8,6 @@ import { ProductRelation } from './ProductRelation'
 import { Entity, EntityConstructor, AttributesDescription, ISOXMLReference } from '../types'
 
 export type ProductAttributes = {
-    ProductId: string
     ProductDesignator: string
     ProductGroupIdRef?: ISOXMLReference
     ValuePresentationIdRef?: ISOXMLReference
@@ -22,16 +21,16 @@ export type ProductAttributes = {
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    A: { name: 'ProductId', type: 'xs:ID' },
-    B: { name: 'ProductDesignator', type: 'xs:string' },
-    C: { name: 'ProductGroupIdRef', type: 'xs:IDREF' },
-    D: { name: 'ValuePresentationIdRef', type: 'xs:IDREF' },
-    E: { name: 'QuantityDDI', type: 'xs:hexBinary' },
-    F: { name: 'ProductType', type: 'xs:NMTOKEN' },
-    G: { name: 'MixtureRecipeQuantity', type: 'xs:long' },
-    H: { name: 'DensityMassPerVolume', type: 'xs:long' },
-    I: { name: 'DensityMassPerCount', type: 'xs:long' },
-    J: { name: 'DensityVolumePerCount', type: 'xs:long' },
+    A: { name: 'ProductId', type: 'xs:ID', isPrimaryId: true },
+    B: { name: 'ProductDesignator', type: 'xs:string', isPrimaryId: false },
+    C: { name: 'ProductGroupIdRef', type: 'xs:IDREF', isPrimaryId: false },
+    D: { name: 'ValuePresentationIdRef', type: 'xs:IDREF', isPrimaryId: false },
+    E: { name: 'QuantityDDI', type: 'xs:hexBinary', isPrimaryId: false },
+    F: { name: 'ProductType', type: 'xs:NMTOKEN', isPrimaryId: false },
+    G: { name: 'MixtureRecipeQuantity', type: 'xs:long', isPrimaryId: false },
+    H: { name: 'DensityMassPerVolume', type: 'xs:long', isPrimaryId: false },
+    I: { name: 'DensityMassPerCount', type: 'xs:long', isPrimaryId: false },
+    J: { name: 'DensityVolumePerCount', type: 'xs:long', isPrimaryId: false },
 }
 const CHILD_TAGS = {
     PRN: { name: 'ProductRelation' },
@@ -40,16 +39,15 @@ const CHILD_TAGS = {
 export class Product implements Entity {
     public tag = 'PDT'
 
-    constructor(public attributes: ProductAttributes) {
+    constructor(public attributes: ProductAttributes, public isoxmlManager: ISOXMLManager) {
     }
 
     static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, targetClass: EntityConstructor = Product): Entity {
         return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS)
     }
 
-    toXML(isoxmlManager: ISOXMLManager): ElementCompact {
-        return toXML(this.attributes, isoxmlManager, ATTRIBUTES, CHILD_TAGS)
-
+    toXML(): ElementCompact {
+        return toXML(this, ATTRIBUTES, CHILD_TAGS)
     }
 }
 

@@ -65,16 +65,15 @@ const CHILD_TAGS = {
 export class ExternalFileContents implements Entity {
     public tag = 'XFC'
 
-    constructor(public attributes: ExternalFileContentsAttributes) {
+    constructor(public attributes: ExternalFileContentsAttributes, public isoxmlManager: ISOXMLManager) {
     }
 
     static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, targetClass: EntityConstructor = ExternalFileContents): Entity {
         return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS)
     }
 
-    toXML(isoxmlManager: ISOXMLManager): ElementCompact {
-        return toXML(this.attributes, isoxmlManager, ATTRIBUTES, CHILD_TAGS)
-
+    toXML(): ElementCompact {
+        return toXML(this, ATTRIBUTES, CHILD_TAGS)
     }
 }
 

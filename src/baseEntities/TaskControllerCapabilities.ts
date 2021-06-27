@@ -17,13 +17,13 @@ export type TaskControllerCapabilitiesAttributes = {
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    A: { name: 'TaskControllerControlFunctionNAME', type: 'xs:hexBinary' },
-    B: { name: 'TaskControllerDesignator', type: 'xs:string' },
-    C: { name: 'VersionNumber', type: 'xs:NMTOKEN' },
-    D: { name: 'ProvidedCapabilities', type: 'xs:unsignedByte' },
-    E: { name: 'NumberOfBoomsSectionControl', type: 'xs:unsignedByte' },
-    F: { name: 'NumberOfSectionsSectionControl', type: 'xs:unsignedByte' },
-    G: { name: 'NumberOfControlChannels', type: 'xs:unsignedByte' },
+    A: { name: 'TaskControllerControlFunctionNAME', type: 'xs:hexBinary', isPrimaryId: false },
+    B: { name: 'TaskControllerDesignator', type: 'xs:string', isPrimaryId: false },
+    C: { name: 'VersionNumber', type: 'xs:NMTOKEN', isPrimaryId: false },
+    D: { name: 'ProvidedCapabilities', type: 'xs:unsignedByte', isPrimaryId: false },
+    E: { name: 'NumberOfBoomsSectionControl', type: 'xs:unsignedByte', isPrimaryId: false },
+    F: { name: 'NumberOfSectionsSectionControl', type: 'xs:unsignedByte', isPrimaryId: false },
+    G: { name: 'NumberOfControlChannels', type: 'xs:unsignedByte', isPrimaryId: false },
 }
 const CHILD_TAGS = {
 }
@@ -31,16 +31,15 @@ const CHILD_TAGS = {
 export class TaskControllerCapabilities implements Entity {
     public tag = 'TCC'
 
-    constructor(public attributes: TaskControllerCapabilitiesAttributes) {
+    constructor(public attributes: TaskControllerCapabilitiesAttributes, public isoxmlManager: ISOXMLManager) {
     }
 
     static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, targetClass: EntityConstructor = TaskControllerCapabilities): Entity {
         return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS)
     }
 
-    toXML(isoxmlManager: ISOXMLManager): ElementCompact {
-        return toXML(this.attributes, isoxmlManager, ATTRIBUTES, CHILD_TAGS)
-
+    toXML(): ElementCompact {
+        return toXML(this, ATTRIBUTES, CHILD_TAGS)
     }
 }
 

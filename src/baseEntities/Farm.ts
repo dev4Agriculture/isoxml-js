@@ -7,7 +7,6 @@ import { fromXML, toXML } from '../utils'
 import { Entity, EntityConstructor, AttributesDescription, ISOXMLReference } from '../types'
 
 export type FarmAttributes = {
-    FarmId: string
     FarmDesignator: string
     FarmStreet?: string
     FarmPOBox?: string
@@ -19,15 +18,15 @@ export type FarmAttributes = {
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    A: { name: 'FarmId', type: 'xs:ID' },
-    B: { name: 'FarmDesignator', type: 'xs:string' },
-    C: { name: 'FarmStreet', type: 'xs:string' },
-    D: { name: 'FarmPOBox', type: 'xs:string' },
-    E: { name: 'FarmPostalCode', type: 'xs:string' },
-    F: { name: 'FarmCity', type: 'xs:string' },
-    G: { name: 'FarmState', type: 'xs:string' },
-    H: { name: 'FarmCountry', type: 'xs:string' },
-    I: { name: 'CustomerIdRef', type: 'xs:IDREF' },
+    A: { name: 'FarmId', type: 'xs:ID', isPrimaryId: true },
+    B: { name: 'FarmDesignator', type: 'xs:string', isPrimaryId: false },
+    C: { name: 'FarmStreet', type: 'xs:string', isPrimaryId: false },
+    D: { name: 'FarmPOBox', type: 'xs:string', isPrimaryId: false },
+    E: { name: 'FarmPostalCode', type: 'xs:string', isPrimaryId: false },
+    F: { name: 'FarmCity', type: 'xs:string', isPrimaryId: false },
+    G: { name: 'FarmState', type: 'xs:string', isPrimaryId: false },
+    H: { name: 'FarmCountry', type: 'xs:string', isPrimaryId: false },
+    I: { name: 'CustomerIdRef', type: 'xs:IDREF', isPrimaryId: false },
 }
 const CHILD_TAGS = {
 }
@@ -35,16 +34,15 @@ const CHILD_TAGS = {
 export class Farm implements Entity {
     public tag = 'FRM'
 
-    constructor(public attributes: FarmAttributes) {
+    constructor(public attributes: FarmAttributes, public isoxmlManager: ISOXMLManager) {
     }
 
     static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, targetClass: EntityConstructor = Farm): Entity {
         return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS)
     }
 
-    toXML(isoxmlManager: ISOXMLManager): ElementCompact {
-        return toXML(this.attributes, isoxmlManager, ATTRIBUTES, CHILD_TAGS)
-
+    toXML(): ElementCompact {
+        return toXML(this, ATTRIBUTES, CHILD_TAGS)
     }
 }
 

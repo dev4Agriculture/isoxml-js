@@ -20,16 +20,16 @@ export type GridAttributes = {
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    A: { name: 'GridMinimumNorthPosition', type: 'xs:decimal' },
-    B: { name: 'GridMinimumEastPosition', type: 'xs:decimal' },
-    C: { name: 'GridCellNorthSize', type: 'xs:double' },
-    D: { name: 'GridCellEastSize', type: 'xs:double' },
-    E: { name: 'GridMaximumColumn', type: 'xs:unsignedLong' },
-    F: { name: 'GridMaximumRow', type: 'xs:unsignedLong' },
-    G: { name: 'Filename', type: 'xs:ID' },
-    H: { name: 'Filelength', type: 'xs:unsignedLong' },
-    I: { name: 'GridType', type: 'xs:NMTOKEN' },
-    J: { name: 'TreatmentZoneCode', type: 'xs:unsignedByte' },
+    A: { name: 'GridMinimumNorthPosition', type: 'xs:decimal', isPrimaryId: false },
+    B: { name: 'GridMinimumEastPosition', type: 'xs:decimal', isPrimaryId: false },
+    C: { name: 'GridCellNorthSize', type: 'xs:double', isPrimaryId: false },
+    D: { name: 'GridCellEastSize', type: 'xs:double', isPrimaryId: false },
+    E: { name: 'GridMaximumColumn', type: 'xs:unsignedLong', isPrimaryId: false },
+    F: { name: 'GridMaximumRow', type: 'xs:unsignedLong', isPrimaryId: false },
+    G: { name: 'Filename', type: 'xs:ID', isPrimaryId: false },
+    H: { name: 'Filelength', type: 'xs:unsignedLong', isPrimaryId: false },
+    I: { name: 'GridType', type: 'xs:NMTOKEN', isPrimaryId: false },
+    J: { name: 'TreatmentZoneCode', type: 'xs:unsignedByte', isPrimaryId: false },
 }
 const CHILD_TAGS = {
 }
@@ -37,16 +37,15 @@ const CHILD_TAGS = {
 export class Grid implements Entity {
     public tag = 'GRD'
 
-    constructor(public attributes: GridAttributes) {
+    constructor(public attributes: GridAttributes, public isoxmlManager: ISOXMLManager) {
     }
 
     static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, targetClass: EntityConstructor = Grid): Entity {
         return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS)
     }
 
-    toXML(isoxmlManager: ISOXMLManager): ElementCompact {
-        return toXML(this.attributes, isoxmlManager, ATTRIBUTES, CHILD_TAGS)
-
+    toXML(): ElementCompact {
+        return toXML(this, ATTRIBUTES, CHILD_TAGS)
     }
 }
 

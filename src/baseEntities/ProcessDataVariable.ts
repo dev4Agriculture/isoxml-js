@@ -18,13 +18,13 @@ export type ProcessDataVariableAttributes = {
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    A: { name: 'ProcessDataDDI', type: 'xs:hexBinary' },
-    B: { name: 'ProcessDataValue', type: 'xs:long' },
-    C: { name: 'ProductIdRef', type: 'xs:IDREF' },
-    D: { name: 'DeviceElementIdRef', type: 'xs:IDREF' },
-    E: { name: 'ValuePresentationIdRef', type: 'xs:IDREF' },
-    F: { name: 'ActualCulturalPracticeValue', type: 'xs:long' },
-    G: { name: 'ElementTypeInstanceValue', type: 'xs:long' },
+    A: { name: 'ProcessDataDDI', type: 'xs:hexBinary', isPrimaryId: false },
+    B: { name: 'ProcessDataValue', type: 'xs:long', isPrimaryId: false },
+    C: { name: 'ProductIdRef', type: 'xs:IDREF', isPrimaryId: false },
+    D: { name: 'DeviceElementIdRef', type: 'xs:IDREF', isPrimaryId: false },
+    E: { name: 'ValuePresentationIdRef', type: 'xs:IDREF', isPrimaryId: false },
+    F: { name: 'ActualCulturalPracticeValue', type: 'xs:long', isPrimaryId: false },
+    G: { name: 'ElementTypeInstanceValue', type: 'xs:long', isPrimaryId: false },
 }
 const CHILD_TAGS = {
     PDV: { name: 'ProcessDataVariable' },
@@ -33,16 +33,15 @@ const CHILD_TAGS = {
 export class ProcessDataVariable implements Entity {
     public tag = 'PDV'
 
-    constructor(public attributes: ProcessDataVariableAttributes) {
+    constructor(public attributes: ProcessDataVariableAttributes, public isoxmlManager: ISOXMLManager) {
     }
 
     static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, targetClass: EntityConstructor = ProcessDataVariable): Entity {
         return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS)
     }
 
-    toXML(isoxmlManager: ISOXMLManager): ElementCompact {
-        return toXML(this.attributes, isoxmlManager, ATTRIBUTES, CHILD_TAGS)
-
+    toXML(): ElementCompact {
+        return toXML(this, ATTRIBUTES, CHILD_TAGS)
     }
 }
 

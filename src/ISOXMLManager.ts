@@ -9,6 +9,7 @@ import './entities'
 import { ExtendedISO11783TaskDataFile } from "./entities/ISO11783TaskDataFile";
 
 type ISOXMLManagerOptions = {
+    fmisTitle?: string
     fmisURI?: string
 }
 
@@ -21,10 +22,31 @@ export class ISOXMLManager {
     private nextIds: {[xmlId: string]: number} = {}
     public rootElement: ExtendedISO11783TaskDataFile
     public parsedFiles: ISOFileInformation[]
-    public filesToSave: {[filename: string]: {binaryData?: Uint8Array, textData?: string}}
+    public filesToSave: {[filename: string]: {binaryData?: Uint8Array, textData?: string}} = {}
 
 
-    constructor(private options: ISOXMLManagerOptions = {}) {}
+    constructor(private options: ISOXMLManagerOptions = {}) {
+        this.rootElement = this.createEntityFromAttributes('ISO11783_TaskData', {
+            VersionMajor: '4',
+            VersionMinor: '2',
+            ManagementSoftwareManufacturer: options.fmisTitle || 'FMIS',
+            ManagementSoftwareVersion: '1.0',
+            DataTransferOrigin: '2'
+        }) as ExtendedISO11783TaskDataFile
+    }
+
+    private parseXmlId(xmlId: string) {
+        const match = xmlId.match(/([A-Z]{3})(-?\d+)/)
+        if (!match) {
+            return null
+        }
+
+        return {
+            tag: match[1],
+            id: parseInt(match[2], 10)
+        }
+    }
+
 
     public addFileToSave(data: Uint8Array, isBinary: true, xmlTag: string, filename?: string): string
     public addFileToSave(data: string, isBinary: false, xmlTag: string, filename?: string): string
@@ -33,8 +55,9 @@ export class ISOXMLManager {
             const indexes = Object.keys(this.filesToSave)
                 .filter(filename => filename.startsWith(xmlTag))
                 .map(filename => parseInt(filename.match(/^\w{3}(.*)$/)[1], 10))
-            const nextIndex = Math.max.apply(null, indexes) + 1
-            filename = xmlTag + ('0000' + nextIndex).substr(-5) + (isBinary ? 'BIN' : 'XML')
+
+            const nextIndex = indexes.length ? Math.max.apply(null, indexes) + 1 : 1
+            filename = xmlTag + ('0000' + nextIndex).substr(-5) + (isBinary ? '.BIN' : '.XML')
         }
 
         this.filesToSave[filename] = this.filesToSave[filename] || {}
@@ -48,26 +71,67 @@ export class ISOXMLManager {
         return filename
     }
 
-    public registerXMLReference(xmlId: string): ISOXMLReference {
-        this.xmlReferences[xmlId] = this.xmlReferences[xmlId] || {xmlId}
-        return this.xmlReferences[xmlId]
-    }
+    /**
+     * if "xmlId" is provided:
+     *   - if such reference exists, update its content with "entity" and "fmis"
+     *   - otherwise, generate new reference
+     * if "xmlId" is not provided, do the following:
+     *   - try to find the "entity" (the same JS object) in references
+     *   - try to find the entity with the same type and "fmisId" if references
+     *   - if both above failed, create new reference
+     */
+    public registerEntity(entity?: Entity, xmlId?: string, fmisId?: string): ISOXMLReference {
+        if (!entity && !xmlId) {
+            return
+        }
 
-    public registerEntity(entity: Entity): ISOXMLReference {
-        this.nextIds[entity.tag] = (this.nextIds[entity.tag] || 0) + 1
-        const xmlId = `${entity.tag}${this.nextIds[entity.tag]}`
-        const ref = this.registerXMLReference(xmlId)
-        ref.reference = entity
+        if (!xmlId) {
+            const tag = entity.tag
+            const existingReference = Object.values(this.xmlReferences)
+                .filter(ref => ref.xmlId.startsWith(tag))
+                .find(ref =>  ref.entity === entity || (fmisId && fmisId === ref.fmisId))
+
+            if (existingReference) {
+                xmlId = existingReference.xmlId
+            } else {
+                this.nextIds[entity.tag] = this.nextIds[entity.tag] || 1
+                xmlId = `${entity.tag}${this.nextIds[entity.tag]++}`
+            }
+        } else {
+            const {tag, id} = this.parseXmlId(xmlId)
+            this.nextIds[tag] = Math.max(this.nextIds[tag] || 1, id + 1)
+        }
+
+        this.xmlReferences[xmlId] = this.xmlReferences[xmlId] || {xmlId}
+        const ref = this.xmlReferences[xmlId]
+
+        if (entity) {
+            ref.entity = entity
+        }
+
+        if (fmisId) {
+            ref.fmisId = fmisId
+        }
+
         return ref
     }
 
-    public createEntity(tagName: string, xml: ElementCompact): Entity {
+    public createEntityFromXML(tagName: string, xml: ElementCompact): Entity {
         const entityClass = getEntityClassByTag(tagName)
         if (!entityClass) {
             return null
         }
 
         return entityClass.fromXML(xml, this)
+    }
+
+    public createEntityFromAttributes(tagName: string, attrs: any): Entity {
+        const entityClass = getEntityClassByTag(tagName)
+        if (!entityClass) {
+            return null
+        }
+
+        return new entityClass(attrs, this)
     }
 
     public async parseISOXMLFile(data: string, dataType: 'text/xml' | 'application/xml', fmisURI: string): Promise<void>
@@ -137,7 +201,7 @@ export class ISOXMLManager {
                 encoding: 'utf-8'
                 }
             },
-            ISO11783_TaskData: this.rootElement.toXML(this)
+            ISO11783_TaskData: this.rootElement.toXML()
         }
 
         const mainXML = js2xml(json, { compact: true, spaces: 2 });
@@ -156,5 +220,9 @@ export class ISOXMLManager {
         })
 
         return zipWriter.generateAsync({type: 'uint8array'})
+    }
+
+    public getReferenceByEntity(entity: Entity): ISOXMLReference {
+        return Object.values(this.xmlReferences).find(ref => ref.entity === entity)
     }
 }

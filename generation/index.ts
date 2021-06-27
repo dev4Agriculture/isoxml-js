@@ -7,6 +7,10 @@ registerHelper('ifnoteq', function(arg1, arg2, options) {
     return arg1 !== arg2 ? options.fn(this) : options.inverse(this)
 })
 
+registerHelper('toString', function(x) {
+    return '' + x
+})
+
 const XSD2TS: {[xsdType: string]: string} = {
     'xs:IDREF': 'ISOXMLReference',
     'xs:ID': 'string',
@@ -52,7 +56,7 @@ function parseClassesFromFile(filename: string): any[] {
         const attributes = (elem['xs:complexType'][0]['xs:attribute'] || []).map((attr: ElementCompact) => {
             try {
                 const xmlName = attr._attributes?.name
-                const name = attr['xs:annotation']
+                const attrName = attr['xs:annotation']
                     ? normalizeText(attr['xs:annotation'][0]['xs:documentation'][0]._text)
                     : xmlName
 
@@ -78,8 +82,10 @@ function parseClassesFromFile(filename: string): any[] {
                     console.log('Unknown type', xsdType)
                 }
 
+                const isPrimaryId = xsdType === 'xs:ID' && attrName === `${name}Id`
+
                 const type = XSD2TS[xsdType]
-                return {xmlName, name, type, xsdType, isOptional}
+                return {xmlName, name: attrName, type, xsdType, isOptional, isPrimaryId}
             } catch (e) {
                 console.log('Error parsing attribute', attr, elem)
                 console.log(e)

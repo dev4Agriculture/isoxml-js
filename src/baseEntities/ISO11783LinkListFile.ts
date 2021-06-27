@@ -20,14 +20,14 @@ export type ISO11783LinkListFileAttributes = {
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    VersionMajor: { name: 'VersionMajor', type: 'xs:NMTOKEN' },
-    VersionMinor: { name: 'VersionMinor', type: 'xs:NMTOKEN' },
-    ManagementSoftwareManufacturer: { name: 'ManagementSoftwareManufacturer', type: 'xs:string' },
-    ManagementSoftwareVersion: { name: 'ManagementSoftwareVersion', type: 'xs:string' },
-    TaskControllerManufacturer: { name: 'TaskControllerManufacturer', type: 'xs:string' },
-    TaskControllerVersion: { name: 'TaskControllerVersion', type: 'xs:string' },
-    FileVersion: { name: 'FileVersion', type: 'xs:string' },
-    DataTransferOrigin: { name: 'DataTransferOrigin', type: 'xs:NMTOKEN' },
+    VersionMajor: { name: 'VersionMajor', type: 'xs:NMTOKEN', isPrimaryId: false },
+    VersionMinor: { name: 'VersionMinor', type: 'xs:NMTOKEN', isPrimaryId: false },
+    ManagementSoftwareManufacturer: { name: 'ManagementSoftwareManufacturer', type: 'xs:string', isPrimaryId: false },
+    ManagementSoftwareVersion: { name: 'ManagementSoftwareVersion', type: 'xs:string', isPrimaryId: false },
+    TaskControllerManufacturer: { name: 'TaskControllerManufacturer', type: 'xs:string', isPrimaryId: false },
+    TaskControllerVersion: { name: 'TaskControllerVersion', type: 'xs:string', isPrimaryId: false },
+    FileVersion: { name: 'FileVersion', type: 'xs:string', isPrimaryId: false },
+    DataTransferOrigin: { name: 'DataTransferOrigin', type: 'xs:NMTOKEN', isPrimaryId: false },
 }
 const CHILD_TAGS = {
     LGP: { name: 'LinkGroup' },
@@ -36,16 +36,15 @@ const CHILD_TAGS = {
 export class ISO11783LinkListFile implements Entity {
     public tag = 'ISO11783LinkList'
 
-    constructor(public attributes: ISO11783LinkListFileAttributes) {
+    constructor(public attributes: ISO11783LinkListFileAttributes, public isoxmlManager: ISOXMLManager) {
     }
 
     static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, targetClass: EntityConstructor = ISO11783LinkListFile): Entity {
         return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS)
     }
 
-    toXML(isoxmlManager: ISOXMLManager): ElementCompact {
-        return toXML(this.attributes, isoxmlManager, ATTRIBUTES, CHILD_TAGS)
-
+    toXML(): ElementCompact {
+        return toXML(this, ATTRIBUTES, CHILD_TAGS)
     }
 }
 

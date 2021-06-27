@@ -13,7 +13,9 @@ import { Entity, EntityConstructor, AttributesDescription{{#if includeReference}
 
 export type {{name}}Attributes = {
 {{#attributes}}
+    {{#unless isPrimaryId}}
     {{name}}{{#if isOptional}}?{{/if}}: {{type}}
+    {{/unless}}
 {{/attributes}}
 {{#children}}
     {{name}}?: {{className}}[]
@@ -22,7 +24,7 @@ export type {{name}}Attributes = {
 
 const ATTRIBUTES: AttributesDescription = {
     {{#attributes}}
-    {{xmlName}}: { name: '{{name}}', type: '{{xsdType}}' },
+    {{xmlName}}: { name: '{{name}}', type: '{{xsdType}}', isPrimaryId: {{toString isPrimaryId}} },
     {{/attributes}}
 }
 const CHILD_TAGS = {
@@ -34,16 +36,15 @@ const CHILD_TAGS = {
 export class {{name}} implements Entity {
     public tag = '{{tag}}'
 
-    constructor(public attributes: {{name}}Attributes) {
+    constructor(public attributes: {{name}}Attributes, public isoxmlManager: ISOXMLManager) {
     }
 
     static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, targetClass: EntityConstructor = {{name}}): Entity {
         return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS)
     }
 
-    toXML(isoxmlManager: ISOXMLManager): ElementCompact {
-        return toXML(this.attributes, isoxmlManager, ATTRIBUTES, CHILD_TAGS)
-
+    toXML(): ElementCompact {
+        return toXML(this, ATTRIBUTES, CHILD_TAGS)
     }
 }
 

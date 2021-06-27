@@ -16,12 +16,12 @@ export type DataLogValueAttributes = {
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    A: { name: 'ProcessDataDDI', type: 'xs:hexBinary' },
-    B: { name: 'ProcessDataValue', type: 'xs:long' },
-    C: { name: 'DeviceElementIdRef', type: 'xs:IDREF' },
-    D: { name: 'DataLogPGN', type: 'xs:unsignedLong' },
-    E: { name: 'DataLogPGNStartBit', type: 'xs:unsignedByte' },
-    F: { name: 'DataLogPGNStopBit', type: 'xs:unsignedByte' },
+    A: { name: 'ProcessDataDDI', type: 'xs:hexBinary', isPrimaryId: false },
+    B: { name: 'ProcessDataValue', type: 'xs:long', isPrimaryId: false },
+    C: { name: 'DeviceElementIdRef', type: 'xs:IDREF', isPrimaryId: false },
+    D: { name: 'DataLogPGN', type: 'xs:unsignedLong', isPrimaryId: false },
+    E: { name: 'DataLogPGNStartBit', type: 'xs:unsignedByte', isPrimaryId: false },
+    F: { name: 'DataLogPGNStopBit', type: 'xs:unsignedByte', isPrimaryId: false },
 }
 const CHILD_TAGS = {
 }
@@ -29,16 +29,15 @@ const CHILD_TAGS = {
 export class DataLogValue implements Entity {
     public tag = 'DLV'
 
-    constructor(public attributes: DataLogValueAttributes) {
+    constructor(public attributes: DataLogValueAttributes, public isoxmlManager: ISOXMLManager) {
     }
 
     static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, targetClass: EntityConstructor = DataLogValue): Entity {
         return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS)
     }
 
-    toXML(isoxmlManager: ISOXMLManager): ElementCompact {
-        return toXML(this.attributes, isoxmlManager, ATTRIBUTES, CHILD_TAGS)
-
+    toXML(): ElementCompact {
+        return toXML(this, ATTRIBUTES, CHILD_TAGS)
     }
 }
 

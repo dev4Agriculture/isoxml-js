@@ -7,13 +7,12 @@ import { fromXML, toXML } from '../utils'
 import { Entity, EntityConstructor, AttributesDescription } from '../types'
 
 export type CodedCommentGroupAttributes = {
-    CodedCommentGroupId: string
     CodedCommentGroupDesignator: string
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    A: { name: 'CodedCommentGroupId', type: 'xs:ID' },
-    B: { name: 'CodedCommentGroupDesignator', type: 'xs:string' },
+    A: { name: 'CodedCommentGroupId', type: 'xs:ID', isPrimaryId: true },
+    B: { name: 'CodedCommentGroupDesignator', type: 'xs:string', isPrimaryId: false },
 }
 const CHILD_TAGS = {
 }
@@ -21,16 +20,15 @@ const CHILD_TAGS = {
 export class CodedCommentGroup implements Entity {
     public tag = 'CCG'
 
-    constructor(public attributes: CodedCommentGroupAttributes) {
+    constructor(public attributes: CodedCommentGroupAttributes, public isoxmlManager: ISOXMLManager) {
     }
 
     static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, targetClass: EntityConstructor = CodedCommentGroup): Entity {
         return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS)
     }
 
-    toXML(isoxmlManager: ISOXMLManager): ElementCompact {
-        return toXML(this.attributes, isoxmlManager, ATTRIBUTES, CHILD_TAGS)
-
+    toXML(): ElementCompact {
+        return toXML(this, ATTRIBUTES, CHILD_TAGS)
     }
 }
 

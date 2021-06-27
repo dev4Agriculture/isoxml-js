@@ -9,15 +9,14 @@ import { Polygon } from './Polygon'
 import { Entity, EntityConstructor, AttributesDescription } from '../types'
 
 export type GuidanceGroupAttributes = {
-    GuidanceGroupId: string
     GuidanceGroupDesignator?: string
     GuidancePattern?: GuidancePattern[]
     BoundaryPolygon?: Polygon[]
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    A: { name: 'GuidanceGroupId', type: 'xs:ID' },
-    B: { name: 'GuidanceGroupDesignator', type: 'xs:string' },
+    A: { name: 'GuidanceGroupId', type: 'xs:ID', isPrimaryId: true },
+    B: { name: 'GuidanceGroupDesignator', type: 'xs:string', isPrimaryId: false },
 }
 const CHILD_TAGS = {
     GPN: { name: 'GuidancePattern' },
@@ -27,16 +26,15 @@ const CHILD_TAGS = {
 export class GuidanceGroup implements Entity {
     public tag = 'GGP'
 
-    constructor(public attributes: GuidanceGroupAttributes) {
+    constructor(public attributes: GuidanceGroupAttributes, public isoxmlManager: ISOXMLManager) {
     }
 
     static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, targetClass: EntityConstructor = GuidanceGroup): Entity {
         return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS)
     }
 
-    toXML(isoxmlManager: ISOXMLManager): ElementCompact {
-        return toXML(this.attributes, isoxmlManager, ATTRIBUTES, CHILD_TAGS)
-
+    toXML(): ElementCompact {
+        return toXML(this, ATTRIBUTES, CHILD_TAGS)
     }
 }
 

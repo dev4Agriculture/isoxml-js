@@ -8,7 +8,6 @@ import { DeviceObjectReference } from './DeviceObjectReference'
 import { Entity, EntityConstructor, AttributesDescription } from '../types'
 
 export type DeviceElementAttributes = {
-    DeviceElementId: string
     DeviceElementObjectId: number
     DeviceElementType: string
     DeviceElementDesignator?: string
@@ -18,12 +17,12 @@ export type DeviceElementAttributes = {
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    A: { name: 'DeviceElementId', type: 'xs:ID' },
-    B: { name: 'DeviceElementObjectId', type: 'xs:unsignedShort' },
-    C: { name: 'DeviceElementType', type: 'xs:NMTOKEN' },
-    D: { name: 'DeviceElementDesignator', type: 'xs:string' },
-    E: { name: 'DeviceElementNumber', type: 'xs:unsignedShort' },
-    F: { name: 'ParentObjectId', type: 'xs:unsignedShort' },
+    A: { name: 'DeviceElementId', type: 'xs:ID', isPrimaryId: true },
+    B: { name: 'DeviceElementObjectId', type: 'xs:unsignedShort', isPrimaryId: false },
+    C: { name: 'DeviceElementType', type: 'xs:NMTOKEN', isPrimaryId: false },
+    D: { name: 'DeviceElementDesignator', type: 'xs:string', isPrimaryId: false },
+    E: { name: 'DeviceElementNumber', type: 'xs:unsignedShort', isPrimaryId: false },
+    F: { name: 'ParentObjectId', type: 'xs:unsignedShort', isPrimaryId: false },
 }
 const CHILD_TAGS = {
     DOR: { name: 'DeviceObjectReference' },
@@ -32,16 +31,15 @@ const CHILD_TAGS = {
 export class DeviceElement implements Entity {
     public tag = 'DET'
 
-    constructor(public attributes: DeviceElementAttributes) {
+    constructor(public attributes: DeviceElementAttributes, public isoxmlManager: ISOXMLManager) {
     }
 
     static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, targetClass: EntityConstructor = DeviceElement): Entity {
         return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS)
     }
 
-    toXML(isoxmlManager: ISOXMLManager): ElementCompact {
-        return toXML(this.attributes, isoxmlManager, ATTRIBUTES, CHILD_TAGS)
-
+    toXML(): ElementCompact {
+        return toXML(this, ATTRIBUTES, CHILD_TAGS)
     }
 }
 

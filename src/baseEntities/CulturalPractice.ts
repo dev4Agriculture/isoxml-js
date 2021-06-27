@@ -8,14 +8,13 @@ import { OperationTechniqueReference } from './OperationTechniqueReference'
 import { Entity, EntityConstructor, AttributesDescription } from '../types'
 
 export type CulturalPracticeAttributes = {
-    CulturalPracticeId: string
     CulturalPracticeDesignator: string
     OperationTechniqueReference?: OperationTechniqueReference[]
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    A: { name: 'CulturalPracticeId', type: 'xs:ID' },
-    B: { name: 'CulturalPracticeDesignator', type: 'xs:string' },
+    A: { name: 'CulturalPracticeId', type: 'xs:ID', isPrimaryId: true },
+    B: { name: 'CulturalPracticeDesignator', type: 'xs:string', isPrimaryId: false },
 }
 const CHILD_TAGS = {
     OTR: { name: 'OperationTechniqueReference' },
@@ -24,16 +23,15 @@ const CHILD_TAGS = {
 export class CulturalPractice implements Entity {
     public tag = 'CPC'
 
-    constructor(public attributes: CulturalPracticeAttributes) {
+    constructor(public attributes: CulturalPracticeAttributes, public isoxmlManager: ISOXMLManager) {
     }
 
     static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, targetClass: EntityConstructor = CulturalPractice): Entity {
         return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS)
     }
 
-    toXML(isoxmlManager: ISOXMLManager): ElementCompact {
-        return toXML(this.attributes, isoxmlManager, ATTRIBUTES, CHILD_TAGS)
-
+    toXML(): ElementCompact {
+        return toXML(this, ATTRIBUTES, CHILD_TAGS)
     }
 }
 

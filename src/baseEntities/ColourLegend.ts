@@ -8,14 +8,13 @@ import { ColourRange } from './ColourRange'
 import { Entity, EntityConstructor, AttributesDescription } from '../types'
 
 export type ColourLegendAttributes = {
-    ColourLegendId: string
     DefaultColor?: number
     ColourRange?: ColourRange[]
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    A: { name: 'ColourLegendId', type: 'xs:ID' },
-    B: { name: 'DefaultColor', type: 'xs:unsignedByte' },
+    A: { name: 'ColourLegendId', type: 'xs:ID', isPrimaryId: true },
+    B: { name: 'DefaultColor', type: 'xs:unsignedByte', isPrimaryId: false },
 }
 const CHILD_TAGS = {
     CRG: { name: 'ColourRange' },
@@ -24,16 +23,15 @@ const CHILD_TAGS = {
 export class ColourLegend implements Entity {
     public tag = 'CLD'
 
-    constructor(public attributes: ColourLegendAttributes) {
+    constructor(public attributes: ColourLegendAttributes, public isoxmlManager: ISOXMLManager) {
     }
 
     static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, targetClass: EntityConstructor = ColourLegend): Entity {
         return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS)
     }
 
-    toXML(isoxmlManager: ISOXMLManager): ElementCompact {
-        return toXML(this.attributes, isoxmlManager, ATTRIBUTES, CHILD_TAGS)
-
+    toXML(): ElementCompact {
+        return toXML(this, ATTRIBUTES, CHILD_TAGS)
     }
 }
 

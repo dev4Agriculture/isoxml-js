@@ -19,13 +19,13 @@ export type ProductAllocationAttributes = {
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    A: { name: 'ProductIdRef', type: 'xs:IDREF' },
-    B: { name: 'QuantityDDI', type: 'xs:hexBinary' },
-    C: { name: 'QuantityValue', type: 'xs:long' },
-    D: { name: 'TransferMode', type: 'xs:NMTOKEN' },
-    E: { name: 'DeviceElementIdRef', type: 'xs:IDREF' },
-    F: { name: 'ValuePresentationIdRef', type: 'xs:IDREF' },
-    G: { name: 'ProductSubTypeIdRef', type: 'xs:IDREF' },
+    A: { name: 'ProductIdRef', type: 'xs:IDREF', isPrimaryId: false },
+    B: { name: 'QuantityDDI', type: 'xs:hexBinary', isPrimaryId: false },
+    C: { name: 'QuantityValue', type: 'xs:long', isPrimaryId: false },
+    D: { name: 'TransferMode', type: 'xs:NMTOKEN', isPrimaryId: false },
+    E: { name: 'DeviceElementIdRef', type: 'xs:IDREF', isPrimaryId: false },
+    F: { name: 'ValuePresentationIdRef', type: 'xs:IDREF', isPrimaryId: false },
+    G: { name: 'ProductSubTypeIdRef', type: 'xs:IDREF', isPrimaryId: false },
 }
 const CHILD_TAGS = {
     ASP: { name: 'AllocationStamp' },
@@ -34,16 +34,15 @@ const CHILD_TAGS = {
 export class ProductAllocation implements Entity {
     public tag = 'PAN'
 
-    constructor(public attributes: ProductAllocationAttributes) {
+    constructor(public attributes: ProductAllocationAttributes, public isoxmlManager: ISOXMLManager) {
     }
 
     static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, targetClass: EntityConstructor = ProductAllocation): Entity {
         return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS)
     }
 
-    toXML(isoxmlManager: ISOXMLManager): ElementCompact {
-        return toXML(this.attributes, isoxmlManager, ATTRIBUTES, CHILD_TAGS)
-
+    toXML(): ElementCompact {
+        return toXML(this, ATTRIBUTES, CHILD_TAGS)
     }
 }
 

@@ -8,7 +8,6 @@ import { CodedCommentListValue } from './CodedCommentListValue'
 import { Entity, EntityConstructor, AttributesDescription, ISOXMLReference } from '../types'
 
 export type CodedCommentAttributes = {
-    CodedCommentId: string
     CodedCommentDesignator: string
     CodedCommentScope: string
     CodedCommentGroupIdRef?: ISOXMLReference
@@ -16,10 +15,10 @@ export type CodedCommentAttributes = {
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    A: { name: 'CodedCommentId', type: 'xs:ID' },
-    B: { name: 'CodedCommentDesignator', type: 'xs:string' },
-    C: { name: 'CodedCommentScope', type: 'xs:NMTOKEN' },
-    D: { name: 'CodedCommentGroupIdRef', type: 'xs:IDREF' },
+    A: { name: 'CodedCommentId', type: 'xs:ID', isPrimaryId: true },
+    B: { name: 'CodedCommentDesignator', type: 'xs:string', isPrimaryId: false },
+    C: { name: 'CodedCommentScope', type: 'xs:NMTOKEN', isPrimaryId: false },
+    D: { name: 'CodedCommentGroupIdRef', type: 'xs:IDREF', isPrimaryId: false },
 }
 const CHILD_TAGS = {
     CCL: { name: 'CodedCommentListValue' },
@@ -28,16 +27,15 @@ const CHILD_TAGS = {
 export class CodedComment implements Entity {
     public tag = 'CCT'
 
-    constructor(public attributes: CodedCommentAttributes) {
+    constructor(public attributes: CodedCommentAttributes, public isoxmlManager: ISOXMLManager) {
     }
 
     static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, targetClass: EntityConstructor = CodedComment): Entity {
         return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS)
     }
 
-    toXML(isoxmlManager: ISOXMLManager): ElementCompact {
-        return toXML(this.attributes, isoxmlManager, ATTRIBUTES, CHILD_TAGS)
-
+    toXML(): ElementCompact {
+        return toXML(this, ATTRIBUTES, CHILD_TAGS)
     }
 }
 

@@ -12,8 +12,8 @@ export type ExternalFileReferenceAttributes = {
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    A: { name: 'Filename', type: 'xs:ID' },
-    B: { name: 'Filetype', type: 'xs:NMTOKEN' },
+    A: { name: 'Filename', type: 'xs:ID', isPrimaryId: false },
+    B: { name: 'Filetype', type: 'xs:NMTOKEN', isPrimaryId: false },
 }
 const CHILD_TAGS = {
 }
@@ -21,16 +21,15 @@ const CHILD_TAGS = {
 export class ExternalFileReference implements Entity {
     public tag = 'XFR'
 
-    constructor(public attributes: ExternalFileReferenceAttributes) {
+    constructor(public attributes: ExternalFileReferenceAttributes, public isoxmlManager: ISOXMLManager) {
     }
 
     static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, targetClass: EntityConstructor = ExternalFileReference): Entity {
         return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS)
     }
 
-    toXML(isoxmlManager: ISOXMLManager): ElementCompact {
-        return toXML(this.attributes, isoxmlManager, ATTRIBUTES, CHILD_TAGS)
-
+    toXML(): ElementCompact {
+        return toXML(this, ATTRIBUTES, CHILD_TAGS)
     }
 }
 

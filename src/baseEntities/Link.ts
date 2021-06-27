@@ -13,9 +13,9 @@ export type LinkAttributes = {
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    A: { name: 'ObjectIdRef', type: 'xs:IDREF' },
-    B: { name: 'LinkValue', type: 'xs:token' },
-    C: { name: 'LinkDesignator', type: 'xs:string' },
+    A: { name: 'ObjectIdRef', type: 'xs:IDREF', isPrimaryId: false },
+    B: { name: 'LinkValue', type: 'xs:token', isPrimaryId: false },
+    C: { name: 'LinkDesignator', type: 'xs:string', isPrimaryId: false },
 }
 const CHILD_TAGS = {
 }
@@ -23,16 +23,15 @@ const CHILD_TAGS = {
 export class Link implements Entity {
     public tag = 'LNK'
 
-    constructor(public attributes: LinkAttributes) {
+    constructor(public attributes: LinkAttributes, public isoxmlManager: ISOXMLManager) {
     }
 
     static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, targetClass: EntityConstructor = Link): Entity {
         return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS)
     }
 
-    toXML(isoxmlManager: ISOXMLManager): ElementCompact {
-        return toXML(this.attributes, isoxmlManager, ATTRIBUTES, CHILD_TAGS)
-
+    toXML(): ElementCompact {
+        return toXML(this, ATTRIBUTES, CHILD_TAGS)
     }
 }
 

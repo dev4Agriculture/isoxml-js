@@ -9,7 +9,6 @@ import { Polygon } from './Polygon'
 import { Entity, EntityConstructor, AttributesDescription, ISOXMLReference } from '../types'
 
 export type GuidancePatternAttributes = {
-    GuidancePatternId: string
     GuidancePatternDesignator?: string
     GuidancePatternType: string
     GuidancePatternOptions?: string
@@ -29,21 +28,21 @@ export type GuidancePatternAttributes = {
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    A: { name: 'GuidancePatternId', type: 'xs:ID' },
-    B: { name: 'GuidancePatternDesignator', type: 'xs:string' },
-    C: { name: 'GuidancePatternType', type: 'xs:NMTOKEN' },
-    D: { name: 'GuidancePatternOptions', type: 'xs:NMTOKEN' },
-    E: { name: 'GuidancePatternPropagationDirection', type: 'xs:NMTOKEN' },
-    F: { name: 'GuidancePatternExtension', type: 'xs:NMTOKEN' },
-    G: { name: 'GuidancePatternHeading', type: 'xs:decimal' },
-    H: { name: 'GuidancePatternRadius', type: 'xs:unsignedLong' },
-    I: { name: 'GuidancePatternGNSSMethod', type: 'xs:NMTOKEN' },
-    J: { name: 'GuidancePatternHorizontalAccuracy', type: 'xs:decimal' },
-    K: { name: 'GuidancePatternVerticalAccuracy', type: 'xs:decimal' },
-    L: { name: 'BaseStationIdRef', type: 'xs:IDREF' },
-    M: { name: 'OriginalSRID', type: 'xs:string' },
-    N: { name: 'NumberOfSwathsLeft', type: 'xs:unsignedLong' },
-    O: { name: 'NumberOfSwathsRight', type: 'xs:unsignedLong' },
+    A: { name: 'GuidancePatternId', type: 'xs:ID', isPrimaryId: true },
+    B: { name: 'GuidancePatternDesignator', type: 'xs:string', isPrimaryId: false },
+    C: { name: 'GuidancePatternType', type: 'xs:NMTOKEN', isPrimaryId: false },
+    D: { name: 'GuidancePatternOptions', type: 'xs:NMTOKEN', isPrimaryId: false },
+    E: { name: 'GuidancePatternPropagationDirection', type: 'xs:NMTOKEN', isPrimaryId: false },
+    F: { name: 'GuidancePatternExtension', type: 'xs:NMTOKEN', isPrimaryId: false },
+    G: { name: 'GuidancePatternHeading', type: 'xs:decimal', isPrimaryId: false },
+    H: { name: 'GuidancePatternRadius', type: 'xs:unsignedLong', isPrimaryId: false },
+    I: { name: 'GuidancePatternGNSSMethod', type: 'xs:NMTOKEN', isPrimaryId: false },
+    J: { name: 'GuidancePatternHorizontalAccuracy', type: 'xs:decimal', isPrimaryId: false },
+    K: { name: 'GuidancePatternVerticalAccuracy', type: 'xs:decimal', isPrimaryId: false },
+    L: { name: 'BaseStationIdRef', type: 'xs:IDREF', isPrimaryId: false },
+    M: { name: 'OriginalSRID', type: 'xs:string', isPrimaryId: false },
+    N: { name: 'NumberOfSwathsLeft', type: 'xs:unsignedLong', isPrimaryId: false },
+    O: { name: 'NumberOfSwathsRight', type: 'xs:unsignedLong', isPrimaryId: false },
 }
 const CHILD_TAGS = {
     LSG: { name: 'LineString' },
@@ -53,16 +52,15 @@ const CHILD_TAGS = {
 export class GuidancePattern implements Entity {
     public tag = 'GPN'
 
-    constructor(public attributes: GuidancePatternAttributes) {
+    constructor(public attributes: GuidancePatternAttributes, public isoxmlManager: ISOXMLManager) {
     }
 
     static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, targetClass: EntityConstructor = GuidancePattern): Entity {
         return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS)
     }
 
-    toXML(isoxmlManager: ISOXMLManager): ElementCompact {
-        return toXML(this.attributes, isoxmlManager, ATTRIBUTES, CHILD_TAGS)
-
+    toXML(): ElementCompact {
+        return toXML(this, ATTRIBUTES, CHILD_TAGS)
     }
 }
 

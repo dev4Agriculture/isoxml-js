@@ -18,10 +18,10 @@ export type TimeAttributes = {
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    A: { name: 'Start', type: 'xs:dateTime' },
-    B: { name: 'Stop', type: 'xs:dateTime' },
-    C: { name: 'Duration', type: 'xs:unsignedLong' },
-    D: { name: 'Type', type: 'xs:NMTOKEN' },
+    A: { name: 'Start', type: 'xs:dateTime', isPrimaryId: false },
+    B: { name: 'Stop', type: 'xs:dateTime', isPrimaryId: false },
+    C: { name: 'Duration', type: 'xs:unsignedLong', isPrimaryId: false },
+    D: { name: 'Type', type: 'xs:NMTOKEN', isPrimaryId: false },
 }
 const CHILD_TAGS = {
     PTN: { name: 'Position' },
@@ -31,16 +31,15 @@ const CHILD_TAGS = {
 export class Time implements Entity {
     public tag = 'TIM'
 
-    constructor(public attributes: TimeAttributes) {
+    constructor(public attributes: TimeAttributes, public isoxmlManager: ISOXMLManager) {
     }
 
     static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, targetClass: EntityConstructor = Time): Entity {
         return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS)
     }
 
-    toXML(isoxmlManager: ISOXMLManager): ElementCompact {
-        return toXML(this.attributes, isoxmlManager, ATTRIBUTES, CHILD_TAGS)
-
+    toXML(): ElementCompact {
+        return toXML(this, ATTRIBUTES, CHILD_TAGS)
     }
 }
 

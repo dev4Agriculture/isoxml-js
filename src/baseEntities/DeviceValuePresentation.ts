@@ -15,11 +15,11 @@ export type DeviceValuePresentationAttributes = {
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    A: { name: 'DeviceValuePresentationObjectId', type: 'xs:unsignedShort' },
-    B: { name: 'Offset', type: 'xs:long' },
-    C: { name: 'Scale', type: 'xs:decimal' },
-    D: { name: 'NumberOfDecimals', type: 'xs:unsignedByte' },
-    E: { name: 'UnitDesignator', type: 'xs:string' },
+    A: { name: 'DeviceValuePresentationObjectId', type: 'xs:unsignedShort', isPrimaryId: false },
+    B: { name: 'Offset', type: 'xs:long', isPrimaryId: false },
+    C: { name: 'Scale', type: 'xs:decimal', isPrimaryId: false },
+    D: { name: 'NumberOfDecimals', type: 'xs:unsignedByte', isPrimaryId: false },
+    E: { name: 'UnitDesignator', type: 'xs:string', isPrimaryId: false },
 }
 const CHILD_TAGS = {
 }
@@ -27,16 +27,15 @@ const CHILD_TAGS = {
 export class DeviceValuePresentation implements Entity {
     public tag = 'DVP'
 
-    constructor(public attributes: DeviceValuePresentationAttributes) {
+    constructor(public attributes: DeviceValuePresentationAttributes, public isoxmlManager: ISOXMLManager) {
     }
 
     static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, targetClass: EntityConstructor = DeviceValuePresentation): Entity {
         return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS)
     }
 
-    toXML(isoxmlManager: ISOXMLManager): ElementCompact {
-        return toXML(this.attributes, isoxmlManager, ATTRIBUTES, CHILD_TAGS)
-
+    toXML(): ElementCompact {
+        return toXML(this, ATTRIBUTES, CHILD_TAGS)
     }
 }
 

@@ -13,17 +13,16 @@ export type LineStringAttributes = {
     LineStringWidth?: number
     LineStringLength?: number
     LineStringColour?: number
-    LineStringId?: string
     Point?: Point[]
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    A: { name: 'LineStringType', type: 'xs:NMTOKEN' },
-    B: { name: 'LineStringDesignator', type: 'xs:string' },
-    C: { name: 'LineStringWidth', type: 'xs:unsignedLong' },
-    D: { name: 'LineStringLength', type: 'xs:unsignedLong' },
-    E: { name: 'LineStringColour', type: 'xs:unsignedByte' },
-    F: { name: 'LineStringId', type: 'xs:ID' },
+    A: { name: 'LineStringType', type: 'xs:NMTOKEN', isPrimaryId: false },
+    B: { name: 'LineStringDesignator', type: 'xs:string', isPrimaryId: false },
+    C: { name: 'LineStringWidth', type: 'xs:unsignedLong', isPrimaryId: false },
+    D: { name: 'LineStringLength', type: 'xs:unsignedLong', isPrimaryId: false },
+    E: { name: 'LineStringColour', type: 'xs:unsignedByte', isPrimaryId: false },
+    F: { name: 'LineStringId', type: 'xs:ID', isPrimaryId: true },
 }
 const CHILD_TAGS = {
     PNT: { name: 'Point' },
@@ -32,16 +31,15 @@ const CHILD_TAGS = {
 export class LineString implements Entity {
     public tag = 'LSG'
 
-    constructor(public attributes: LineStringAttributes) {
+    constructor(public attributes: LineStringAttributes, public isoxmlManager: ISOXMLManager) {
     }
 
     static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, targetClass: EntityConstructor = LineString): Entity {
         return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS)
     }
 
-    toXML(isoxmlManager: ISOXMLManager): ElementCompact {
-        return toXML(this.attributes, isoxmlManager, ATTRIBUTES, CHILD_TAGS)
-
+    toXML(): ElementCompact {
+        return toXML(this, ATTRIBUTES, CHILD_TAGS)
     }
 }
 

@@ -17,9 +17,9 @@ export type TreatmentZoneAttributes = {
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    A: { name: 'TreatmentZoneCode', type: 'xs:unsignedByte' },
-    B: { name: 'TreatmentZoneDesignator', type: 'xs:string' },
-    C: { name: 'TreatmentZoneColour', type: 'xs:unsignedByte' },
+    A: { name: 'TreatmentZoneCode', type: 'xs:unsignedByte', isPrimaryId: false },
+    B: { name: 'TreatmentZoneDesignator', type: 'xs:string', isPrimaryId: false },
+    C: { name: 'TreatmentZoneColour', type: 'xs:unsignedByte', isPrimaryId: false },
 }
 const CHILD_TAGS = {
     PLN: { name: 'PolygonTreatmentZoneonly' },
@@ -29,16 +29,15 @@ const CHILD_TAGS = {
 export class TreatmentZone implements Entity {
     public tag = 'TZN'
 
-    constructor(public attributes: TreatmentZoneAttributes) {
+    constructor(public attributes: TreatmentZoneAttributes, public isoxmlManager: ISOXMLManager) {
     }
 
     static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, targetClass: EntityConstructor = TreatmentZone): Entity {
         return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS)
     }
 
-    toXML(isoxmlManager: ISOXMLManager): ElementCompact {
-        return toXML(this.attributes, isoxmlManager, ATTRIBUTES, CHILD_TAGS)
-
+    toXML(): ElementCompact {
+        return toXML(this, ATTRIBUTES, CHILD_TAGS)
     }
 }
 

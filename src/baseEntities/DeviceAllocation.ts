@@ -15,9 +15,9 @@ export type DeviceAllocationAttributes = {
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    A: { name: 'ClientNAMEValue', type: 'xs:hexBinary' },
-    B: { name: 'ClientNAMEMask', type: 'xs:hexBinary' },
-    C: { name: 'DeviceIdRef', type: 'xs:IDREF' },
+    A: { name: 'ClientNAMEValue', type: 'xs:hexBinary', isPrimaryId: false },
+    B: { name: 'ClientNAMEMask', type: 'xs:hexBinary', isPrimaryId: false },
+    C: { name: 'DeviceIdRef', type: 'xs:IDREF', isPrimaryId: false },
 }
 const CHILD_TAGS = {
     ASP: { name: 'AllocationStamp' },
@@ -26,16 +26,15 @@ const CHILD_TAGS = {
 export class DeviceAllocation implements Entity {
     public tag = 'DAN'
 
-    constructor(public attributes: DeviceAllocationAttributes) {
+    constructor(public attributes: DeviceAllocationAttributes, public isoxmlManager: ISOXMLManager) {
     }
 
     static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, targetClass: EntityConstructor = DeviceAllocation): Entity {
         return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS)
     }
 
-    toXML(isoxmlManager: ISOXMLManager): ElementCompact {
-        return toXML(this.attributes, isoxmlManager, ATTRIBUTES, CHILD_TAGS)
-
+    toXML(): ElementCompact {
+        return toXML(this, ATTRIBUTES, CHILD_TAGS)
     }
 }
 

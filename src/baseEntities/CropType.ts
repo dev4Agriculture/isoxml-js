@@ -8,16 +8,15 @@ import { CropVariety } from './CropVariety'
 import { Entity, EntityConstructor, AttributesDescription, ISOXMLReference } from '../types'
 
 export type CropTypeAttributes = {
-    CropTypeId: string
     CropTypeDesignator: string
     ProductGroupIdRef?: ISOXMLReference
     CropVariety?: CropVariety[]
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    A: { name: 'CropTypeId', type: 'xs:ID' },
-    B: { name: 'CropTypeDesignator', type: 'xs:string' },
-    C: { name: 'ProductGroupIdRef', type: 'xs:IDREF' },
+    A: { name: 'CropTypeId', type: 'xs:ID', isPrimaryId: true },
+    B: { name: 'CropTypeDesignator', type: 'xs:string', isPrimaryId: false },
+    C: { name: 'ProductGroupIdRef', type: 'xs:IDREF', isPrimaryId: false },
 }
 const CHILD_TAGS = {
     CVT: { name: 'CropVariety' },
@@ -26,16 +25,15 @@ const CHILD_TAGS = {
 export class CropType implements Entity {
     public tag = 'CTP'
 
-    constructor(public attributes: CropTypeAttributes) {
+    constructor(public attributes: CropTypeAttributes, public isoxmlManager: ISOXMLManager) {
     }
 
     static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, targetClass: EntityConstructor = CropType): Entity {
         return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS)
     }
 
-    toXML(isoxmlManager: ISOXMLManager): ElementCompact {
-        return toXML(this.attributes, isoxmlManager, ATTRIBUTES, CHILD_TAGS)
-
+    toXML(): ElementCompact {
+        return toXML(this, ATTRIBUTES, CHILD_TAGS)
     }
 }
 

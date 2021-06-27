@@ -19,13 +19,13 @@ export type ControlAssignmentAttributes = {
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    A: { name: 'SourceClientNAME', type: 'xs:hexBinary' },
-    B: { name: 'UserClientNAME', type: 'xs:hexBinary' },
-    C: { name: 'SourceDeviceStructureLabel', type: 'xs:hexBinary' },
-    D: { name: 'UserDeviceStructureLabel', type: 'xs:hexBinary' },
-    E: { name: 'SourceDeviceElementNumber', type: 'xs:unsignedShort' },
-    F: { name: 'UserDeviceElementNumber', type: 'xs:unsignedShort' },
-    G: { name: 'ProcessDataDDI', type: 'xs:hexBinary' },
+    A: { name: 'SourceClientNAME', type: 'xs:hexBinary', isPrimaryId: false },
+    B: { name: 'UserClientNAME', type: 'xs:hexBinary', isPrimaryId: false },
+    C: { name: 'SourceDeviceStructureLabel', type: 'xs:hexBinary', isPrimaryId: false },
+    D: { name: 'UserDeviceStructureLabel', type: 'xs:hexBinary', isPrimaryId: false },
+    E: { name: 'SourceDeviceElementNumber', type: 'xs:unsignedShort', isPrimaryId: false },
+    F: { name: 'UserDeviceElementNumber', type: 'xs:unsignedShort', isPrimaryId: false },
+    G: { name: 'ProcessDataDDI', type: 'xs:hexBinary', isPrimaryId: false },
 }
 const CHILD_TAGS = {
     ASP: { name: 'AllocationStamp' },
@@ -34,16 +34,15 @@ const CHILD_TAGS = {
 export class ControlAssignment implements Entity {
     public tag = 'CAT'
 
-    constructor(public attributes: ControlAssignmentAttributes) {
+    constructor(public attributes: ControlAssignmentAttributes, public isoxmlManager: ISOXMLManager) {
     }
 
     static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, targetClass: EntityConstructor = ControlAssignment): Entity {
         return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS)
     }
 
-    toXML(isoxmlManager: ISOXMLManager): ElementCompact {
-        return toXML(this.attributes, isoxmlManager, ATTRIBUTES, CHILD_TAGS)
-
+    toXML(): ElementCompact {
+        return toXML(this, ATTRIBUTES, CHILD_TAGS)
     }
 }
 

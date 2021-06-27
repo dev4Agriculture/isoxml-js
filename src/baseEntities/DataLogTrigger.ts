@@ -22,18 +22,18 @@ export type DataLogTriggerAttributes = {
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    A: { name: 'DataLogDDI', type: 'xs:hexBinary' },
-    B: { name: 'DataLogMethod', type: 'xs:unsignedByte' },
-    C: { name: 'DataLogDistanceInterval', type: 'xs:long' },
-    D: { name: 'DataLogTimeInterval', type: 'xs:long' },
-    E: { name: 'DataLogThresholdMinimum', type: 'xs:long' },
-    F: { name: 'DataLogThresholdMaximum', type: 'xs:long' },
-    G: { name: 'DataLogThresholdChange', type: 'xs:long' },
-    H: { name: 'DeviceElementIdRef', type: 'xs:IDREF' },
-    I: { name: 'ValuePresentationIdRef', type: 'xs:IDREF' },
-    J: { name: 'DataLogPGN', type: 'xs:unsignedLong' },
-    K: { name: 'DataLogPGNStartBit', type: 'xs:unsignedByte' },
-    L: { name: 'DataLogPGNStopBit', type: 'xs:unsignedByte' },
+    A: { name: 'DataLogDDI', type: 'xs:hexBinary', isPrimaryId: false },
+    B: { name: 'DataLogMethod', type: 'xs:unsignedByte', isPrimaryId: false },
+    C: { name: 'DataLogDistanceInterval', type: 'xs:long', isPrimaryId: false },
+    D: { name: 'DataLogTimeInterval', type: 'xs:long', isPrimaryId: false },
+    E: { name: 'DataLogThresholdMinimum', type: 'xs:long', isPrimaryId: false },
+    F: { name: 'DataLogThresholdMaximum', type: 'xs:long', isPrimaryId: false },
+    G: { name: 'DataLogThresholdChange', type: 'xs:long', isPrimaryId: false },
+    H: { name: 'DeviceElementIdRef', type: 'xs:IDREF', isPrimaryId: false },
+    I: { name: 'ValuePresentationIdRef', type: 'xs:IDREF', isPrimaryId: false },
+    J: { name: 'DataLogPGN', type: 'xs:unsignedLong', isPrimaryId: false },
+    K: { name: 'DataLogPGNStartBit', type: 'xs:unsignedByte', isPrimaryId: false },
+    L: { name: 'DataLogPGNStopBit', type: 'xs:unsignedByte', isPrimaryId: false },
 }
 const CHILD_TAGS = {
 }
@@ -41,16 +41,15 @@ const CHILD_TAGS = {
 export class DataLogTrigger implements Entity {
     public tag = 'DLT'
 
-    constructor(public attributes: DataLogTriggerAttributes) {
+    constructor(public attributes: DataLogTriggerAttributes, public isoxmlManager: ISOXMLManager) {
     }
 
     static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, targetClass: EntityConstructor = DataLogTrigger): Entity {
         return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS)
     }
 
-    toXML(isoxmlManager: ISOXMLManager): ElementCompact {
-        return toXML(this.attributes, isoxmlManager, ATTRIBUTES, CHILD_TAGS)
-
+    toXML(): ElementCompact {
+        return toXML(this, ATTRIBUTES, CHILD_TAGS)
     }
 }
 

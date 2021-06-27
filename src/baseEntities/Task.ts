@@ -20,7 +20,6 @@ import { GuidanceAllocation } from './GuidanceAllocation'
 import { Entity, EntityConstructor, AttributesDescription, ISOXMLReference } from '../types'
 
 export type TaskAttributes = {
-    TaskId: string
     TaskDesignator?: string
     CustomerIdRef?: ISOXMLReference
     FarmIdRef?: ISOXMLReference
@@ -46,16 +45,16 @@ export type TaskAttributes = {
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    A: { name: 'TaskId', type: 'xs:ID' },
-    B: { name: 'TaskDesignator', type: 'xs:string' },
-    C: { name: 'CustomerIdRef', type: 'xs:IDREF' },
-    D: { name: 'FarmIdRef', type: 'xs:IDREF' },
-    E: { name: 'PartfieldIdRef', type: 'xs:IDREF' },
-    F: { name: 'ResponsibleWorkerIdRef', type: 'xs:IDREF' },
-    G: { name: 'TaskStatus', type: 'xs:NMTOKEN' },
-    H: { name: 'DefaultTreatmentZoneCode', type: 'xs:unsignedByte' },
-    I: { name: 'PositionLostTreatmentZoneCode', type: 'xs:unsignedByte' },
-    J: { name: 'OutOfFieldTreatmentZoneCode', type: 'xs:unsignedByte' },
+    A: { name: 'TaskId', type: 'xs:ID', isPrimaryId: true },
+    B: { name: 'TaskDesignator', type: 'xs:string', isPrimaryId: false },
+    C: { name: 'CustomerIdRef', type: 'xs:IDREF', isPrimaryId: false },
+    D: { name: 'FarmIdRef', type: 'xs:IDREF', isPrimaryId: false },
+    E: { name: 'PartfieldIdRef', type: 'xs:IDREF', isPrimaryId: false },
+    F: { name: 'ResponsibleWorkerIdRef', type: 'xs:IDREF', isPrimaryId: false },
+    G: { name: 'TaskStatus', type: 'xs:NMTOKEN', isPrimaryId: false },
+    H: { name: 'DefaultTreatmentZoneCode', type: 'xs:unsignedByte', isPrimaryId: false },
+    I: { name: 'PositionLostTreatmentZoneCode', type: 'xs:unsignedByte', isPrimaryId: false },
+    J: { name: 'OutOfFieldTreatmentZoneCode', type: 'xs:unsignedByte', isPrimaryId: false },
 }
 const CHILD_TAGS = {
     TZN: { name: 'TreatmentZone' },
@@ -76,16 +75,15 @@ const CHILD_TAGS = {
 export class Task implements Entity {
     public tag = 'TSK'
 
-    constructor(public attributes: TaskAttributes) {
+    constructor(public attributes: TaskAttributes, public isoxmlManager: ISOXMLManager) {
     }
 
     static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, targetClass: EntityConstructor = Task): Entity {
         return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS)
     }
 
-    toXML(isoxmlManager: ISOXMLManager): ElementCompact {
-        return toXML(this.attributes, isoxmlManager, ATTRIBUTES, CHILD_TAGS)
-
+    toXML(): ElementCompact {
+        return toXML(this, ATTRIBUTES, CHILD_TAGS)
     }
 }
 

@@ -13,7 +13,6 @@ export type PointAttributes = {
     PointEast: number
     PointUp?: number
     PointColour?: number
-    PointId?: string
     PointHorizontalAccuracy?: number
     PointVerticalAccuracy?: number
     Filename?: string
@@ -21,17 +20,17 @@ export type PointAttributes = {
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    A: { name: 'PointType', type: 'xs:NMTOKEN' },
-    B: { name: 'PointDesignator', type: 'xs:string' },
-    C: { name: 'PointNorth', type: 'xs:decimal' },
-    D: { name: 'PointEast', type: 'xs:decimal' },
-    E: { name: 'PointUp', type: 'xs:long' },
-    F: { name: 'PointColour', type: 'xs:unsignedByte' },
-    G: { name: 'PointId', type: 'xs:ID' },
-    H: { name: 'PointHorizontalAccuracy', type: 'xs:decimal' },
-    I: { name: 'PointVerticalAccuracy', type: 'xs:decimal' },
-    J: { name: 'Filename', type: 'xs:string' },
-    K: { name: 'Filelength', type: 'xs:unsignedLong' },
+    A: { name: 'PointType', type: 'xs:NMTOKEN', isPrimaryId: false },
+    B: { name: 'PointDesignator', type: 'xs:string', isPrimaryId: false },
+    C: { name: 'PointNorth', type: 'xs:decimal', isPrimaryId: false },
+    D: { name: 'PointEast', type: 'xs:decimal', isPrimaryId: false },
+    E: { name: 'PointUp', type: 'xs:long', isPrimaryId: false },
+    F: { name: 'PointColour', type: 'xs:unsignedByte', isPrimaryId: false },
+    G: { name: 'PointId', type: 'xs:ID', isPrimaryId: true },
+    H: { name: 'PointHorizontalAccuracy', type: 'xs:decimal', isPrimaryId: false },
+    I: { name: 'PointVerticalAccuracy', type: 'xs:decimal', isPrimaryId: false },
+    J: { name: 'Filename', type: 'xs:string', isPrimaryId: false },
+    K: { name: 'Filelength', type: 'xs:unsignedLong', isPrimaryId: false },
 }
 const CHILD_TAGS = {
 }
@@ -39,16 +38,15 @@ const CHILD_TAGS = {
 export class Point implements Entity {
     public tag = 'PNT'
 
-    constructor(public attributes: PointAttributes) {
+    constructor(public attributes: PointAttributes, public isoxmlManager: ISOXMLManager) {
     }
 
     static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, targetClass: EntityConstructor = Point): Entity {
         return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS)
     }
 
-    toXML(isoxmlManager: ISOXMLManager): ElementCompact {
-        return toXML(this.attributes, isoxmlManager, ATTRIBUTES, CHILD_TAGS)
-
+    toXML(): ElementCompact {
+        return toXML(this, ATTRIBUTES, CHILD_TAGS)
     }
 }
 

@@ -17,11 +17,11 @@ export type GuidanceShiftAttributes = {
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    A: { name: 'GuidanceGroupIdRef', type: 'xs:IDREF' },
-    B: { name: 'GuidancePatternIdRef', type: 'xs:IDREF' },
-    C: { name: 'GuidanceEastShift', type: 'xs:long' },
-    D: { name: 'GuidanceNorthShift', type: 'xs:long' },
-    E: { name: 'PropagationOffset', type: 'xs:long' },
+    A: { name: 'GuidanceGroupIdRef', type: 'xs:IDREF', isPrimaryId: false },
+    B: { name: 'GuidancePatternIdRef', type: 'xs:IDREF', isPrimaryId: false },
+    C: { name: 'GuidanceEastShift', type: 'xs:long', isPrimaryId: false },
+    D: { name: 'GuidanceNorthShift', type: 'xs:long', isPrimaryId: false },
+    E: { name: 'PropagationOffset', type: 'xs:long', isPrimaryId: false },
 }
 const CHILD_TAGS = {
     ASP: { name: 'AllocationStamp' },
@@ -30,16 +30,15 @@ const CHILD_TAGS = {
 export class GuidanceShift implements Entity {
     public tag = 'GST'
 
-    constructor(public attributes: GuidanceShiftAttributes) {
+    constructor(public attributes: GuidanceShiftAttributes, public isoxmlManager: ISOXMLManager) {
     }
 
     static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, targetClass: EntityConstructor = GuidanceShift): Entity {
         return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS)
     }
 
-    toXML(isoxmlManager: ISOXMLManager): ElementCompact {
-        return toXML(this.attributes, isoxmlManager, ATTRIBUTES, CHILD_TAGS)
-
+    toXML(): ElementCompact {
+        return toXML(this, ATTRIBUTES, CHILD_TAGS)
     }
 }
 

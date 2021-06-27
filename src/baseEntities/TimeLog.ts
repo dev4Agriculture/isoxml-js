@@ -13,9 +13,9 @@ export type TimeLogAttributes = {
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    A: { name: 'Filename', type: 'xs:ID' },
-    B: { name: 'Filelength', type: 'xs:unsignedLong' },
-    C: { name: 'TimeLogType', type: 'xs:NMTOKEN' },
+    A: { name: 'Filename', type: 'xs:ID', isPrimaryId: false },
+    B: { name: 'Filelength', type: 'xs:unsignedLong', isPrimaryId: false },
+    C: { name: 'TimeLogType', type: 'xs:NMTOKEN', isPrimaryId: false },
 }
 const CHILD_TAGS = {
 }
@@ -23,16 +23,15 @@ const CHILD_TAGS = {
 export class TimeLog implements Entity {
     public tag = 'TLG'
 
-    constructor(public attributes: TimeLogAttributes) {
+    constructor(public attributes: TimeLogAttributes, public isoxmlManager: ISOXMLManager) {
     }
 
     static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, targetClass: EntityConstructor = TimeLog): Entity {
         return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS)
     }
 
-    toXML(isoxmlManager: ISOXMLManager): ElementCompact {
-        return toXML(this.attributes, isoxmlManager, ATTRIBUTES, CHILD_TAGS)
-
+    toXML(): ElementCompact {
+        return toXML(this, ATTRIBUTES, CHILD_TAGS)
     }
 }
 

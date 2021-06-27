@@ -4,7 +4,7 @@ import { AttributesDescription, Entity, EntityConstructor, ISOXMLReference, Refe
 
 
 function idrefParser (value: string, isoxmlManager: ISOXMLManager): ISOXMLReference {
-    return isoxmlManager.registerXMLReference(value)
+    return isoxmlManager.registerEntity(null, value)
 }
 
 function integerParser (value: string): number {
@@ -19,7 +19,7 @@ function dateTimeParser (value: string): Date {
     return new Date(value)
 }
 
-function idrefGenerator (value: ISOXMLReference, isoxmlManager: ISOXMLManager): string {
+function idrefGenerator (value: ISOXMLReference): string {
     return value.xmlId
 }
 
@@ -64,6 +64,9 @@ function xml2attrs(
         if (!attrDescription) {
             return // allow unknown attributes
         }
+        if (attrDescription.isPrimaryId) {
+            return
+        }
         const parser = PARSERS[attrDescription.type]
         result[attrDescription.name] = parser
             ? parser(xml._attributes[xmlAttr] as string, isoxmlManager)
@@ -74,12 +77,21 @@ function xml2attrs(
 }
 
 function attrs2xml(
-    attrs: {[name: string]: any},
+    entity: Entity,
     attributesDescription: AttributesDescription,
-    isoxmlManager: ISOXMLManager
 ): {[xmlId: string]: string} {
     const result = {}
-    Object.keys(attrs).forEach(attrName => {
+
+    const primaryXmlId = Object.keys(attributesDescription).find(xmlTag => attributesDescription[xmlTag].isPrimaryId)
+
+    if (primaryXmlId) {
+        const ref = entity.isoxmlManager.getReferenceByEntity(entity)
+        if (ref) {
+            result[primaryXmlId] = ref.xmlId
+        }
+    }
+
+    Object.keys(entity.attributes).forEach(attrName => {
         const xmlAttr = Object.keys(attributesDescription).find(xmlId => attributesDescription[xmlId].name === attrName)
         const attrDescription = attributesDescription[xmlAttr]
         if (!attrDescription) {
@@ -87,8 +99,8 @@ function attrs2xml(
         }
         const generator = GENERATORS[attrDescription.type]
         result[xmlAttr] = generator
-            ? generator(attrs[attrName], isoxmlManager)
-            : attrs[attrName]
+            ? generator(entity.attributes[attrName], entity.isoxmlManager)
+            : entity.attributes[attrName]
     })
 
     return result
@@ -106,25 +118,24 @@ export function xml2ChildTags(
             return 
         }
 
-        result[refDescription.name] = xml[tagName].map(childXml => isoxmlManager.createEntity(tagName, childXml))
+        result[refDescription.name] = xml[tagName].map(childXml => isoxmlManager.createEntityFromXML(tagName, childXml))
     })
     return result 
 }
 
 export function childTags2Xml(
-    attrs: {[name: string]: any},
+    entity: Entity,
     referencesDescription: ReferencesDescription,
-    isoxmlManager: ISOXMLManager
 ) {
     const result = {}
-    Object.keys(attrs).forEach(attrName => {
+    Object.keys(entity.attributes).forEach(attrName => {
         const tagName = Object.keys(referencesDescription).find(tag => referencesDescription[tag].name === attrName)
         const refDescription = referencesDescription[tagName]
         if (!refDescription) {
             return 
         }
 
-        result[tagName] = (attrs[attrName] as Entity[]).map(entity => entity.toXML(isoxmlManager))
+        result[tagName] = (entity.attributes[attrName] as Entity[]).map(entity => entity.toXML())
     })
     return result 
 }
@@ -139,25 +150,22 @@ export function fromXML(
     const entity = new entityClass({
         ...xml2attrs(xml, attributesDescription, isoxmlManager),
         ...xml2ChildTags(xml, referencesDescription, isoxmlManager)
-    })
+    }, isoxmlManager)
 
-    const idAttr = Object.keys(attributesDescription).find(attrId => attributesDescription[attrId].type === 'xs:ID')
-
-    if (idAttr) {
-        isoxmlManager.registerEntity(entity)
-    }
+    const idAttr = Object.keys(attributesDescription).find(attrId => attributesDescription[attrId].isPrimaryId)
+    const xmlId = idAttr ? xml._attributes[idAttr] as string : null
+    xmlId && entity.isoxmlManager.registerEntity(entity, xmlId)
 
     return entity
 }
 
 export function toXML(
-    attributes: {[name: string]: any},
-    isoxmlManager: ISOXMLManager,
+    entity: Entity,
     attributesDescription: AttributesDescription,
     referencesDescription: ReferencesDescription
 ): ElementCompact {
     return {
-        _attributes: attrs2xml(attributes, attributesDescription, isoxmlManager),
-        ...childTags2Xml(attributes, referencesDescription, isoxmlManager)
+        _attributes: attrs2xml(entity, attributesDescription),
+        ...childTags2Xml(entity, referencesDescription)
     }
 }

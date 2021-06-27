@@ -11,7 +11,6 @@ import { GuidanceGroup } from './GuidanceGroup'
 import { Entity, EntityConstructor, AttributesDescription, ISOXMLReference } from '../types'
 
 export type PartfieldAttributes = {
-    PartfieldId: string
     PartfieldCode?: string
     PartfieldDesignator: string
     PartfieldArea: number
@@ -27,15 +26,15 @@ export type PartfieldAttributes = {
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    A: { name: 'PartfieldId', type: 'xs:ID' },
-    B: { name: 'PartfieldCode', type: 'xs:string' },
-    C: { name: 'PartfieldDesignator', type: 'xs:string' },
-    D: { name: 'PartfieldArea', type: 'xs:unsignedLong' },
-    E: { name: 'CustomerIdRef', type: 'xs:IDREF' },
-    F: { name: 'FarmIdRef', type: 'xs:IDREF' },
-    G: { name: 'CropTypeIdRef', type: 'xs:IDREF' },
-    H: { name: 'CropVarietyIdRef', type: 'xs:IDREF' },
-    I: { name: 'FieldIdRef', type: 'xs:IDREF' },
+    A: { name: 'PartfieldId', type: 'xs:ID', isPrimaryId: true },
+    B: { name: 'PartfieldCode', type: 'xs:string', isPrimaryId: false },
+    C: { name: 'PartfieldDesignator', type: 'xs:string', isPrimaryId: false },
+    D: { name: 'PartfieldArea', type: 'xs:unsignedLong', isPrimaryId: false },
+    E: { name: 'CustomerIdRef', type: 'xs:IDREF', isPrimaryId: false },
+    F: { name: 'FarmIdRef', type: 'xs:IDREF', isPrimaryId: false },
+    G: { name: 'CropTypeIdRef', type: 'xs:IDREF', isPrimaryId: false },
+    H: { name: 'CropVarietyIdRef', type: 'xs:IDREF', isPrimaryId: false },
+    I: { name: 'FieldIdRef', type: 'xs:IDREF', isPrimaryId: false },
 }
 const CHILD_TAGS = {
     PLN: { name: 'PolygonnonTreatmentZoneonly' },
@@ -47,16 +46,15 @@ const CHILD_TAGS = {
 export class Partfield implements Entity {
     public tag = 'PFD'
 
-    constructor(public attributes: PartfieldAttributes) {
+    constructor(public attributes: PartfieldAttributes, public isoxmlManager: ISOXMLManager) {
     }
 
     static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, targetClass: EntityConstructor = Partfield): Entity {
         return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS)
     }
 
-    toXML(isoxmlManager: ISOXMLManager): ElementCompact {
-        return toXML(this.attributes, isoxmlManager, ATTRIBUTES, CHILD_TAGS)
-
+    toXML(): ElementCompact {
+        return toXML(this, ATTRIBUTES, CHILD_TAGS)
     }
 }
 

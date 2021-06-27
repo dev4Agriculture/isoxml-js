@@ -15,9 +15,9 @@ export type CommentAllocationAttributes = {
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    A: { name: 'CodedCommentIdRef', type: 'xs:IDREF' },
-    B: { name: 'CodedCommentListValueIdRef', type: 'xs:IDREF' },
-    C: { name: 'FreeCommentText', type: 'xs:string' },
+    A: { name: 'CodedCommentIdRef', type: 'xs:IDREF', isPrimaryId: false },
+    B: { name: 'CodedCommentListValueIdRef', type: 'xs:IDREF', isPrimaryId: false },
+    C: { name: 'FreeCommentText', type: 'xs:string', isPrimaryId: false },
 }
 const CHILD_TAGS = {
     ASP: { name: 'AllocationStamp' },
@@ -26,16 +26,15 @@ const CHILD_TAGS = {
 export class CommentAllocation implements Entity {
     public tag = 'CAN'
 
-    constructor(public attributes: CommentAllocationAttributes) {
+    constructor(public attributes: CommentAllocationAttributes, public isoxmlManager: ISOXMLManager) {
     }
 
     static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, targetClass: EntityConstructor = CommentAllocation): Entity {
         return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS)
     }
 
-    toXML(isoxmlManager: ISOXMLManager): ElementCompact {
-        return toXML(this.attributes, isoxmlManager, ATTRIBUTES, CHILD_TAGS)
-
+    toXML(): ElementCompact {
+        return toXML(this, ATTRIBUTES, CHILD_TAGS)
     }
 }
 

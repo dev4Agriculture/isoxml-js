@@ -13,9 +13,9 @@ export type ColourRangeAttributes = {
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    A: { name: 'MinimumValue', type: 'xs:long' },
-    B: { name: 'MaximumValue', type: 'xs:long' },
-    C: { name: 'Colour', type: 'xs:unsignedByte' },
+    A: { name: 'MinimumValue', type: 'xs:long', isPrimaryId: false },
+    B: { name: 'MaximumValue', type: 'xs:long', isPrimaryId: false },
+    C: { name: 'Colour', type: 'xs:unsignedByte', isPrimaryId: false },
 }
 const CHILD_TAGS = {
 }
@@ -23,16 +23,15 @@ const CHILD_TAGS = {
 export class ColourRange implements Entity {
     public tag = 'CRG'
 
-    constructor(public attributes: ColourRangeAttributes) {
+    constructor(public attributes: ColourRangeAttributes, public isoxmlManager: ISOXMLManager) {
     }
 
     static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, targetClass: EntityConstructor = ColourRange): Entity {
         return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS)
     }
 
-    toXML(isoxmlManager: ISOXMLManager): ElementCompact {
-        return toXML(this.attributes, isoxmlManager, ATTRIBUTES, CHILD_TAGS)
-
+    toXML(): ElementCompact {
+        return toXML(this, ATTRIBUTES, CHILD_TAGS)
     }
 }
 
