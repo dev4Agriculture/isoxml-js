@@ -1,5 +1,6 @@
 import { ElementCompact } from 'xml-js'
 
+import { TAGS } from './constants'
 import { ISOXMLManager } from '../ISOXMLManager'
 import { registerEntityClass } from '../classRegistry'
 import { fromXML, toXML } from '../utils'
@@ -63,7 +64,7 @@ const CHILD_TAGS = {
 }
 
 export class ExternalFileContents implements Entity {
-    public tag = 'XFC'
+    public tag = TAGS.ExternalFileContents
 
     constructor(public attributes: ExternalFileContentsAttributes, public isoxmlManager: ISOXMLManager) {
     }
@@ -77,4 +78,4 @@ export class ExternalFileContents implements Entity {
     }
 }
 
-registerEntityClass('XFC', ExternalFileContents)
+registerEntityClass(TAGS.ExternalFileContents, ExternalFileContents)

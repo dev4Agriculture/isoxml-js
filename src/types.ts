@@ -1,4 +1,5 @@
 import { ElementCompact } from "xml-js";
+import { TAGS } from "./baseEntities/constants";
 import { ISOXMLManager } from './ISOXMLManager'
 
 export interface AttributesDescription {
@@ -18,7 +19,7 @@ export type ISOXMLReference = {
 export interface Entity {
     isoxmlManager: ISOXMLManager
     attributes: {[name: string]: any}
-    tag: string
+    tag: TAGS
     toXML (): ElementCompact
 }
 

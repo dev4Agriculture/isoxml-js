@@ -1,5 +1,6 @@
 import { ElementCompact } from 'xml-js'
 
+import { TAGS } from './constants'
 import { ISOXMLManager } from '../ISOXMLManager'
 import { registerEntityClass } from '../classRegistry'
 import { fromXML, toXML } from '../utils'
@@ -26,7 +27,7 @@ const CHILD_TAGS = {
 }
 
 export class AllocationStamp implements Entity {
-    public tag = 'ASP'
+    public tag = TAGS.AllocationStamp
 
     constructor(public attributes: AllocationStampAttributes, public isoxmlManager: ISOXMLManager) {
     }
@@ -40,4 +41,4 @@ export class AllocationStamp implements Entity {
     }
 }
 
-registerEntityClass('ASP', AllocationStamp)
+registerEntityClass(TAGS.AllocationStamp, AllocationStamp)

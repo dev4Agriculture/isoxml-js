@@ -1,5 +1,6 @@
 import { ElementCompact } from 'xml-js'
 
+import { TAGS } from './constants'
 import { ISOXMLManager } from '../ISOXMLManager'
 import { registerEntityClass } from '../classRegistry'
 import { fromXML, toXML } from '../utils'
@@ -24,7 +25,7 @@ const CHILD_TAGS = {
 }
 
 export class CommentAllocation implements Entity {
-    public tag = 'CAN'
+    public tag = TAGS.CommentAllocation
 
     constructor(public attributes: CommentAllocationAttributes, public isoxmlManager: ISOXMLManager) {
     }
@@ -38,4 +39,4 @@ export class CommentAllocation implements Entity {
     }
 }
 
-registerEntityClass('CAN', CommentAllocation)
+registerEntityClass(TAGS.CommentAllocation, CommentAllocation)

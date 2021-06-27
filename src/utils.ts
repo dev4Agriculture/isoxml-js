@@ -1,4 +1,5 @@
 import { ElementCompact } from "xml-js";
+import { TAGS } from "./baseEntities/constants";
 import { ISOXMLManager } from "./ISOXMLManager";
 import { AttributesDescription, Entity, EntityConstructor, ISOXMLReference, ReferencesDescription } from "./types";
 
@@ -118,7 +119,7 @@ export function xml2ChildTags(
             return 
         }
 
-        result[refDescription.name] = xml[tagName].map(childXml => isoxmlManager.createEntityFromXML(tagName, childXml))
+        result[refDescription.name] = xml[tagName].map(childXml => isoxmlManager.createEntityFromXML(tagName as TAGS, childXml))
     })
     return result 
 }

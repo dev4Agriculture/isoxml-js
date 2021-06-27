@@ -1,5 +1,6 @@
 import { ElementCompact } from 'xml-js'
 
+import { TAGS } from './constants'
 import { ISOXMLManager } from '../ISOXMLManager'
 import { registerEntityClass } from '../classRegistry'
 import { fromXML, toXML } from '../utils'
@@ -21,7 +22,7 @@ const CHILD_TAGS = {
 }
 
 export class ColourRange implements Entity {
-    public tag = 'CRG'
+    public tag = TAGS.ColourRange
 
     constructor(public attributes: ColourRangeAttributes, public isoxmlManager: ISOXMLManager) {
     }
@@ -35,4 +36,4 @@ export class ColourRange implements Entity {
     }
 }
 
-registerEntityClass('CRG', ColourRange)
+registerEntityClass(TAGS.ColourRange, ColourRange)

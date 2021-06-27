@@ -1,5 +1,6 @@
 import { ElementCompact } from 'xml-js'
 
+import { TAGS } from './constants'
 import { ISOXMLManager } from '../ISOXMLManager'
 import { registerEntityClass } from '../classRegistry'
 import { fromXML, toXML } from '../utils'
@@ -28,7 +29,7 @@ const CHILD_TAGS = {
 }
 
 export class GuidanceShift implements Entity {
-    public tag = 'GST'
+    public tag = TAGS.GuidanceShift
 
     constructor(public attributes: GuidanceShiftAttributes, public isoxmlManager: ISOXMLManager) {
     }
@@ -42,4 +43,4 @@ export class GuidanceShift implements Entity {
     }
 }
 
-registerEntityClass('GST', GuidanceShift)
+registerEntityClass(TAGS.GuidanceShift, GuidanceShift)

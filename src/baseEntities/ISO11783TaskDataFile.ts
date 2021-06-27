@@ -1,5 +1,6 @@
 import { ElementCompact } from 'xml-js'
 
+import { TAGS } from './constants'
 import { ISOXMLManager } from '../ISOXMLManager'
 import { registerEntityClass } from '../classRegistry'
 import { fromXML, toXML } from '../utils'
@@ -88,7 +89,7 @@ const CHILD_TAGS = {
 }
 
 export class ISO11783TaskDataFile implements Entity {
-    public tag = 'ISO11783_TaskData'
+    public tag = TAGS.ISO11783TaskDataFile
 
     constructor(public attributes: ISO11783TaskDataFileAttributes, public isoxmlManager: ISOXMLManager) {
     }
@@ -102,4 +103,4 @@ export class ISO11783TaskDataFile implements Entity {
     }
 }
 
-registerEntityClass('ISO11783_TaskData', ISO11783TaskDataFile)
+registerEntityClass(TAGS.ISO11783TaskDataFile, ISO11783TaskDataFile)

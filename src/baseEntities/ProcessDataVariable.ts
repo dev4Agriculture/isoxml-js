@@ -1,5 +1,6 @@
 import { ElementCompact } from 'xml-js'
 
+import { TAGS } from './constants'
 import { ISOXMLManager } from '../ISOXMLManager'
 import { registerEntityClass } from '../classRegistry'
 import { fromXML, toXML } from '../utils'
@@ -31,7 +32,7 @@ const CHILD_TAGS = {
 }
 
 export class ProcessDataVariable implements Entity {
-    public tag = 'PDV'
+    public tag = TAGS.ProcessDataVariable
 
     constructor(public attributes: ProcessDataVariableAttributes, public isoxmlManager: ISOXMLManager) {
     }
@@ -45,4 +46,4 @@ export class ProcessDataVariable implements Entity {
     }
 }
 
-registerEntityClass('PDV', ProcessDataVariable)
+registerEntityClass(TAGS.ProcessDataVariable, ProcessDataVariable)

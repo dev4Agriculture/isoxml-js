@@ -1,5 +1,6 @@
 import { ElementCompact } from 'xml-js'
 
+import { TAGS } from './constants'
 import { ISOXMLManager } from '../ISOXMLManager'
 import { registerEntityClass } from '../classRegistry'
 import { fromXML, toXML } from '../utils'
@@ -19,7 +20,7 @@ const CHILD_TAGS = {
 }
 
 export class OperTechPractice implements Entity {
-    public tag = 'OTP'
+    public tag = TAGS.OperTechPractice
 
     constructor(public attributes: OperTechPracticeAttributes, public isoxmlManager: ISOXMLManager) {
     }
@@ -33,4 +34,4 @@ export class OperTechPractice implements Entity {
     }
 }
 
-registerEntityClass('OTP', OperTechPractice)
+registerEntityClass(TAGS.OperTechPractice, OperTechPractice)

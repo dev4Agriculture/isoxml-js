@@ -1,5 +1,6 @@
 import { ElementCompact } from 'xml-js'
 
+import { TAGS } from './constants'
 import { ISOXMLManager } from '../ISOXMLManager'
 import { registerEntityClass } from '../classRegistry'
 import { fromXML, toXML } from '../utils'
@@ -23,7 +24,7 @@ const CHILD_TAGS = {
 }
 
 export class CropType implements Entity {
-    public tag = 'CTP'
+    public tag = TAGS.CropType
 
     constructor(public attributes: CropTypeAttributes, public isoxmlManager: ISOXMLManager) {
     }
@@ -37,4 +38,4 @@ export class CropType implements Entity {
     }
 }
 
-registerEntityClass('CTP', CropType)
+registerEntityClass(TAGS.CropType, CropType)

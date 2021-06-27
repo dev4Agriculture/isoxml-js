@@ -1,5 +1,6 @@
 import { ElementCompact } from 'xml-js'
 
+import { TAGS } from './constants'
 import { ISOXMLManager } from '../ISOXMLManager'
 import { registerEntityClass } from '../classRegistry'
 import { fromXML, toXML } from '../utils'
@@ -19,7 +20,7 @@ const CHILD_TAGS = {
 }
 
 export class ProductRelation implements Entity {
-    public tag = 'PRN'
+    public tag = TAGS.ProductRelation
 
     constructor(public attributes: ProductRelationAttributes, public isoxmlManager: ISOXMLManager) {
     }
@@ -33,4 +34,4 @@ export class ProductRelation implements Entity {
     }
 }
 
-registerEntityClass('PRN', ProductRelation)
+registerEntityClass(TAGS.ProductRelation, ProductRelation)

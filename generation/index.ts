@@ -41,6 +41,10 @@ const indexTemplate = compile(
     readFileSync('./generation/templates/index.hbs', 'utf-8'
 ))
 
+const constantsTemplate = compile(
+    readFileSync('./generation/templates/constants.hbs', 'utf-8'
+))
+
 function parseClassesFromFile(filename: string): any[] {
     const schema = xml2js(
         readFileSync(filename, 'utf-8'), 
@@ -139,3 +143,4 @@ tags.forEach((tag: any) => {
 })
 
 writeFileSync('src/baseEntities/index.ts', indexTemplate({tags}))
+writeFileSync('src/baseEntities/constants.ts', constantsTemplate({tags}))

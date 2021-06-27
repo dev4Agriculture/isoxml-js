@@ -1,5 +1,6 @@
 import { ElementCompact } from 'xml-js'
 
+import { TAGS } from './constants'
 import { ISOXMLManager } from '../ISOXMLManager'
 import { registerEntityClass } from '../classRegistry'
 import { fromXML, toXML } from '../utils'
@@ -29,7 +30,7 @@ const CHILD_TAGS = {
 }
 
 export class TaskControllerCapabilities implements Entity {
-    public tag = 'TCC'
+    public tag = TAGS.TaskControllerCapabilities
 
     constructor(public attributes: TaskControllerCapabilitiesAttributes, public isoxmlManager: ISOXMLManager) {
     }
@@ -43,4 +44,4 @@ export class TaskControllerCapabilities implements Entity {
     }
 }
 
-registerEntityClass('TCC', TaskControllerCapabilities)
+registerEntityClass(TAGS.TaskControllerCapabilities, TaskControllerCapabilities)

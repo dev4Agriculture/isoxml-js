@@ -1,5 +1,6 @@
 import { ElementCompact } from 'xml-js'
 
+import { TAGS } from './constants'
 import { ISOXMLManager } from '../ISOXMLManager'
 import { registerEntityClass } from '../classRegistry'
 import { fromXML, toXML } from '../utils'
@@ -27,7 +28,7 @@ const CHILD_TAGS = {
 }
 
 export class DataLogValue implements Entity {
-    public tag = 'DLV'
+    public tag = TAGS.DataLogValue
 
     constructor(public attributes: DataLogValueAttributes, public isoxmlManager: ISOXMLManager) {
     }
@@ -41,4 +42,4 @@ export class DataLogValue implements Entity {
     }
 }
 
-registerEntityClass('DLV', DataLogValue)
+registerEntityClass(TAGS.DataLogValue, DataLogValue)

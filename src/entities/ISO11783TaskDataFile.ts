@@ -1,15 +1,16 @@
 import { ElementCompact } from 'xml-js'
 
-import { ISOXMLManager } from '../../src/ISOXMLManager'
-import { registerEntityClass } from '../../src/classRegistry'
+import { ISOXMLManager } from '../ISOXMLManager'
+import { registerEntityClass } from '../classRegistry'
 
-import {Entity} from '../../src/types'
+import {Entity} from '../types'
 
 import {ISO11783TaskDataFile, ISO11783TaskDataFileAttributes} from '../baseEntities/ISO11783TaskDataFile'
 import {ExternalFileContents} from '../baseEntities/ExternalFileContents'
+import { TAGS } from '../baseEntities/constants'
 
 export class ExtendedISO11783TaskDataFile extends ISO11783TaskDataFile {
-    public tag = 'ISO11783_TaskData'
+    public tag = TAGS.ISO11783TaskDataFile
 
     constructor(attributes: ISO11783TaskDataFileAttributes, isoxmlManager: ISOXMLManager) {
         super(attributes, isoxmlManager)
@@ -33,4 +34,4 @@ export class ExtendedISO11783TaskDataFile extends ISO11783TaskDataFile {
     }
 }
 
-registerEntityClass('ISO11783_TaskData', ExtendedISO11783TaskDataFile)
+registerEntityClass(TAGS.ISO11783TaskDataFile, ExtendedISO11783TaskDataFile)

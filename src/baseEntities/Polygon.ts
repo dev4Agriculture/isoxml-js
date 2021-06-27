@@ -1,5 +1,6 @@
 import { ElementCompact } from 'xml-js'
 
+import { TAGS } from './constants'
 import { ISOXMLManager } from '../ISOXMLManager'
 import { registerEntityClass } from '../classRegistry'
 import { fromXML, toXML } from '../utils'
@@ -27,7 +28,7 @@ const CHILD_TAGS = {
 }
 
 export class Polygon implements Entity {
-    public tag = 'PLN'
+    public tag = TAGS.Polygon
 
     constructor(public attributes: PolygonAttributes, public isoxmlManager: ISOXMLManager) {
     }
@@ -41,4 +42,4 @@ export class Polygon implements Entity {
     }
 }
 
-registerEntityClass('PLN', Polygon)
+registerEntityClass(TAGS.Polygon, Polygon)

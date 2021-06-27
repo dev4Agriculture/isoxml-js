@@ -10,6 +10,7 @@ import { registerEntityClass } from '../../src/classRegistry'
 import {Entity} from '../../src/types'
 
 import {Grid, GridAttributes} from '../baseEntities/Grid'
+import { TAGS } from '../baseEntities/constants'
 
 const GRID_CELL_SIZE = 10 // meters
 
@@ -44,6 +45,7 @@ export function createGridParamsGenerator (targetCellWidth: number, targetCellHe
 }
 
 export class ExtendedGrid extends Grid {
+    public tag = TAGS.Grid
 
     public binaryData: Uint8Array
 
@@ -144,4 +146,4 @@ export class ExtendedGrid extends Grid {
     }
 }
 
-registerEntityClass('GRD', ExtendedGrid)
+registerEntityClass(TAGS.Grid, ExtendedGrid)

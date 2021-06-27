@@ -1,5 +1,6 @@
 import { ElementCompact } from 'xml-js'
 
+import { TAGS } from './constants'
 import { ISOXMLManager } from '../ISOXMLManager'
 import { registerEntityClass } from '../classRegistry'
 import { fromXML, toXML } from '../utils'
@@ -73,7 +74,7 @@ const CHILD_TAGS = {
 }
 
 export class Task implements Entity {
-    public tag = 'TSK'
+    public tag = TAGS.Task
 
     constructor(public attributes: TaskAttributes, public isoxmlManager: ISOXMLManager) {
     }
@@ -87,4 +88,4 @@ export class Task implements Entity {
     }
 }
 
-registerEntityClass('TSK', Task)
+registerEntityClass(TAGS.Task, Task)

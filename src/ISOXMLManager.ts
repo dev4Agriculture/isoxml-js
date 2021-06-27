@@ -7,6 +7,7 @@ import './baseEntities'
 import './entities'
 
 import { ExtendedISO11783TaskDataFile } from "./entities/ISO11783TaskDataFile";
+import { TAGS } from "./baseEntities/constants";
 
 type ISOXMLManagerOptions = {
     fmisTitle?: string
@@ -26,7 +27,7 @@ export class ISOXMLManager {
 
 
     constructor(private options: ISOXMLManagerOptions = {}) {
-        this.rootElement = this.createEntityFromAttributes('ISO11783_TaskData', {
+        this.rootElement = this.createEntityFromAttributes(TAGS.ISO11783TaskDataFile, {
             VersionMajor: '4',
             VersionMinor: '2',
             ManagementSoftwareManufacturer: options.fmisTitle || 'FMIS',
@@ -116,7 +117,7 @@ export class ISOXMLManager {
         return ref
     }
 
-    public createEntityFromXML(tagName: string, xml: ElementCompact): Entity {
+    public createEntityFromXML(tagName: TAGS, xml: ElementCompact): Entity {
         const entityClass = getEntityClassByTag(tagName)
         if (!entityClass) {
             return null
@@ -125,7 +126,7 @@ export class ISOXMLManager {
         return entityClass.fromXML(xml, this)
     }
 
-    public createEntityFromAttributes(tagName: string, attrs: any): Entity {
+    public createEntityFromAttributes(tagName: TAGS, attrs: any): Entity {
         const entityClass = getEntityClassByTag(tagName)
         if (!entityClass) {
             return null
@@ -139,7 +140,7 @@ export class ISOXMLManager {
     public async parseISOXMLFile(data: Uint8Array|string, dataType: string, fmisURI: string): Promise<void> {
         if (dataType === 'application/xml' || dataType === 'text/xml') {
             const mainXML = xml2js(data as string, { compact: true, alwaysArray: true })
-            getEntityClassByTag('ISO11783_TaskData').fromXML(mainXML, this)
+            getEntityClassByTag(TAGS.ISO11783TaskDataFile).fromXML(mainXML, this)
         } else if (dataType === 'application/zip') {
             const zip = await JSZip.loadAsync(data)
             const mainFile = zip.file(new RegExp(MAIN_FILENAME + '$', 'i'))[0]
@@ -177,14 +178,14 @@ export class ISOXMLManager {
                 throw new Error('Incorrect structure of TASKDATA.XML')
             }
 
-            this.rootElement = getEntityClassByTag('ISO11783_TaskData').fromXML(mainXml['ISO11783_TaskData'][0], this) as ExtendedISO11783TaskDataFile
+            this.rootElement = getEntityClassByTag(TAGS.ISO11783TaskDataFile).fromXML(mainXml['ISO11783_TaskData'][0], this) as ExtendedISO11783TaskDataFile
             const externalFiles = this.rootElement.attributes.ExternalFileReference || []
 
             externalFiles.forEach(externalFile => {
                 const filename = externalFile.attributes.Filename
                 const file = files.find(file => (file as any).filename.match(new RegExp(`${filename}\\.XML$`, 'i')))
                 const xml = xml2js((file as any).data, { compact: true, alwaysArray: true })
-                const fileContent = getEntityClassByTag('XFC').fromXML(xml['XFC'][0], this)
+                const fileContent = getEntityClassByTag(TAGS.ISO11783TaskDataFile).fromXML(xml['XFC'][0], this)
                 this.rootElement.appendFromExternalFile(fileContent)
             })
         } else {

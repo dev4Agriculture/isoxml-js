@@ -1,5 +1,6 @@
 import { ElementCompact } from 'xml-js'
 
+import { TAGS } from './constants'
 import { ISOXMLManager } from '../ISOXMLManager'
 import { registerEntityClass } from '../classRegistry'
 import { fromXML, toXML } from '../utils'
@@ -18,7 +19,7 @@ const CHILD_TAGS = {
 }
 
 export class CodedCommentListValue implements Entity {
-    public tag = 'CCL'
+    public tag = TAGS.CodedCommentListValue
 
     constructor(public attributes: CodedCommentListValueAttributes, public isoxmlManager: ISOXMLManager) {
     }
@@ -32,4 +33,4 @@ export class CodedCommentListValue implements Entity {
     }
 }
 
-registerEntityClass('CCL', CodedCommentListValue)
+registerEntityClass(TAGS.CodedCommentListValue, CodedCommentListValue)

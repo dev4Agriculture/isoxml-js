@@ -1,4 +1,5 @@
 import {readFileSync, writeFileSync} from 'fs'
+import { TAGS } from './baseEntities/constants'
 import { ExtendedTask } from './entities/Task'
 import { ISOXMLManager } from './ISOXMLManager'
 
@@ -25,7 +26,7 @@ describe('ISOXML Manager', () => {
     const isoxmlManager = new ISOXMLManager()
     await isoxmlManager.parseISOXMLFile(new Uint8Array(isoxmlData.buffer), 'application/zip', null)
     const data = await isoxmlManager.saveISOXML()
-    writeFileSync('./data/test1_out.zip', data)
+    // writeFileSync('./data/test1_out.zip', data)
     expect(data.length).toBe(13757)
   })
 
@@ -39,7 +40,7 @@ describe('ISOXML Manager', () => {
   })
   it('should manually create ISOXML', async () => {
     const isoxmlManager = new ISOXMLManager()
-    const task = isoxmlManager.createEntityFromAttributes('TSK', {
+    const task = isoxmlManager.createEntityFromAttributes(TAGS.Task, {
         TaskStatus: '2'
     }) as ExtendedTask
     isoxmlManager.registerEntity(task)

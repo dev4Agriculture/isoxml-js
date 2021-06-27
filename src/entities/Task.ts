@@ -6,12 +6,13 @@ import { registerEntityClass } from '../../src/classRegistry'
 import { Entity } from '../../src/types'
 
 import { Task, TaskAttributes } from '../baseEntities/Task'
-import { TreatmentZone } from '../baseEntities'
+import { ProcessDataVariable, TreatmentZone } from '../baseEntities'
 import { ExtendedGrid } from './Grid'
 import { FeatureCollection } from '@turf/helpers'
+import { TAGS } from '../baseEntities/constants'
 
 export class ExtendedTask extends Task {
-    public tag = 'TSK'
+    public tag = TAGS.Task
 
     constructor(attributes: TaskAttributes, isoxmlManager: ISOXMLManager) {
         super(attributes, isoxmlManager)
@@ -26,13 +27,13 @@ export class ExtendedTask extends Task {
     }
 
     addGridFromGeoJSON(geoJSON: FeatureCollection, DDI: string) {
-        const processDataVariable = this.isoxmlManager.createEntityFromAttributes('PDV', {ProcessDataDDI: DDI, ProcessDataValue: 0})
+        const processDataVariable = this.isoxmlManager.createEntityFromAttributes(TAGS.ProcessDataVariable, {ProcessDataDDI: DDI, ProcessDataValue: 0})
         this.attributes.TreatmentZone = [
-            this.isoxmlManager.createEntityFromAttributes('TZN', {
+            this.isoxmlManager.createEntityFromAttributes(TAGS.TreatmentZone, {
                 TreatmentZoneCode: 0,
                 ProcessDataVariable: processDataVariable
             }) as TreatmentZone,
-            this.isoxmlManager.createEntityFromAttributes('TZN', {
+            this.isoxmlManager.createEntityFromAttributes(TAGS.TreatmentZone, {
                 TreatmentZoneCode: 1,
                 ProcessDataVariable: processDataVariable
             }) as TreatmentZone
@@ -45,4 +46,4 @@ export class ExtendedTask extends Task {
     }
 }
 
-registerEntityClass('TSK', ExtendedTask)
+registerEntityClass(TAGS.Task, ExtendedTask)

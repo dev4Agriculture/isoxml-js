@@ -1,5 +1,6 @@
 import { ElementCompact } from 'xml-js'
 
+import { TAGS } from './constants'
 import { ISOXMLManager } from '../ISOXMLManager'
 import { registerEntityClass } from '../classRegistry'
 import { fromXML, toXML } from '../utils'
@@ -17,7 +18,7 @@ const CHILD_TAGS = {
 }
 
 export class OperationTechniqueReference implements Entity {
-    public tag = 'OTR'
+    public tag = TAGS.OperationTechniqueReference
 
     constructor(public attributes: OperationTechniqueReferenceAttributes, public isoxmlManager: ISOXMLManager) {
     }
@@ -31,4 +32,4 @@ export class OperationTechniqueReference implements Entity {
     }
 }
 
-registerEntityClass('OTR', OperationTechniqueReference)
+registerEntityClass(TAGS.OperationTechniqueReference, OperationTechniqueReference)

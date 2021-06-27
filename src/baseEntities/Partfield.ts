@@ -1,5 +1,6 @@
 import { ElementCompact } from 'xml-js'
 
+import { TAGS } from './constants'
 import { ISOXMLManager } from '../ISOXMLManager'
 import { registerEntityClass } from '../classRegistry'
 import { fromXML, toXML } from '../utils'
@@ -44,7 +45,7 @@ const CHILD_TAGS = {
 }
 
 export class Partfield implements Entity {
-    public tag = 'PFD'
+    public tag = TAGS.Partfield
 
     constructor(public attributes: PartfieldAttributes, public isoxmlManager: ISOXMLManager) {
     }
@@ -58,4 +59,4 @@ export class Partfield implements Entity {
     }
 }
 
-registerEntityClass('PFD', Partfield)
+registerEntityClass(TAGS.Partfield, Partfield)
