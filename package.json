@@ -1,11 +1,12 @@
 {
-  "name": "isoxml-js-library-2",
+  "name": "isoxml-v2",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
     "gen": "ts-node generation/index.ts",
-    "test": "jest"
+    "test": "jest",
+    "build": "tsc"
   },
   "author": "",
   "license": "ISC",
@@ -20,6 +21,7 @@
   "devDependencies": {
     "@types/jest": "^26.0.23",
     "@types/node": "^15.12.4",
+    "@types/rbush": "^3.0.0",
     "jest": "^27.0.5",
     "ts-jest": "^27.0.3",
     "ts-node": "^10.0.0",

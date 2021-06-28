@@ -1,5 +1,5 @@
 import { js2xml, xml2js, ElementCompact } from "xml-js";
-import JSZip, { file } from 'jszip'
+import JSZip from 'jszip'
 import { Entity, ISOFileInformation, ISOXMLReference } from "./types";
 import { getEntityClassByTag } from './classRegistry'
 
@@ -8,11 +8,14 @@ import './entities'
 
 import { ExtendedISO11783TaskDataFile } from "./entities/ISO11783TaskDataFile"
 import { TAGS } from "./baseEntities/constants"
-import { ISO11783TaskDataFileDataTransferOriginEnum } from "./baseEntities/ISO11783TaskDataFile"
+import { GridParametersGenerator } from "./entities";
 
-type ISOXMLManagerOptions = {
+export type ISOXMLManagerOptions = {
     fmisTitle?: string
     fmisURI?: string
+    fmisVersion?: string
+    version?: number
+    gridRaramsGenerator?: GridParametersGenerator
 }
 
 const MAIN_FILENAME = 'TASKDATA.XML';
@@ -26,15 +29,14 @@ export class ISOXMLManager {
     public parsedFiles: ISOFileInformation[]
     public filesToSave: {[filename: string]: {binaryData?: Uint8Array, textData?: string}} = {}
 
-
-    constructor(private options: ISOXMLManagerOptions = {}) {
-        this.rootElement = this.createEntityFromAttributes(TAGS.ISO11783TaskDataFile, {
-            VersionMajor: '4',
-            VersionMinor: '2',
-            ManagementSoftwareManufacturer: options.fmisTitle || 'FMIS',
-            ManagementSoftwareVersion: '1.0',
-            DataTransferOrigin: ISO11783TaskDataFileDataTransferOriginEnum.FMIS
-        }) as ExtendedISO11783TaskDataFile
+    constructor(public options: ISOXMLManagerOptions = {}) {
+        this.options = {
+            ...this.options,
+            version: 4,
+            fmisTitle: 'FMIS',
+            fmisVersion: '1.0'
+        }
+        this.rootElement = ExtendedISO11783TaskDataFile.fromISOXMLManagerOptions(this)
     }
 
     private parseXmlId(xmlId: string) {
@@ -49,10 +51,9 @@ export class ISOXMLManager {
         }
     }
 
-
-    public addFileToSave(data: Uint8Array, isBinary: true, xmlTag: string, filename?: string): string
-    public addFileToSave(data: string, isBinary: false, xmlTag: string, filename?: string): string
-    public addFileToSave(data: Uint8Array | string, isBinary: boolean, xmlTag: string, filename?: string): string {
+    public addFileToSave(data: Uint8Array, isBinary: true, xmlTag: TAGS, filename?: string): string
+    public addFileToSave(data: string, isBinary: false, xmlTag: TAGS, filename?: string): string
+    public addFileToSave(data: Uint8Array | string, isBinary: boolean, xmlTag: TAGS, filename?: string): string {
         if (!filename) {
             const indexes = Object.keys(this.filesToSave)
                 .filter(filename => filename.startsWith(xmlTag))
@@ -173,7 +174,6 @@ export class ISOXMLManager {
 
             const [mainXml, matchIDs, ...files] = await Promise.all([mainXmlPromise, matchXmlPromise, ...filePromises]);
             this.parsedFiles = files as ISOFileInformation[]
-            // const externalReferences = mainXml['ISO11783_TaskData'][0][TAGS.ExternalFileReference] || []
 
             if (!mainXml['ISO11783_TaskData']) {
                 throw new Error('Incorrect structure of TASKDATA.XML')
@@ -186,7 +186,7 @@ export class ISOXMLManager {
                 const filename = externalFile.attributes.Filename
                 const file = files.find(file => (file as any).filename.match(new RegExp(`${filename}\\.XML$`, 'i')))
                 const xml = xml2js((file as any).data, { compact: true, alwaysArray: true })
-                const fileContent = getEntityClassByTag(TAGS.ISO11783TaskDataFile).fromXML(xml['XFC'][0], this)
+                const fileContent = getEntityClassByTag(TAGS.ISO11783TaskDataFile).fromXML(xml[TAGS.ExternalFileContents][0], this)
                 this.rootElement.appendFromExternalFile(fileContent)
             })
         } else {
@@ -226,5 +226,26 @@ export class ISOXMLManager {
 
     public getReferenceByEntity(entity: Entity): ISOXMLReference {
         return Object.values(this.xmlReferences).find(ref => ref.entity === entity)
+    }
+
+    public getEntityByXmlId<T extends Entity>(xmlId: string): T {
+        if (!this.xmlReferences[xmlId]?.entity) {
+            return null
+        }
+        return this.xmlReferences[xmlId].entity as T
+    }
+
+    getEntitiesOfTag<T extends Entity>(tag: TAGS): T[] {
+        return Object.values(this.xmlReferences)
+            .filter(ref => this.parseXmlId(ref.xmlId).tag === tag && ref.entity)
+            .map(ref => ref.entity as T)
+    }
+
+    public updateOptions(newOptions: ISOXMLManagerOptions) {
+        this.options = {
+            ...this.options,
+            ...newOptions
+        }
+        console.log('update options', this.options)
     }
 }

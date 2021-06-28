@@ -1,15 +1,13 @@
-import { area, bbox as turfBbox, degreesToRadians, FeatureCollection, lengthToDegrees } from '@turf/turf'
+import { area, bbox as turfBbox, degreesToRadians, Feature, FeatureCollection, Geometry, geometry, lengthToDegrees } from '@turf/turf'
 import { intersection, Polygon } from 'polygon-clipping'
 import RBush from 'rbush'
-
 import { ElementCompact } from 'xml-js'
 
-import { ISOXMLManager } from '../../src/ISOXMLManager'
-import { registerEntityClass } from '../../src/classRegistry'
+import { ISOXMLManager } from '../ISOXMLManager'
+import { registerEntityClass } from '../classRegistry'
+import { Entity } from '../types'
 
-import {Entity} from '../../src/types'
-
-import {Grid, GridAttributes, GridGridTypeEnum} from '../baseEntities/Grid'
+import { Grid, GridAttributes, GridGridTypeEnum } from '../baseEntities/Grid'
 import { TAGS } from '../baseEntities/constants'
 
 const GRID_CELL_SIZE = 10 // meters
@@ -23,7 +21,9 @@ export type GridParameters = {
     cellHeight: number
 }
 
-export function createGridParamsGenerator (targetCellWidth: number, targetCellHeight: number) { 
+export type GridParametersGenerator = (geometry: FeatureCollection) => GridParameters
+
+export function createGridParamsGenerator (targetCellWidth: number, targetCellHeight: number): GridParametersGenerator { 
     return (geometry: any) => {
         const [minX, minY, maxX, maxY] = turfBbox(geometry)
 
@@ -63,12 +63,13 @@ export class ExtendedGrid extends Grid {
     }
 
     toXML(): ElementCompact {
-        this.isoxmlManager.addFileToSave(this.binaryData, true, 'GRD', this.attributes.Filename)
+        this.isoxmlManager.addFileToSave(this.binaryData, true, TAGS.Grid, this.attributes.Filename)
         return super.toXML()
     }
 
     static fromGeoJSON(geoJSON: FeatureCollection, isoxmlManager: ISOXMLManager, treatmentZoneCode?: number): ExtendedGrid {
-        const gridParamsGenerator = createGridParamsGenerator(GRID_CELL_SIZE, GRID_CELL_SIZE)
+        console.log('grid gen', isoxmlManager.options)
+        const gridParamsGenerator = isoxmlManager.options.gridRaramsGenerator || createGridParamsGenerator(GRID_CELL_SIZE, GRID_CELL_SIZE)
 
         const {minX, minY, numCols, numRows, cellWidth, cellHeight} = gridParamsGenerator(geoJSON)
 
@@ -76,7 +77,7 @@ export class ExtendedGrid extends Grid {
         const buffer = new ArrayBuffer(filelength)
         const int32array = new Int32Array(buffer)
 
-        const tree = new RBush()
+        const tree = new RBush<{feature: any}>()
             tree.load(geoJSON.features.map(f => {
             const [bboxMinX, bboxMinY, bboxMaxX, bboxMaxY] = turfBbox(f)
             return {minX: bboxMinX, minY: bboxMinY, maxX: bboxMaxX, maxY: bboxMaxY, feature: f}
@@ -113,8 +114,8 @@ export class ExtendedGrid extends Grid {
                     if (intersection.length) {
                         const intersectionArea = area({type: 'MultiPolygon', coordinates: intersectionRes})
                         if (intersectionArea > maxArea) {
-                        feature = res.feature
-                        maxArea = intersectionArea
+                            feature = res.feature
+                            maxArea = intersectionArea
                         }
                     }
                 })
@@ -125,7 +126,7 @@ export class ExtendedGrid extends Grid {
             }
         }
 
-        const filename = isoxmlManager.addFileToSave(new Uint8Array(buffer), true, 'GRD')
+        const filename = isoxmlManager.addFileToSave(new Uint8Array(buffer), true, TAGS.Grid)
 
         const entity = new ExtendedGrid({
             GridMinimumNorthPosition: minY,

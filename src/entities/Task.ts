@@ -1,12 +1,11 @@
 import { ElementCompact } from 'xml-js'
 
-import { ISOXMLManager } from '../../src/ISOXMLManager'
-import { registerEntityClass } from '../../src/classRegistry'
+import { ISOXMLManager } from '../ISOXMLManager'
+import { registerEntityClass } from '../classRegistry'
 
-import { Entity } from '../../src/types'
+import { Entity } from '../types'
 
-import { Task, TaskAttributes } from '../baseEntities/Task'
-import { TreatmentZone } from '../baseEntities'
+import { Task, TaskAttributes, TreatmentZone } from '../baseEntities'
 import { ExtendedGrid } from './Grid'
 import { FeatureCollection } from '@turf/helpers'
 import { TAGS } from '../baseEntities/constants'
@@ -31,11 +30,11 @@ export class ExtendedTask extends Task {
         this.attributes.TreatmentZone = [
             this.isoxmlManager.createEntityFromAttributes(TAGS.TreatmentZone, {
                 TreatmentZoneCode: 0,
-                ProcessDataVariable: processDataVariable
+                ProcessDataVariable: [processDataVariable]
             }) as TreatmentZone,
             this.isoxmlManager.createEntityFromAttributes(TAGS.TreatmentZone, {
                 TreatmentZoneCode: 1,
-                ProcessDataVariable: processDataVariable
+                ProcessDataVariable: [processDataVariable]
             }) as TreatmentZone
         ]
 
