@@ -7,10 +7,18 @@ import { fromXML, toXML } from '../utils'
 
 import { Entity, EntityConstructor, AttributesDescription } from '../types'
 
+export const enum TaskControllerCapabilitiesVersionNumberEnum {
+    TheVersionOfTheDIS1FirstDraftInternationalStandard = '0',
+    TheVersionOfTheFDIS1FinalDraftInternationalStandardFirstEdition = '1',
+    TheVersionOfTheFDIS2AndTheFirstEditionPublishedAsAnInternationalStandard = '2',
+    TheVersionOfTheSecondEditionPublishedAsADraftInternationalStandardE2DIS = '3',
+    TheVersionOfTheSecondEditionPublishedAsAFinalDraftInternationalStandardE2FDIS = '4',
+}
+
 export type TaskControllerCapabilitiesAttributes = {
     TaskControllerControlFunctionNAME: string
     TaskControllerDesignator: string
-    VersionNumber: string
+    VersionNumber: TaskControllerCapabilitiesVersionNumberEnum
     ProvidedCapabilities: number
     NumberOfBoomsSectionControl: number
     NumberOfSectionsSectionControl: number

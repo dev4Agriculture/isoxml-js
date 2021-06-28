@@ -23,6 +23,7 @@ import { Worker } from './Worker'
 
 import { Entity, EntityConstructor, AttributesDescription } from '../types'
 
+
 export type ExternalFileContentsAttributes = {
     BaseStation?: BaseStation[]
     CodedComment?: CodedComment[]

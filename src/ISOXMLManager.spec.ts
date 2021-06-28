@@ -1,4 +1,5 @@
 import {readFileSync, writeFileSync} from 'fs'
+import { TaskTaskStatusEnum } from './baseEntities'
 import { TAGS } from './baseEntities/constants'
 import { ExtendedTask } from './entities/Task'
 import { ISOXMLManager } from './ISOXMLManager'
@@ -38,10 +39,11 @@ describe('ISOXML Manager', () => {
     // writeFileSync('./data/test1_out.zip', data)
     expect(data.length).toBe(3973)
   })
+
   it('should manually create ISOXML', async () => {
     const isoxmlManager = new ISOXMLManager()
     const task = isoxmlManager.createEntityFromAttributes(TAGS.Task, {
-        TaskStatus: '2'
+        TaskStatus: TaskTaskStatusEnum.Planned
     }) as ExtendedTask
     isoxmlManager.registerEntity(task)
 

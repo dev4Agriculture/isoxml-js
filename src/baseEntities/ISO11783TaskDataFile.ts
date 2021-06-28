@@ -26,14 +26,28 @@ import { ExternalFileReference } from './ExternalFileReference'
 
 import { Entity, EntityConstructor, AttributesDescription } from '../types'
 
+export const enum ISO11783TaskDataFileVersionMajorEnum {
+    TheVersionOfTheSecondEditionPublishedAsAFinalDraftInternationalStandard = '4',
+}
+export const enum ISO11783TaskDataFileVersionMinorEnum {
+    Value0 = '0',
+    Value1 = '1',
+    Value2 = '2',
+    Value3 = '3',
+}
+export const enum ISO11783TaskDataFileDataTransferOriginEnum {
+    FMIS = '1',
+    MICS = '2',
+}
+
 export type ISO11783TaskDataFileAttributes = {
-    VersionMajor: string
-    VersionMinor: string
+    VersionMajor: ISO11783TaskDataFileVersionMajorEnum
+    VersionMinor: ISO11783TaskDataFileVersionMinorEnum
     ManagementSoftwareManufacturer: string
     ManagementSoftwareVersion: string
     TaskControllerManufacturer?: string
     TaskControllerVersion?: string
-    DataTransferOrigin: string
+    DataTransferOrigin: ISO11783TaskDataFileDataTransferOriginEnum
     lang?: string
     AttachedFile?: AttachedFile[]
     BaseStation?: BaseStation[]

@@ -1,4 +1,4 @@
-import {readFileSync, writeFileSync} from 'fs'
+import {readFileSync} from 'fs'
 import { ExtendedGrid } from './Grid'
 import { ISOXMLManager } from '../ISOXMLManager'
 

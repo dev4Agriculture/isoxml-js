@@ -8,8 +8,15 @@ import { Link } from './Link'
 
 import { Entity, EntityConstructor, AttributesDescription } from '../types'
 
+export const enum LinkGroupLinkGroupTypeEnum {
+    UUIDs = '1',
+    ManufacturerProprietary = '2',
+    UniqueResolvableURIs = '3',
+    InformationalResolvableURIs = '4',
+}
+
 export type LinkGroupAttributes = {
-    LinkGroupType: string
+    LinkGroupType: LinkGroupLinkGroupTypeEnum
     ManufacturerGLN?: string
     LinkGroupNamespace?: string
     LinkGroupDesignator?: string

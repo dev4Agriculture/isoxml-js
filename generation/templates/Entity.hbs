@@ -12,10 +12,20 @@ import { {{className}} } from './{{className}}'
 
 import { Entity, EntityConstructor, AttributesDescription{{#if includeReference}}, ISOXMLReference{{/if}} } from '../types'
 
+{{#attributes}}
+{{#if typeEnum}}
+export const enum {{../name}}{{name}}Enum {
+    {{#typeEnum}}
+    {{name}} = '{{value}}',
+    {{/typeEnum}}
+}
+{{/if}}
+{{/attributes}}
+
 export type {{name}}Attributes = {
 {{#attributes}}
     {{#unless isPrimaryId}}
-    {{name}}{{#if isOptional}}?{{/if}}: {{type}}
+    {{name}}{{#if isOptional}}?{{/if}}: {{#if typeEnum}}{{../name}}{{name}}Enum{{else}}{{type}}{{/if}}
     {{/unless}}
 {{/attributes}}
 {{#children}}

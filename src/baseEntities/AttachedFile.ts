@@ -7,9 +7,14 @@ import { fromXML, toXML } from '../utils'
 
 import { Entity, EntityConstructor, AttributesDescription } from '../types'
 
+export const enum AttachedFilePreserveEnum {
+    TaskControllerDoesNotNeedToPreserveAttachedFile = '1',
+    PreserveOnTaskControllerAndSendBackToFMIS = '2',
+}
+
 export type AttachedFileAttributes = {
     FilenameWithExtension: string
-    Preserve: string
+    Preserve: AttachedFilePreserveEnum
     ManufacturerGLN: string
     FileType: number
     FileVersion?: string

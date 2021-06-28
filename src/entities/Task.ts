@@ -6,7 +6,7 @@ import { registerEntityClass } from '../../src/classRegistry'
 import { Entity } from '../../src/types'
 
 import { Task, TaskAttributes } from '../baseEntities/Task'
-import { ProcessDataVariable, TreatmentZone } from '../baseEntities'
+import { TreatmentZone } from '../baseEntities'
 import { ExtendedGrid } from './Grid'
 import { FeatureCollection } from '@turf/helpers'
 import { TAGS } from '../baseEntities/constants'

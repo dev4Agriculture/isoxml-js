@@ -29,8 +29,22 @@ const XSD2TS: {[xsdType: string]: string} = {
     'xs:language': 'string'
 }
 
-function normalizeText (text) {
-    return text.toString().trim().replace(/,|\s/g, '')
+function capitalize(word: string): string {
+    return word[0].toUpperCase() + word.slice(1)
+}
+
+function normalizeEnumValue (text: string): string {
+    const normalizedSpaces = text.toString()
+        .replace(/[,()-.]/g, ' ')
+        .replace('+', 'Plus')
+        .replace(/\s+/g, ' ')
+        .trim()
+
+    return normalizedSpaces.split(' ').map(capitalize).join('')
+}
+
+function normalizeText (text: string): string {
+    return text.toString().trim().replace(/\s+/g, '')
 }
 
 
@@ -68,10 +82,11 @@ function parseClassesFromFile(filename: string): any[] {
 
                 let xsdType: string
 
+                let restrictions
                 if (attr._attributes?.type) {
                     xsdType = attr._attributes?.type as string
                 } else {
-                    const restrictions = 
+                    restrictions = 
                         attr['xs:simpleType'][0]['xs:restriction'] ||
                         attr['xs:simpleType'][0]['xs:union'][0]['xs:simpleType'][0]['xs:restriction']
                     xsdType = restrictions[0]._attributes.base
@@ -86,10 +101,34 @@ function parseClassesFromFile(filename: string): any[] {
                     console.log('Unknown type', xsdType)
                 }
 
+                let typeEnum = null
+                if (xsdType === 'xs:NMTOKEN') {
+                    typeEnum = restrictions[0]['xs:enumeration'].map(enumElem => {
+                        const value = enumElem._attributes.value
+                        return {
+                            value,
+                            name: enumElem['xs:annotation']
+                                ? normalizeEnumValue(enumElem['xs:annotation'][0]['xs:documentation'][0]._text)
+                                : `Value${value}`
+                        }
+                    })
+                    // detect duplicate names
+                    const namesCount = {}
+                    typeEnum.forEach(item => {
+                        namesCount[item.name] = (namesCount[item.name] || 0) + 1
+                    })
+
+                    typeEnum.forEach(item => {
+                        if (namesCount[item.name] > 1) {
+                            item.name += item.value
+                        }
+                    })
+                }
+
                 const isPrimaryId = xsdType === 'xs:ID' && attrName === `${name}Id`
 
                 const type = XSD2TS[xsdType]
-                return {xmlName, name: attrName, type, xsdType, isOptional, isPrimaryId}
+                return {xmlName, name: attrName, type, xsdType, isOptional, isPrimaryId, typeEnum}
             } catch (e) {
                 console.log('Error parsing attribute', attr, elem)
                 console.log(e)

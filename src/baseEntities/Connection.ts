@@ -7,6 +7,7 @@ import { fromXML, toXML } from '../utils'
 
 import { Entity, EntityConstructor, AttributesDescription, ISOXMLReference } from '../types'
 
+
 export type ConnectionAttributes = {
     DeviceIdRef_0: ISOXMLReference
     DeviceElementIdRef_0: ISOXMLReference

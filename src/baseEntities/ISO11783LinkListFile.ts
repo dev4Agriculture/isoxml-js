@@ -8,15 +8,29 @@ import { LinkGroup } from './LinkGroup'
 
 import { Entity, EntityConstructor, AttributesDescription } from '../types'
 
+export const enum ISO11783LinkListFileVersionMajorEnum {
+    TheVersionOfTheSecondEditionPublishedAsAFinalDraftInternationalStandard = '4',
+}
+export const enum ISO11783LinkListFileVersionMinorEnum {
+    Value0 = '0',
+    Value1 = '1',
+    Value2 = '2',
+    Value3 = '3',
+}
+export const enum ISO11783LinkListFileDataTransferOriginEnum {
+    FMIS = '1',
+    MICS = '2',
+}
+
 export type ISO11783LinkListFileAttributes = {
-    VersionMajor: string
-    VersionMinor: string
+    VersionMajor: ISO11783LinkListFileVersionMajorEnum
+    VersionMinor: ISO11783LinkListFileVersionMinorEnum
     ManagementSoftwareManufacturer: string
     ManagementSoftwareVersion: string
     TaskControllerManufacturer?: string
     TaskControllerVersion?: string
     FileVersion?: string
-    DataTransferOrigin: string
+    DataTransferOrigin: ISO11783LinkListFileDataTransferOriginEnum
     LinkGroup?: LinkGroup[]
 }
 

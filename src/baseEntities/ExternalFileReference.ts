@@ -7,9 +7,13 @@ import { fromXML, toXML } from '../utils'
 
 import { Entity, EntityConstructor, AttributesDescription } from '../types'
 
+export const enum ExternalFileReferenceFiletypeEnum {
+    XML = '1',
+}
+
 export type ExternalFileReferenceAttributes = {
     Filename: string
-    Filetype: string
+    Filetype: ExternalFileReferenceFiletypeEnum
 }
 
 const ATTRIBUTES: AttributesDescription = {

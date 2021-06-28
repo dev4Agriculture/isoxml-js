@@ -7,6 +7,7 @@ import { fromXML, toXML } from '../utils'
 
 import { Entity, EntityConstructor, AttributesDescription, ISOXMLReference } from '../types'
 
+
 export type ValuePresentationAttributes = {
     Offset: number
     Scale: number

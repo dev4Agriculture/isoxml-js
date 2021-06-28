@@ -8,6 +8,7 @@ import { CropVariety } from './CropVariety'
 
 import { Entity, EntityConstructor, AttributesDescription, ISOXMLReference } from '../types'
 
+
 export type CropTypeAttributes = {
     CropTypeDesignator: string
     ProductGroupIdRef?: ISOXMLReference

@@ -8,6 +8,7 @@ import { OperationTechniqueReference } from './OperationTechniqueReference'
 
 import { Entity, EntityConstructor, AttributesDescription } from '../types'
 
+
 export type CulturalPracticeAttributes = {
     CulturalPracticeDesignator: string
     OperationTechniqueReference?: OperationTechniqueReference[]

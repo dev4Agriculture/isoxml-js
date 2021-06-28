@@ -7,6 +7,11 @@ import { fromXML, toXML } from '../utils'
 
 import { Entity, EntityConstructor, AttributesDescription } from '../types'
 
+export const enum GridGridTypeEnum {
+    GridType1 = '1',
+    GridType2 = '2',
+}
+
 export type GridAttributes = {
     GridMinimumNorthPosition: number
     GridMinimumEastPosition: number
@@ -16,7 +21,7 @@ export type GridAttributes = {
     GridMaximumRow: number
     Filename: string
     Filelength?: number
-    GridType: string
+    GridType: GridGridTypeEnum
     TreatmentZoneCode?: number
 }
 

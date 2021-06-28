@@ -9,15 +9,53 @@ import { Polygon } from './Polygon'
 
 import { Entity, EntityConstructor, AttributesDescription, ISOXMLReference } from '../types'
 
+export const enum GuidancePatternGuidancePatternTypeEnum {
+    AB = '1',
+    A = '2',
+    Curve = '3',
+    Pivot = '4',
+    Spiral = '5',
+}
+export const enum GuidancePatternGuidancePatternOptionsEnum {
+    ClockwiseForPivot = '1',
+    CounterClockwiseForPivot = '2',
+    FullCircleForPivot = '3',
+}
+export const enum GuidancePatternGuidancePatternPropagationDirectionEnum {
+    BothDirections = '1',
+    LeftDirectionOnly = '2',
+    RightDirectionOnly = '3',
+    NoPropagation = '4',
+}
+export const enum GuidancePatternGuidancePatternExtensionEnum {
+    FromBothFirstAndLastPoint = '1',
+    FromFirstPointAOnly = '2',
+    FromLastPointBOnly = '3',
+    NoExtensions = '4',
+}
+export const enum GuidancePatternGuidancePatternGNSSMethodEnum {
+    NoGPSFix = '0',
+    GNSSFix = '1',
+    DGNSSFix = '2',
+    PreciseGNSS = '3',
+    RTKFixedInteger = '4',
+    RTKFloat = '5',
+    EstDRMode = '6',
+    ManualInput = '7',
+    SimulateMode = '8',
+    DesktopGeneratedData = '16',
+    Other = '17',
+}
+
 export type GuidancePatternAttributes = {
     GuidancePatternDesignator?: string
-    GuidancePatternType: string
-    GuidancePatternOptions?: string
-    GuidancePatternPropagationDirection?: string
-    GuidancePatternExtension?: string
+    GuidancePatternType: GuidancePatternGuidancePatternTypeEnum
+    GuidancePatternOptions?: GuidancePatternGuidancePatternOptionsEnum
+    GuidancePatternPropagationDirection?: GuidancePatternGuidancePatternPropagationDirectionEnum
+    GuidancePatternExtension?: GuidancePatternGuidancePatternExtensionEnum
     GuidancePatternHeading?: number
     GuidancePatternRadius?: number
-    GuidancePatternGNSSMethod?: string
+    GuidancePatternGNSSMethod?: GuidancePatternGuidancePatternGNSSMethodEnum
     GuidancePatternHorizontalAccuracy?: number
     GuidancePatternVerticalAccuracy?: number
     BaseStationIdRef?: ISOXMLReference

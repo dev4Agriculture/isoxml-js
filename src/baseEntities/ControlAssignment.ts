@@ -8,6 +8,7 @@ import { AllocationStamp } from './AllocationStamp'
 
 import { Entity, EntityConstructor, AttributesDescription } from '../types'
 
+
 export type ControlAssignmentAttributes = {
     SourceClientNAME: string
     UserClientNAME: string

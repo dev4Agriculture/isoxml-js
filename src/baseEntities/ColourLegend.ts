@@ -8,6 +8,7 @@ import { ColourRange } from './ColourRange'
 
 import { Entity, EntityConstructor, AttributesDescription } from '../types'
 
+
 export type ColourLegendAttributes = {
     DefaultColor?: number
     ColourRange?: ColourRange[]

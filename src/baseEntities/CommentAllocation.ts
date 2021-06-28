@@ -8,6 +8,7 @@ import { AllocationStamp } from './AllocationStamp'
 
 import { Entity, EntityConstructor, AttributesDescription, ISOXMLReference } from '../types'
 
+
 export type CommentAllocationAttributes = {
     CodedCommentIdRef?: ISOXMLReference
     CodedCommentListValueIdRef?: ISOXMLReference

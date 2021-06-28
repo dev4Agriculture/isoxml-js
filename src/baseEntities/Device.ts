@@ -11,6 +11,7 @@ import { DeviceValuePresentation } from './DeviceValuePresentation'
 
 import { Entity, EntityConstructor, AttributesDescription } from '../types'
 
+
 export type DeviceAttributes = {
     DeviceDesignator?: string
     DeviceSoftwareVersion?: string

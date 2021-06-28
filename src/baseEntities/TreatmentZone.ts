@@ -9,11 +9,12 @@ import { ProcessDataVariable } from './ProcessDataVariable'
 
 import { Entity, EntityConstructor, AttributesDescription } from '../types'
 
+
 export type TreatmentZoneAttributes = {
     TreatmentZoneCode: number
     TreatmentZoneDesignator?: string
     TreatmentZoneColour?: number
-    PolygonTreatmentZoneonly?: Polygon[]
+    Polygon,TreatmentZoneonly?: Polygon[]
     ProcessDataVariable?: ProcessDataVariable[]
 }
 
@@ -23,7 +24,7 @@ const ATTRIBUTES: AttributesDescription = {
     C: { name: 'TreatmentZoneColour', type: 'xs:unsignedByte', isPrimaryId: false },
 }
 const CHILD_TAGS = {
-    PLN: { name: 'PolygonTreatmentZoneonly' },
+    PLN: { name: 'Polygon,TreatmentZoneonly' },
     PDV: { name: 'ProcessDataVariable' },
 }
 

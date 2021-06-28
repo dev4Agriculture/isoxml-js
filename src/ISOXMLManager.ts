@@ -6,8 +6,9 @@ import { getEntityClassByTag } from './classRegistry'
 import './baseEntities'
 import './entities'
 
-import { ExtendedISO11783TaskDataFile } from "./entities/ISO11783TaskDataFile";
-import { TAGS } from "./baseEntities/constants";
+import { ExtendedISO11783TaskDataFile } from "./entities/ISO11783TaskDataFile"
+import { TAGS } from "./baseEntities/constants"
+import { ISO11783TaskDataFileDataTransferOriginEnum } from "./baseEntities/ISO11783TaskDataFile"
 
 type ISOXMLManagerOptions = {
     fmisTitle?: string
@@ -32,7 +33,7 @@ export class ISOXMLManager {
             VersionMinor: '2',
             ManagementSoftwareManufacturer: options.fmisTitle || 'FMIS',
             ManagementSoftwareVersion: '1.0',
-            DataTransferOrigin: '2'
+            DataTransferOrigin: ISO11783TaskDataFileDataTransferOriginEnum.FMIS
         }) as ExtendedISO11783TaskDataFile
     }
 

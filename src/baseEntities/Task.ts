@@ -20,13 +20,22 @@ import { GuidanceAllocation } from './GuidanceAllocation'
 
 import { Entity, EntityConstructor, AttributesDescription, ISOXMLReference } from '../types'
 
+export const enum TaskTaskStatusEnum {
+    Planned = '1',
+    Running = '2',
+    Paused = '3',
+    Completed = '4',
+    Template = '5',
+    Canceled = '6',
+}
+
 export type TaskAttributes = {
     TaskDesignator?: string
     CustomerIdRef?: ISOXMLReference
     FarmIdRef?: ISOXMLReference
     PartfieldIdRef?: ISOXMLReference
     ResponsibleWorkerIdRef?: ISOXMLReference
-    TaskStatus: string
+    TaskStatus: TaskTaskStatusEnum
     DefaultTreatmentZoneCode?: number
     PositionLostTreatmentZoneCode?: number
     OutOfFieldTreatmentZoneCode?: number

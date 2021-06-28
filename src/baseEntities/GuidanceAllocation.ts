@@ -9,6 +9,7 @@ import { GuidanceShift } from './GuidanceShift'
 
 import { Entity, EntityConstructor, AttributesDescription, ISOXMLReference } from '../types'
 
+
 export type GuidanceAllocationAttributes = {
     GuidanceGroupIdRef: ISOXMLReference
     AllocationStamp?: AllocationStamp[]

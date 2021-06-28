@@ -8,11 +8,16 @@ import { Position } from './Position'
 
 import { Entity, EntityConstructor, AttributesDescription } from '../types'
 
+export const enum AllocationStampTypeEnum {
+    Planned = '1',
+    EffectiveRealized = '4',
+}
+
 export type AllocationStampAttributes = {
     Start: string
     Stop?: string
     Duration?: number
-    Type: string
+    Type: AllocationStampTypeEnum
     Position?: Position[]
 }
 

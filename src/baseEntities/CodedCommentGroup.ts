@@ -7,6 +7,7 @@ import { fromXML, toXML } from '../utils'
 
 import { Entity, EntityConstructor, AttributesDescription } from '../types'
 
+
 export type CodedCommentGroupAttributes = {
     CodedCommentGroupDesignator: string
 }

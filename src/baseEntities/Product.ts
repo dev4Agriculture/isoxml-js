@@ -8,12 +8,18 @@ import { ProductRelation } from './ProductRelation'
 
 import { Entity, EntityConstructor, AttributesDescription, ISOXMLReference } from '../types'
 
+export const enum ProductProductTypeEnum {
+    SingleDefault = '1',
+    Mixture = '2',
+    TemporaryMixture = '3',
+}
+
 export type ProductAttributes = {
     ProductDesignator: string
     ProductGroupIdRef?: ISOXMLReference
     ValuePresentationIdRef?: ISOXMLReference
     QuantityDDI?: string
-    ProductType?: string
+    ProductType?: ProductProductTypeEnum
     MixtureRecipeQuantity?: number
     DensityMassPerVolume?: number
     DensityMassPerCount?: number

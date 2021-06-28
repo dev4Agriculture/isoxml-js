@@ -8,9 +8,19 @@ import { DeviceObjectReference } from './DeviceObjectReference'
 
 import { Entity, EntityConstructor, AttributesDescription } from '../types'
 
+export const enum DeviceElementDeviceElementTypeEnum {
+    Device = '1',
+    Function = '2',
+    Bin = '3',
+    Section = '4',
+    Unit = '5',
+    Connector = '6',
+    Navigation = '7',
+}
+
 export type DeviceElementAttributes = {
     DeviceElementObjectId: number
-    DeviceElementType: string
+    DeviceElementType: DeviceElementDeviceElementTypeEnum
     DeviceElementDesignator?: string
     DeviceElementNumber: number
     ParentObjectId: number

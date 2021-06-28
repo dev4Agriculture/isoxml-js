@@ -9,6 +9,7 @@ import { Polygon } from './Polygon'
 
 import { Entity, EntityConstructor, AttributesDescription } from '../types'
 
+
 export type GuidanceGroupAttributes = {
     GuidanceGroupDesignator?: string
     GuidancePattern?: GuidancePattern[]

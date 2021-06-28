@@ -11,6 +11,7 @@ import { GuidanceGroup } from './GuidanceGroup'
 
 import { Entity, EntityConstructor, AttributesDescription, ISOXMLReference } from '../types'
 
+
 export type PartfieldAttributes = {
     PartfieldCode?: string
     PartfieldDesignator: string
@@ -20,7 +21,7 @@ export type PartfieldAttributes = {
     CropTypeIdRef?: ISOXMLReference
     CropVarietyIdRef?: ISOXMLReference
     FieldIdRef?: ISOXMLReference
-    PolygonnonTreatmentZoneonly?: Polygon[]
+    Polygon,nonTreatmentZoneonly?: Polygon[]
     LineString?: LineString[]
     Point?: Point[]
     GuidanceGroup?: GuidanceGroup[]
@@ -38,7 +39,7 @@ const ATTRIBUTES: AttributesDescription = {
     I: { name: 'FieldIdRef', type: 'xs:IDREF', isPrimaryId: false },
 }
 const CHILD_TAGS = {
-    PLN: { name: 'PolygonnonTreatmentZoneonly' },
+    PLN: { name: 'Polygon,nonTreatmentZoneonly' },
     LSG: { name: 'LineString' },
     PNT: { name: 'Point' },
     GGP: { name: 'GuidanceGroup' },

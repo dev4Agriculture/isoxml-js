@@ -9,11 +9,21 @@ import { DataLogValue } from './DataLogValue'
 
 import { Entity, EntityConstructor, AttributesDescription } from '../types'
 
+export const enum TimeTypeEnum {
+    Planned = '1',
+    Preliminary = '2',
+    Effective = '4',
+    Ineffective = '5',
+    Repair = '6',
+    Clearing = '7',
+    PoweredDown = '8',
+}
+
 export type TimeAttributes = {
     Start: string
     Stop?: string
     Duration?: number
-    Type: string
+    Type: TimeTypeEnum
     Position?: Position[]
     DataLogValue?: DataLogValue[]
 }

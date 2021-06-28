@@ -9,7 +9,7 @@ import { registerEntityClass } from '../../src/classRegistry'
 
 import {Entity} from '../../src/types'
 
-import {Grid, GridAttributes} from '../baseEntities/Grid'
+import {Grid, GridAttributes, GridGridTypeEnum} from '../baseEntities/Grid'
 import { TAGS } from '../baseEntities/constants'
 
 const GRID_CELL_SIZE = 10 // meters
@@ -136,7 +136,7 @@ export class ExtendedGrid extends Grid {
             GridMaximumRow: numRows,
             Filename: filename,
             Filelength: numCols * numRows * 4,
-            GridType: '2',
+            GridType: GridGridTypeEnum.GridType2,
             ...typeof treatmentZoneCode === 'number' && {TreatmentZoneCode: treatmentZoneCode}
         }, isoxmlManager)
 
