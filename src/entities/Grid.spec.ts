@@ -17,4 +17,16 @@ describe('Grid Entity', () => {
     expect(xml).toBeTruthy()
     expect(Object.keys(isoxmlManager.filesToSave)).toHaveLength(1)
   })
+
+  it('should convert Grid to GeoJSON', async () => {
+    const geoJSONdata = JSON.parse(readFileSync('./data/test.geojson', 'utf-8'))
+    const isoxmlManager = new ISOXMLManager()
+    const grid = ExtendedGrid.fromGeoJSON(geoJSONdata, isoxmlManager)
+
+    const geoJSON = grid.toGeoJSON()
+
+    expect(geoJSON).toBeTruthy()
+    expect(geoJSON.features[0].properties.DOSE).toBe(15)
+
+  })
 })

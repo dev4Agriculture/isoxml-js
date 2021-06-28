@@ -62,13 +62,7 @@ export class ExtendedGrid extends Grid {
         return entity
     }
 
-    toXML(): ElementCompact {
-        this.isoxmlManager.addFileToSave(this.binaryData, true, TAGS.Grid, this.attributes.Filename)
-        return super.toXML()
-    }
-
     static fromGeoJSON(geoJSON: FeatureCollection, isoxmlManager: ISOXMLManager, treatmentZoneCode?: number): ExtendedGrid {
-        console.log('grid gen', isoxmlManager.options)
         const gridParamsGenerator = isoxmlManager.options.gridRaramsGenerator || createGridParamsGenerator(GRID_CELL_SIZE, GRID_CELL_SIZE)
 
         const {minX, minY, numCols, numRows, cellWidth, cellHeight} = gridParamsGenerator(geoJSON)
@@ -144,6 +138,53 @@ export class ExtendedGrid extends Grid {
         entity.binaryData = new Uint8Array(buffer)
 
         return entity
+    }
+
+    toXML(): ElementCompact { 
+        this.isoxmlManager.addFileToSave(this.binaryData, true, TAGS.Grid, this.attributes.Filename) 
+        return super.toXML() 
+    } 
+
+    toGeoJSON(): FeatureCollection {
+        const cells = new Int32Array(this.binaryData.buffer)
+        const rows = this.attributes.GridMaximumRow
+        const cols = this.attributes.GridMaximumColumn
+        const w = this.attributes.GridCellEastSize
+        const h = this.attributes.GridCellNorthSize
+        const minX = this.attributes.GridMinimumEastPosition
+        const minY = this.attributes.GridMinimumNorthPosition
+
+        const features = new Array(rows * cols)
+
+        for (let y = 0; y < rows; y++) {
+            for (let x = 0; x < cols; x++) {
+                const dose = cells[y * cols + x];
+                if (dose === 0.0) {
+                    features[y * cols + x] = null
+                    continue
+                }
+                features[y * cols + x] = {
+                    type: 'Feature',
+                    properties: {
+                        DOSE: dose
+                    },
+                    geometry: {
+                        type: 'Polygon',
+                        coordinates: [[
+                            [minX + x * w,     minY + y * h],
+                            [minX + x * w + w, minY + y * h],
+                            [minX + x * w + w, minY + y * h + h],
+                            [minX + x * w,     minY + y * h + h],
+                            [minX + x * w,     minY + y * h]
+                        ]]
+                    }
+                }
+            }
+        }
+        return {
+            type: 'FeatureCollection',
+            features: features.filter(e => e)
+        }
     }
 }
 

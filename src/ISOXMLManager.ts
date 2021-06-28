@@ -227,6 +227,9 @@ export class ISOXMLManager {
     public getReferenceByEntity(entity: Entity): ISOXMLReference {
         return Object.values(this.xmlReferences).find(ref => ref.entity === entity)
     }
+    public getReferenceByXmlId(xmlId: string): ISOXMLReference {
+        return this.xmlReferences[xmlId]
+    }
 
     public getEntityByXmlId<T extends Entity>(xmlId: string): T {
         if (!this.xmlReferences[xmlId]?.entity) {
@@ -246,6 +249,5 @@ export class ISOXMLManager {
             ...this.options,
             ...newOptions
         }
-        console.log('update options', this.options)
     }
 }

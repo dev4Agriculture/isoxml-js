@@ -170,3 +170,7 @@ export function toXML(
         ...childTags2Xml(entity, referencesDescription)
     }
 }
+
+export function DDIToString(DDI: number) {
+    return ('0000' + DDI.toString(16).toUpperCase()).slice(-4)
+}
