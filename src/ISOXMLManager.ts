@@ -60,7 +60,7 @@ export class ISOXMLManager {
                 .map(filename => parseInt(filename.match(/^\w{3}(.*)$/)[1], 10))
 
             const nextIndex = indexes.length ? Math.max.apply(null, indexes) + 1 : 1
-            filename = xmlTag + ('0000' + nextIndex).substr(-5) + (isBinary ? '.BIN' : '.XML')
+            filename = xmlTag + ('0000' + nextIndex).substr(-5)
         }
 
         this.filesToSave[filename] = this.filesToSave[filename] || {}
@@ -217,7 +217,7 @@ export class ISOXMLManager {
                 zipWriter.file(`${ROOT_FOLDER}/${filename}.BIN`, fileInfo.binaryData, {binary: true})
             }
             if (fileInfo.textData) {
-                zipWriter.file(`${ROOT_FOLDER}/${filename}.BIN`, fileInfo.textData, {binary: false})
+                zipWriter.file(`${ROOT_FOLDER}/${filename}.XML`, fileInfo.textData, {binary: false})
             }
         })
 

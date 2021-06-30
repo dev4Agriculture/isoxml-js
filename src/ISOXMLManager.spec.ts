@@ -27,7 +27,7 @@ describe('ISOXML Manager', () => {
     const isoxmlManager = new ISOXMLManager()
     await isoxmlManager.parseISOXMLFile(new Uint8Array(isoxmlData.buffer), 'application/zip', null)
     const data = await isoxmlManager.saveISOXML()
-    // writeFileSync('./data/test1_out.zip', data)
+    // writeFileSync('./data/test_grid_out.zip', data)
     expect(data.length).toBe(13757)
   })
 

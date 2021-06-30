@@ -11,6 +11,7 @@ describe('Grid Entity', () => {
 
     expect(grid.attributes.GridMinimumNorthPosition).toBe(55.82481700900832)
     expect(grid.attributes.GridMinimumEastPosition).toBe(39.138728173503324)
+    expect(grid.attributes.Filename).toBe('GRD00001')
 
     const xml = grid.toXML()
 
