@@ -72,7 +72,7 @@ export class ExtendedGrid extends Grid {
         const int32array = new Int32Array(buffer)
 
         const tree = new RBush<{feature: any}>()
-            tree.load(geoJSON.features.map(f => {
+        tree.load(geoJSON.features.map(f => {
             const [bboxMinX, bboxMinY, bboxMaxX, bboxMaxY] = turfBbox(f)
             return {minX: bboxMinX, minY: bboxMinY, maxX: bboxMaxX, maxY: bboxMaxY, feature: f}
         }))
@@ -120,7 +120,9 @@ export class ExtendedGrid extends Grid {
             }
         }
 
-        const filename = isoxmlManager.addFileToSave(new Uint8Array(buffer), true, TAGS.Grid)
+        const filename = isoxmlManager.generateUniqueFilename(TAGS.Grid)
+
+        isoxmlManager.addFileToSave(new Uint8Array(buffer), `${filename}.BIN`)
 
         const entity = new ExtendedGrid({
             GridMinimumNorthPosition: minY,
@@ -141,7 +143,7 @@ export class ExtendedGrid extends Grid {
     }
 
     toXML(): ElementCompact { 
-        this.isoxmlManager.addFileToSave(this.binaryData, true, TAGS.Grid, this.attributes.Filename) 
+        this.isoxmlManager.addFileToSave(this.binaryData, `${this.attributes.Filename}.BIN`) 
         return super.toXML() 
     } 
 

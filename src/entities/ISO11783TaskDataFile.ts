@@ -1,7 +1,7 @@
-import { ElementCompact } from 'xml-js'
+import { ElementCompact, xml2js } from 'xml-js'
 
 import { ISOXMLManager } from '../ISOXMLManager'
-import { registerEntityClass } from '../classRegistry'
+import { getEntityClassByTag, registerEntityClass } from '../classRegistry'
 
 import {Entity} from '../types'
 
@@ -20,6 +20,10 @@ function isoxmlManagerOptionsToAttributes(isoxmlManager: ISOXMLManager) {
     }
 }
 
+// This implementation doesn't support generation of External Files. Particularly:
+//   * During parsing from XML, all the external files will be parsed and merged into the instance of this class.
+//     All the XFR tags will be removed 
+//   * During saving to XML, no external files will be saved even if XFR tags were manually added by user
 export class ExtendedISO11783TaskDataFile extends ISO11783TaskDataFile {
     public tag = TAGS.ISO11783TaskDataFile
 
@@ -32,10 +36,23 @@ export class ExtendedISO11783TaskDataFile extends ISO11783TaskDataFile {
     }
 
     static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager): Entity {
-        const entity = ISO11783TaskDataFile.fromXML(xml, isoxmlManager, ExtendedISO11783TaskDataFile) as ISO11783TaskDataFile
+        const entity = ISO11783TaskDataFile.fromXML(xml, isoxmlManager, ExtendedISO11783TaskDataFile) as ExtendedISO11783TaskDataFile
+
+        // parse all external files and add them to the main task data file
+        const externalFiles = entity.attributes.ExternalFileReference || []
+        externalFiles.forEach(externalFile => {
+            const filename = externalFile.attributes.Filename
+            const file = isoxmlManager.parsedFiles.find(file => (file as any).filename.match(new RegExp(`${filename}\\.XML$`, 'i')))
+            const xml = xml2js((file as any).data, { compact: true, alwaysArray: true })
+            const fileContent = getEntityClassByTag(TAGS.ISO11783TaskDataFile).fromXML(xml[TAGS.ExternalFileContents][0], isoxmlManager)
+            entity.appendFromExternalFile(fileContent)
+        })
+        entity.attributes.ExternalFileReference = []
+
         isoxmlManager.options.version = entity.attributes.VersionMajor === '4' ? 4 : 3
         isoxmlManager.options.fmisTitle = entity.attributes.ManagementSoftwareManufacturer
         isoxmlManager.options.fmisVersion = entity.attributes.ManagementSoftwareVersion
+
         return entity
     }
 

@@ -27,7 +27,7 @@ export class ISOXMLManager {
     private nextIds: {[xmlId: string]: number} = {}
     public rootElement: ExtendedISO11783TaskDataFile
     public parsedFiles: ISOFileInformation[]
-    public filesToSave: {[filename: string]: {binaryData?: Uint8Array, textData?: string}} = {}
+    public filesToSave: { [filenameWithExtension: string]: (Uint8Array | string) } = {}
 
     constructor(public options: ISOXMLManagerOptions = {}) {
         this.options = {
@@ -51,27 +51,17 @@ export class ISOXMLManager {
         }
     }
 
-    public addFileToSave(data: Uint8Array, isBinary: true, xmlTag: TAGS, filename?: string): string
-    public addFileToSave(data: string, isBinary: false, xmlTag: TAGS, filename?: string): string
-    public addFileToSave(data: Uint8Array | string, isBinary: boolean, xmlTag: TAGS, filename?: string): string {
-        if (!filename) {
-            const indexes = Object.keys(this.filesToSave)
-                .filter(filename => filename.startsWith(xmlTag))
-                .map(filename => parseInt(filename.match(/^\w{3}(.*)$/)[1], 10))
+    public generateUniqueFilename(xmlTag: TAGS): string {
+        const indexes = Object.keys(this.filesToSave)
+            .map(filename => filename.match(new RegExp(`^${xmlTag}(\\d{5})\\.\\w{3}$/`)))
+            .filter(e => e)
+            .map(matchResults => parseInt(matchResults[1]))
+        const nextIndex = indexes.length ? Math.max.apply(null, indexes) + 1 : 1
+        return xmlTag + ('0000' + nextIndex).substr(-5)
+    }
 
-            const nextIndex = indexes.length ? Math.max.apply(null, indexes) + 1 : 1
-            filename = xmlTag + ('0000' + nextIndex).substr(-5)
-        }
-
-        this.filesToSave[filename] = this.filesToSave[filename] || {}
-
-        if (isBinary) {
-            this.filesToSave[filename].binaryData = data as Uint8Array
-        } else {
-            this.filesToSave[filename].textData = data as string
-        }
-
-        return filename
+    public addFileToSave(data: Uint8Array | string, filenameWithExtension: string): void {
+        this.filesToSave[filenameWithExtension] = data
     }
 
     /**
@@ -180,15 +170,6 @@ export class ISOXMLManager {
             }
 
             this.rootElement = getEntityClassByTag(TAGS.ISO11783TaskDataFile).fromXML(mainXml['ISO11783_TaskData'][0], this) as ExtendedISO11783TaskDataFile
-            const externalFiles = this.rootElement.attributes.ExternalFileReference || []
-
-            externalFiles.forEach(externalFile => {
-                const filename = externalFile.attributes.Filename
-                const file = files.find(file => (file as any).filename.match(new RegExp(`${filename}\\.XML$`, 'i')))
-                const xml = xml2js((file as any).data, { compact: true, alwaysArray: true })
-                const fileContent = getEntityClassByTag(TAGS.ISO11783TaskDataFile).fromXML(xml[TAGS.ExternalFileContents][0], this)
-                this.rootElement.appendFromExternalFile(fileContent)
-            })
         } else {
             throw new Error('This data type is not supported')
         }
@@ -212,13 +193,8 @@ export class ISOXMLManager {
         zipWriter.file(`${ROOT_FOLDER}/${MAIN_FILENAME}`, mainXML)
 
         Object.keys(this.filesToSave).forEach(filename => {
-            const fileInfo = this.filesToSave[filename]
-            if (fileInfo.binaryData) {
-                zipWriter.file(`${ROOT_FOLDER}/${filename}.BIN`, fileInfo.binaryData, {binary: true})
-            }
-            if (fileInfo.textData) {
-                zipWriter.file(`${ROOT_FOLDER}/${filename}.XML`, fileInfo.textData, {binary: false})
-            }
+            const data = this.filesToSave[filename]
+            zipWriter.file(`${ROOT_FOLDER}/${filename}`, data, {binary: typeof data !== 'string'})
         })
 
         return zipWriter.generateAsync({type: 'uint8array'})

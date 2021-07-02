@@ -18,6 +18,8 @@ describe('ISOXML Manager', () => {
     const isoxmlManager = new ISOXMLManager()
     await isoxmlManager.parseISOXMLFile(new Uint8Array(isoxmlData.buffer), 'application/zip', null)
     expect(isoxmlManager.rootElement.attributes.Task).toBeTruthy()
+    expect(isoxmlManager.getReferenceByXmlId('TSK-1').entity).toBeTruthy()
+    expect(isoxmlManager.rootElement.attributes.ExternalFileReference).toHaveLength(0)
     // const data = await isoxmlManager.saveISOXML()
     // writeFileSync('./data/test1_out.zip', data)
   })
