@@ -24,7 +24,7 @@ export interface Entity {
 }
 
 export interface EntityConstructor {
-    fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager): Entity
+    fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager): Promise<Entity>
     new (attributes: any, isoxmlManager: ISOXMLManager, xmlId?: string, fmisId?: string): Entity
 }
 

@@ -53,12 +53,10 @@ export class ExtendedGrid extends Grid {
         super(attributes, isoxmlManager)
     }
 
-    static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager): Entity {
-        const entity = Grid.fromXML(xml, isoxmlManager, ExtendedGrid) as ExtendedGrid
+    static async fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager): Promise<Entity> {
+        const entity = await Grid.fromXML(xml, isoxmlManager, ExtendedGrid) as ExtendedGrid
         const filename = entity.attributes.Filename
-        const regex = new RegExp(`${filename}\\.BIN$`, 'i')
-        const file = isoxmlManager.parsedFiles.find(f => !!f.filename.match(regex))
-        entity.binaryData = file.data as Uint8Array
+        entity.binaryData = await isoxmlManager.getParsedFile(`${filename}.BIN`, true)
         return entity
     }
 

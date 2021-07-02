@@ -1,4 +1,4 @@
-import {readFileSync, writeFileSync} from 'fs'
+import { readFileSync, writeFileSync } from 'fs'
 import JSZip from 'jszip'
 import { TaskTaskStatusEnum } from './baseEntities'
 import { TAGS } from './baseEntities/constants'
@@ -7,70 +7,84 @@ import { ISOXMLManager } from './ISOXMLManager'
 
 describe('ISOXML Manager', () => {
 
-  it('should parse ISOXML', async () => {
-    const isoxmlData = readFileSync('./data/test1.zip')
-    const isoxmlManager = new ISOXMLManager()
-    await isoxmlManager.parseISOXMLFile(new Uint8Array(isoxmlData.buffer), 'application/zip', null)
-    expect(isoxmlManager.rootElement).toBeTruthy()
-  })
+    it('should parse ISOXML', async () => {
+        const isoxmlData = readFileSync('./data/test1.zip')
+        const isoxmlManager = new ISOXMLManager()
+        await isoxmlManager.parseISOXMLFile(new Uint8Array(isoxmlData.buffer), 'application/zip', null)
+        expect(isoxmlManager.rootElement).toBeTruthy()
+    })
 
-  it('should parse ISOXML with external files', async () => {
-    const isoxmlData = readFileSync('./data/2021-04-09T15_33_26_taskdata.zip')
-    const isoxmlManager = new ISOXMLManager()
-    await isoxmlManager.parseISOXMLFile(new Uint8Array(isoxmlData.buffer), 'application/zip', null)
-    expect(isoxmlManager.rootElement.attributes.Task).toBeTruthy()
-    expect(isoxmlManager.getReferenceByXmlId('TSK-1').entity).toBeTruthy()
-    expect(isoxmlManager.rootElement.attributes.ExternalFileReference).toHaveLength(0)
-    // const data = await isoxmlManager.saveISOXML()
-    // writeFileSync('./data/test1_out.zip', data)
-  })
+    it('should parse ISOXML with external files', async () => {
+        const isoxmlData = readFileSync('./data/2021-04-09T15_33_26_taskdata.zip')
+        const isoxmlManager = new ISOXMLManager()
+        await isoxmlManager.parseISOXMLFile(new Uint8Array(isoxmlData.buffer), 'application/zip', null)
+        expect(isoxmlManager.rootElement.attributes.Task).toBeTruthy()
+        expect(isoxmlManager.getReferenceByXmlId('TSK-1').entity).toBeTruthy()
+        expect(isoxmlManager.rootElement.attributes.ExternalFileReference).toHaveLength(0)
+        // const data = await isoxmlManager.saveISOXML()
+        // writeFileSync('./data/test1_out.zip', data)
+    })
 
-  it('should parse and save grid files', async () => {
-    const isoxmlData = readFileSync('./data/task_with_grid.zip')
-    const isoxmlManager = new ISOXMLManager()
-    await isoxmlManager.parseISOXMLFile(new Uint8Array(isoxmlData.buffer), 'application/zip', null)
-    const data = await isoxmlManager.saveISOXML()
-    // writeFileSync('./data/test_grid_out.zip', data)
-    expect(data.length).toBe(13757)
-  })
+    it('should parse and save grid files', async () => {
+        const isoxmlData = readFileSync('./data/task_with_grid.zip')
+        const isoxmlManager = new ISOXMLManager()
+        await isoxmlManager.parseISOXMLFile(new Uint8Array(isoxmlData.buffer), 'application/zip', null)
+        const data = await isoxmlManager.saveISOXML()
+        // writeFileSync('./data/test_grid_out.zip', data)
+        expect(data.length).toBe(14356)
 
-  it('should parse and save ISOXML', async () => {
-    const isoxmlData = readFileSync('./data/test1.zip')
-    const isoxmlManager = new ISOXMLManager()
-    await isoxmlManager.parseISOXMLFile(new Uint8Array(isoxmlData.buffer), 'application/zip', null)
-    const data = await isoxmlManager.saveISOXML()
-    // writeFileSync('./data/test1_out.zip', data)
-    expect(data.length).toBe(3973)
-  })
+        const zip = await JSZip.loadAsync(data)
+        expect(zip.file("TASKDATA/LINKLIST.XML")).toBeTruthy()
+    })
 
-  it('should manually create ISOXML', async () => {
-    const isoxmlManager = new ISOXMLManager()
-    const task = isoxmlManager.createEntityFromAttributes(TAGS.Task, {
-        TaskStatus: TaskTaskStatusEnum.Planned
-    }) as ExtendedTask
-    isoxmlManager.registerEntity(task)
+    it('should preserve attached files', async () => {
+        const isoxmlData = readFileSync('./data/task_full.zip')
+        const isoxmlManager = new ISOXMLManager()
+        await isoxmlManager.parseISOXMLFile(new Uint8Array(isoxmlData.buffer), 'application/zip', null)
+        const data = await isoxmlManager.saveISOXML()
+        // writeFileSync('./data/test_grid_out.zip', data)
 
-    isoxmlManager.rootElement.attributes.Task = [ task ]
+        const zip = await JSZip.loadAsync(data)
+        expect(zip.file("TASKDATA/TEST1234.BIN")).toBeTruthy()
+    })
 
-    const data = await isoxmlManager.saveISOXML()
-    // writeFileSync('./data/test1_out.zip', data)
-    expect(data.length).toBe(464)
-    const zip = await JSZip.loadAsync(data)
-    expect(zip.file("TASKDATA/TASKDATA.XML")).toBeTruthy()
-  })
+    it('should parse and save ISOXML', async () => {
+        const isoxmlData = readFileSync('./data/test1.zip')
+        const isoxmlManager = new ISOXMLManager()
+        await isoxmlManager.parseISOXMLFile(new Uint8Array(isoxmlData.buffer), 'application/zip', null)
+        const data = await isoxmlManager.saveISOXML()
+        // writeFileSync('./data/test1_out.zip', data)
+        expect(data.length).toBe(3973)
+    })
 
-  it('should support "rootFolder" option', async () => {
-    const isoxmlManager = new ISOXMLManager({rootFolder: "testFolder"})
-    const task = isoxmlManager.createEntityFromAttributes(TAGS.Task, {
-        TaskStatus: TaskTaskStatusEnum.Planned
-    }) as ExtendedTask
-    isoxmlManager.registerEntity(task)
+    it('should manually create ISOXML', async () => {
+        const isoxmlManager = new ISOXMLManager()
+        const task = isoxmlManager.createEntityFromAttributes(TAGS.Task, {
+            TaskStatus: TaskTaskStatusEnum.Planned
+        }) as ExtendedTask
+        isoxmlManager.registerEntity(task)
 
-    isoxmlManager.rootElement.attributes.Task = [ task ]
+        isoxmlManager.rootElement.attributes.Task = [task]
 
-    const data = await isoxmlManager.saveISOXML()
+        const data = await isoxmlManager.saveISOXML()
+        // writeFileSync('./data/test1_out.zip', data)
+        expect(data.length).toBe(464)
+        const zip = await JSZip.loadAsync(data)
+        expect(zip.file("TASKDATA/TASKDATA.XML")).toBeTruthy()
+    })
 
-    const zip = await JSZip.loadAsync(data)
-    expect(zip.file("testFolder/TASKDATA.XML")).toBeTruthy()
-  })
+    it('should support "rootFolder" option', async () => {
+        const isoxmlManager = new ISOXMLManager({ rootFolder: "testFolder" })
+        const task = isoxmlManager.createEntityFromAttributes(TAGS.Task, {
+            TaskStatus: TaskTaskStatusEnum.Planned
+        }) as ExtendedTask
+        isoxmlManager.registerEntity(task)
+
+        isoxmlManager.rootElement.attributes.Task = [task]
+
+        const data = await isoxmlManager.saveISOXML()
+
+        const zip = await JSZip.loadAsync(data)
+        expect(zip.file("testFolder/TASKDATA.XML")).toBeTruthy()
+    })
 })

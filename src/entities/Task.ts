@@ -18,7 +18,7 @@ export class ExtendedTask extends Task {
         super(attributes, isoxmlManager)
     }
 
-    static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager): Entity {
+    static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager): Promise<Entity> {
         return Task.fromXML(xml, isoxmlManager, ExtendedTask)
     }
 

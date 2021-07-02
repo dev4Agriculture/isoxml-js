@@ -107,20 +107,23 @@ function attrs2xml(
     return result
 }
 
-export function xml2ChildTags(
+export async function xml2ChildTags(
     xml: ElementCompact,
     referencesDescription: ReferencesDescription,
     isoxmlManager: ISOXMLManager
-) {
+): Promise<{[tag: string]: Entity[]}> {
     const result = {}
-    Object.keys(xml).forEach(tagName => {
+    for (const tagName in xml) {
         const refDescription = referencesDescription[tagName]
         if (!refDescription) {
-            return 
+            continue 
         }
+        result[refDescription.name] = []
+        for (const childXml of xml[tagName]) {
+            result[refDescription.name].push(await isoxmlManager.createEntityFromXML(tagName as TAGS, childXml))
 
-        result[refDescription.name] = xml[tagName].map(childXml => isoxmlManager.createEntityFromXML(tagName as TAGS, childXml))
-    })
+        }
+    }
     return result 
 }
 
@@ -141,16 +144,17 @@ export function childTags2Xml(
     return result 
 }
 
-export function fromXML(
+export async function fromXML(
     xml: ElementCompact,
     isoxmlManager: ISOXMLManager,
     entityClass: EntityConstructor,
     attributesDescription: AttributesDescription,
     referencesDescription: ReferencesDescription
-): Entity {
+): Promise<Entity> {
+    const children = await xml2ChildTags(xml, referencesDescription, isoxmlManager)
     const entity = new entityClass({
         ...xml2attrs(xml, attributesDescription, isoxmlManager),
-        ...xml2ChildTags(xml, referencesDescription, isoxmlManager)
+        ...children
     }, isoxmlManager)
 
     const idAttr = Object.keys(attributesDescription).find(attrId => attributesDescription[attrId].isPrimaryId)

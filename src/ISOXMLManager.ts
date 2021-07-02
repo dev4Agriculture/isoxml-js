@@ -26,8 +26,9 @@ const ROOT_FOLDER = 'TASKDATA'
 export class ISOXMLManager {
     private xmlReferences: {[xmlId: string]: ISOXMLReference} = {}
     private nextIds: {[xmlId: string]: number} = {}
+    private originalZip: JSZip
     public rootElement: ExtendedISO11783TaskDataFile
-    public parsedFiles: ISOFileInformation[]
+    // public parsedFiles: ISOFileInformation[]
     public filesToSave: { [filenameWithExtension: string]: (Uint8Array | string) } = {}
 
     public options: ISOXMLManagerOptions
@@ -115,7 +116,7 @@ export class ISOXMLManager {
         return ref
     }
 
-    public createEntityFromXML(tagName: TAGS, xml: ElementCompact): Entity {
+    public createEntityFromXML(tagName: TAGS, xml: ElementCompact): Promise<Entity> {
         const entityClass = getEntityClassByTag(tagName)
         if (!entityClass) {
             return null
@@ -140,9 +141,9 @@ export class ISOXMLManager {
             const mainXML = xml2js(data as string, { compact: true, alwaysArray: true })
             getEntityClassByTag(TAGS.ISO11783TaskDataFile).fromXML(mainXML, this)
         } else if (dataType === 'application/zip') {
-            const zip = await JSZip.loadAsync(data)
-            const mainFile = zip.file(new RegExp(MAIN_FILENAME + '$', 'i'))[0]
-            const matchFile = zip.file(new RegExp(LINKLIST_FILENAME + '$', 'i'))[0]
+            this.originalZip = await JSZip.loadAsync(data)
+            const mainFile = this.originalZip.file(new RegExp(MAIN_FILENAME + '$', 'i'))[0]
+            // const matchFile = this.originalZip.file(new RegExp(LINKLIST_FILENAME + '$', 'i'))[0]
             if (!mainFile) {
                 throw new Error("Zip file doesn't contain TASKDATA.XML")
             }
@@ -153,31 +154,33 @@ export class ISOXMLManager {
 
             this.options.rootFolder = mainFile.name.match(/(.*[\/\\])/)?.[1] ?? ''
 
-            const matchXmlPromise = matchFile
-                ? matchFile.async('string').then(xml => {
-                    return {}
-                })
-                : Promise.resolve({});
+            // const matchXmlPromise = matchFile
+            //     ? matchFile.async('string').then(xml => {
+            //         return {}
+            //     })
+            //     : Promise.resolve({});
 
-            const isBin = path => !!path.match(/\.bin$/i)
-            const isXml = path => !!path.match(/\.xml$/i)
+            // const isBin = path => !!path.match(/\.bin$/i)
+            // const isXml = path => !!path.match(/\.xml$/i)
 
-            const filePromises = zip
-                .filter((path, file) => file !== mainFile && file !== matchFile && (isBin(path) || isXml(path)))
-                .map(async file => {
-                    const isBinary = isBin(file.name)
-                    const fileData = await file.async(isBinary ? 'uint8array' : 'string')
-                    return { isBinary, data: fileData, filename: file.name.split('/').pop() }
-                });
+            // const filePromises = zip
+            //     .filter((path, file) => file !== mainFile && file !== matchFile && (isBin(path) || isXml(path)))
+            //     .map(async file => {
+            //         const isBinary = isBin(file.name)
+            //         const fileData = await file.async(isBinary ? 'uint8array' : 'string')
+            //         return { isBinary, data: fileData, filename: file.name.split('/').pop() }
+            //     });
 
-            const [mainXml, matchIDs, ...files] = await Promise.all([mainXmlPromise, matchXmlPromise, ...filePromises]);
-            this.parsedFiles = files as ISOFileInformation[]
+            // const [mainXml, matchIDs, ...files] = await Promise.all([mainXmlPromise, matchXmlPromise, ...filePromises]);
+            const mainXml = await mainXmlPromise
+            // this.parsedFiles = files as ISOFileInformation[]
 
             if (!mainXml['ISO11783_TaskData']) {
                 throw new Error('Incorrect structure of TASKDATA.XML')
             }
 
-            this.rootElement = getEntityClassByTag(TAGS.ISO11783TaskDataFile).fromXML(mainXml['ISO11783_TaskData'][0], this) as ExtendedISO11783TaskDataFile
+            this.rootElement = await getEntityClassByTag(TAGS.ISO11783TaskDataFile)
+                .fromXML(mainXml[TAGS.ISO11783TaskDataFile][0], this) as ExtendedISO11783TaskDataFile
         } else {
             throw new Error('This data type is not supported')
         }
@@ -222,7 +225,7 @@ export class ISOXMLManager {
         return this.xmlReferences[xmlId].entity as T
     }
 
-    getEntitiesOfTag<T extends Entity>(tag: TAGS): T[] {
+    public getEntitiesOfTag<T extends Entity>(tag: TAGS): T[] {
         return Object.values(this.xmlReferences)
             .filter(ref => this.parseXmlId(ref.xmlId).tag === tag && ref.entity)
             .map(ref => ref.entity as T)
@@ -238,5 +241,21 @@ export class ISOXMLManager {
         if (this.options.rootFolder && !this.options.rootFolder.endsWith('/')) {
             this.options.rootFolder += '/'
         }
+    }
+
+    public getParsedFile(filenameWithExtension: string, isBinary: true): Promise<Uint8Array> 
+    public getParsedFile(filenameWithExtension: string, isBinary: false): Promise<string> 
+    public getParsedFile(filenameWithExtension: string, isBinary: boolean): Promise<Uint8Array | string> {
+        if (!this.originalZip) {
+            return null
+        }
+
+        const file = this.originalZip.file(`${this.options.rootFolder}${filenameWithExtension}`)
+
+        if (!file) {
+            return null
+        }
+
+        return file.async(isBinary ? 'uint8array' : 'string')
     }
 }

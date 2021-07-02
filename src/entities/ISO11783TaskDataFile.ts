@@ -35,18 +35,18 @@ export class ExtendedISO11783TaskDataFile extends ISO11783TaskDataFile {
         return new ExtendedISO11783TaskDataFile(isoxmlManagerOptionsToAttributes(isoxmlManager), isoxmlManager)
     }
 
-    static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager): Entity {
-        const entity = ISO11783TaskDataFile.fromXML(xml, isoxmlManager, ExtendedISO11783TaskDataFile) as ExtendedISO11783TaskDataFile
+    static async fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager): Promise<Entity> {
+        const entity = await ISO11783TaskDataFile.fromXML(xml, isoxmlManager, ExtendedISO11783TaskDataFile) as ExtendedISO11783TaskDataFile
 
         // parse all external files and add them to the main task data file
         const externalFiles = entity.attributes.ExternalFileReference || []
-        externalFiles.forEach(externalFile => {
+        for (const externalFile of externalFiles) {
             const filename = externalFile.attributes.Filename
-            const file = isoxmlManager.parsedFiles.find(file => (file as any).filename.match(new RegExp(`${filename}\\.XML$`, 'i')))
-            const xml = xml2js((file as any).data, { compact: true, alwaysArray: true })
-            const fileContent = getEntityClassByTag(TAGS.ISO11783TaskDataFile).fromXML(xml[TAGS.ExternalFileContents][0], isoxmlManager)
+            const data = await isoxmlManager.getParsedFile(`${filename}.XML`, false)
+            const xml = xml2js(data, { compact: true, alwaysArray: true })
+            const fileContent = await getEntityClassByTag(TAGS.ISO11783TaskDataFile).fromXML(xml[TAGS.ExternalFileContents][0], isoxmlManager)
             entity.appendFromExternalFile(fileContent)
-        })
+        }
         entity.attributes.ExternalFileReference = []
 
         isoxmlManager.options.version = entity.attributes.VersionMajor === '4' ? 4 : 3
