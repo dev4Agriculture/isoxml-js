@@ -1,4 +1,5 @@
 import {readFileSync, writeFileSync} from 'fs'
+import JSZip from 'jszip'
 import { TaskTaskStatusEnum } from './baseEntities'
 import { TAGS } from './baseEntities/constants'
 import { ExtendedTask } from './entities/Task'
@@ -54,5 +55,22 @@ describe('ISOXML Manager', () => {
     const data = await isoxmlManager.saveISOXML()
     // writeFileSync('./data/test1_out.zip', data)
     expect(data.length).toBe(464)
+    const zip = await JSZip.loadAsync(data)
+    expect(zip.file("TASKDATA/TASKDATA.XML")).toBeTruthy()
+  })
+
+  it('should support "rootFolder" option', async () => {
+    const isoxmlManager = new ISOXMLManager({rootFolder: "testFolder"})
+    const task = isoxmlManager.createEntityFromAttributes(TAGS.Task, {
+        TaskStatus: TaskTaskStatusEnum.Planned
+    }) as ExtendedTask
+    isoxmlManager.registerEntity(task)
+
+    isoxmlManager.rootElement.attributes.Task = [ task ]
+
+    const data = await isoxmlManager.saveISOXML()
+
+    const zip = await JSZip.loadAsync(data)
+    expect(zip.file("testFolder/TASKDATA.XML")).toBeTruthy()
   })
 })

@@ -11,6 +11,7 @@ import { TAGS } from "./baseEntities/constants"
 import { GridParametersGenerator } from "./entities";
 
 export type ISOXMLManagerOptions = {
+    rootFolder?: string
     fmisTitle?: string
     fmisURI?: string
     fmisVersion?: string
@@ -18,9 +19,9 @@ export type ISOXMLManagerOptions = {
     gridRaramsGenerator?: GridParametersGenerator
 }
 
-const MAIN_FILENAME = 'TASKDATA.XML';
-const LINKLIST_FILENAME = 'LINKLIST.XML';
-const ROOT_FOLDER = 'TASKDATA';
+const MAIN_FILENAME = 'TASKDATA.XML'
+const LINKLIST_FILENAME = 'LINKLIST.XML'
+const ROOT_FOLDER = 'TASKDATA'
 
 export class ISOXMLManager {
     private xmlReferences: {[xmlId: string]: ISOXMLReference} = {}
@@ -29,13 +30,18 @@ export class ISOXMLManager {
     public parsedFiles: ISOFileInformation[]
     public filesToSave: { [filenameWithExtension: string]: (Uint8Array | string) } = {}
 
-    constructor(public options: ISOXMLManagerOptions = {}) {
+    public options: ISOXMLManagerOptions
+
+    constructor(options: ISOXMLManagerOptions = {}) {
         this.options = {
-            ...this.options,
             version: 4,
             fmisTitle: 'FMIS',
-            fmisVersion: '1.0'
+            fmisVersion: '1.0',
+            rootFolder: ROOT_FOLDER
         }
+
+        this.updateOptions(options)
+
         this.rootElement = ExtendedISO11783TaskDataFile.fromISOXMLManagerOptions(this)
     }
 
@@ -143,7 +149,9 @@ export class ISOXMLManager {
 
             const mainXmlPromise = mainFile.async('string').then(xml => {
                 return xml2js(xml, { compact: true, alwaysArray: true });
-            });
+            })
+
+            this.options.rootFolder = mainFile.name.match(/(.*[\/\\])/)?.[1] ?? ''
 
             const matchXmlPromise = matchFile
                 ? matchFile.async('string').then(xml => {
@@ -190,11 +198,11 @@ export class ISOXMLManager {
         const mainXML = js2xml(json, { compact: true, spaces: 2 });
 
         const zipWriter = new JSZip()
-        zipWriter.file(`${ROOT_FOLDER}/${MAIN_FILENAME}`, mainXML)
+        zipWriter.file(`${this.options.rootFolder}${MAIN_FILENAME}`, mainXML)
 
         Object.keys(this.filesToSave).forEach(filename => {
             const data = this.filesToSave[filename]
-            zipWriter.file(`${ROOT_FOLDER}/${filename}`, data, {binary: typeof data !== 'string'})
+            zipWriter.file(`${this.options.rootFolder}${filename}`, data, {binary: typeof data !== 'string'})
         })
 
         return zipWriter.generateAsync({type: 'uint8array'})
@@ -224,6 +232,11 @@ export class ISOXMLManager {
         this.options = {
             ...this.options,
             ...newOptions
+        }
+
+        // normalize root folder
+        if (this.options.rootFolder && !this.options.rootFolder.endsWith('/')) {
+            this.options.rootFolder += '/'
         }
     }
 }
