@@ -34,7 +34,19 @@ describe('ISOXML Manager', () => {
         expect(data.length).toBe(14356)
 
         const zip = await JSZip.loadAsync(data)
-        expect(zip.file("TASKDATA/LINKLIST.XML")).toBeTruthy()
+        expect(zip.file("TASKDATA/GRD00001.BIN")).toBeTruthy()
+    })
+
+    it('should parse and save timelog files', async () => {
+        const isoxmlData = readFileSync('./data/2021-04-09T15_33_26_taskdata.zip')
+        const isoxmlManager = new ISOXMLManager()
+        await isoxmlManager.parseISOXMLFile(new Uint8Array(isoxmlData.buffer), 'application/zip', null)
+        const data = await isoxmlManager.saveISOXML()
+        // writeFileSync('./data/test_timelog_out.zip', data)
+
+        const zip = await JSZip.loadAsync(data)
+        expect(zip.file("TASKDATA/TLG00001.XML")).toBeTruthy()
+        expect(zip.file("TASKDATA/TLG00001.BIN")).toBeTruthy()
     })
 
     it('should preserve attached files', async () => {
