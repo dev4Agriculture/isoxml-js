@@ -8,6 +8,8 @@ import {Entity} from '../types'
 import {ISO11783TaskDataFile, ISO11783TaskDataFileAttributes, ISO11783TaskDataFileDataTransferOriginEnum} from '../baseEntities/ISO11783TaskDataFile'
 import {ExternalFileContents} from '../baseEntities/ExternalFileContents'
 import { TAGS } from '../baseEntities/constants'
+import { ExtendedISO11783LinkListFile } from './ISO11783LinkListFile'
+import { ExtendedAttachedFile } from './AttachedFile'
 
 function isoxmlManagerOptionsToAttributes(isoxmlManager: ISOXMLManager) {
     const opts = isoxmlManager.options
@@ -78,6 +80,14 @@ export class ExtendedISO11783TaskDataFile extends ISO11783TaskDataFile {
                 ...fileContents.attributes[attrName]
             ]
         })
+    }
+
+    addLinkListFile() {
+        const withoutLinkList = (this.attributes.AttachedFile || []).filter(file => file.attributes.FileType !== 1)
+        this.attributes.AttachedFile = [
+            ...withoutLinkList,
+            ExtendedAttachedFile.linkListFromISOXMLManager(this.isoxmlManager)
+        ]
     }
 }
 

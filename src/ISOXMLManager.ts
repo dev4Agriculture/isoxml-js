@@ -1,6 +1,6 @@
 import { js2xml, xml2js, ElementCompact } from "xml-js";
 import JSZip from 'jszip'
-import { Entity, ISOFileInformation, ISOXMLReference } from "./types";
+import { Entity, ISOXMLReference } from "./types";
 import { getEntityClassByTag } from './classRegistry'
 
 import './baseEntities'
@@ -20,15 +20,13 @@ export type ISOXMLManagerOptions = {
 }
 
 const MAIN_FILENAME = 'TASKDATA.XML'
-const LINKLIST_FILENAME = 'LINKLIST.XML'
 const ROOT_FOLDER = 'TASKDATA'
 
 export class ISOXMLManager {
-    private xmlReferences: {[xmlId: string]: ISOXMLReference} = {}
+    public xmlReferences: {[xmlId: string]: ISOXMLReference} = {}
     private nextIds: {[xmlId: string]: number} = {}
     private originalZip: JSZip
     public rootElement: ExtendedISO11783TaskDataFile
-    // public parsedFiles: ISOFileInformation[]
     public filesToSave: { [filenameWithExtension: string]: (Uint8Array | string) } = {}
 
     public options: ISOXMLManagerOptions
@@ -134,46 +132,23 @@ export class ISOXMLManager {
         return new entityClass(attrs, this)
     }
 
-    public async parseISOXMLFile(data: string, dataType: 'text/xml' | 'application/xml', fmisURI: string): Promise<void>
-    public async parseISOXMLFile(data: Uint8Array, dataType: 'application/zip', fmisURI: string): Promise<void>
-    public async parseISOXMLFile(data: Uint8Array|string, dataType: string, fmisURI: string): Promise<void> {
+    public async parseISOXMLFile(data: string, dataType: 'text/xml' | 'application/xml'): Promise<void>
+    public async parseISOXMLFile(data: Uint8Array, dataType: 'application/zip'): Promise<void>
+    public async parseISOXMLFile(data: Uint8Array|string, dataType: string): Promise<void> {
         if (dataType === 'application/xml' || dataType === 'text/xml') {
             const mainXML = xml2js(data as string, { compact: true, alwaysArray: true })
             getEntityClassByTag(TAGS.ISO11783TaskDataFile).fromXML(mainXML, this)
         } else if (dataType === 'application/zip') {
             this.originalZip = await JSZip.loadAsync(data)
             const mainFile = this.originalZip.file(new RegExp(MAIN_FILENAME + '$', 'i'))[0]
-            // const matchFile = this.originalZip.file(new RegExp(LINKLIST_FILENAME + '$', 'i'))[0]
             if (!mainFile) {
                 throw new Error("Zip file doesn't contain TASKDATA.XML")
             }
 
-            const mainXmlPromise = mainFile.async('string').then(xml => {
-                return xml2js(xml, { compact: true, alwaysArray: true });
-            })
+            const mainXmlString = await mainFile.async('string')
+            const mainXml = xml2js(mainXmlString, { compact: true, alwaysArray: true });
 
             this.options.rootFolder = mainFile.name.match(/(.*[\/\\])/)?.[1] ?? ''
-
-            // const matchXmlPromise = matchFile
-            //     ? matchFile.async('string').then(xml => {
-            //         return {}
-            //     })
-            //     : Promise.resolve({});
-
-            // const isBin = path => !!path.match(/\.bin$/i)
-            // const isXml = path => !!path.match(/\.xml$/i)
-
-            // const filePromises = zip
-            //     .filter((path, file) => file !== mainFile && file !== matchFile && (isBin(path) || isXml(path)))
-            //     .map(async file => {
-            //         const isBinary = isBin(file.name)
-            //         const fileData = await file.async(isBinary ? 'uint8array' : 'string')
-            //         return { isBinary, data: fileData, filename: file.name.split('/').pop() }
-            //     });
-
-            // const [mainXml, matchIDs, ...files] = await Promise.all([mainXmlPromise, matchXmlPromise, ...filePromises]);
-            const mainXml = await mainXmlPromise
-            // this.parsedFiles = files as ISOFileInformation[]
 
             if (!mainXml['ISO11783_TaskData']) {
                 throw new Error('Incorrect structure of TASKDATA.XML')
@@ -188,6 +163,11 @@ export class ISOXMLManager {
 
     public async saveISOXML(): Promise<Uint8Array> {
         this.filesToSave = {}
+
+        if (this.options.fmisURI) {
+            this.rootElement.addLinkListFile()
+        }
+
         const json = {
             _declaration: {
                 _attributes: {
