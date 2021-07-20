@@ -15,6 +15,8 @@ export type TimeLogAttributes = {
     Filename: string
     Filelength?: number
     TimeLogType: TimeLogTimeLogTypeEnum
+    ProprietaryAttributes?: {[name: string]: string}
+    ProprietaryTags?: {[tag: string]: ElementCompact[]}
 }
 
 const ATTRIBUTES: AttributesDescription = {

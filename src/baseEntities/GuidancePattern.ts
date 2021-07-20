@@ -64,6 +64,8 @@ export type GuidancePatternAttributes = {
     NumberOfSwathsRight?: number
     LineString?: LineString[]
     BoundaryPolygon?: Polygon[]
+    ProprietaryAttributes?: {[name: string]: string}
+    ProprietaryTags?: {[tag: string]: ElementCompact[]}
 }
 
 const ATTRIBUTES: AttributesDescription = {

@@ -15,6 +15,8 @@ export const enum ProductGroupProductGroupTypeEnum {
 export type ProductGroupAttributes = {
     ProductGroupDesignator: string
     ProductGroupType?: ProductGroupProductGroupTypeEnum
+    ProprietaryAttributes?: {[name: string]: string}
+    ProprietaryTags?: {[tag: string]: ElementCompact[]}
 }
 
 const ATTRIBUTES: AttributesDescription = {

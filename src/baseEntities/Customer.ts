@@ -21,6 +21,8 @@ export type CustomerAttributes = {
     CustomerMobile?: string
     CustomerFax?: string
     CustomerEMail?: string
+    ProprietaryAttributes?: {[name: string]: string}
+    ProprietaryTags?: {[tag: string]: ElementCompact[]}
 }
 
 const ATTRIBUTES: AttributesDescription = {

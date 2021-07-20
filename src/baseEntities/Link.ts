@@ -12,6 +12,8 @@ export type LinkAttributes = {
     ObjectIdRef: ISOXMLReference
     LinkValue: string
     LinkDesignator?: string
+    ProprietaryAttributes?: {[name: string]: string}
+    ProprietaryTags?: {[tag: string]: ElementCompact[]}
 }
 
 const ATTRIBUTES: AttributesDescription = {

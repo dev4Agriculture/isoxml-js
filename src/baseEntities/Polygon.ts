@@ -29,6 +29,8 @@ export type PolygonAttributes = {
     PolygonArea?: number
     PolygonColour?: number
     LineString?: LineString[]
+    ProprietaryAttributes?: {[name: string]: string}
+    ProprietaryTags?: {[tag: string]: ElementCompact[]}
 }
 
 const ATTRIBUTES: AttributesDescription = {

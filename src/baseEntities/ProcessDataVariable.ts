@@ -17,6 +17,8 @@ export type ProcessDataVariableAttributes = {
     ActualCulturalPracticeValue?: number
     ElementTypeInstanceValue?: number
     ProcessDataVariable?: ProcessDataVariable[]
+    ProprietaryAttributes?: {[name: string]: string}
+    ProprietaryTags?: {[tag: string]: ElementCompact[]}
 }
 
 const ATTRIBUTES: AttributesDescription = {

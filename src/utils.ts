@@ -54,6 +54,8 @@ const GENERATORS: {[xsdType: string]: {(value: any, isoxmlManager: ISOXMLManager
     'xs:dateTime': dateTimeGenerator
 }
 
+const PROPRIETARY_NAME = /^P\d+_/
+
 function xml2attrs(
     xml: ElementCompact,
     attributesDescription: AttributesDescription,
@@ -63,6 +65,10 @@ function xml2attrs(
     Object.keys(xml._attributes || {}).forEach(xmlAttr => {
         const attrDescription = attributesDescription[xmlAttr]
         if (!attrDescription) {
+            if (xmlAttr.match(PROPRIETARY_NAME)) {
+                result['ProprietaryAttributes'] = result['ProprietaryAttributes'] || []
+                result['ProprietaryAttributes'][xmlAttr] = xml._attributes[xmlAttr]
+            }
             return // allow unknown attributes
         }
         if (attrDescription.isPrimaryId) {
@@ -81,7 +87,9 @@ function attrs2xml(
     entity: Entity,
     attributesDescription: AttributesDescription,
 ): {[xmlId: string]: string} {
-    const result = {}
+    const result = {
+        ...entity.attributes.ProprietaryAttributes
+    }
 
     const primaryXmlId = Object.keys(attributesDescription).find(xmlTag => attributesDescription[xmlTag].isPrimaryId)
 
@@ -116,6 +124,11 @@ export async function xml2ChildTags(
     for (const tagName in xml) {
         const refDescription = referencesDescription[tagName]
         if (!refDescription) {
+            if (tagName.match(PROPRIETARY_NAME)) {
+                result['ProprietaryTags'] = result['ProprietaryTags'] || {}
+                result['ProprietaryTags'][tagName] = result['ProprietaryTags'][tagName] || []
+                result['ProprietaryTags'][tagName].push(...xml[tagName])
+            }
             continue 
         }
         result[refDescription.name] = []
@@ -131,7 +144,9 @@ export function childTags2Xml(
     entity: Entity,
     referencesDescription: ReferencesDescription,
 ) {
-    const result = {}
+    const result = {
+        ...entity.attributes.ProprietaryTags
+    }
     Object.keys(entity.attributes).forEach(attrName => {
         const tagName = Object.keys(referencesDescription).find(tag => referencesDescription[tag].name === attrName)
         const refDescription = referencesDescription[tagName]

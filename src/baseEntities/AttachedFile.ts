@@ -19,6 +19,8 @@ export type AttachedFileAttributes = {
     FileType: number
     FileVersion?: string
     FileLength?: number
+    ProprietaryAttributes?: {[name: string]: string}
+    ProprietaryTags?: {[tag: string]: ElementCompact[]}
 }
 
 const ATTRIBUTES: AttributesDescription = {

@@ -12,6 +12,8 @@ export type ColourRangeAttributes = {
     MinimumValue: number
     MaximumValue: number
     Colour: number
+    ProprietaryAttributes?: {[name: string]: string}
+    ProprietaryTags?: {[tag: string]: ElementCompact[]}
 }
 
 const ATTRIBUTES: AttributesDescription = {

@@ -60,6 +60,21 @@ describe('ISOXML Manager', () => {
         expect(zip.file("TASKDATA/TEST1234.BIN")).toBeTruthy()
     })
 
+    it('should preserve proprietary attributes and elements', async () => {
+        const isoxmlData = readFileSync('./data/task_full.zip')
+        const isoxmlManager = new ISOXMLManager()
+        await isoxmlManager.parseISOXMLFile(new Uint8Array(isoxmlData.buffer), 'application/zip')
+        const data = await isoxmlManager.saveISOXML()
+        // writeFileSync('./data/test_grid_out.zip', data)
+
+        const isoxmlManager2 = new ISOXMLManager()
+        await isoxmlManager2.parseISOXMLFile(data, 'application/zip')
+        expect(isoxmlManager2.rootElement.attributes.ProprietaryTags).toHaveProperty('P1234_Area')
+        expect(
+            isoxmlManager2.rootElement.attributes.BaseStation[0].attributes.ProprietaryAttributes
+        ).toHaveProperty('P123_Area')
+    })
+
     it('should parse and save ISOXML', async () => {
         const isoxmlData = readFileSync('./data/test1.zip')
         const isoxmlManager = new ISOXMLManager()

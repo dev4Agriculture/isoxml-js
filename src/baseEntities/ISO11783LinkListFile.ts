@@ -32,6 +32,8 @@ export type ISO11783LinkListFileAttributes = {
     FileVersion?: string
     DataTransferOrigin: ISO11783LinkListFileDataTransferOriginEnum
     LinkGroup?: LinkGroup[]
+    ProprietaryAttributes?: {[name: string]: string}
+    ProprietaryTags?: {[tag: string]: ElementCompact[]}
 }
 
 const ATTRIBUTES: AttributesDescription = {

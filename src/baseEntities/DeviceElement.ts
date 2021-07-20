@@ -25,6 +25,8 @@ export type DeviceElementAttributes = {
     DeviceElementNumber: number
     ParentObjectId: number
     DeviceObjectReference?: DeviceObjectReference[]
+    ProprietaryAttributes?: {[name: string]: string}
+    ProprietaryTags?: {[tag: string]: ElementCompact[]}
 }
 
 const ATTRIBUTES: AttributesDescription = {

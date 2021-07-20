@@ -13,6 +13,8 @@ export type CropTypeAttributes = {
     CropTypeDesignator: string
     ProductGroupIdRef?: ISOXMLReference
     CropVariety?: CropVariety[]
+    ProprietaryAttributes?: {[name: string]: string}
+    ProprietaryTags?: {[tag: string]: ElementCompact[]}
 }
 
 const ATTRIBUTES: AttributesDescription = {

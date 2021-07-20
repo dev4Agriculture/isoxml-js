@@ -23,6 +23,8 @@ export type DeviceAttributes = {
     DeviceProperty?: DeviceProperty[]
     DeviceProcessData?: DeviceProcessData[]
     DeviceValuePresentation?: DeviceValuePresentation[]
+    ProprietaryAttributes?: {[name: string]: string}
+    ProprietaryTags?: {[tag: string]: ElementCompact[]}
 }
 
 const ATTRIBUTES: AttributesDescription = {

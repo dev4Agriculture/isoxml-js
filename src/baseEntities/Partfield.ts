@@ -25,6 +25,8 @@ export type PartfieldAttributes = {
     LineString?: LineString[]
     Point?: Point[]
     GuidanceGroup?: GuidanceGroup[]
+    ProprietaryAttributes?: {[name: string]: string}
+    ProprietaryTags?: {[tag: string]: ElementCompact[]}
 }
 
 const ATTRIBUTES: AttributesDescription = {

@@ -27,6 +27,8 @@ export type LineStringAttributes = {
     LineStringLength?: number
     LineStringColour?: number
     Point?: Point[]
+    ProprietaryAttributes?: {[name: string]: string}
+    ProprietaryTags?: {[tag: string]: ElementCompact[]}
 }
 
 const ATTRIBUTES: AttributesDescription = {

@@ -10,6 +10,8 @@ import { Entity, EntityConstructor, AttributesDescription } from '../types'
 
 export type CodedCommentGroupAttributes = {
     CodedCommentGroupDesignator: string
+    ProprietaryAttributes?: {[name: string]: string}
+    ProprietaryTags?: {[tag: string]: ElementCompact[]}
 }
 
 const ATTRIBUTES: AttributesDescription = {

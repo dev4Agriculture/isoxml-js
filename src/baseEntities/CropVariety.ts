@@ -11,6 +11,8 @@ import { Entity, EntityConstructor, AttributesDescription, ISOXMLReference } fro
 export type CropVarietyAttributes = {
     CropVarietyDesignator: string
     ProductIdRef?: ISOXMLReference
+    ProprietaryAttributes?: {[name: string]: string}
+    ProprietaryTags?: {[tag: string]: ElementCompact[]}
 }
 
 const ATTRIBUTES: AttributesDescription = {

@@ -13,6 +13,8 @@ export type BaseStationAttributes = {
     BaseStationNorth: number
     BaseStationEast: number
     BaseStationUp: number
+    ProprietaryAttributes?: {[name: string]: string}
+    ProprietaryTags?: {[tag: string]: ElementCompact[]}
 }
 
 const ATTRIBUTES: AttributesDescription = {

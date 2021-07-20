@@ -19,6 +19,8 @@ export type AllocationStampAttributes = {
     Duration?: number
     Type: AllocationStampTypeEnum
     Position?: Position[]
+    ProprietaryAttributes?: {[name: string]: string}
+    ProprietaryTags?: {[tag: string]: ElementCompact[]}
 }
 
 const ATTRIBUTES: AttributesDescription = {

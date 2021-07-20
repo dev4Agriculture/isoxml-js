@@ -10,6 +10,8 @@ import { Entity, EntityConstructor, AttributesDescription, ISOXMLReference } fro
 
 export type OperationTechniqueReferenceAttributes = {
     OperationTechniqueIdRef: ISOXMLReference
+    ProprietaryAttributes?: {[name: string]: string}
+    ProprietaryTags?: {[tag: string]: ElementCompact[]}
 }
 
 const ATTRIBUTES: AttributesDescription = {

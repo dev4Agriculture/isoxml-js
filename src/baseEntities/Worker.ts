@@ -21,6 +21,8 @@ export type WorkerAttributes = {
     WorkerMobile?: string
     WorkerLicenseNumber?: string
     WorkerEMail?: string
+    ProprietaryAttributes?: {[name: string]: string}
+    ProprietaryTags?: {[tag: string]: ElementCompact[]}
 }
 
 const ATTRIBUTES: AttributesDescription = {

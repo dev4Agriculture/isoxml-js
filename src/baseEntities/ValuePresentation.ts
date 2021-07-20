@@ -14,6 +14,8 @@ export type ValuePresentationAttributes = {
     NumberOfDecimals: number
     UnitDesignator?: string
     ColourLegendIdRef?: ISOXMLReference
+    ProprietaryAttributes?: {[name: string]: string}
+    ProprietaryTags?: {[tag: string]: ElementCompact[]}
 }
 
 const ATTRIBUTES: AttributesDescription = {

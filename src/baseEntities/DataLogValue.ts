@@ -15,6 +15,8 @@ export type DataLogValueAttributes = {
     DataLogPGN?: number
     DataLogPGNStartBit?: number
     DataLogPGNStopBit?: number
+    ProprietaryAttributes?: {[name: string]: string}
+    ProprietaryTags?: {[tag: string]: ElementCompact[]}
 }
 
 const ATTRIBUTES: AttributesDescription = {

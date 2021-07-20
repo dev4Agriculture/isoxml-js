@@ -19,6 +19,8 @@ export type CodedCommentAttributes = {
     CodedCommentScope: CodedCommentCodedCommentScopeEnum
     CodedCommentGroupIdRef?: ISOXMLReference
     CodedCommentListValue?: CodedCommentListValue[]
+    ProprietaryAttributes?: {[name: string]: string}
+    ProprietaryTags?: {[tag: string]: ElementCompact[]}
 }
 
 const ATTRIBUTES: AttributesDescription = {

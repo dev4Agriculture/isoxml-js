@@ -52,6 +52,8 @@ export type TaskAttributes = {
     Grid?: Grid[]
     ControlAssignment?: ControlAssignment[]
     GuidanceAllocation?: GuidanceAllocation[]
+    ProprietaryAttributes?: {[name: string]: string}
+    ProprietaryTags?: {[tag: string]: ElementCompact[]}
 }
 
 const ATTRIBUTES: AttributesDescription = {

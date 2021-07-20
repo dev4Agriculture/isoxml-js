@@ -17,6 +17,8 @@ export type FarmAttributes = {
     FarmState?: string
     FarmCountry?: string
     CustomerIdRef?: ISOXMLReference
+    ProprietaryAttributes?: {[name: string]: string}
+    ProprietaryTags?: {[tag: string]: ElementCompact[]}
 }
 
 const ATTRIBUTES: AttributesDescription = {

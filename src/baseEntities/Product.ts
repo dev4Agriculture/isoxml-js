@@ -25,6 +25,8 @@ export type ProductAttributes = {
     DensityMassPerCount?: number
     DensityVolumePerCount?: number
     ProductRelation?: ProductRelation[]
+    ProprietaryAttributes?: {[name: string]: string}
+    ProprietaryTags?: {[tag: string]: ElementCompact[]}
 }
 
 const ATTRIBUTES: AttributesDescription = {

@@ -14,6 +14,8 @@ export const enum ExternalFileReferenceFiletypeEnum {
 export type ExternalFileReferenceAttributes = {
     Filename: string
     Filetype: ExternalFileReferenceFiletypeEnum
+    ProprietaryAttributes?: {[name: string]: string}
+    ProprietaryTags?: {[tag: string]: ElementCompact[]}
 }
 
 const ATTRIBUTES: AttributesDescription = {

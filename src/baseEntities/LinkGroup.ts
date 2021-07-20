@@ -21,6 +21,8 @@ export type LinkGroupAttributes = {
     LinkGroupNamespace?: string
     LinkGroupDesignator?: string
     Link?: Link[]
+    ProprietaryAttributes?: {[name: string]: string}
+    ProprietaryTags?: {[tag: string]: ElementCompact[]}
 }
 
 const ATTRIBUTES: AttributesDescription = {

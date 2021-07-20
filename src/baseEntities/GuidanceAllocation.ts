@@ -14,6 +14,8 @@ export type GuidanceAllocationAttributes = {
     GuidanceGroupIdRef: ISOXMLReference
     AllocationStamp?: AllocationStamp[]
     GuidanceShift?: GuidanceShift[]
+    ProprietaryAttributes?: {[name: string]: string}
+    ProprietaryTags?: {[tag: string]: ElementCompact[]}
 }
 
 const ATTRIBUTES: AttributesDescription = {

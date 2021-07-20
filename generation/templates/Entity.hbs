@@ -31,6 +31,8 @@ export type {{name}}Attributes = {
 {{#children}}
     {{name}}?: {{className}}[]
 {{/children}}
+    ProprietaryAttributes?: {[name: string]: string}
+    ProprietaryTags?: {[tag: string]: ElementCompact[]}
 }
 
 const ATTRIBUTES: AttributesDescription = {

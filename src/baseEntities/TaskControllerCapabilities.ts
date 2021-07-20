@@ -23,6 +23,8 @@ export type TaskControllerCapabilitiesAttributes = {
     NumberOfBoomsSectionControl: number
     NumberOfSectionsSectionControl: number
     NumberOfControlChannels: number
+    ProprietaryAttributes?: {[name: string]: string}
+    ProprietaryTags?: {[tag: string]: ElementCompact[]}
 }
 
 const ATTRIBUTES: AttributesDescription = {

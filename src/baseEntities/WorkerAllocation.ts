@@ -12,6 +12,8 @@ import { Entity, EntityConstructor, AttributesDescription, ISOXMLReference } fro
 export type WorkerAllocationAttributes = {
     WorkerIdRef: ISOXMLReference
     AllocationStamp?: AllocationStamp[]
+    ProprietaryAttributes?: {[name: string]: string}
+    ProprietaryTags?: {[tag: string]: ElementCompact[]}
 }
 
 const ATTRIBUTES: AttributesDescription = {

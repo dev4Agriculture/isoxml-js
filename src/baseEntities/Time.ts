@@ -26,6 +26,8 @@ export type TimeAttributes = {
     Type: TimeTypeEnum
     Position?: Position[]
     DataLogValue?: DataLogValue[]
+    ProprietaryAttributes?: {[name: string]: string}
+    ProprietaryTags?: {[tag: string]: ElementCompact[]}
 }
 
 const ATTRIBUTES: AttributesDescription = {

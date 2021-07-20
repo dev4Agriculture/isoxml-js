@@ -23,6 +23,8 @@ export type GridAttributes = {
     Filelength?: number
     GridType: GridGridTypeEnum
     TreatmentZoneCode?: number
+    ProprietaryAttributes?: {[name: string]: string}
+    ProprietaryTags?: {[tag: string]: ElementCompact[]}
 }
 
 const ATTRIBUTES: AttributesDescription = {

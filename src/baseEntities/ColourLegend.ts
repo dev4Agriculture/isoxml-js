@@ -12,6 +12,8 @@ import { Entity, EntityConstructor, AttributesDescription } from '../types'
 export type ColourLegendAttributes = {
     DefaultColor?: number
     ColourRange?: ColourRange[]
+    ProprietaryAttributes?: {[name: string]: string}
+    ProprietaryTags?: {[tag: string]: ElementCompact[]}
 }
 
 const ATTRIBUTES: AttributesDescription = {

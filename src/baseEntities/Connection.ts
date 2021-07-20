@@ -13,6 +13,8 @@ export type ConnectionAttributes = {
     DeviceElementIdRef_0: ISOXMLReference
     DeviceIdRef_1: ISOXMLReference
     DeviceElementIdRef_1: ISOXMLReference
+    ProprietaryAttributes?: {[name: string]: string}
+    ProprietaryTags?: {[tag: string]: ElementCompact[]}
 }
 
 const ATTRIBUTES: AttributesDescription = {

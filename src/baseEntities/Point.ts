@@ -32,6 +32,8 @@ export type PointAttributes = {
     PointVerticalAccuracy?: number
     Filename?: string
     Filelength?: number
+    ProprietaryAttributes?: {[name: string]: string}
+    ProprietaryTags?: {[tag: string]: ElementCompact[]}
 }
 
 const ATTRIBUTES: AttributesDescription = {

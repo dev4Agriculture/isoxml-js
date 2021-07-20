@@ -14,6 +14,8 @@ export type DevicePropertyAttributes = {
     DevicePropertyValue: number
     DevicePropertyDesignator?: string
     DeviceValuePresentationObjectId?: number
+    ProprietaryAttributes?: {[name: string]: string}
+    ProprietaryTags?: {[tag: string]: ElementCompact[]}
 }
 
 const ATTRIBUTES: AttributesDescription = {

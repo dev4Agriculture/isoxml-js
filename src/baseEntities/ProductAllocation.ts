@@ -23,6 +23,8 @@ export type ProductAllocationAttributes = {
     ValuePresentationIdRef?: ISOXMLReference
     ProductSubTypeIdRef?: ISOXMLReference
     AllocationStamp?: AllocationStamp[]
+    ProprietaryAttributes?: {[name: string]: string}
+    ProprietaryTags?: {[tag: string]: ElementCompact[]}
 }
 
 const ATTRIBUTES: AttributesDescription = {

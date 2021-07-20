@@ -14,6 +14,8 @@ export type DeviceAllocationAttributes = {
     ClientNAMEMask?: string
     DeviceIdRef?: ISOXMLReference
     AllocationStamp?: AllocationStamp[]
+    ProprietaryAttributes?: {[name: string]: string}
+    ProprietaryTags?: {[tag: string]: ElementCompact[]}
 }
 
 const ATTRIBUTES: AttributesDescription = {

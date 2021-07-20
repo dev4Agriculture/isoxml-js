@@ -14,6 +14,8 @@ export type CommentAllocationAttributes = {
     CodedCommentListValueIdRef?: ISOXMLReference
     FreeCommentText?: string
     AllocationStamp?: AllocationStamp[]
+    ProprietaryAttributes?: {[name: string]: string}
+    ProprietaryTags?: {[tag: string]: ElementCompact[]}
 }
 
 const ATTRIBUTES: AttributesDescription = {

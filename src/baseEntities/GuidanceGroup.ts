@@ -14,6 +14,8 @@ export type GuidanceGroupAttributes = {
     GuidanceGroupDesignator?: string
     GuidancePattern?: GuidancePattern[]
     BoundaryPolygon?: Polygon[]
+    ProprietaryAttributes?: {[name: string]: string}
+    ProprietaryTags?: {[tag: string]: ElementCompact[]}
 }
 
 const ATTRIBUTES: AttributesDescription = {

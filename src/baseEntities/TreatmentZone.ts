@@ -16,6 +16,8 @@ export type TreatmentZoneAttributes = {
     TreatmentZoneColour?: number
     Polygon,TreatmentZoneonly?: Polygon[]
     ProcessDataVariable?: ProcessDataVariable[]
+    ProprietaryAttributes?: {[name: string]: string}
+    ProprietaryTags?: {[tag: string]: ElementCompact[]}
 }
 
 const ATTRIBUTES: AttributesDescription = {

@@ -16,6 +16,8 @@ export type GuidanceShiftAttributes = {
     GuidanceNorthShift?: number
     PropagationOffset?: number
     AllocationStamp?: AllocationStamp[]
+    ProprietaryAttributes?: {[name: string]: string}
+    ProprietaryTags?: {[tag: string]: ElementCompact[]}
 }
 
 const ATTRIBUTES: AttributesDescription = {

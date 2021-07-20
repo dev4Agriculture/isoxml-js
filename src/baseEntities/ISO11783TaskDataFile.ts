@@ -68,6 +68,8 @@ export type ISO11783TaskDataFileAttributes = {
     ValuePresentation?: ValuePresentation[]
     Worker?: Worker[]
     ExternalFileReference?: ExternalFileReference[]
+    ProprietaryAttributes?: {[name: string]: string}
+    ProprietaryTags?: {[tag: string]: ElementCompact[]}
 }
 
 const ATTRIBUTES: AttributesDescription = {

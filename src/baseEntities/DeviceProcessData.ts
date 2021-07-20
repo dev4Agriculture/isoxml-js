@@ -15,6 +15,8 @@ export type DeviceProcessDataAttributes = {
     DeviceProcessDataTriggerMethods: number
     DeviceProcessDataDesignator?: string
     DeviceValuePresentationObjectId?: number
+    ProprietaryAttributes?: {[name: string]: string}
+    ProprietaryTags?: {[tag: string]: ElementCompact[]}
 }
 
 const ATTRIBUTES: AttributesDescription = {

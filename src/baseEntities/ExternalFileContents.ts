@@ -41,6 +41,8 @@ export type ExternalFileContentsAttributes = {
     Task?: Task[]
     ValuePresentation?: ValuePresentation[]
     Worker?: Worker[]
+    ProprietaryAttributes?: {[name: string]: string}
+    ProprietaryTags?: {[tag: string]: ElementCompact[]}
 }
 
 const ATTRIBUTES: AttributesDescription = {

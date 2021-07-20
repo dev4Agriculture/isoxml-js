@@ -18,6 +18,8 @@ export type ControlAssignmentAttributes = {
     UserDeviceElementNumber: number
     ProcessDataDDI: string
     AllocationStamp?: AllocationStamp[]
+    ProprietaryAttributes?: {[name: string]: string}
+    ProprietaryTags?: {[tag: string]: ElementCompact[]}
 }
 
 const ATTRIBUTES: AttributesDescription = {
