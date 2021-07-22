@@ -30,19 +30,19 @@ export type ProductAttributes = {
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    A: { name: 'ProductId', type: 'xs:ID', isPrimaryId: true },
-    B: { name: 'ProductDesignator', type: 'xs:string', isPrimaryId: false },
-    C: { name: 'ProductGroupIdRef', type: 'xs:IDREF', isPrimaryId: false },
-    D: { name: 'ValuePresentationIdRef', type: 'xs:IDREF', isPrimaryId: false },
-    E: { name: 'QuantityDDI', type: 'xs:hexBinary', isPrimaryId: false },
-    F: { name: 'ProductType', type: 'xs:NMTOKEN', isPrimaryId: false },
-    G: { name: 'MixtureRecipeQuantity', type: 'xs:long', isPrimaryId: false },
-    H: { name: 'DensityMassPerVolume', type: 'xs:long', isPrimaryId: false },
-    I: { name: 'DensityMassPerCount', type: 'xs:long', isPrimaryId: false },
-    J: { name: 'DensityVolumePerCount', type: 'xs:long', isPrimaryId: false },
+    A: { name: 'ProductId', type: 'xs:ID', isPrimaryId: true, isOnlyV4: false },
+    B: { name: 'ProductDesignator', type: 'xs:string', isPrimaryId: false, isOnlyV4: false },
+    C: { name: 'ProductGroupIdRef', type: 'xs:IDREF', isPrimaryId: false, isOnlyV4: false },
+    D: { name: 'ValuePresentationIdRef', type: 'xs:IDREF', isPrimaryId: false, isOnlyV4: false },
+    E: { name: 'QuantityDDI', type: 'xs:hexBinary', isPrimaryId: false, isOnlyV4: false },
+    F: { name: 'ProductType', type: 'xs:NMTOKEN', isPrimaryId: false, isOnlyV4: true },
+    G: { name: 'MixtureRecipeQuantity', type: 'xs:long', isPrimaryId: false, isOnlyV4: true },
+    H: { name: 'DensityMassPerVolume', type: 'xs:long', isPrimaryId: false, isOnlyV4: true },
+    I: { name: 'DensityMassPerCount', type: 'xs:long', isPrimaryId: false, isOnlyV4: true },
+    J: { name: 'DensityVolumePerCount', type: 'xs:long', isPrimaryId: false, isOnlyV4: true },
 }
 const CHILD_TAGS = {
-    PRN: { name: 'ProductRelation' },
+    PRN: { name: 'ProductRelation', isOnlyV4: true },
 }
 
 export class Product implements Entity {

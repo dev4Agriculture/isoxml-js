@@ -26,19 +26,19 @@ export type WorkerAttributes = {
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    A: { name: 'WorkerId', type: 'xs:ID', isPrimaryId: true },
-    B: { name: 'WorkerLastName', type: 'xs:string', isPrimaryId: false },
-    C: { name: 'WorkerFirstName', type: 'xs:string', isPrimaryId: false },
-    D: { name: 'WorkerStreet', type: 'xs:string', isPrimaryId: false },
-    E: { name: 'WorkerPOBox', type: 'xs:string', isPrimaryId: false },
-    F: { name: 'WorkerPostalCode', type: 'xs:string', isPrimaryId: false },
-    G: { name: 'WorkerCity', type: 'xs:string', isPrimaryId: false },
-    H: { name: 'WorkerState', type: 'xs:string', isPrimaryId: false },
-    I: { name: 'WorkerCountry', type: 'xs:string', isPrimaryId: false },
-    J: { name: 'WorkerPhone', type: 'xs:string', isPrimaryId: false },
-    K: { name: 'WorkerMobile', type: 'xs:string', isPrimaryId: false },
-    L: { name: 'WorkerLicenseNumber', type: 'xs:string', isPrimaryId: false },
-    M: { name: 'WorkerEMail', type: 'xs:string', isPrimaryId: false },
+    A: { name: 'WorkerId', type: 'xs:ID', isPrimaryId: true, isOnlyV4: false },
+    B: { name: 'WorkerLastName', type: 'xs:string', isPrimaryId: false, isOnlyV4: false },
+    C: { name: 'WorkerFirstName', type: 'xs:string', isPrimaryId: false, isOnlyV4: false },
+    D: { name: 'WorkerStreet', type: 'xs:string', isPrimaryId: false, isOnlyV4: false },
+    E: { name: 'WorkerPOBox', type: 'xs:string', isPrimaryId: false, isOnlyV4: false },
+    F: { name: 'WorkerPostalCode', type: 'xs:string', isPrimaryId: false, isOnlyV4: false },
+    G: { name: 'WorkerCity', type: 'xs:string', isPrimaryId: false, isOnlyV4: false },
+    H: { name: 'WorkerState', type: 'xs:string', isPrimaryId: false, isOnlyV4: false },
+    I: { name: 'WorkerCountry', type: 'xs:string', isPrimaryId: false, isOnlyV4: false },
+    J: { name: 'WorkerPhone', type: 'xs:string', isPrimaryId: false, isOnlyV4: false },
+    K: { name: 'WorkerMobile', type: 'xs:string', isPrimaryId: false, isOnlyV4: false },
+    L: { name: 'WorkerLicenseNumber', type: 'xs:string', isPrimaryId: false, isOnlyV4: false },
+    M: { name: 'WorkerEMail', type: 'xs:string', isPrimaryId: false, isOnlyV4: false },
 }
 const CHILD_TAGS = {
 }

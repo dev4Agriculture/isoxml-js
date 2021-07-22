@@ -30,21 +30,21 @@ export type PartfieldAttributes = {
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    A: { name: 'PartfieldId', type: 'xs:ID', isPrimaryId: true },
-    B: { name: 'PartfieldCode', type: 'xs:string', isPrimaryId: false },
-    C: { name: 'PartfieldDesignator', type: 'xs:string', isPrimaryId: false },
-    D: { name: 'PartfieldArea', type: 'xs:unsignedLong', isPrimaryId: false },
-    E: { name: 'CustomerIdRef', type: 'xs:IDREF', isPrimaryId: false },
-    F: { name: 'FarmIdRef', type: 'xs:IDREF', isPrimaryId: false },
-    G: { name: 'CropTypeIdRef', type: 'xs:IDREF', isPrimaryId: false },
-    H: { name: 'CropVarietyIdRef', type: 'xs:IDREF', isPrimaryId: false },
-    I: { name: 'FieldIdRef', type: 'xs:IDREF', isPrimaryId: false },
+    A: { name: 'PartfieldId', type: 'xs:ID', isPrimaryId: true, isOnlyV4: false },
+    B: { name: 'PartfieldCode', type: 'xs:string', isPrimaryId: false, isOnlyV4: false },
+    C: { name: 'PartfieldDesignator', type: 'xs:string', isPrimaryId: false, isOnlyV4: false },
+    D: { name: 'PartfieldArea', type: 'xs:unsignedLong', isPrimaryId: false, isOnlyV4: false },
+    E: { name: 'CustomerIdRef', type: 'xs:IDREF', isPrimaryId: false, isOnlyV4: false },
+    F: { name: 'FarmIdRef', type: 'xs:IDREF', isPrimaryId: false, isOnlyV4: false },
+    G: { name: 'CropTypeIdRef', type: 'xs:IDREF', isPrimaryId: false, isOnlyV4: false },
+    H: { name: 'CropVarietyIdRef', type: 'xs:IDREF', isPrimaryId: false, isOnlyV4: false },
+    I: { name: 'FieldIdRef', type: 'xs:IDREF', isPrimaryId: false, isOnlyV4: false },
 }
 const CHILD_TAGS = {
-    PLN: { name: 'PolygonnonTreatmentZoneonly' },
-    LSG: { name: 'LineString' },
-    PNT: { name: 'Point' },
-    GGP: { name: 'GuidanceGroup' },
+    PLN: { name: 'PolygonnonTreatmentZoneonly', isOnlyV4: false },
+    LSG: { name: 'LineString', isOnlyV4: false },
+    PNT: { name: 'Point', isOnlyV4: false },
+    GGP: { name: 'GuidanceGroup', isOnlyV4: true },
 }
 
 export class Partfield implements Entity {

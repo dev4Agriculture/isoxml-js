@@ -26,19 +26,19 @@ export type CustomerAttributes = {
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    A: { name: 'CustomerId', type: 'xs:ID', isPrimaryId: true },
-    B: { name: 'CustomerLastName', type: 'xs:string', isPrimaryId: false },
-    C: { name: 'CustomerFirstName', type: 'xs:string', isPrimaryId: false },
-    D: { name: 'CustomerStreet', type: 'xs:string', isPrimaryId: false },
-    E: { name: 'CustomerPOBox', type: 'xs:string', isPrimaryId: false },
-    F: { name: 'CustomerPostalCode', type: 'xs:string', isPrimaryId: false },
-    G: { name: 'CustomerCity', type: 'xs:string', isPrimaryId: false },
-    H: { name: 'CustomerState', type: 'xs:string', isPrimaryId: false },
-    I: { name: 'CustomerCountry', type: 'xs:string', isPrimaryId: false },
-    J: { name: 'CustomerPhone', type: 'xs:string', isPrimaryId: false },
-    K: { name: 'CustomerMobile', type: 'xs:string', isPrimaryId: false },
-    L: { name: 'CustomerFax', type: 'xs:string', isPrimaryId: false },
-    M: { name: 'CustomerEMail', type: 'xs:string', isPrimaryId: false },
+    A: { name: 'CustomerId', type: 'xs:ID', isPrimaryId: true, isOnlyV4: false },
+    B: { name: 'CustomerLastName', type: 'xs:string', isPrimaryId: false, isOnlyV4: false },
+    C: { name: 'CustomerFirstName', type: 'xs:string', isPrimaryId: false, isOnlyV4: false },
+    D: { name: 'CustomerStreet', type: 'xs:string', isPrimaryId: false, isOnlyV4: false },
+    E: { name: 'CustomerPOBox', type: 'xs:string', isPrimaryId: false, isOnlyV4: false },
+    F: { name: 'CustomerPostalCode', type: 'xs:string', isPrimaryId: false, isOnlyV4: false },
+    G: { name: 'CustomerCity', type: 'xs:string', isPrimaryId: false, isOnlyV4: false },
+    H: { name: 'CustomerState', type: 'xs:string', isPrimaryId: false, isOnlyV4: false },
+    I: { name: 'CustomerCountry', type: 'xs:string', isPrimaryId: false, isOnlyV4: false },
+    J: { name: 'CustomerPhone', type: 'xs:string', isPrimaryId: false, isOnlyV4: false },
+    K: { name: 'CustomerMobile', type: 'xs:string', isPrimaryId: false, isOnlyV4: false },
+    L: { name: 'CustomerFax', type: 'xs:string', isPrimaryId: false, isOnlyV4: false },
+    M: { name: 'CustomerEMail', type: 'xs:string', isPrimaryId: false, isOnlyV4: false },
 }
 const CHILD_TAGS = {
 }

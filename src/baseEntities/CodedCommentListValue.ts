@@ -15,8 +15,8 @@ export type CodedCommentListValueAttributes = {
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    A: { name: 'CodedCommentListValueId', type: 'xs:ID', isPrimaryId: true },
-    B: { name: 'CodedCommentListValueDesignator', type: 'xs:string', isPrimaryId: false },
+    A: { name: 'CodedCommentListValueId', type: 'xs:ID', isPrimaryId: true, isOnlyV4: false },
+    B: { name: 'CodedCommentListValueDesignator', type: 'xs:string', isPrimaryId: false, isOnlyV4: false },
 }
 const CHILD_TAGS = {
 }

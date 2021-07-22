@@ -87,13 +87,15 @@ function attrs2xml(
     entity: Entity,
     attributesDescription: AttributesDescription,
 ): {[xmlId: string]: string} {
+    const version = entity.isoxmlManager.options.version
+
     const result = {
         ...entity.attributes.ProprietaryAttributes
     }
 
     const primaryXmlId = Object.keys(attributesDescription).find(xmlTag => attributesDescription[xmlTag].isPrimaryId)
 
-    if (primaryXmlId) {
+    if (primaryXmlId && !(version === 3 && attributesDescription[primaryXmlId].isOnlyV4)) {
         const ref = entity.isoxmlManager.getReferenceByEntity(entity)
         if (ref) {
             result[primaryXmlId] = ref.xmlId
@@ -103,7 +105,7 @@ function attrs2xml(
     Object.keys(entity.attributes).forEach(attrName => {
         const xmlAttr = Object.keys(attributesDescription).find(xmlId => attributesDescription[xmlId].name === attrName)
         const attrDescription = attributesDescription[xmlAttr]
-        if (!attrDescription) {
+        if (!attrDescription || (version === 3 && attrDescription.isOnlyV4)) {
             return
         }
         const generator = GENERATORS[attrDescription.type]
@@ -144,13 +146,14 @@ export function childTags2Xml(
     entity: Entity,
     referencesDescription: ReferencesDescription,
 ) {
+    const version = entity.isoxmlManager.options.version
     const result = {
         ...entity.attributes.ProprietaryTags
     }
     Object.keys(entity.attributes).forEach(attrName => {
         const tagName = Object.keys(referencesDescription).find(tag => referencesDescription[tag].name === attrName)
         const refDescription = referencesDescription[tagName]
-        if (!refDescription) {
+        if (!refDescription || (version === 3 && refDescription.isOnlyV4)) {
             return 
         }
 

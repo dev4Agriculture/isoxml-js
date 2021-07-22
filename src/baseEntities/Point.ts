@@ -37,17 +37,17 @@ export type PointAttributes = {
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    A: { name: 'PointType', type: 'xs:NMTOKEN', isPrimaryId: false },
-    B: { name: 'PointDesignator', type: 'xs:string', isPrimaryId: false },
-    C: { name: 'PointNorth', type: 'xs:decimal', isPrimaryId: false },
-    D: { name: 'PointEast', type: 'xs:decimal', isPrimaryId: false },
-    E: { name: 'PointUp', type: 'xs:long', isPrimaryId: false },
-    F: { name: 'PointColour', type: 'xs:unsignedByte', isPrimaryId: false },
-    G: { name: 'PointId', type: 'xs:ID', isPrimaryId: true },
-    H: { name: 'PointHorizontalAccuracy', type: 'xs:decimal', isPrimaryId: false },
-    I: { name: 'PointVerticalAccuracy', type: 'xs:decimal', isPrimaryId: false },
-    J: { name: 'Filename', type: 'xs:string', isPrimaryId: false },
-    K: { name: 'Filelength', type: 'xs:unsignedLong', isPrimaryId: false },
+    A: { name: 'PointType', type: 'xs:NMTOKEN', isPrimaryId: false, isOnlyV4: false },
+    B: { name: 'PointDesignator', type: 'xs:string', isPrimaryId: false, isOnlyV4: false },
+    C: { name: 'PointNorth', type: 'xs:decimal', isPrimaryId: false, isOnlyV4: false },
+    D: { name: 'PointEast', type: 'xs:decimal', isPrimaryId: false, isOnlyV4: false },
+    E: { name: 'PointUp', type: 'xs:long', isPrimaryId: false, isOnlyV4: false },
+    F: { name: 'PointColour', type: 'xs:unsignedByte', isPrimaryId: false, isOnlyV4: false },
+    G: { name: 'PointId', type: 'xs:ID', isPrimaryId: true, isOnlyV4: true },
+    H: { name: 'PointHorizontalAccuracy', type: 'xs:decimal', isPrimaryId: false, isOnlyV4: true },
+    I: { name: 'PointVerticalAccuracy', type: 'xs:decimal', isPrimaryId: false, isOnlyV4: true },
+    J: { name: 'Filename', type: 'xs:string', isPrimaryId: false, isOnlyV4: true },
+    K: { name: 'Filelength', type: 'xs:unsignedLong', isPrimaryId: false, isOnlyV4: true },
 }
 const CHILD_TAGS = {
 }

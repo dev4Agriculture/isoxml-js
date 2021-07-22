@@ -17,10 +17,10 @@ export type WorkerAllocationAttributes = {
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    A: { name: 'WorkerIdRef', type: 'xs:IDREF', isPrimaryId: false },
+    A: { name: 'WorkerIdRef', type: 'xs:IDREF', isPrimaryId: false, isOnlyV4: false },
 }
 const CHILD_TAGS = {
-    ASP: { name: 'AllocationStamp' },
+    ASP: { name: 'AllocationStamp', isOnlyV4: false },
 }
 
 export class WorkerAllocation implements Entity {

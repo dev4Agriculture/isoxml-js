@@ -19,8 +19,8 @@ export type ExternalFileReferenceAttributes = {
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    A: { name: 'Filename', type: 'xs:ID', isPrimaryId: false },
-    B: { name: 'Filetype', type: 'xs:NMTOKEN', isPrimaryId: false },
+    A: { name: 'Filename', type: 'xs:ID', isPrimaryId: false, isOnlyV4: false },
+    B: { name: 'Filetype', type: 'xs:NMTOKEN', isPrimaryId: false, isOnlyV4: false },
 }
 const CHILD_TAGS = {
 }

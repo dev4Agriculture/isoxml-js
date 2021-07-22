@@ -20,9 +20,9 @@ export type TimeLogAttributes = {
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    A: { name: 'Filename', type: 'xs:ID', isPrimaryId: false },
-    B: { name: 'Filelength', type: 'xs:unsignedLong', isPrimaryId: false },
-    C: { name: 'TimeLogType', type: 'xs:NMTOKEN', isPrimaryId: false },
+    A: { name: 'Filename', type: 'xs:ID', isPrimaryId: false, isOnlyV4: false },
+    B: { name: 'Filelength', type: 'xs:unsignedLong', isPrimaryId: false, isOnlyV4: false },
+    C: { name: 'TimeLogType', type: 'xs:NMTOKEN', isPrimaryId: false, isOnlyV4: false },
 }
 const CHILD_TAGS = {
 }

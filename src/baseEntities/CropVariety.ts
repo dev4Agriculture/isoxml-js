@@ -16,9 +16,9 @@ export type CropVarietyAttributes = {
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    A: { name: 'CropVarietyId', type: 'xs:ID', isPrimaryId: true },
-    B: { name: 'CropVarietyDesignator', type: 'xs:string', isPrimaryId: false },
-    C: { name: 'ProductIdRef', type: 'xs:IDREF', isPrimaryId: false },
+    A: { name: 'CropVarietyId', type: 'xs:ID', isPrimaryId: true, isOnlyV4: false },
+    B: { name: 'CropVarietyDesignator', type: 'xs:string', isPrimaryId: false, isOnlyV4: false },
+    C: { name: 'ProductIdRef', type: 'xs:IDREF', isPrimaryId: false, isOnlyV4: true },
 }
 const CHILD_TAGS = {
 }

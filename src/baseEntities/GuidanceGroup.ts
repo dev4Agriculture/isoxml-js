@@ -19,12 +19,12 @@ export type GuidanceGroupAttributes = {
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    A: { name: 'GuidanceGroupId', type: 'xs:ID', isPrimaryId: true },
-    B: { name: 'GuidanceGroupDesignator', type: 'xs:string', isPrimaryId: false },
+    A: { name: 'GuidanceGroupId', type: 'xs:ID', isPrimaryId: true, isOnlyV4: undefined },
+    B: { name: 'GuidanceGroupDesignator', type: 'xs:string', isPrimaryId: false, isOnlyV4: undefined },
 }
 const CHILD_TAGS = {
-    GPN: { name: 'GuidancePattern' },
-    PLN: { name: 'BoundaryPolygon' },
+    GPN: { name: 'GuidancePattern', isOnlyV4: undefined },
+    PLN: { name: 'BoundaryPolygon', isOnlyV4: undefined },
 }
 
 export class GuidanceGroup implements Entity {

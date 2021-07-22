@@ -21,13 +21,13 @@ export type TreatmentZoneAttributes = {
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    A: { name: 'TreatmentZoneCode', type: 'xs:unsignedByte', isPrimaryId: false },
-    B: { name: 'TreatmentZoneDesignator', type: 'xs:string', isPrimaryId: false },
-    C: { name: 'TreatmentZoneColour', type: 'xs:unsignedByte', isPrimaryId: false },
+    A: { name: 'TreatmentZoneCode', type: 'xs:unsignedByte', isPrimaryId: false, isOnlyV4: false },
+    B: { name: 'TreatmentZoneDesignator', type: 'xs:string', isPrimaryId: false, isOnlyV4: false },
+    C: { name: 'TreatmentZoneColour', type: 'xs:unsignedByte', isPrimaryId: false, isOnlyV4: false },
 }
 const CHILD_TAGS = {
-    PLN: { name: 'PolygonTreatmentZoneonly' },
-    PDV: { name: 'ProcessDataVariable' },
+    PLN: { name: 'PolygonTreatmentZoneonly', isOnlyV4: false },
+    PDV: { name: 'ProcessDataVariable', isOnlyV4: false },
 }
 
 export class TreatmentZone implements Entity {

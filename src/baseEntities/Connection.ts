@@ -18,10 +18,10 @@ export type ConnectionAttributes = {
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    A: { name: 'DeviceIdRef_0', type: 'xs:IDREF', isPrimaryId: false },
-    B: { name: 'DeviceElementIdRef_0', type: 'xs:IDREF', isPrimaryId: false },
-    C: { name: 'DeviceIdRef_1', type: 'xs:IDREF', isPrimaryId: false },
-    D: { name: 'DeviceElementIdRef_1', type: 'xs:IDREF', isPrimaryId: false },
+    A: { name: 'DeviceIdRef_0', type: 'xs:IDREF', isPrimaryId: false, isOnlyV4: false },
+    B: { name: 'DeviceElementIdRef_0', type: 'xs:IDREF', isPrimaryId: false, isOnlyV4: false },
+    C: { name: 'DeviceIdRef_1', type: 'xs:IDREF', isPrimaryId: false, isOnlyV4: false },
+    D: { name: 'DeviceElementIdRef_1', type: 'xs:IDREF', isPrimaryId: false, isOnlyV4: false },
 }
 const CHILD_TAGS = {
 }

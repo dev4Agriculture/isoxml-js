@@ -16,8 +16,8 @@ export type ProductRelationAttributes = {
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    A: { name: 'ProductIdRef', type: 'xs:IDREF', isPrimaryId: false },
-    B: { name: 'QuantityValue', type: 'xs:long', isPrimaryId: false },
+    A: { name: 'ProductIdRef', type: 'xs:IDREF', isPrimaryId: false, isOnlyV4: undefined },
+    B: { name: 'QuantityValue', type: 'xs:long', isPrimaryId: false, isOnlyV4: undefined },
 }
 const CHILD_TAGS = {
 }

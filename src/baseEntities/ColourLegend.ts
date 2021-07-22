@@ -17,11 +17,11 @@ export type ColourLegendAttributes = {
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    A: { name: 'ColourLegendId', type: 'xs:ID', isPrimaryId: true },
-    B: { name: 'DefaultColor', type: 'xs:unsignedByte', isPrimaryId: false },
+    A: { name: 'ColourLegendId', type: 'xs:ID', isPrimaryId: true, isOnlyV4: false },
+    B: { name: 'DefaultColor', type: 'xs:unsignedByte', isPrimaryId: false, isOnlyV4: false },
 }
 const CHILD_TAGS = {
-    CRG: { name: 'ColourRange' },
+    CRG: { name: 'ColourRange', isOnlyV4: false },
 }
 
 export class ColourLegend implements Entity {

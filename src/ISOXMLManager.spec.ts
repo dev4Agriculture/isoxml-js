@@ -131,4 +131,19 @@ describe('ISOXML Manager', () => {
         const zip = await JSZip.loadAsync(data)
         expect(zip.file("testFolder/TASKDATA.XML")).toBeTruthy()
     })
+
+    it('should not save V4Only elements in V3', async () => {
+        const isoxmlData = readFileSync('./data/task_full.zip')
+        const isoxmlManager = new ISOXMLManager()
+        await isoxmlManager.parseISOXMLFile(new Uint8Array(isoxmlData.buffer), 'application/zip')
+        isoxmlManager.updateOptions({version: 3})
+        const data = await isoxmlManager.saveISOXML()
+        // writeFileSync('./data/test_grid_out.zip', data)
+
+        const isoxmlManager2 = new ISOXMLManager()
+        await isoxmlManager2.parseISOXMLFile(data, 'application/zip')
+        expect(isoxmlManager2.options.version).toBe(3)
+        expect(isoxmlManager2.rootElement.attributes).not.toHaveProperty('BaseStation')
+        expect(isoxmlManager2.rootElement.attributes.CropType[0].attributes).not.toHaveProperty('ProductGroupIdRef')
+    })
 })

@@ -26,18 +26,18 @@ export type DataLogTriggerAttributes = {
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    A: { name: 'DataLogDDI', type: 'xs:hexBinary', isPrimaryId: false },
-    B: { name: 'DataLogMethod', type: 'xs:unsignedByte', isPrimaryId: false },
-    C: { name: 'DataLogDistanceInterval', type: 'xs:long', isPrimaryId: false },
-    D: { name: 'DataLogTimeInterval', type: 'xs:long', isPrimaryId: false },
-    E: { name: 'DataLogThresholdMinimum', type: 'xs:long', isPrimaryId: false },
-    F: { name: 'DataLogThresholdMaximum', type: 'xs:long', isPrimaryId: false },
-    G: { name: 'DataLogThresholdChange', type: 'xs:long', isPrimaryId: false },
-    H: { name: 'DeviceElementIdRef', type: 'xs:IDREF', isPrimaryId: false },
-    I: { name: 'ValuePresentationIdRef', type: 'xs:IDREF', isPrimaryId: false },
-    J: { name: 'DataLogPGN', type: 'xs:unsignedLong', isPrimaryId: false },
-    K: { name: 'DataLogPGNStartBit', type: 'xs:unsignedByte', isPrimaryId: false },
-    L: { name: 'DataLogPGNStopBit', type: 'xs:unsignedByte', isPrimaryId: false },
+    A: { name: 'DataLogDDI', type: 'xs:hexBinary', isPrimaryId: false, isOnlyV4: false },
+    B: { name: 'DataLogMethod', type: 'xs:unsignedByte', isPrimaryId: false, isOnlyV4: false },
+    C: { name: 'DataLogDistanceInterval', type: 'xs:long', isPrimaryId: false, isOnlyV4: false },
+    D: { name: 'DataLogTimeInterval', type: 'xs:long', isPrimaryId: false, isOnlyV4: false },
+    E: { name: 'DataLogThresholdMinimum', type: 'xs:long', isPrimaryId: false, isOnlyV4: false },
+    F: { name: 'DataLogThresholdMaximum', type: 'xs:long', isPrimaryId: false, isOnlyV4: false },
+    G: { name: 'DataLogThresholdChange', type: 'xs:long', isPrimaryId: false, isOnlyV4: false },
+    H: { name: 'DeviceElementIdRef', type: 'xs:IDREF', isPrimaryId: false, isOnlyV4: false },
+    I: { name: 'ValuePresentationIdRef', type: 'xs:IDREF', isPrimaryId: false, isOnlyV4: false },
+    J: { name: 'DataLogPGN', type: 'xs:unsignedLong', isPrimaryId: false, isOnlyV4: false },
+    K: { name: 'DataLogPGNStartBit', type: 'xs:unsignedByte', isPrimaryId: false, isOnlyV4: false },
+    L: { name: 'DataLogPGNStopBit', type: 'xs:unsignedByte', isPrimaryId: false, isOnlyV4: false },
 }
 const CHILD_TAGS = {
 }

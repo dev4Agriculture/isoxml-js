@@ -17,11 +17,11 @@ export type CulturalPracticeAttributes = {
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    A: { name: 'CulturalPracticeId', type: 'xs:ID', isPrimaryId: true },
-    B: { name: 'CulturalPracticeDesignator', type: 'xs:string', isPrimaryId: false },
+    A: { name: 'CulturalPracticeId', type: 'xs:ID', isPrimaryId: true, isOnlyV4: false },
+    B: { name: 'CulturalPracticeDesignator', type: 'xs:string', isPrimaryId: false, isOnlyV4: false },
 }
 const CHILD_TAGS = {
-    OTR: { name: 'OperationTechniqueReference' },
+    OTR: { name: 'OperationTechniqueReference', isOnlyV4: false },
 }
 
 export class CulturalPractice implements Entity {

@@ -3,11 +3,16 @@ import { TAGS } from "./baseEntities/constants";
 import { ISOXMLManager } from './ISOXMLManager'
 
 export interface AttributesDescription {
-    [xmlTag: string]: {name: string, type: string, isPrimaryId: boolean}
+    [xmlTag: string]: {
+        name: string
+        type: string
+        isPrimaryId: boolean
+        isOnlyV4: boolean
+    }
 }
 
 export interface ReferencesDescription {
-    [xmlTag: string]: {name: string}
+    [xmlTag: string]: {name: string, isOnlyV4: boolean}
 }
 
 export type ISOXMLReference = {

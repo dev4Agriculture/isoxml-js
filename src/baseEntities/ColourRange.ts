@@ -17,9 +17,9 @@ export type ColourRangeAttributes = {
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    A: { name: 'MinimumValue', type: 'xs:long', isPrimaryId: false },
-    B: { name: 'MaximumValue', type: 'xs:long', isPrimaryId: false },
-    C: { name: 'Colour', type: 'xs:unsignedByte', isPrimaryId: false },
+    A: { name: 'MinimumValue', type: 'xs:long', isPrimaryId: false, isOnlyV4: false },
+    B: { name: 'MaximumValue', type: 'xs:long', isPrimaryId: false, isOnlyV4: false },
+    C: { name: 'Colour', type: 'xs:unsignedByte', isPrimaryId: false, isOnlyV4: false },
 }
 const CHILD_TAGS = {
 }

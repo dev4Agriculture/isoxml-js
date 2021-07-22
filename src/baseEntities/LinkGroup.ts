@@ -26,14 +26,14 @@ export type LinkGroupAttributes = {
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    A: { name: 'LinkGroupId', type: 'xs:ID', isPrimaryId: true },
-    B: { name: 'LinkGroupType', type: 'xs:NMTOKEN', isPrimaryId: false },
-    C: { name: 'ManufacturerGLN', type: 'xs:anyURI', isPrimaryId: false },
-    D: { name: 'LinkGroupNamespace', type: 'xs:token', isPrimaryId: false },
-    E: { name: 'LinkGroupDesignator', type: 'xs:string', isPrimaryId: false },
+    A: { name: 'LinkGroupId', type: 'xs:ID', isPrimaryId: true, isOnlyV4: undefined },
+    B: { name: 'LinkGroupType', type: 'xs:NMTOKEN', isPrimaryId: false, isOnlyV4: undefined },
+    C: { name: 'ManufacturerGLN', type: 'xs:anyURI', isPrimaryId: false, isOnlyV4: undefined },
+    D: { name: 'LinkGroupNamespace', type: 'xs:token', isPrimaryId: false, isOnlyV4: undefined },
+    E: { name: 'LinkGroupDesignator', type: 'xs:string', isPrimaryId: false, isOnlyV4: undefined },
 }
 const CHILD_TAGS = {
-    LNK: { name: 'Link' },
+    LNK: { name: 'Link', isOnlyV4: undefined },
 }
 
 export class LinkGroup implements Entity {

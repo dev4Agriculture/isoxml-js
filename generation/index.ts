@@ -156,30 +156,80 @@ function parseClassesFromFile(filename: string): any[] {
 }
 
 
-const tags = [
+const classesV4 = [
     ...parseClassesFromFile('./generation/xsd/ISO11783_Common_V4-3.xsd'),
     ...parseClassesFromFile('./generation/xsd/ISO11783_TaskFile_V4-3.xsd'),
     ...parseClassesFromFile('./generation/xsd/ISO11783_LinkListFile_V4-3.xsd'),
     ...parseClassesFromFile('./generation/xsd/ISO11783_ExternalFile_V4-3.xsd')
 ]
 
-rmSync('./src/baseEntities', {recursive: true, force: true})
-mkdirSync('./src/baseEntities', {recursive: true})
-
-tags.forEach(tag => {
-    tag.children.forEach(child => {
-        child.className = tags.find(tag => tag.tag === child.tag).name
+classesV4.forEach(cls => {
+    cls.children.forEach(child => {
+        child.className = classesV4.find(cls => cls.tag === child.tag).name
         if (!child.name) {
-            console.log(`Missing child name: ${tag.tag}->${child.tag}`)
+            console.log(`Missing child name: ${cls.tag}->${child.tag}`)
             child.name = child.className
         }
     })
 })
 
-tags.forEach((tag: any) => {
-    const classDefinition = entityTemplate(tag)
-    writeFileSync(join('src/baseEntities', `${tag.name}.ts`), classDefinition)
+console.log('------- Analysis of ISO1173-10:2009 (v3.3) -------')
+
+const classesV3 = parseClassesFromFile('./generation/xsd/ISO11783_TaskFile_V3-3.xsd')
+const tagsV4 = classesV4.map(cls => cls.tag)
+const tagsV3 = classesV3.map(cls => cls.tag)
+
+const removedTags = tagsV3.filter(tag => !tagsV4.includes(tag))
+const newTags = tagsV4.filter(tag => !tagsV3.includes(tag))
+
+console.log('New tags', newTags)
+removedTags.length && console.log('Removed tags', removedTags)
+
+classesV4.forEach(clsv4 => {
+    const clsv3 = classesV3.find(clsv3 => clsv3.tag === clsv4.tag)
+    if (!clsv3) {
+        return
+    }
+
+
+    const attrXMLNamesV4 = clsv4.attributes.map(attr => attr.xmlName)
+    const attrXMLNamesV3 = clsv3.attributes.map(attr => attr.xmlName)
+
+    const removedAttrs = attrXMLNamesV3.filter(name => !attrXMLNamesV4.includes(name))
+    const newAttrs = attrXMLNamesV4.filter(name => !attrXMLNamesV3.includes(name))
+
+    const childTagsV4 = clsv4.children.map(cld => cld.tag)
+    const childTagsV3 = clsv3.children.map(cld => cld.tag)
+
+    const removedChildren = childTagsV3.filter(tag => !childTagsV4.includes(tag))
+    const newChildren = childTagsV4.filter(tag => !childTagsV3.includes(tag))
+
+    if (removedAttrs.length || newAttrs.length || removedChildren.length || newChildren.length) {
+        console.log(`Class ${clsv4.name} (${clsv4.tag})`)
+        newAttrs.length && console.log('  New attributes', newAttrs)
+        removedAttrs.length && console.log('  Removed attributes', removedAttrs)
+        newChildren.length && console.log('  New children', newChildren)
+        removedChildren.length && console.log('  Removed children', removedChildren)
+    }
+
+    clsv4.attributes.forEach(attr => {
+        attr.isOnlyV4 = !attrXMLNamesV3.includes(attr.xmlName)
+    })
+
+    clsv4.children.forEach(child => {
+        child.isOnlyV4 = !childTagsV3.includes(child.tag)
+    })
 })
 
-writeFileSync('src/baseEntities/index.ts', indexTemplate({tags}))
-writeFileSync('src/baseEntities/constants.ts', constantsTemplate({tags}))
+
+rmSync('./src/baseEntities', {recursive: true, force: true})
+mkdirSync('./src/baseEntities', {recursive: true})
+
+
+classesV4.forEach((cls: any) => {
+    const classDefinition = entityTemplate(cls)
+    writeFileSync(join('src/baseEntities', `${cls.name}.ts`), classDefinition)
+})
+
+writeFileSync('src/baseEntities/index.ts', indexTemplate({tags: classesV4}))
+writeFileSync('src/baseEntities/constants.ts', constantsTemplate({tags: classesV4}))

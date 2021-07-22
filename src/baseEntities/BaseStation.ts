@@ -18,11 +18,11 @@ export type BaseStationAttributes = {
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    A: { name: 'BaseStationId', type: 'xs:ID', isPrimaryId: true },
-    B: { name: 'BaseStationDesignator', type: 'xs:string', isPrimaryId: false },
-    C: { name: 'BaseStationNorth', type: 'xs:decimal', isPrimaryId: false },
-    D: { name: 'BaseStationEast', type: 'xs:decimal', isPrimaryId: false },
-    E: { name: 'BaseStationUp', type: 'xs:long', isPrimaryId: false },
+    A: { name: 'BaseStationId', type: 'xs:ID', isPrimaryId: true, isOnlyV4: undefined },
+    B: { name: 'BaseStationDesignator', type: 'xs:string', isPrimaryId: false, isOnlyV4: undefined },
+    C: { name: 'BaseStationNorth', type: 'xs:decimal', isPrimaryId: false, isOnlyV4: undefined },
+    D: { name: 'BaseStationEast', type: 'xs:decimal', isPrimaryId: false, isOnlyV4: undefined },
+    E: { name: 'BaseStationUp', type: 'xs:long', isPrimaryId: false, isOnlyV4: undefined },
 }
 const CHILD_TAGS = {
 }

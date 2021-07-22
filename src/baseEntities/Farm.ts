@@ -22,15 +22,15 @@ export type FarmAttributes = {
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    A: { name: 'FarmId', type: 'xs:ID', isPrimaryId: true },
-    B: { name: 'FarmDesignator', type: 'xs:string', isPrimaryId: false },
-    C: { name: 'FarmStreet', type: 'xs:string', isPrimaryId: false },
-    D: { name: 'FarmPOBox', type: 'xs:string', isPrimaryId: false },
-    E: { name: 'FarmPostalCode', type: 'xs:string', isPrimaryId: false },
-    F: { name: 'FarmCity', type: 'xs:string', isPrimaryId: false },
-    G: { name: 'FarmState', type: 'xs:string', isPrimaryId: false },
-    H: { name: 'FarmCountry', type: 'xs:string', isPrimaryId: false },
-    I: { name: 'CustomerIdRef', type: 'xs:IDREF', isPrimaryId: false },
+    A: { name: 'FarmId', type: 'xs:ID', isPrimaryId: true, isOnlyV4: false },
+    B: { name: 'FarmDesignator', type: 'xs:string', isPrimaryId: false, isOnlyV4: false },
+    C: { name: 'FarmStreet', type: 'xs:string', isPrimaryId: false, isOnlyV4: false },
+    D: { name: 'FarmPOBox', type: 'xs:string', isPrimaryId: false, isOnlyV4: false },
+    E: { name: 'FarmPostalCode', type: 'xs:string', isPrimaryId: false, isOnlyV4: false },
+    F: { name: 'FarmCity', type: 'xs:string', isPrimaryId: false, isOnlyV4: false },
+    G: { name: 'FarmState', type: 'xs:string', isPrimaryId: false, isOnlyV4: false },
+    H: { name: 'FarmCountry', type: 'xs:string', isPrimaryId: false, isOnlyV4: false },
+    I: { name: 'CustomerIdRef', type: 'xs:IDREF', isPrimaryId: false, isOnlyV4: false },
 }
 const CHILD_TAGS = {
 }

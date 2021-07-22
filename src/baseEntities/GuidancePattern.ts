@@ -69,25 +69,25 @@ export type GuidancePatternAttributes = {
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    A: { name: 'GuidancePatternId', type: 'xs:ID', isPrimaryId: true },
-    B: { name: 'GuidancePatternDesignator', type: 'xs:string', isPrimaryId: false },
-    C: { name: 'GuidancePatternType', type: 'xs:NMTOKEN', isPrimaryId: false },
-    D: { name: 'GuidancePatternOptions', type: 'xs:NMTOKEN', isPrimaryId: false },
-    E: { name: 'GuidancePatternPropagationDirection', type: 'xs:NMTOKEN', isPrimaryId: false },
-    F: { name: 'GuidancePatternExtension', type: 'xs:NMTOKEN', isPrimaryId: false },
-    G: { name: 'GuidancePatternHeading', type: 'xs:decimal', isPrimaryId: false },
-    H: { name: 'GuidancePatternRadius', type: 'xs:unsignedLong', isPrimaryId: false },
-    I: { name: 'GuidancePatternGNSSMethod', type: 'xs:NMTOKEN', isPrimaryId: false },
-    J: { name: 'GuidancePatternHorizontalAccuracy', type: 'xs:decimal', isPrimaryId: false },
-    K: { name: 'GuidancePatternVerticalAccuracy', type: 'xs:decimal', isPrimaryId: false },
-    L: { name: 'BaseStationIdRef', type: 'xs:IDREF', isPrimaryId: false },
-    M: { name: 'OriginalSRID', type: 'xs:string', isPrimaryId: false },
-    N: { name: 'NumberOfSwathsLeft', type: 'xs:unsignedLong', isPrimaryId: false },
-    O: { name: 'NumberOfSwathsRight', type: 'xs:unsignedLong', isPrimaryId: false },
+    A: { name: 'GuidancePatternId', type: 'xs:ID', isPrimaryId: true, isOnlyV4: undefined },
+    B: { name: 'GuidancePatternDesignator', type: 'xs:string', isPrimaryId: false, isOnlyV4: undefined },
+    C: { name: 'GuidancePatternType', type: 'xs:NMTOKEN', isPrimaryId: false, isOnlyV4: undefined },
+    D: { name: 'GuidancePatternOptions', type: 'xs:NMTOKEN', isPrimaryId: false, isOnlyV4: undefined },
+    E: { name: 'GuidancePatternPropagationDirection', type: 'xs:NMTOKEN', isPrimaryId: false, isOnlyV4: undefined },
+    F: { name: 'GuidancePatternExtension', type: 'xs:NMTOKEN', isPrimaryId: false, isOnlyV4: undefined },
+    G: { name: 'GuidancePatternHeading', type: 'xs:decimal', isPrimaryId: false, isOnlyV4: undefined },
+    H: { name: 'GuidancePatternRadius', type: 'xs:unsignedLong', isPrimaryId: false, isOnlyV4: undefined },
+    I: { name: 'GuidancePatternGNSSMethod', type: 'xs:NMTOKEN', isPrimaryId: false, isOnlyV4: undefined },
+    J: { name: 'GuidancePatternHorizontalAccuracy', type: 'xs:decimal', isPrimaryId: false, isOnlyV4: undefined },
+    K: { name: 'GuidancePatternVerticalAccuracy', type: 'xs:decimal', isPrimaryId: false, isOnlyV4: undefined },
+    L: { name: 'BaseStationIdRef', type: 'xs:IDREF', isPrimaryId: false, isOnlyV4: undefined },
+    M: { name: 'OriginalSRID', type: 'xs:string', isPrimaryId: false, isOnlyV4: undefined },
+    N: { name: 'NumberOfSwathsLeft', type: 'xs:unsignedLong', isPrimaryId: false, isOnlyV4: undefined },
+    O: { name: 'NumberOfSwathsRight', type: 'xs:unsignedLong', isPrimaryId: false, isOnlyV4: undefined },
 }
 const CHILD_TAGS = {
-    LSG: { name: 'LineString' },
-    PLN: { name: 'BoundaryPolygon' },
+    LSG: { name: 'LineString', isOnlyV4: undefined },
+    PLN: { name: 'BoundaryPolygon', isOnlyV4: undefined },
 }
 
 export class GuidancePattern implements Entity {

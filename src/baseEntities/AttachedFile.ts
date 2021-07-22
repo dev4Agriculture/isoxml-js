@@ -24,12 +24,12 @@ export type AttachedFileAttributes = {
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    A: { name: 'FilenameWithExtension', type: 'xs:ID', isPrimaryId: false },
-    B: { name: 'Preserve', type: 'xs:NMTOKEN', isPrimaryId: false },
-    C: { name: 'ManufacturerGLN', type: 'xs:anyURI', isPrimaryId: false },
-    D: { name: 'FileType', type: 'xs:unsignedByte', isPrimaryId: false },
-    E: { name: 'FileVersion', type: 'xs:string', isPrimaryId: false },
-    F: { name: 'FileLength', type: 'xs:unsignedLong', isPrimaryId: false },
+    A: { name: 'FilenameWithExtension', type: 'xs:ID', isPrimaryId: false, isOnlyV4: undefined },
+    B: { name: 'Preserve', type: 'xs:NMTOKEN', isPrimaryId: false, isOnlyV4: undefined },
+    C: { name: 'ManufacturerGLN', type: 'xs:anyURI', isPrimaryId: false, isOnlyV4: undefined },
+    D: { name: 'FileType', type: 'xs:unsignedByte', isPrimaryId: false, isOnlyV4: undefined },
+    E: { name: 'FileVersion', type: 'xs:string', isPrimaryId: false, isOnlyV4: undefined },
+    F: { name: 'FileLength', type: 'xs:unsignedLong', isPrimaryId: false, isOnlyV4: undefined },
 }
 const CHILD_TAGS = {
 }

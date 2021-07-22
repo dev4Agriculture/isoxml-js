@@ -20,12 +20,12 @@ export type DataLogValueAttributes = {
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    A: { name: 'ProcessDataDDI', type: 'xs:hexBinary', isPrimaryId: false },
-    B: { name: 'ProcessDataValue', type: 'xs:long', isPrimaryId: false },
-    C: { name: 'DeviceElementIdRef', type: 'xs:IDREF', isPrimaryId: false },
-    D: { name: 'DataLogPGN', type: 'xs:unsignedLong', isPrimaryId: false },
-    E: { name: 'DataLogPGNStartBit', type: 'xs:unsignedByte', isPrimaryId: false },
-    F: { name: 'DataLogPGNStopBit', type: 'xs:unsignedByte', isPrimaryId: false },
+    A: { name: 'ProcessDataDDI', type: 'xs:hexBinary', isPrimaryId: false, isOnlyV4: false },
+    B: { name: 'ProcessDataValue', type: 'xs:long', isPrimaryId: false, isOnlyV4: false },
+    C: { name: 'DeviceElementIdRef', type: 'xs:IDREF', isPrimaryId: false, isOnlyV4: false },
+    D: { name: 'DataLogPGN', type: 'xs:unsignedLong', isPrimaryId: false, isOnlyV4: false },
+    E: { name: 'DataLogPGNStartBit', type: 'xs:unsignedByte', isPrimaryId: false, isOnlyV4: false },
+    F: { name: 'DataLogPGNStopBit', type: 'xs:unsignedByte', isPrimaryId: false, isOnlyV4: false },
 }
 const CHILD_TAGS = {
 }

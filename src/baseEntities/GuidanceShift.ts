@@ -21,14 +21,14 @@ export type GuidanceShiftAttributes = {
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    A: { name: 'GuidanceGroupIdRef', type: 'xs:IDREF', isPrimaryId: false },
-    B: { name: 'GuidancePatternIdRef', type: 'xs:IDREF', isPrimaryId: false },
-    C: { name: 'GuidanceEastShift', type: 'xs:long', isPrimaryId: false },
-    D: { name: 'GuidanceNorthShift', type: 'xs:long', isPrimaryId: false },
-    E: { name: 'PropagationOffset', type: 'xs:long', isPrimaryId: false },
+    A: { name: 'GuidanceGroupIdRef', type: 'xs:IDREF', isPrimaryId: false, isOnlyV4: undefined },
+    B: { name: 'GuidancePatternIdRef', type: 'xs:IDREF', isPrimaryId: false, isOnlyV4: undefined },
+    C: { name: 'GuidanceEastShift', type: 'xs:long', isPrimaryId: false, isOnlyV4: undefined },
+    D: { name: 'GuidanceNorthShift', type: 'xs:long', isPrimaryId: false, isOnlyV4: undefined },
+    E: { name: 'PropagationOffset', type: 'xs:long', isPrimaryId: false, isOnlyV4: undefined },
 }
 const CHILD_TAGS = {
-    ASP: { name: 'AllocationStamp' },
+    ASP: { name: 'AllocationStamp', isOnlyV4: undefined },
 }
 
 export class GuidanceShift implements Entity {

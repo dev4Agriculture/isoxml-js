@@ -19,12 +19,12 @@ export type DeviceAllocationAttributes = {
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    A: { name: 'ClientNAMEValue', type: 'xs:hexBinary', isPrimaryId: false },
-    B: { name: 'ClientNAMEMask', type: 'xs:hexBinary', isPrimaryId: false },
-    C: { name: 'DeviceIdRef', type: 'xs:IDREF', isPrimaryId: false },
+    A: { name: 'ClientNAMEValue', type: 'xs:hexBinary', isPrimaryId: false, isOnlyV4: false },
+    B: { name: 'ClientNAMEMask', type: 'xs:hexBinary', isPrimaryId: false, isOnlyV4: false },
+    C: { name: 'DeviceIdRef', type: 'xs:IDREF', isPrimaryId: false, isOnlyV4: false },
 }
 const CHILD_TAGS = {
-    ASP: { name: 'AllocationStamp' },
+    ASP: { name: 'AllocationStamp', isOnlyV4: false },
 }
 
 export class DeviceAllocation implements Entity {

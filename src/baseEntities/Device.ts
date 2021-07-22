@@ -28,19 +28,19 @@ export type DeviceAttributes = {
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    A: { name: 'DeviceId', type: 'xs:ID', isPrimaryId: true },
-    B: { name: 'DeviceDesignator', type: 'xs:string', isPrimaryId: false },
-    C: { name: 'DeviceSoftwareVersion', type: 'xs:string', isPrimaryId: false },
-    D: { name: 'ClientNAME', type: 'xs:hexBinary', isPrimaryId: false },
-    E: { name: 'DeviceSerialNumber', type: 'xs:string', isPrimaryId: false },
-    F: { name: 'DeviceStructureLabel', type: 'xs:hexBinary', isPrimaryId: false },
-    G: { name: 'DeviceLocalizationLabel', type: 'xs:hexBinary', isPrimaryId: false },
+    A: { name: 'DeviceId', type: 'xs:ID', isPrimaryId: true, isOnlyV4: false },
+    B: { name: 'DeviceDesignator', type: 'xs:string', isPrimaryId: false, isOnlyV4: false },
+    C: { name: 'DeviceSoftwareVersion', type: 'xs:string', isPrimaryId: false, isOnlyV4: false },
+    D: { name: 'ClientNAME', type: 'xs:hexBinary', isPrimaryId: false, isOnlyV4: false },
+    E: { name: 'DeviceSerialNumber', type: 'xs:string', isPrimaryId: false, isOnlyV4: false },
+    F: { name: 'DeviceStructureLabel', type: 'xs:hexBinary', isPrimaryId: false, isOnlyV4: false },
+    G: { name: 'DeviceLocalizationLabel', type: 'xs:hexBinary', isPrimaryId: false, isOnlyV4: false },
 }
 const CHILD_TAGS = {
-    DET: { name: 'DeviceElement' },
-    DPT: { name: 'DeviceProperty' },
-    DPD: { name: 'DeviceProcessData' },
-    DVP: { name: 'DeviceValuePresentation' },
+    DET: { name: 'DeviceElement', isOnlyV4: false },
+    DPT: { name: 'DeviceProperty', isOnlyV4: false },
+    DPD: { name: 'DeviceProcessData', isOnlyV4: false },
+    DVP: { name: 'DeviceValuePresentation', isOnlyV4: false },
 }
 
 export class Device implements Entity {

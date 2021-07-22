@@ -37,17 +37,17 @@ export type ISO11783LinkListFileAttributes = {
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    VersionMajor: { name: 'VersionMajor', type: 'xs:NMTOKEN', isPrimaryId: false },
-    VersionMinor: { name: 'VersionMinor', type: 'xs:NMTOKEN', isPrimaryId: false },
-    ManagementSoftwareManufacturer: { name: 'ManagementSoftwareManufacturer', type: 'xs:string', isPrimaryId: false },
-    ManagementSoftwareVersion: { name: 'ManagementSoftwareVersion', type: 'xs:string', isPrimaryId: false },
-    TaskControllerManufacturer: { name: 'TaskControllerManufacturer', type: 'xs:string', isPrimaryId: false },
-    TaskControllerVersion: { name: 'TaskControllerVersion', type: 'xs:string', isPrimaryId: false },
-    FileVersion: { name: 'FileVersion', type: 'xs:string', isPrimaryId: false },
-    DataTransferOrigin: { name: 'DataTransferOrigin', type: 'xs:NMTOKEN', isPrimaryId: false },
+    VersionMajor: { name: 'VersionMajor', type: 'xs:NMTOKEN', isPrimaryId: false, isOnlyV4: undefined },
+    VersionMinor: { name: 'VersionMinor', type: 'xs:NMTOKEN', isPrimaryId: false, isOnlyV4: undefined },
+    ManagementSoftwareManufacturer: { name: 'ManagementSoftwareManufacturer', type: 'xs:string', isPrimaryId: false, isOnlyV4: undefined },
+    ManagementSoftwareVersion: { name: 'ManagementSoftwareVersion', type: 'xs:string', isPrimaryId: false, isOnlyV4: undefined },
+    TaskControllerManufacturer: { name: 'TaskControllerManufacturer', type: 'xs:string', isPrimaryId: false, isOnlyV4: undefined },
+    TaskControllerVersion: { name: 'TaskControllerVersion', type: 'xs:string', isPrimaryId: false, isOnlyV4: undefined },
+    FileVersion: { name: 'FileVersion', type: 'xs:string', isPrimaryId: false, isOnlyV4: undefined },
+    DataTransferOrigin: { name: 'DataTransferOrigin', type: 'xs:NMTOKEN', isPrimaryId: false, isOnlyV4: undefined },
 }
 const CHILD_TAGS = {
-    LGP: { name: 'LinkGroup' },
+    LGP: { name: 'LinkGroup', isOnlyV4: undefined },
 }
 
 export class ISO11783LinkListFile implements Entity {

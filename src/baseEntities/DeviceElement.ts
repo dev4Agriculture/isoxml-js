@@ -30,15 +30,15 @@ export type DeviceElementAttributes = {
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    A: { name: 'DeviceElementId', type: 'xs:ID', isPrimaryId: true },
-    B: { name: 'DeviceElementObjectId', type: 'xs:unsignedShort', isPrimaryId: false },
-    C: { name: 'DeviceElementType', type: 'xs:NMTOKEN', isPrimaryId: false },
-    D: { name: 'DeviceElementDesignator', type: 'xs:string', isPrimaryId: false },
-    E: { name: 'DeviceElementNumber', type: 'xs:unsignedShort', isPrimaryId: false },
-    F: { name: 'ParentObjectId', type: 'xs:unsignedShort', isPrimaryId: false },
+    A: { name: 'DeviceElementId', type: 'xs:ID', isPrimaryId: true, isOnlyV4: false },
+    B: { name: 'DeviceElementObjectId', type: 'xs:unsignedShort', isPrimaryId: false, isOnlyV4: false },
+    C: { name: 'DeviceElementType', type: 'xs:NMTOKEN', isPrimaryId: false, isOnlyV4: false },
+    D: { name: 'DeviceElementDesignator', type: 'xs:string', isPrimaryId: false, isOnlyV4: false },
+    E: { name: 'DeviceElementNumber', type: 'xs:unsignedShort', isPrimaryId: false, isOnlyV4: false },
+    F: { name: 'ParentObjectId', type: 'xs:unsignedShort', isPrimaryId: false, isOnlyV4: false },
 }
 const CHILD_TAGS = {
-    DOR: { name: 'DeviceObjectReference' },
+    DOR: { name: 'DeviceObjectReference', isOnlyV4: false },
 }
 
 export class DeviceElement implements Entity {

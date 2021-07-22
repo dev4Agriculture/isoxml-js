@@ -41,15 +41,15 @@ export type PositionAttributes = {
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    A: { name: 'PositionNorth', type: 'xs:decimal', isPrimaryId: false },
-    B: { name: 'PositionEast', type: 'xs:decimal', isPrimaryId: false },
-    C: { name: 'PositionUp', type: 'xs:long', isPrimaryId: false },
-    D: { name: 'PositionStatus', type: 'xs:NMTOKEN', isPrimaryId: false },
-    E: { name: 'PDOP', type: 'xs:decimal', isPrimaryId: false },
-    F: { name: 'HDOP', type: 'xs:decimal', isPrimaryId: false },
-    G: { name: 'NumberOfSatellites', type: 'xs:unsignedByte', isPrimaryId: false },
-    H: { name: 'GpsUtcTime', type: 'xs:unsignedLong', isPrimaryId: false },
-    I: { name: 'GpsUtcDate', type: 'xs:unsignedShort', isPrimaryId: false },
+    A: { name: 'PositionNorth', type: 'xs:decimal', isPrimaryId: false, isOnlyV4: false },
+    B: { name: 'PositionEast', type: 'xs:decimal', isPrimaryId: false, isOnlyV4: false },
+    C: { name: 'PositionUp', type: 'xs:long', isPrimaryId: false, isOnlyV4: false },
+    D: { name: 'PositionStatus', type: 'xs:NMTOKEN', isPrimaryId: false, isOnlyV4: false },
+    E: { name: 'PDOP', type: 'xs:decimal', isPrimaryId: false, isOnlyV4: false },
+    F: { name: 'HDOP', type: 'xs:decimal', isPrimaryId: false, isOnlyV4: false },
+    G: { name: 'NumberOfSatellites', type: 'xs:unsignedByte', isPrimaryId: false, isOnlyV4: false },
+    H: { name: 'GpsUtcTime', type: 'xs:unsignedLong', isPrimaryId: false, isOnlyV4: false },
+    I: { name: 'GpsUtcDate', type: 'xs:unsignedShort', isPrimaryId: false, isOnlyV4: false },
 }
 const CHILD_TAGS = {
 }

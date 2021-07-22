@@ -17,9 +17,9 @@ export type LinkAttributes = {
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    A: { name: 'ObjectIdRef', type: 'xs:IDREF', isPrimaryId: false },
-    B: { name: 'LinkValue', type: 'xs:token', isPrimaryId: false },
-    C: { name: 'LinkDesignator', type: 'xs:string', isPrimaryId: false },
+    A: { name: 'ObjectIdRef', type: 'xs:IDREF', isPrimaryId: false, isOnlyV4: undefined },
+    B: { name: 'LinkValue', type: 'xs:token', isPrimaryId: false, isOnlyV4: undefined },
+    C: { name: 'LinkDesignator', type: 'xs:string', isPrimaryId: false, isOnlyV4: undefined },
 }
 const CHILD_TAGS = {
 }

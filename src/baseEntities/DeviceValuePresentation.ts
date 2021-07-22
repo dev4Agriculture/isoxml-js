@@ -19,11 +19,11 @@ export type DeviceValuePresentationAttributes = {
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    A: { name: 'DeviceValuePresentationObjectId', type: 'xs:unsignedShort', isPrimaryId: false },
-    B: { name: 'Offset', type: 'xs:long', isPrimaryId: false },
-    C: { name: 'Scale', type: 'xs:decimal', isPrimaryId: false },
-    D: { name: 'NumberOfDecimals', type: 'xs:unsignedByte', isPrimaryId: false },
-    E: { name: 'UnitDesignator', type: 'xs:string', isPrimaryId: false },
+    A: { name: 'DeviceValuePresentationObjectId', type: 'xs:unsignedShort', isPrimaryId: false, isOnlyV4: false },
+    B: { name: 'Offset', type: 'xs:long', isPrimaryId: false, isOnlyV4: false },
+    C: { name: 'Scale', type: 'xs:decimal', isPrimaryId: false, isOnlyV4: false },
+    D: { name: 'NumberOfDecimals', type: 'xs:unsignedByte', isPrimaryId: false, isOnlyV4: false },
+    E: { name: 'UnitDesignator', type: 'xs:string', isPrimaryId: false, isOnlyV4: false },
 }
 const CHILD_TAGS = {
 }

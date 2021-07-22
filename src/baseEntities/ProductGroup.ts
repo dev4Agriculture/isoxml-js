@@ -20,9 +20,9 @@ export type ProductGroupAttributes = {
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    A: { name: 'ProductGroupId', type: 'xs:ID', isPrimaryId: true },
-    B: { name: 'ProductGroupDesignator', type: 'xs:string', isPrimaryId: false },
-    C: { name: 'ProductGroupType', type: 'xs:NMTOKEN', isPrimaryId: false },
+    A: { name: 'ProductGroupId', type: 'xs:ID', isPrimaryId: true, isOnlyV4: false },
+    B: { name: 'ProductGroupDesignator', type: 'xs:string', isPrimaryId: false, isOnlyV4: false },
+    C: { name: 'ProductGroupType', type: 'xs:NMTOKEN', isPrimaryId: false, isOnlyV4: true },
 }
 const CHILD_TAGS = {
 }

@@ -15,8 +15,8 @@ export type OperationTechniqueAttributes = {
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    A: { name: 'OperationTechniqueId', type: 'xs:ID', isPrimaryId: true },
-    B: { name: 'OperationTechniqueDesignator', type: 'xs:string', isPrimaryId: false },
+    A: { name: 'OperationTechniqueId', type: 'xs:ID', isPrimaryId: true, isOnlyV4: false },
+    B: { name: 'OperationTechniqueDesignator', type: 'xs:string', isPrimaryId: false, isOnlyV4: false },
 }
 const CHILD_TAGS = {
 }

@@ -15,7 +15,7 @@ export type OperationTechniqueReferenceAttributes = {
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    A: { name: 'OperationTechniqueIdRef', type: 'xs:IDREF', isPrimaryId: false },
+    A: { name: 'OperationTechniqueIdRef', type: 'xs:IDREF', isPrimaryId: false, isOnlyV4: false },
 }
 const CHILD_TAGS = {
 }

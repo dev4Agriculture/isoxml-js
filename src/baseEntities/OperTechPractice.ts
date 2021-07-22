@@ -16,8 +16,8 @@ export type OperTechPracticeAttributes = {
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    A: { name: 'CulturalPracticeIdRef', type: 'xs:IDREF', isPrimaryId: false },
-    B: { name: 'OperationTechniqueIdRef', type: 'xs:IDREF', isPrimaryId: false },
+    A: { name: 'CulturalPracticeIdRef', type: 'xs:IDREF', isPrimaryId: false, isOnlyV4: false },
+    B: { name: 'OperationTechniqueIdRef', type: 'xs:IDREF', isPrimaryId: false, isOnlyV4: false },
 }
 const CHILD_TAGS = {
 }

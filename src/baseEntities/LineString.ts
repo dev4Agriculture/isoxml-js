@@ -32,15 +32,15 @@ export type LineStringAttributes = {
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    A: { name: 'LineStringType', type: 'xs:NMTOKEN', isPrimaryId: false },
-    B: { name: 'LineStringDesignator', type: 'xs:string', isPrimaryId: false },
-    C: { name: 'LineStringWidth', type: 'xs:unsignedLong', isPrimaryId: false },
-    D: { name: 'LineStringLength', type: 'xs:unsignedLong', isPrimaryId: false },
-    E: { name: 'LineStringColour', type: 'xs:unsignedByte', isPrimaryId: false },
-    F: { name: 'LineStringId', type: 'xs:ID', isPrimaryId: true },
+    A: { name: 'LineStringType', type: 'xs:NMTOKEN', isPrimaryId: false, isOnlyV4: false },
+    B: { name: 'LineStringDesignator', type: 'xs:string', isPrimaryId: false, isOnlyV4: false },
+    C: { name: 'LineStringWidth', type: 'xs:unsignedLong', isPrimaryId: false, isOnlyV4: false },
+    D: { name: 'LineStringLength', type: 'xs:unsignedLong', isPrimaryId: false, isOnlyV4: false },
+    E: { name: 'LineStringColour', type: 'xs:unsignedByte', isPrimaryId: false, isOnlyV4: false },
+    F: { name: 'LineStringId', type: 'xs:ID', isPrimaryId: true, isOnlyV4: true },
 }
 const CHILD_TAGS = {
-    PNT: { name: 'Point' },
+    PNT: { name: 'Point', isOnlyV4: false },
 }
 
 export class LineString implements Entity {

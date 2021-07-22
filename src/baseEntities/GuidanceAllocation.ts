@@ -19,11 +19,11 @@ export type GuidanceAllocationAttributes = {
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    A: { name: 'GuidanceGroupIdRef', type: 'xs:IDREF', isPrimaryId: false },
+    A: { name: 'GuidanceGroupIdRef', type: 'xs:IDREF', isPrimaryId: false, isOnlyV4: undefined },
 }
 const CHILD_TAGS = {
-    ASP: { name: 'AllocationStamp' },
-    GST: { name: 'GuidanceShift' },
+    ASP: { name: 'AllocationStamp', isOnlyV4: undefined },
+    GST: { name: 'GuidanceShift', isOnlyV4: undefined },
 }
 
 export class GuidanceAllocation implements Entity {

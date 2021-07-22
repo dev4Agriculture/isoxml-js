@@ -48,22 +48,22 @@ export type ExternalFileContentsAttributes = {
 const ATTRIBUTES: AttributesDescription = {
 }
 const CHILD_TAGS = {
-    BSN: { name: 'BaseStation' },
-    CCT: { name: 'CodedComment' },
-    CCG: { name: 'CodedCommentGroup' },
-    CLD: { name: 'ColourLegend' },
-    CTP: { name: 'CropType' },
-    CPC: { name: 'CulturalPractice' },
-    CTR: { name: 'Customer' },
-    DVC: { name: 'Device' },
-    FRM: { name: 'Farm' },
-    OTQ: { name: 'OperationTechnique' },
-    PFD: { name: 'Partfield' },
-    PDT: { name: 'Product' },
-    PGP: { name: 'ProductGroup' },
-    TSK: { name: 'Task' },
-    VPN: { name: 'ValuePresentation' },
-    WKR: { name: 'Worker' },
+    BSN: { name: 'BaseStation', isOnlyV4: undefined },
+    CCT: { name: 'CodedComment', isOnlyV4: undefined },
+    CCG: { name: 'CodedCommentGroup', isOnlyV4: undefined },
+    CLD: { name: 'ColourLegend', isOnlyV4: undefined },
+    CTP: { name: 'CropType', isOnlyV4: undefined },
+    CPC: { name: 'CulturalPractice', isOnlyV4: undefined },
+    CTR: { name: 'Customer', isOnlyV4: undefined },
+    DVC: { name: 'Device', isOnlyV4: undefined },
+    FRM: { name: 'Farm', isOnlyV4: undefined },
+    OTQ: { name: 'OperationTechnique', isOnlyV4: undefined },
+    PFD: { name: 'Partfield', isOnlyV4: undefined },
+    PDT: { name: 'Product', isOnlyV4: undefined },
+    PGP: { name: 'ProductGroup', isOnlyV4: undefined },
+    TSK: { name: 'Task', isOnlyV4: undefined },
+    VPN: { name: 'ValuePresentation', isOnlyV4: undefined },
+    WKR: { name: 'Worker', isOnlyV4: undefined },
 }
 
 export class ExternalFileContents implements Entity {

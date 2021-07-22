@@ -23,16 +23,16 @@ export type ControlAssignmentAttributes = {
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    A: { name: 'SourceClientNAME', type: 'xs:hexBinary', isPrimaryId: false },
-    B: { name: 'UserClientNAME', type: 'xs:hexBinary', isPrimaryId: false },
-    C: { name: 'SourceDeviceStructureLabel', type: 'xs:hexBinary', isPrimaryId: false },
-    D: { name: 'UserDeviceStructureLabel', type: 'xs:hexBinary', isPrimaryId: false },
-    E: { name: 'SourceDeviceElementNumber', type: 'xs:unsignedShort', isPrimaryId: false },
-    F: { name: 'UserDeviceElementNumber', type: 'xs:unsignedShort', isPrimaryId: false },
-    G: { name: 'ProcessDataDDI', type: 'xs:hexBinary', isPrimaryId: false },
+    A: { name: 'SourceClientNAME', type: 'xs:hexBinary', isPrimaryId: false, isOnlyV4: undefined },
+    B: { name: 'UserClientNAME', type: 'xs:hexBinary', isPrimaryId: false, isOnlyV4: undefined },
+    C: { name: 'SourceDeviceStructureLabel', type: 'xs:hexBinary', isPrimaryId: false, isOnlyV4: undefined },
+    D: { name: 'UserDeviceStructureLabel', type: 'xs:hexBinary', isPrimaryId: false, isOnlyV4: undefined },
+    E: { name: 'SourceDeviceElementNumber', type: 'xs:unsignedShort', isPrimaryId: false, isOnlyV4: undefined },
+    F: { name: 'UserDeviceElementNumber', type: 'xs:unsignedShort', isPrimaryId: false, isOnlyV4: undefined },
+    G: { name: 'ProcessDataDDI', type: 'xs:hexBinary', isPrimaryId: false, isOnlyV4: undefined },
 }
 const CHILD_TAGS = {
-    ASP: { name: 'AllocationStamp' },
+    ASP: { name: 'AllocationStamp', isOnlyV4: undefined },
 }
 
 export class ControlAssignment implements Entity {

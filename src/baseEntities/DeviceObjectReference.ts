@@ -15,7 +15,7 @@ export type DeviceObjectReferenceAttributes = {
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    A: { name: 'DeviceObjectId', type: 'xs:unsignedShort', isPrimaryId: false },
+    A: { name: 'DeviceObjectId', type: 'xs:unsignedShort', isPrimaryId: false, isOnlyV4: false },
 }
 const CHILD_TAGS = {
 }

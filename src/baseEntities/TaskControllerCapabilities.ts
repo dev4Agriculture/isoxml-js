@@ -28,13 +28,13 @@ export type TaskControllerCapabilitiesAttributes = {
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    A: { name: 'TaskControllerControlFunctionNAME', type: 'xs:hexBinary', isPrimaryId: false },
-    B: { name: 'TaskControllerDesignator', type: 'xs:string', isPrimaryId: false },
-    C: { name: 'VersionNumber', type: 'xs:NMTOKEN', isPrimaryId: false },
-    D: { name: 'ProvidedCapabilities', type: 'xs:unsignedByte', isPrimaryId: false },
-    E: { name: 'NumberOfBoomsSectionControl', type: 'xs:unsignedByte', isPrimaryId: false },
-    F: { name: 'NumberOfSectionsSectionControl', type: 'xs:unsignedByte', isPrimaryId: false },
-    G: { name: 'NumberOfControlChannels', type: 'xs:unsignedByte', isPrimaryId: false },
+    A: { name: 'TaskControllerControlFunctionNAME', type: 'xs:hexBinary', isPrimaryId: false, isOnlyV4: undefined },
+    B: { name: 'TaskControllerDesignator', type: 'xs:string', isPrimaryId: false, isOnlyV4: undefined },
+    C: { name: 'VersionNumber', type: 'xs:NMTOKEN', isPrimaryId: false, isOnlyV4: undefined },
+    D: { name: 'ProvidedCapabilities', type: 'xs:unsignedByte', isPrimaryId: false, isOnlyV4: undefined },
+    E: { name: 'NumberOfBoomsSectionControl', type: 'xs:unsignedByte', isPrimaryId: false, isOnlyV4: undefined },
+    F: { name: 'NumberOfSectionsSectionControl', type: 'xs:unsignedByte', isPrimaryId: false, isOnlyV4: undefined },
+    G: { name: 'NumberOfControlChannels', type: 'xs:unsignedByte', isPrimaryId: false, isOnlyV4: undefined },
 }
 const CHILD_TAGS = {
 }

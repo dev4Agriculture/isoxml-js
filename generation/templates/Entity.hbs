@@ -37,12 +37,12 @@ export type {{name}}Attributes = {
 
 const ATTRIBUTES: AttributesDescription = {
     {{#attributes}}
-    {{xmlName}}: { name: '{{name}}', type: '{{xsdType}}', isPrimaryId: {{toString isPrimaryId}} },
+    {{xmlName}}: { name: '{{name}}', type: '{{xsdType}}', isPrimaryId: {{toString isPrimaryId}}, isOnlyV4: {{toString isOnlyV4}} },
     {{/attributes}}
 }
 const CHILD_TAGS = {
     {{#children}}
-    {{tag}}: { name: '{{name}}' },
+    {{tag}}: { name: '{{name}}', isOnlyV4: {{toString isOnlyV4}} },
     {{/children}}
 }
 

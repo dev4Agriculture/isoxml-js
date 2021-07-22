@@ -24,13 +24,13 @@ export type CodedCommentAttributes = {
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    A: { name: 'CodedCommentId', type: 'xs:ID', isPrimaryId: true },
-    B: { name: 'CodedCommentDesignator', type: 'xs:string', isPrimaryId: false },
-    C: { name: 'CodedCommentScope', type: 'xs:NMTOKEN', isPrimaryId: false },
-    D: { name: 'CodedCommentGroupIdRef', type: 'xs:IDREF', isPrimaryId: false },
+    A: { name: 'CodedCommentId', type: 'xs:ID', isPrimaryId: true, isOnlyV4: false },
+    B: { name: 'CodedCommentDesignator', type: 'xs:string', isPrimaryId: false, isOnlyV4: false },
+    C: { name: 'CodedCommentScope', type: 'xs:NMTOKEN', isPrimaryId: false, isOnlyV4: false },
+    D: { name: 'CodedCommentGroupIdRef', type: 'xs:IDREF', isPrimaryId: false, isOnlyV4: false },
 }
 const CHILD_TAGS = {
-    CCL: { name: 'CodedCommentListValue' },
+    CCL: { name: 'CodedCommentListValue', isOnlyV4: false },
 }
 
 export class CodedComment implements Entity {

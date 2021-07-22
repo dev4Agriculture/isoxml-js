@@ -31,14 +31,14 @@ export type TimeAttributes = {
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    A: { name: 'Start', type: 'xs:dateTime', isPrimaryId: false },
-    B: { name: 'Stop', type: 'xs:dateTime', isPrimaryId: false },
-    C: { name: 'Duration', type: 'xs:unsignedLong', isPrimaryId: false },
-    D: { name: 'Type', type: 'xs:NMTOKEN', isPrimaryId: false },
+    A: { name: 'Start', type: 'xs:dateTime', isPrimaryId: false, isOnlyV4: false },
+    B: { name: 'Stop', type: 'xs:dateTime', isPrimaryId: false, isOnlyV4: false },
+    C: { name: 'Duration', type: 'xs:unsignedLong', isPrimaryId: false, isOnlyV4: false },
+    D: { name: 'Type', type: 'xs:NMTOKEN', isPrimaryId: false, isOnlyV4: false },
 }
 const CHILD_TAGS = {
-    PTN: { name: 'Position' },
-    DLV: { name: 'DataLogValue' },
+    PTN: { name: 'Position', isOnlyV4: false },
+    DLV: { name: 'DataLogValue', isOnlyV4: false },
 }
 
 export class Time implements Entity {

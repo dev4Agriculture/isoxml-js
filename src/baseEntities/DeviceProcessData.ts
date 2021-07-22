@@ -20,12 +20,12 @@ export type DeviceProcessDataAttributes = {
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    A: { name: 'DeviceProcessDataObjectId', type: 'xs:unsignedShort', isPrimaryId: false },
-    B: { name: 'DeviceProcessDataDDI', type: 'xs:hexBinary', isPrimaryId: false },
-    C: { name: 'DeviceProcessDataProperty', type: 'xs:unsignedByte', isPrimaryId: false },
-    D: { name: 'DeviceProcessDataTriggerMethods', type: 'xs:unsignedByte', isPrimaryId: false },
-    E: { name: 'DeviceProcessDataDesignator', type: 'xs:string', isPrimaryId: false },
-    F: { name: 'DeviceValuePresentationObjectId', type: 'xs:unsignedShort', isPrimaryId: false },
+    A: { name: 'DeviceProcessDataObjectId', type: 'xs:unsignedShort', isPrimaryId: false, isOnlyV4: false },
+    B: { name: 'DeviceProcessDataDDI', type: 'xs:hexBinary', isPrimaryId: false, isOnlyV4: false },
+    C: { name: 'DeviceProcessDataProperty', type: 'xs:unsignedByte', isPrimaryId: false, isOnlyV4: false },
+    D: { name: 'DeviceProcessDataTriggerMethods', type: 'xs:unsignedByte', isPrimaryId: false, isOnlyV4: false },
+    E: { name: 'DeviceProcessDataDesignator', type: 'xs:string', isPrimaryId: false, isOnlyV4: false },
+    F: { name: 'DeviceValuePresentationObjectId', type: 'xs:unsignedShort', isPrimaryId: false, isOnlyV4: false },
 }
 const CHILD_TAGS = {
 }

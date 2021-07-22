@@ -19,12 +19,12 @@ export type CommentAllocationAttributes = {
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    A: { name: 'CodedCommentIdRef', type: 'xs:IDREF', isPrimaryId: false },
-    B: { name: 'CodedCommentListValueIdRef', type: 'xs:IDREF', isPrimaryId: false },
-    C: { name: 'FreeCommentText', type: 'xs:string', isPrimaryId: false },
+    A: { name: 'CodedCommentIdRef', type: 'xs:IDREF', isPrimaryId: false, isOnlyV4: false },
+    B: { name: 'CodedCommentListValueIdRef', type: 'xs:IDREF', isPrimaryId: false, isOnlyV4: false },
+    C: { name: 'FreeCommentText', type: 'xs:string', isPrimaryId: false, isOnlyV4: false },
 }
 const CHILD_TAGS = {
-    ASP: { name: 'AllocationStamp' },
+    ASP: { name: 'AllocationStamp', isOnlyV4: false },
 }
 
 export class CommentAllocation implements Entity {

@@ -22,16 +22,16 @@ export type ProcessDataVariableAttributes = {
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    A: { name: 'ProcessDataDDI', type: 'xs:hexBinary', isPrimaryId: false },
-    B: { name: 'ProcessDataValue', type: 'xs:long', isPrimaryId: false },
-    C: { name: 'ProductIdRef', type: 'xs:IDREF', isPrimaryId: false },
-    D: { name: 'DeviceElementIdRef', type: 'xs:IDREF', isPrimaryId: false },
-    E: { name: 'ValuePresentationIdRef', type: 'xs:IDREF', isPrimaryId: false },
-    F: { name: 'ActualCulturalPracticeValue', type: 'xs:long', isPrimaryId: false },
-    G: { name: 'ElementTypeInstanceValue', type: 'xs:long', isPrimaryId: false },
+    A: { name: 'ProcessDataDDI', type: 'xs:hexBinary', isPrimaryId: false, isOnlyV4: false },
+    B: { name: 'ProcessDataValue', type: 'xs:long', isPrimaryId: false, isOnlyV4: false },
+    C: { name: 'ProductIdRef', type: 'xs:IDREF', isPrimaryId: false, isOnlyV4: false },
+    D: { name: 'DeviceElementIdRef', type: 'xs:IDREF', isPrimaryId: false, isOnlyV4: false },
+    E: { name: 'ValuePresentationIdRef', type: 'xs:IDREF', isPrimaryId: false, isOnlyV4: false },
+    F: { name: 'ActualCulturalPracticeValue', type: 'xs:long', isPrimaryId: false, isOnlyV4: true },
+    G: { name: 'ElementTypeInstanceValue', type: 'xs:long', isPrimaryId: false, isOnlyV4: true },
 }
 const CHILD_TAGS = {
-    PDV: { name: 'ProcessDataVariable' },
+    PDV: { name: 'ProcessDataVariable', isOnlyV4: false },
 }
 
 export class ProcessDataVariable implements Entity {
