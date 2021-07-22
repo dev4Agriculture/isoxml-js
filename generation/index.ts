@@ -44,7 +44,7 @@ function normalizeEnumValue (text: string): string {
 }
 
 function normalizeText (text: string): string {
-    return text.toString().trim().replace(/\s+/g, '')
+    return text.toString().replace(/\s|,/g, '')
 }
 
 

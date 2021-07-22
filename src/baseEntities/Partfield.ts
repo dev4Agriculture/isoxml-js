@@ -21,7 +21,7 @@ export type PartfieldAttributes = {
     CropTypeIdRef?: ISOXMLReference
     CropVarietyIdRef?: ISOXMLReference
     FieldIdRef?: ISOXMLReference
-    Polygon,nonTreatmentZoneonly?: Polygon[]
+    PolygonnonTreatmentZoneonly?: Polygon[]
     LineString?: LineString[]
     Point?: Point[]
     GuidanceGroup?: GuidanceGroup[]
@@ -41,7 +41,7 @@ const ATTRIBUTES: AttributesDescription = {
     I: { name: 'FieldIdRef', type: 'xs:IDREF', isPrimaryId: false },
 }
 const CHILD_TAGS = {
-    PLN: { name: 'Polygon,nonTreatmentZoneonly' },
+    PLN: { name: 'PolygonnonTreatmentZoneonly' },
     LSG: { name: 'LineString' },
     PNT: { name: 'Point' },
     GGP: { name: 'GuidanceGroup' },

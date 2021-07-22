@@ -14,7 +14,7 @@ export type TreatmentZoneAttributes = {
     TreatmentZoneCode: number
     TreatmentZoneDesignator?: string
     TreatmentZoneColour?: number
-    Polygon,TreatmentZoneonly?: Polygon[]
+    PolygonTreatmentZoneonly?: Polygon[]
     ProcessDataVariable?: ProcessDataVariable[]
     ProprietaryAttributes?: {[name: string]: string}
     ProprietaryTags?: {[tag: string]: ElementCompact[]}
@@ -26,7 +26,7 @@ const ATTRIBUTES: AttributesDescription = {
     C: { name: 'TreatmentZoneColour', type: 'xs:unsignedByte', isPrimaryId: false },
 }
 const CHILD_TAGS = {
-    PLN: { name: 'Polygon,TreatmentZoneonly' },
+    PLN: { name: 'PolygonTreatmentZoneonly' },
     PDV: { name: 'ProcessDataVariable' },
 }
 
