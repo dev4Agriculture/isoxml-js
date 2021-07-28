@@ -13,7 +13,8 @@ export class ExtendedTreatmentZone extends TreatmentZone {
     }
 
     toXML(): ElementCompact {
-        this.attributes.PolygonTreatmentZoneonly = ExtendedPolygon.normalizePolygons(this.attributes.PolygonTreatmentZoneonly)
+        this.attributes.PolygonTreatmentZoneonly =
+            ExtendedPolygon.normalizePolygons(this.attributes.PolygonTreatmentZoneonly)
         return super.toXML()
     }
 }

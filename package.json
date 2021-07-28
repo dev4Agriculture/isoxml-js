@@ -6,7 +6,8 @@
   "scripts": {
     "gen": "ts-node generation/index.ts",
     "test": "jest",
-    "build": "tsc"
+    "build": "tsc",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
   },
   "author": "",
   "license": "ISC",
@@ -22,6 +23,9 @@
     "@types/jest": "^26.0.23",
     "@types/node": "^15.12.4",
     "@types/rbush": "^3.0.0",
+    "@typescript-eslint/eslint-plugin": "^4.28.5",
+    "@typescript-eslint/parser": "^4.28.5",
+    "eslint": "^7.31.0",
     "jest": "^27.0.5",
     "ts-jest": "^27.0.3",
     "ts-node": "^10.0.0",

@@ -1,6 +1,6 @@
-import { js2xml, xml2js, ElementCompact } from "xml-js";
+import { js2xml, xml2js, ElementCompact } from "xml-js"
 import JSZip from 'jszip'
-import { Entity, ISOXMLReference } from "./types";
+import { Entity, EntityAttributes, ISOXMLReference } from "./types"
 import { getEntityClassByTag } from './classRegistry'
 
 import './baseEntities'
@@ -8,7 +8,7 @@ import './entities'
 
 import { ExtendedISO11783TaskDataFile } from "./entities/ISO11783TaskDataFile"
 import { TAGS } from "./baseEntities/constants"
-import { GridParametersGenerator } from "./entities";
+import { GridParametersGenerator } from "./entities"
 
 export type ISOXMLManagerOptions = {
     rootFolder?: string
@@ -123,7 +123,7 @@ export class ISOXMLManager {
         return entityClass.fromXML(xml, this)
     }
 
-    public createEntityFromAttributes(tagName: TAGS, attrs: any): Entity {
+    public createEntityFromAttributes(tagName: TAGS, attrs: EntityAttributes): Entity {
         const entityClass = getEntityClassByTag(tagName)
         if (!entityClass) {
             return null
@@ -146,9 +146,9 @@ export class ISOXMLManager {
             }
 
             const mainXmlString = await mainFile.async('string')
-            const mainXml = xml2js(mainXmlString, { compact: true, alwaysArray: true });
+            const mainXml = xml2js(mainXmlString, { compact: true, alwaysArray: true })
 
-            this.options.rootFolder = mainFile.name.match(/(.*[\/\\])/)?.[1] ?? ''
+            this.options.rootFolder = mainFile.name.match(/(.*[/\\])/)?.[1] ?? ''
 
             if (!mainXml['ISO11783_TaskData']) {
                 throw new Error('Incorrect structure of TASKDATA.XML')
@@ -178,7 +178,7 @@ export class ISOXMLManager {
             ISO11783_TaskData: this.rootElement.toXML()
         }
 
-        const mainXML = js2xml(json, { compact: true, spaces: 2 });
+        const mainXML = js2xml(json, { compact: true, spaces: 2 })
 
         const zipWriter = new JSZip()
         zipWriter.file(`${this.options.rootFolder}${MAIN_FILENAME}`, mainXML)
@@ -211,7 +211,7 @@ export class ISOXMLManager {
             .map(ref => ref.entity as T)
     }
 
-    public updateOptions(newOptions: ISOXMLManagerOptions) {
+    public updateOptions(newOptions: ISOXMLManagerOptions): void {
         this.options = {
             ...this.options,
             ...newOptions

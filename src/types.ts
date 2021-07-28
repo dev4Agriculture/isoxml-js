@@ -1,5 +1,5 @@
-import { ElementCompact } from "xml-js";
-import { TAGS } from "./baseEntities/constants";
+import { ElementCompact } from "xml-js"
+import { TAGS } from "./baseEntities/constants"
 import { ISOXMLManager } from './ISOXMLManager'
 
 export interface AttributesDescription {
@@ -21,16 +21,18 @@ export type ISOXMLReference = {
     entity?: Entity
 }
 
+export type EntityAttributes = {[name: string]: any}
+
 export interface Entity {
     isoxmlManager: ISOXMLManager
-    attributes: {[name: string]: any}
+    attributes: EntityAttributes
     tag: TAGS
     toXML (): ElementCompact
 }
 
 export interface EntityConstructor {
     fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager): Promise<Entity>
-    new (attributes: any, isoxmlManager: ISOXMLManager, xmlId?: string, fmisId?: string): Entity
+    new (attributes: EntityAttributes, isoxmlManager: ISOXMLManager, xmlId?: string, fmisId?: string): Entity
 }
 
 interface ISOBinaryFileInformation {

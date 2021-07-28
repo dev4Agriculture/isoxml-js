@@ -1,4 +1,4 @@
-import { area, bbox as turfBbox, degreesToRadians, Feature, FeatureCollection, Geometry, geometry, lengthToDegrees } from '@turf/turf'
+import { area, bbox as turfBbox, degreesToRadians, FeatureCollection, lengthToDegrees } from '@turf/turf'
 import { intersection, Polygon } from 'polygon-clipping'
 import RBush from 'rbush'
 import { ElementCompact } from 'xml-js'
@@ -23,12 +23,17 @@ export type GridParameters = {
 
 export type GridParametersGenerator = (geometry: FeatureCollection) => GridParameters
 
-export function createGridParamsGenerator (targetCellWidth: number, targetCellHeight: number): GridParametersGenerator { 
+export function createGridParamsGenerator (
+    targetCellWidth: number,
+    targetCellHeight: number
+): GridParametersGenerator { 
     return (geometry: any) => {
         const [minX, minY, maxX, maxY] = turfBbox(geometry)
 
         const sizeY = lengthToDegrees(targetCellHeight, 'meters')
-        const sizeX = lengthToDegrees(targetCellWidth, 'meters') / Math.cos(degreesToRadians((minY + maxY) / 2)) // works fine for small areas
+
+        // works fine for small areas
+        const sizeX = lengthToDegrees(targetCellWidth, 'meters') / Math.cos(degreesToRadians((minY + maxY) / 2))
 
         const numCols = Math.floor((maxX - minX) / sizeX)
         const numRows = Math.floor((maxY - minY) / sizeY)
@@ -60,8 +65,14 @@ export class ExtendedGrid extends Grid {
         return entity
     }
 
-    static fromGeoJSON(geoJSON: FeatureCollection, isoxmlManager: ISOXMLManager, treatmentZoneCode?: number): ExtendedGrid {
-        const gridParamsGenerator = isoxmlManager.options.gridRaramsGenerator || createGridParamsGenerator(GRID_CELL_SIZE, GRID_CELL_SIZE)
+    static fromGeoJSON(
+        geoJSON: FeatureCollection,
+        isoxmlManager: ISOXMLManager,
+        treatmentZoneCode?: number
+    ): ExtendedGrid {
+        const gridParamsGenerator = 
+            isoxmlManager.options.gridRaramsGenerator ||
+            createGridParamsGenerator(GRID_CELL_SIZE, GRID_CELL_SIZE)
 
         const {minX, minY, numCols, numRows, cellWidth, cellHeight} = gridParamsGenerator(geoJSON)
 
@@ -99,8 +110,8 @@ export class ExtendedGrid extends Grid {
                     [minX + x * cellWidth,       minY + y * cellHeight]
                 ]] as Polygon
 
-                let feature = null;
-                let maxArea = 0;
+                let feature = null
+                let maxArea = 0
                 searchResults.forEach(res => {
                     const intersectionRes = intersection(res.feature.geometry.coordinates, cell)
                     if (intersection.length) {
@@ -158,7 +169,7 @@ export class ExtendedGrid extends Grid {
 
         for (let y = 0; y < rows; y++) {
             for (let x = 0; x < cols; x++) {
-                const dose = cells[y * cols + x];
+                const dose = cells[y * cols + x]
                 if (dose === 0.0) {
                     features[y * cols + x] = null
                     continue

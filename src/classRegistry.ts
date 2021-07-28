@@ -3,10 +3,10 @@ import {EntityConstructor} from './types'
 
 const availableEntityClasses: {[tagName: string]: EntityConstructor} = {}
 
-export function registerEntityClass(tagName: TAGS, entityClass: EntityConstructor) {
+export function registerEntityClass(tagName: TAGS, entityClass: EntityConstructor): void {
     availableEntityClasses[tagName] = entityClass
 }
 
-export function getEntityClassByTag(tagName: TAGS) {
+export function getEntityClassByTag(tagName: TAGS): EntityConstructor {
     return availableEntityClasses[tagName]
 }

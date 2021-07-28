@@ -55,7 +55,7 @@ export class ExtendedAttachedFile extends AttachedFile {
         return super.toXML() 
     } 
 
-    static linkListFromISOXMLManager(isoxmlManager: ISOXMLManager) {
+    static linkListFromISOXMLManager(isoxmlManager: ISOXMLManager): ExtendedAttachedFile {
         return new ExtendedAttachedFile({
             FilenameWithExtension: 'LINKLIST.XML',
             Preserve: AttachedFilePreserveEnum.PreserveOnTaskControllerAndSendBackToFMIS,

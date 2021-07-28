@@ -13,7 +13,8 @@ export class ExtendedPartfield extends Partfield {
     }
 
     toXML(): ElementCompact {
-        this.attributes.PolygonnonTreatmentZoneonly = ExtendedPolygon.normalizePolygons(this.attributes.PolygonnonTreatmentZoneonly)
+        this.attributes.PolygonnonTreatmentZoneonly =
+            ExtendedPolygon.normalizePolygons(this.attributes.PolygonnonTreatmentZoneonly)
         return super.toXML()
     }
 }

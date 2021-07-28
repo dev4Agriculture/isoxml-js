@@ -3,7 +3,6 @@ import { PolygonPolygonTypeEnum } from '../baseEntities'
 import { ExtendedPolygon } from './Polygon'
 import { MultiPolygon } from '@turf/helpers'
 import { MULTIPOLYGON } from './testdata/geometry'
-import { ExtendedPartfield } from './Partfield'
 import { TAGS } from '../baseEntities/constants'
 import { ExtendedTreatmentZone } from './TreatmentZone'
 

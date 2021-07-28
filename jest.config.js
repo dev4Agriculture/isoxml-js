@@ -4,4 +4,4 @@ module.exports = {
   testTimeout: 20000,
   testRegex: '.*\\.spec\\.ts$',
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node']
-};
+}

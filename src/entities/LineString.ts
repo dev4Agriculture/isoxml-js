@@ -1,4 +1,10 @@
-import { LineString, LineStringAttributes, LineStringLineStringTypeEnum, Point, PointPointTypeEnum } from "../baseEntities"
+import {
+    LineString,
+    LineStringAttributes,
+    LineStringLineStringTypeEnum,
+    Point,
+    PointPointTypeEnum
+} from "../baseEntities"
 import { TAGS } from "../baseEntities/constants"
 import { registerEntityClass } from "../classRegistry"
 import { ISOXMLManager } from "../ISOXMLManager"
@@ -14,7 +20,11 @@ export class ExtendedLineString extends LineString {
         return this.attributes.Point.map(point => [point.attributes.PointEast, point.attributes.PointNorth])
     }
 
-    static fromGeoJSONCoordinates(coordinates: number[][], isoxmlManager: ISOXMLManager, type: LineStringLineStringTypeEnum): ExtendedLineString {
+    static fromGeoJSONCoordinates(
+        coordinates: number[][],
+        isoxmlManager: ISOXMLManager,
+        type: LineStringLineStringTypeEnum
+    ): ExtendedLineString {
         return new ExtendedLineString({
             LineStringType: type,
             Point: coordinates.map(c => new Point({

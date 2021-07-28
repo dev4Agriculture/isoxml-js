@@ -26,7 +26,7 @@ export class ExtendedTask extends Task {
         return super.toXML()
     }
 
-    addGridFromGeoJSON(geoJSON: FeatureCollection, DDI: number, deviceElemRef?: ISOXMLReference) {
+    addGridFromGeoJSON(geoJSON: FeatureCollection, DDI: number, deviceElemRef?: ISOXMLReference): void {
         const processDataVariable = this.isoxmlManager.createEntityFromAttributes(
             TAGS.ProcessDataVariable, {
                 ProcessDataDDI: DDIToString(DDI),

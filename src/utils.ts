@@ -1,7 +1,7 @@
-import { ElementCompact } from "xml-js";
-import { TAGS } from "./baseEntities/constants";
-import { ISOXMLManager } from "./ISOXMLManager";
-import { AttributesDescription, Entity, EntityConstructor, ISOXMLReference, ReferencesDescription } from "./types";
+import { ElementCompact } from "xml-js"
+import { TAGS } from "./baseEntities/constants"
+import { ISOXMLManager } from "./ISOXMLManager"
+import { AttributesDescription, Entity, EntityConstructor, ISOXMLReference, ReferencesDescription } from "./types"
 
 
 function idrefParser (value: string, isoxmlManager: ISOXMLManager): ISOXMLReference {
@@ -145,7 +145,7 @@ export async function xml2ChildTags(
 export function childTags2Xml(
     entity: Entity,
     referencesDescription: ReferencesDescription,
-) {
+): {[tag: string]: any} {
     const version = entity.isoxmlManager.options.version
     const result = {
         ...entity.attributes.ProprietaryTags
@@ -193,6 +193,6 @@ export function toXML(
     }
 }
 
-export function DDIToString(DDI: number) {
+export function DDIToString(DDI: number): string {
     return ('0000' + DDI.toString(16).toUpperCase()).slice(-4)
 }

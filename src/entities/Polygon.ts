@@ -13,7 +13,11 @@ export class ExtendedPolygon extends Polygon {
         super(attributes, isoxmlManager)
     }
 
-    static fromGeoJSON(geoJSON: TurfMultiPolygon | TurfPolygon, polygonType: PolygonPolygonTypeEnum,isoxmlManager: ISOXMLManager): Polygon[] {
+    static fromGeoJSON(
+        geoJSON: TurfMultiPolygon | TurfPolygon,
+        polygonType: PolygonPolygonTypeEnum,
+        isoxmlManager: ISOXMLManager
+    ): Polygon[] {
         if (geoJSON.type === 'Polygon') {
             geoJSON = {
                 type: 'MultiPolygon',
@@ -27,7 +31,9 @@ export class ExtendedPolygon extends Polygon {
                         (ring, idx) => ExtendedLineString.fromGeoJSONCoordinates(
                             ring, 
                             isoxmlManager,
-                            idx ? LineStringLineStringTypeEnum.PolygonInterior : LineStringLineStringTypeEnum.PolygonExterior
+                            idx
+                                ? LineStringLineStringTypeEnum.PolygonInterior
+                                : LineStringLineStringTypeEnum.PolygonExterior
                         )
                     )
                 )
@@ -44,7 +50,9 @@ export class ExtendedPolygon extends Polygon {
                     (ring, idx) => ExtendedLineString.fromGeoJSONCoordinates(
                         ring, 
                         isoxmlManager,
-                        idx ? LineStringLineStringTypeEnum.PolygonInterior : LineStringLineStringTypeEnum.PolygonExterior
+                            idx
+                                ? LineStringLineStringTypeEnum.PolygonInterior
+                                : LineStringLineStringTypeEnum.PolygonExterior
                     )
                 )
             }, isoxmlManager))
@@ -81,24 +89,24 @@ export class ExtendedPolygon extends Polygon {
                     .filter((ring) => ring.attributes.LineStringType === LineStringLineStringTypeEnum.PolygonInterior)
 
                 const outerRingIdxs = innerRings.map((ring) => {
-                    let maxArea = 0;
-                    let bestIdx = -1;
+                    let maxArea = 0
+                    let bestIdx = -1
                     outerRings.forEach((outerRing, idx) => {
                         const intersectionRes = intersection(
                             [(outerRing as ExtendedLineString).toCoordinatesArray()],
                             [(ring as ExtendedLineString).toCoordinatesArray()]
-                        );
+                        )
 
                         if (intersectionRes) {
-                            const areaRes = turfArea({ type: 'MultiPolygon', coordinates: intersectionRes });
+                            const areaRes = turfArea({ type: 'MultiPolygon', coordinates: intersectionRes })
                             if (areaRes > maxArea) {
-                                maxArea = areaRes;
-                                bestIdx = idx;
+                                maxArea = areaRes
+                                bestIdx = idx
                             }
                         }
-                    });
-                    return bestIdx;
-                });
+                    })
+                    return bestIdx
+                })
 
                 outerRings.forEach((outerRing, outerIdx) => {
                     const splittedPolygon = new ExtendedPolygon({
