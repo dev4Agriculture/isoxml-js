@@ -19,9 +19,27 @@ export type DeviceAllocationAttributes = {
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    A: { name: 'ClientNAMEValue', type: 'xs:hexBinary', isPrimaryId: false, isOnlyV4: false },
-    B: { name: 'ClientNAMEMask', type: 'xs:hexBinary', isPrimaryId: false, isOnlyV4: false },
-    C: { name: 'DeviceIdRef', type: 'xs:IDREF', isPrimaryId: false, isOnlyV4: false },
+    A: {
+        name: 'ClientNAMEValue',
+        type: 'xs:hexBinary',
+        isPrimaryId: false,
+        isOptional: false,
+        isOnlyV4: false
+    },
+    B: {
+        name: 'ClientNAMEMask',
+        type: 'xs:hexBinary',
+        isPrimaryId: false,
+        isOptional: true,
+        isOnlyV4: false
+    },
+    C: {
+        name: 'DeviceIdRef',
+        type: 'xs:IDREF',
+        isPrimaryId: false,
+        isOptional: true,
+        isOnlyV4: false
+    },
 }
 const CHILD_TAGS = {
     ASP: { name: 'AllocationStamp', isOnlyV4: false },
@@ -33,8 +51,8 @@ export class DeviceAllocation implements Entity {
     constructor(public attributes: DeviceAllocationAttributes, public isoxmlManager: ISOXMLManager) {
     }
 
-    static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, targetClass: EntityConstructor = DeviceAllocation): Promise<Entity> {
-        return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS)
+    static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, internalId?: string, targetClass: EntityConstructor = DeviceAllocation): Promise<Entity> {
+        return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS, internalId)
     }
 
     toXML(): ElementCompact {

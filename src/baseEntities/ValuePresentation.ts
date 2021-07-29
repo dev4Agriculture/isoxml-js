@@ -19,12 +19,48 @@ export type ValuePresentationAttributes = {
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    A: { name: 'ValuePresentationId', type: 'xs:ID', isPrimaryId: true, isOnlyV4: false },
-    B: { name: 'Offset', type: 'xs:long', isPrimaryId: false, isOnlyV4: false },
-    C: { name: 'Scale', type: 'xs:decimal', isPrimaryId: false, isOnlyV4: false },
-    D: { name: 'NumberOfDecimals', type: 'xs:unsignedByte', isPrimaryId: false, isOnlyV4: false },
-    E: { name: 'UnitDesignator', type: 'xs:string', isPrimaryId: false, isOnlyV4: false },
-    F: { name: 'ColourLegendIdRef', type: 'xs:IDREF', isPrimaryId: false, isOnlyV4: false },
+    A: {
+        name: 'ValuePresentationId',
+        type: 'xs:ID',
+        isPrimaryId: true,
+        isOptional: false,
+        isOnlyV4: false
+    },
+    B: {
+        name: 'Offset',
+        type: 'xs:long',
+        isPrimaryId: false,
+        isOptional: false,
+        isOnlyV4: false
+    },
+    C: {
+        name: 'Scale',
+        type: 'xs:decimal',
+        isPrimaryId: false,
+        isOptional: false,
+        isOnlyV4: false
+    },
+    D: {
+        name: 'NumberOfDecimals',
+        type: 'xs:unsignedByte',
+        isPrimaryId: false,
+        isOptional: false,
+        isOnlyV4: false
+    },
+    E: {
+        name: 'UnitDesignator',
+        type: 'xs:string',
+        isPrimaryId: false,
+        isOptional: true,
+        isOnlyV4: false
+    },
+    F: {
+        name: 'ColourLegendIdRef',
+        type: 'xs:IDREF',
+        isPrimaryId: false,
+        isOptional: true,
+        isOnlyV4: false
+    },
 }
 const CHILD_TAGS = {
 }
@@ -35,8 +71,8 @@ export class ValuePresentation implements Entity {
     constructor(public attributes: ValuePresentationAttributes, public isoxmlManager: ISOXMLManager) {
     }
 
-    static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, targetClass: EntityConstructor = ValuePresentation): Promise<Entity> {
-        return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS)
+    static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, internalId?: string, targetClass: EntityConstructor = ValuePresentation): Promise<Entity> {
+        return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS, internalId)
     }
 
     toXML(): ElementCompact {

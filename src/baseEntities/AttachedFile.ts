@@ -24,12 +24,48 @@ export type AttachedFileAttributes = {
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    A: { name: 'FilenameWithExtension', type: 'xs:ID', isPrimaryId: false, isOnlyV4: undefined },
-    B: { name: 'Preserve', type: 'xs:NMTOKEN', isPrimaryId: false, isOnlyV4: undefined },
-    C: { name: 'ManufacturerGLN', type: 'xs:anyURI', isPrimaryId: false, isOnlyV4: undefined },
-    D: { name: 'FileType', type: 'xs:unsignedByte', isPrimaryId: false, isOnlyV4: undefined },
-    E: { name: 'FileVersion', type: 'xs:string', isPrimaryId: false, isOnlyV4: undefined },
-    F: { name: 'FileLength', type: 'xs:unsignedLong', isPrimaryId: false, isOnlyV4: undefined },
+    A: {
+        name: 'FilenameWithExtension',
+        type: 'xs:ID',
+        isPrimaryId: false,
+        isOptional: false,
+        isOnlyV4: undefined
+    },
+    B: {
+        name: 'Preserve',
+        type: 'xs:NMTOKEN',
+        isPrimaryId: false,
+        isOptional: false,
+        isOnlyV4: undefined
+    },
+    C: {
+        name: 'ManufacturerGLN',
+        type: 'xs:anyURI',
+        isPrimaryId: false,
+        isOptional: false,
+        isOnlyV4: undefined
+    },
+    D: {
+        name: 'FileType',
+        type: 'xs:unsignedByte',
+        isPrimaryId: false,
+        isOptional: false,
+        isOnlyV4: undefined
+    },
+    E: {
+        name: 'FileVersion',
+        type: 'xs:string',
+        isPrimaryId: false,
+        isOptional: true,
+        isOnlyV4: undefined
+    },
+    F: {
+        name: 'FileLength',
+        type: 'xs:unsignedLong',
+        isPrimaryId: false,
+        isOptional: true,
+        isOnlyV4: undefined
+    },
 }
 const CHILD_TAGS = {
 }
@@ -40,8 +76,8 @@ export class AttachedFile implements Entity {
     constructor(public attributes: AttachedFileAttributes, public isoxmlManager: ISOXMLManager) {
     }
 
-    static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, targetClass: EntityConstructor = AttachedFile): Promise<Entity> {
-        return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS)
+    static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, internalId?: string, targetClass: EntityConstructor = AttachedFile): Promise<Entity> {
+        return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS, internalId)
     }
 
     toXML(): ElementCompact {

@@ -12,6 +12,7 @@ describe('ISOXML Manager', () => {
         const isoxmlManager = new ISOXMLManager()
         await isoxmlManager.parseISOXMLFile(new Uint8Array(isoxmlData.buffer), 'application/zip')
         expect(isoxmlManager.rootElement).toBeTruthy()
+        expect(isoxmlManager.getWarnings()).toHaveLength(0)
     })
 
     it('should parse ISOXML with external files', async () => {
@@ -21,6 +22,7 @@ describe('ISOXML Manager', () => {
         expect(isoxmlManager.rootElement.attributes.Task).toBeTruthy()
         expect(isoxmlManager.getReferenceByXmlId('TSK-1').entity).toBeTruthy()
         expect(isoxmlManager.rootElement.attributes.ExternalFileReference).toHaveLength(0)
+        expect(isoxmlManager.getWarnings()).toHaveLength(0)
         // const data = await isoxmlManager.saveISOXML()
         // writeFileSync('./data/test1_out.zip', data)
     })
@@ -29,6 +31,7 @@ describe('ISOXML Manager', () => {
         const isoxmlData = readFileSync('./data/task_with_grid.zip')
         const isoxmlManager = new ISOXMLManager()
         await isoxmlManager.parseISOXMLFile(new Uint8Array(isoxmlData.buffer), 'application/zip')
+        expect(isoxmlManager.getWarnings()).toHaveLength(0)
         const data = await isoxmlManager.saveISOXML()
         // writeFileSync('./data/test_grid_out.zip', data)
         expect(data.length).toBe(14080)
@@ -41,6 +44,7 @@ describe('ISOXML Manager', () => {
         const isoxmlData = readFileSync('./data/2021-04-09T15_33_26_taskdata.zip')
         const isoxmlManager = new ISOXMLManager()
         await isoxmlManager.parseISOXMLFile(new Uint8Array(isoxmlData.buffer), 'application/zip')
+        expect(isoxmlManager.getWarnings()).toHaveLength(0)
         const data = await isoxmlManager.saveISOXML()
         // writeFileSync('./data/test_timelog_out.zip', data)
 
@@ -53,6 +57,7 @@ describe('ISOXML Manager', () => {
         const isoxmlData = readFileSync('./data/task_full.zip')
         const isoxmlManager = new ISOXMLManager()
         await isoxmlManager.parseISOXMLFile(new Uint8Array(isoxmlData.buffer), 'application/zip')
+        expect(isoxmlManager.getWarnings()).toHaveLength(0)
         const data = await isoxmlManager.saveISOXML()
         // writeFileSync('./data/test_grid_out.zip', data)
 
@@ -64,11 +69,13 @@ describe('ISOXML Manager', () => {
         const isoxmlData = readFileSync('./data/task_full.zip')
         const isoxmlManager = new ISOXMLManager()
         await isoxmlManager.parseISOXMLFile(new Uint8Array(isoxmlData.buffer), 'application/zip')
+        expect(isoxmlManager.getWarnings()).toHaveLength(0)
         const data = await isoxmlManager.saveISOXML()
         // writeFileSync('./data/test_grid_out.zip', data)
 
         const isoxmlManager2 = new ISOXMLManager()
         await isoxmlManager2.parseISOXMLFile(data, 'application/zip')
+        expect(isoxmlManager2.getWarnings()).toHaveLength(0)
         expect(isoxmlManager2.rootElement.attributes.ProprietaryTags).toHaveProperty('P1234_Area')
         expect(
             isoxmlManager2.rootElement.attributes.BaseStation[0].attributes.ProprietaryAttributes
@@ -79,6 +86,7 @@ describe('ISOXML Manager', () => {
         const isoxmlData = readFileSync('./data/test1.zip')
         const isoxmlManager = new ISOXMLManager()
         await isoxmlManager.parseISOXMLFile(new Uint8Array(isoxmlData.buffer), 'application/zip')
+        expect(isoxmlManager.getWarnings()).toHaveLength(0)
         const data = await isoxmlManager.saveISOXML()
         // writeFileSync('./data/test1_out.zip', data)
         expect(data.length).toBe(3973)
@@ -99,6 +107,7 @@ describe('ISOXML Manager', () => {
         const zip = await JSZip.loadAsync(data)
         expect(zip.file("TASKDATA/TASKDATA.XML")).toBeTruthy()
     })
+
     it('should preserve FMIS IDs', async () => {
         const isoxmlManager = new ISOXMLManager({fmisURI: 'http://example.com'})
         const task = isoxmlManager.createEntityFromAttributes(TAGS.Task, {
@@ -136,14 +145,26 @@ describe('ISOXML Manager', () => {
         const isoxmlData = readFileSync('./data/task_full.zip')
         const isoxmlManager = new ISOXMLManager()
         await isoxmlManager.parseISOXMLFile(new Uint8Array(isoxmlData.buffer), 'application/zip')
+        expect(isoxmlManager.getWarnings()).toHaveLength(0)
         isoxmlManager.updateOptions({version: 3})
         const data = await isoxmlManager.saveISOXML()
         // writeFileSync('./data/test_grid_out.zip', data)
 
         const isoxmlManager2 = new ISOXMLManager()
         await isoxmlManager2.parseISOXMLFile(data, 'application/zip')
+        expect(isoxmlManager2.getWarnings()).toHaveLength(0)
         expect(isoxmlManager2.options.version).toBe(3)
         expect(isoxmlManager2.rootElement.attributes).not.toHaveProperty('BaseStation')
         expect(isoxmlManager2.rootElement.attributes.CropType[0].attributes).not.toHaveProperty('ProductGroupIdRef')
+    })
+
+    it('should add warnings', async () => {
+        const isoxmlData = readFileSync('./data/task_with_warnings.zip')
+        const isoxmlManager = new ISOXMLManager()
+        await isoxmlManager.parseISOXMLFile(new Uint8Array(isoxmlData.buffer), 'application/zip')
+        const warnings = isoxmlManager.getWarnings()
+        expect(warnings).toHaveLength(3)
+        expect(warnings.find(warn => warn.startsWith('[TSK1->TZN[1]]'))).toBeTruthy()
+        expect(warnings.find(warn => warn.startsWith('[TSK1]'))).toBeTruthy()
     })
 })

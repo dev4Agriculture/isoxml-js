@@ -15,8 +15,20 @@ export type CodedCommentGroupAttributes = {
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    A: { name: 'CodedCommentGroupId', type: 'xs:ID', isPrimaryId: true, isOnlyV4: false },
-    B: { name: 'CodedCommentGroupDesignator', type: 'xs:string', isPrimaryId: false, isOnlyV4: false },
+    A: {
+        name: 'CodedCommentGroupId',
+        type: 'xs:ID',
+        isPrimaryId: true,
+        isOptional: false,
+        isOnlyV4: false
+    },
+    B: {
+        name: 'CodedCommentGroupDesignator',
+        type: 'xs:string',
+        isPrimaryId: false,
+        isOptional: false,
+        isOnlyV4: false
+    },
 }
 const CHILD_TAGS = {
 }
@@ -27,8 +39,8 @@ export class CodedCommentGroup implements Entity {
     constructor(public attributes: CodedCommentGroupAttributes, public isoxmlManager: ISOXMLManager) {
     }
 
-    static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, targetClass: EntityConstructor = CodedCommentGroup): Promise<Entity> {
-        return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS)
+    static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, internalId?: string, targetClass: EntityConstructor = CodedCommentGroup): Promise<Entity> {
+        return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS, internalId)
     }
 
     toXML(): ElementCompact {

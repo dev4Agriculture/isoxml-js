@@ -59,7 +59,8 @@ const PROPRIETARY_NAME = /^P\d+_/
 function xml2attrs(
     xml: ElementCompact,
     attributesDescription: AttributesDescription,
-    isoxmlManager: ISOXMLManager
+    isoxmlManager: ISOXMLManager,
+    internalId: string
 ): any {
     const result = {}
     Object.keys(xml._attributes || {}).forEach(xmlAttr => {
@@ -68,8 +69,11 @@ function xml2attrs(
             if (xmlAttr.match(PROPRIETARY_NAME)) {
                 result['ProprietaryAttributes'] = result['ProprietaryAttributes'] || []
                 result['ProprietaryAttributes'][xmlAttr] = xml._attributes[xmlAttr]
+            } else {
+                // warn about unknown non-proprietary attributes
+                isoxmlManager.addWarning(`[${internalId}] Unknown attribute "${xmlAttr}"`)
             }
-            return // allow unknown attributes
+            return 
         }
         if (attrDescription.isPrimaryId) {
             return
@@ -78,6 +82,13 @@ function xml2attrs(
         result[attrDescription.name] = parser
             ? parser(xml._attributes[xmlAttr] as string, isoxmlManager)
             : xml._attributes[xmlAttr]
+    })
+
+    // validation
+    Object.keys(attributesDescription).forEach(xmlAttr => {
+        if (!attributesDescription[xmlAttr].isOptional && (!xml._attributes || !(xmlAttr in xml._attributes))) {
+            isoxmlManager.addWarning(`[${internalId}] Missing required attribute "${xmlAttr}"`)
+        }
     })
 
     return result
@@ -120,7 +131,8 @@ function attrs2xml(
 export async function xml2ChildTags(
     xml: ElementCompact,
     referencesDescription: ReferencesDescription,
-    isoxmlManager: ISOXMLManager
+    isoxmlManager: ISOXMLManager,
+    internalId: string
 ): Promise<{[tag: string]: Entity[]}> {
     const result = {}
     for (const tagName in xml) {
@@ -134,9 +146,12 @@ export async function xml2ChildTags(
             continue 
         }
         result[refDescription.name] = []
-        for (const childXml of xml[tagName]) {
-            result[refDescription.name].push(await isoxmlManager.createEntityFromXML(tagName as TAGS, childXml))
-
+        for (const idx in xml[tagName]) {
+            const childInternalId = `${internalId}->${tagName}[${idx}]`
+            const childXml = xml[tagName][idx]
+            result[refDescription.name].push(
+                await isoxmlManager.createEntityFromXML(tagName as TAGS, childXml, childInternalId)
+            )
         }
     }
     return result 
@@ -167,16 +182,19 @@ export async function fromXML(
     isoxmlManager: ISOXMLManager,
     entityClass: EntityConstructor,
     attributesDescription: AttributesDescription,
-    referencesDescription: ReferencesDescription
+    referencesDescription: ReferencesDescription,
+    internalId?: string
 ): Promise<Entity> {
-    const children = await xml2ChildTags(xml, referencesDescription, isoxmlManager)
-    const entity = new entityClass({
-        ...xml2attrs(xml, attributesDescription, isoxmlManager),
-        ...children
-    }, isoxmlManager)
-
     const idAttr = Object.keys(attributesDescription).find(attrId => attributesDescription[attrId].isPrimaryId)
     const xmlId = idAttr ? xml._attributes[idAttr] as string : null
+
+    const updatedInternalId = xmlId || internalId
+
+    const children = await xml2ChildTags(xml, referencesDescription, isoxmlManager, updatedInternalId)
+    const entity = new entityClass({
+        ...xml2attrs(xml, attributesDescription, isoxmlManager, updatedInternalId),
+        ...children
+    }, isoxmlManager, updatedInternalId)
     xmlId && entity.isoxmlManager.registerEntity(entity, xmlId)
 
     return entity

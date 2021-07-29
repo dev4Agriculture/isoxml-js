@@ -19,11 +19,41 @@ export type DevicePropertyAttributes = {
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    A: { name: 'DevicePropertyObjectId', type: 'xs:unsignedShort', isPrimaryId: false, isOnlyV4: false },
-    B: { name: 'DevicePropertyDDI', type: 'xs:hexBinary', isPrimaryId: false, isOnlyV4: false },
-    C: { name: 'DevicePropertyValue', type: 'xs:long', isPrimaryId: false, isOnlyV4: false },
-    D: { name: 'DevicePropertyDesignator', type: 'xs:string', isPrimaryId: false, isOnlyV4: false },
-    E: { name: 'DeviceValuePresentationObjectId', type: 'xs:unsignedShort', isPrimaryId: false, isOnlyV4: false },
+    A: {
+        name: 'DevicePropertyObjectId',
+        type: 'xs:unsignedShort',
+        isPrimaryId: false,
+        isOptional: false,
+        isOnlyV4: false
+    },
+    B: {
+        name: 'DevicePropertyDDI',
+        type: 'xs:hexBinary',
+        isPrimaryId: false,
+        isOptional: false,
+        isOnlyV4: false
+    },
+    C: {
+        name: 'DevicePropertyValue',
+        type: 'xs:long',
+        isPrimaryId: false,
+        isOptional: false,
+        isOnlyV4: false
+    },
+    D: {
+        name: 'DevicePropertyDesignator',
+        type: 'xs:string',
+        isPrimaryId: false,
+        isOptional: true,
+        isOnlyV4: false
+    },
+    E: {
+        name: 'DeviceValuePresentationObjectId',
+        type: 'xs:unsignedShort',
+        isPrimaryId: false,
+        isOptional: true,
+        isOnlyV4: false
+    },
 }
 const CHILD_TAGS = {
 }
@@ -34,8 +64,8 @@ export class DeviceProperty implements Entity {
     constructor(public attributes: DevicePropertyAttributes, public isoxmlManager: ISOXMLManager) {
     }
 
-    static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, targetClass: EntityConstructor = DeviceProperty): Promise<Entity> {
-        return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS)
+    static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, internalId?: string, targetClass: EntityConstructor = DeviceProperty): Promise<Entity> {
+        return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS, internalId)
     }
 
     toXML(): ElementCompact {

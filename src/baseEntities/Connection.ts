@@ -18,10 +18,34 @@ export type ConnectionAttributes = {
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    A: { name: 'DeviceIdRef_0', type: 'xs:IDREF', isPrimaryId: false, isOnlyV4: false },
-    B: { name: 'DeviceElementIdRef_0', type: 'xs:IDREF', isPrimaryId: false, isOnlyV4: false },
-    C: { name: 'DeviceIdRef_1', type: 'xs:IDREF', isPrimaryId: false, isOnlyV4: false },
-    D: { name: 'DeviceElementIdRef_1', type: 'xs:IDREF', isPrimaryId: false, isOnlyV4: false },
+    A: {
+        name: 'DeviceIdRef_0',
+        type: 'xs:IDREF',
+        isPrimaryId: false,
+        isOptional: false,
+        isOnlyV4: false
+    },
+    B: {
+        name: 'DeviceElementIdRef_0',
+        type: 'xs:IDREF',
+        isPrimaryId: false,
+        isOptional: false,
+        isOnlyV4: false
+    },
+    C: {
+        name: 'DeviceIdRef_1',
+        type: 'xs:IDREF',
+        isPrimaryId: false,
+        isOptional: false,
+        isOnlyV4: false
+    },
+    D: {
+        name: 'DeviceElementIdRef_1',
+        type: 'xs:IDREF',
+        isPrimaryId: false,
+        isOptional: false,
+        isOnlyV4: false
+    },
 }
 const CHILD_TAGS = {
 }
@@ -32,8 +56,8 @@ export class Connection implements Entity {
     constructor(public attributes: ConnectionAttributes, public isoxmlManager: ISOXMLManager) {
     }
 
-    static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, targetClass: EntityConstructor = Connection): Promise<Entity> {
-        return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS)
+    static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, internalId?: string, targetClass: EntityConstructor = Connection): Promise<Entity> {
+        return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS, internalId)
     }
 
     toXML(): ElementCompact {

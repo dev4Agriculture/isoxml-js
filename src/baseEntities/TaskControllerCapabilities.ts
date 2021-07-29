@@ -28,13 +28,55 @@ export type TaskControllerCapabilitiesAttributes = {
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    A: { name: 'TaskControllerControlFunctionNAME', type: 'xs:hexBinary', isPrimaryId: false, isOnlyV4: undefined },
-    B: { name: 'TaskControllerDesignator', type: 'xs:string', isPrimaryId: false, isOnlyV4: undefined },
-    C: { name: 'VersionNumber', type: 'xs:NMTOKEN', isPrimaryId: false, isOnlyV4: undefined },
-    D: { name: 'ProvidedCapabilities', type: 'xs:unsignedByte', isPrimaryId: false, isOnlyV4: undefined },
-    E: { name: 'NumberOfBoomsSectionControl', type: 'xs:unsignedByte', isPrimaryId: false, isOnlyV4: undefined },
-    F: { name: 'NumberOfSectionsSectionControl', type: 'xs:unsignedByte', isPrimaryId: false, isOnlyV4: undefined },
-    G: { name: 'NumberOfControlChannels', type: 'xs:unsignedByte', isPrimaryId: false, isOnlyV4: undefined },
+    A: {
+        name: 'TaskControllerControlFunctionNAME',
+        type: 'xs:hexBinary',
+        isPrimaryId: false,
+        isOptional: false,
+        isOnlyV4: undefined
+    },
+    B: {
+        name: 'TaskControllerDesignator',
+        type: 'xs:string',
+        isPrimaryId: false,
+        isOptional: false,
+        isOnlyV4: undefined
+    },
+    C: {
+        name: 'VersionNumber',
+        type: 'xs:NMTOKEN',
+        isPrimaryId: false,
+        isOptional: false,
+        isOnlyV4: undefined
+    },
+    D: {
+        name: 'ProvidedCapabilities',
+        type: 'xs:unsignedByte',
+        isPrimaryId: false,
+        isOptional: false,
+        isOnlyV4: undefined
+    },
+    E: {
+        name: 'NumberOfBoomsSectionControl',
+        type: 'xs:unsignedByte',
+        isPrimaryId: false,
+        isOptional: false,
+        isOnlyV4: undefined
+    },
+    F: {
+        name: 'NumberOfSectionsSectionControl',
+        type: 'xs:unsignedByte',
+        isPrimaryId: false,
+        isOptional: false,
+        isOnlyV4: undefined
+    },
+    G: {
+        name: 'NumberOfControlChannels',
+        type: 'xs:unsignedByte',
+        isPrimaryId: false,
+        isOptional: false,
+        isOnlyV4: undefined
+    },
 }
 const CHILD_TAGS = {
 }
@@ -45,8 +87,8 @@ export class TaskControllerCapabilities implements Entity {
     constructor(public attributes: TaskControllerCapabilitiesAttributes, public isoxmlManager: ISOXMLManager) {
     }
 
-    static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, targetClass: EntityConstructor = TaskControllerCapabilities): Promise<Entity> {
-        return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS)
+    static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, internalId?: string, targetClass: EntityConstructor = TaskControllerCapabilities): Promise<Entity> {
+        return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS, internalId)
     }
 
     toXML(): ElementCompact {

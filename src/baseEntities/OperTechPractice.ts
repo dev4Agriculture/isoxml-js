@@ -16,8 +16,20 @@ export type OperTechPracticeAttributes = {
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    A: { name: 'CulturalPracticeIdRef', type: 'xs:IDREF', isPrimaryId: false, isOnlyV4: false },
-    B: { name: 'OperationTechniqueIdRef', type: 'xs:IDREF', isPrimaryId: false, isOnlyV4: false },
+    A: {
+        name: 'CulturalPracticeIdRef',
+        type: 'xs:IDREF',
+        isPrimaryId: false,
+        isOptional: false,
+        isOnlyV4: false
+    },
+    B: {
+        name: 'OperationTechniqueIdRef',
+        type: 'xs:IDREF',
+        isPrimaryId: false,
+        isOptional: true,
+        isOnlyV4: false
+    },
 }
 const CHILD_TAGS = {
 }
@@ -28,8 +40,8 @@ export class OperTechPractice implements Entity {
     constructor(public attributes: OperTechPracticeAttributes, public isoxmlManager: ISOXMLManager) {
     }
 
-    static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, targetClass: EntityConstructor = OperTechPractice): Promise<Entity> {
-        return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS)
+    static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, internalId?: string, targetClass: EntityConstructor = OperTechPractice): Promise<Entity> {
+        return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS, internalId)
     }
 
     toXML(): ElementCompact {

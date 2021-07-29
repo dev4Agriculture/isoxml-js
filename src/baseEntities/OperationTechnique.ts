@@ -15,8 +15,20 @@ export type OperationTechniqueAttributes = {
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    A: { name: 'OperationTechniqueId', type: 'xs:ID', isPrimaryId: true, isOnlyV4: false },
-    B: { name: 'OperationTechniqueDesignator', type: 'xs:string', isPrimaryId: false, isOnlyV4: false },
+    A: {
+        name: 'OperationTechniqueId',
+        type: 'xs:ID',
+        isPrimaryId: true,
+        isOptional: false,
+        isOnlyV4: false
+    },
+    B: {
+        name: 'OperationTechniqueDesignator',
+        type: 'xs:string',
+        isPrimaryId: false,
+        isOptional: false,
+        isOnlyV4: false
+    },
 }
 const CHILD_TAGS = {
 }
@@ -27,8 +39,8 @@ export class OperationTechnique implements Entity {
     constructor(public attributes: OperationTechniqueAttributes, public isoxmlManager: ISOXMLManager) {
     }
 
-    static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, targetClass: EntityConstructor = OperationTechnique): Promise<Entity> {
-        return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS)
+    static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, internalId?: string, targetClass: EntityConstructor = OperationTechnique): Promise<Entity> {
+        return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS, internalId)
     }
 
     toXML(): ElementCompact {

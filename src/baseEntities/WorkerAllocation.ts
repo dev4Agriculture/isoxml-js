@@ -17,7 +17,13 @@ export type WorkerAllocationAttributes = {
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    A: { name: 'WorkerIdRef', type: 'xs:IDREF', isPrimaryId: false, isOnlyV4: false },
+    A: {
+        name: 'WorkerIdRef',
+        type: 'xs:IDREF',
+        isPrimaryId: false,
+        isOptional: false,
+        isOnlyV4: false
+    },
 }
 const CHILD_TAGS = {
     ASP: { name: 'AllocationStamp', isOnlyV4: false },
@@ -29,8 +35,8 @@ export class WorkerAllocation implements Entity {
     constructor(public attributes: WorkerAllocationAttributes, public isoxmlManager: ISOXMLManager) {
     }
 
-    static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, targetClass: EntityConstructor = WorkerAllocation): Promise<Entity> {
-        return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS)
+    static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, internalId?: string, targetClass: EntityConstructor = WorkerAllocation): Promise<Entity> {
+        return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS, internalId)
     }
 
     toXML(): ElementCompact {

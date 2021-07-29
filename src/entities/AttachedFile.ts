@@ -15,8 +15,11 @@ export class ExtendedAttachedFile extends AttachedFile {
         super(attributes, isoxmlManager)
     }
 
-    static async fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager): Promise<Entity> {
-        const entity = await AttachedFile.fromXML(xml, isoxmlManager, ExtendedAttachedFile) as ExtendedAttachedFile
+    static async fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, internalId?: string): Promise<Entity> {
+        const entity = await AttachedFile.fromXML(
+            xml, isoxmlManager, internalId, ExtendedAttachedFile
+        ) as ExtendedAttachedFile
+
         const filename = entity.attributes.FilenameWithExtension
 
         if (entity.attributes.FileType === 1) {
@@ -27,7 +30,11 @@ export class ExtendedAttachedFile extends AttachedFile {
             } catch(e) {
                 throw new Error ('Failed to parse LinkList file')
             }
-            await ExtendedISO11783LinkListFile.fromXML(linkListXml[TAGS.ISO11783LinkListFile][0], isoxmlManager)
+            await ExtendedISO11783LinkListFile.fromXML(
+                linkListXml[TAGS.ISO11783LinkListFile][0],
+                isoxmlManager,
+                'LINKLIST'
+            )
         } else {
             entity.fileData = await isoxmlManager.getParsedFile(filename, true)
         }

@@ -69,21 +69,111 @@ export type GuidancePatternAttributes = {
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    A: { name: 'GuidancePatternId', type: 'xs:ID', isPrimaryId: true, isOnlyV4: undefined },
-    B: { name: 'GuidancePatternDesignator', type: 'xs:string', isPrimaryId: false, isOnlyV4: undefined },
-    C: { name: 'GuidancePatternType', type: 'xs:NMTOKEN', isPrimaryId: false, isOnlyV4: undefined },
-    D: { name: 'GuidancePatternOptions', type: 'xs:NMTOKEN', isPrimaryId: false, isOnlyV4: undefined },
-    E: { name: 'GuidancePatternPropagationDirection', type: 'xs:NMTOKEN', isPrimaryId: false, isOnlyV4: undefined },
-    F: { name: 'GuidancePatternExtension', type: 'xs:NMTOKEN', isPrimaryId: false, isOnlyV4: undefined },
-    G: { name: 'GuidancePatternHeading', type: 'xs:decimal', isPrimaryId: false, isOnlyV4: undefined },
-    H: { name: 'GuidancePatternRadius', type: 'xs:unsignedLong', isPrimaryId: false, isOnlyV4: undefined },
-    I: { name: 'GuidancePatternGNSSMethod', type: 'xs:NMTOKEN', isPrimaryId: false, isOnlyV4: undefined },
-    J: { name: 'GuidancePatternHorizontalAccuracy', type: 'xs:decimal', isPrimaryId: false, isOnlyV4: undefined },
-    K: { name: 'GuidancePatternVerticalAccuracy', type: 'xs:decimal', isPrimaryId: false, isOnlyV4: undefined },
-    L: { name: 'BaseStationIdRef', type: 'xs:IDREF', isPrimaryId: false, isOnlyV4: undefined },
-    M: { name: 'OriginalSRID', type: 'xs:string', isPrimaryId: false, isOnlyV4: undefined },
-    N: { name: 'NumberOfSwathsLeft', type: 'xs:unsignedLong', isPrimaryId: false, isOnlyV4: undefined },
-    O: { name: 'NumberOfSwathsRight', type: 'xs:unsignedLong', isPrimaryId: false, isOnlyV4: undefined },
+    A: {
+        name: 'GuidancePatternId',
+        type: 'xs:ID',
+        isPrimaryId: true,
+        isOptional: false,
+        isOnlyV4: undefined
+    },
+    B: {
+        name: 'GuidancePatternDesignator',
+        type: 'xs:string',
+        isPrimaryId: false,
+        isOptional: true,
+        isOnlyV4: undefined
+    },
+    C: {
+        name: 'GuidancePatternType',
+        type: 'xs:NMTOKEN',
+        isPrimaryId: false,
+        isOptional: false,
+        isOnlyV4: undefined
+    },
+    D: {
+        name: 'GuidancePatternOptions',
+        type: 'xs:NMTOKEN',
+        isPrimaryId: false,
+        isOptional: true,
+        isOnlyV4: undefined
+    },
+    E: {
+        name: 'GuidancePatternPropagationDirection',
+        type: 'xs:NMTOKEN',
+        isPrimaryId: false,
+        isOptional: true,
+        isOnlyV4: undefined
+    },
+    F: {
+        name: 'GuidancePatternExtension',
+        type: 'xs:NMTOKEN',
+        isPrimaryId: false,
+        isOptional: true,
+        isOnlyV4: undefined
+    },
+    G: {
+        name: 'GuidancePatternHeading',
+        type: 'xs:decimal',
+        isPrimaryId: false,
+        isOptional: true,
+        isOnlyV4: undefined
+    },
+    H: {
+        name: 'GuidancePatternRadius',
+        type: 'xs:unsignedLong',
+        isPrimaryId: false,
+        isOptional: true,
+        isOnlyV4: undefined
+    },
+    I: {
+        name: 'GuidancePatternGNSSMethod',
+        type: 'xs:NMTOKEN',
+        isPrimaryId: false,
+        isOptional: true,
+        isOnlyV4: undefined
+    },
+    J: {
+        name: 'GuidancePatternHorizontalAccuracy',
+        type: 'xs:decimal',
+        isPrimaryId: false,
+        isOptional: true,
+        isOnlyV4: undefined
+    },
+    K: {
+        name: 'GuidancePatternVerticalAccuracy',
+        type: 'xs:decimal',
+        isPrimaryId: false,
+        isOptional: true,
+        isOnlyV4: undefined
+    },
+    L: {
+        name: 'BaseStationIdRef',
+        type: 'xs:IDREF',
+        isPrimaryId: false,
+        isOptional: true,
+        isOnlyV4: undefined
+    },
+    M: {
+        name: 'OriginalSRID',
+        type: 'xs:string',
+        isPrimaryId: false,
+        isOptional: true,
+        isOnlyV4: undefined
+    },
+    N: {
+        name: 'NumberOfSwathsLeft',
+        type: 'xs:unsignedLong',
+        isPrimaryId: false,
+        isOptional: true,
+        isOnlyV4: undefined
+    },
+    O: {
+        name: 'NumberOfSwathsRight',
+        type: 'xs:unsignedLong',
+        isPrimaryId: false,
+        isOptional: true,
+        isOnlyV4: undefined
+    },
 }
 const CHILD_TAGS = {
     LSG: { name: 'LineString', isOnlyV4: undefined },
@@ -96,8 +186,8 @@ export class GuidancePattern implements Entity {
     constructor(public attributes: GuidancePatternAttributes, public isoxmlManager: ISOXMLManager) {
     }
 
-    static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, targetClass: EntityConstructor = GuidancePattern): Promise<Entity> {
-        return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS)
+    static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, internalId?: string, targetClass: EntityConstructor = GuidancePattern): Promise<Entity> {
+        return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS, internalId)
     }
 
     toXML(): ElementCompact {

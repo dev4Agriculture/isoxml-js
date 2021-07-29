@@ -26,11 +26,41 @@ export type LinkGroupAttributes = {
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    A: { name: 'LinkGroupId', type: 'xs:ID', isPrimaryId: true, isOnlyV4: undefined },
-    B: { name: 'LinkGroupType', type: 'xs:NMTOKEN', isPrimaryId: false, isOnlyV4: undefined },
-    C: { name: 'ManufacturerGLN', type: 'xs:anyURI', isPrimaryId: false, isOnlyV4: undefined },
-    D: { name: 'LinkGroupNamespace', type: 'xs:token', isPrimaryId: false, isOnlyV4: undefined },
-    E: { name: 'LinkGroupDesignator', type: 'xs:string', isPrimaryId: false, isOnlyV4: undefined },
+    A: {
+        name: 'LinkGroupId',
+        type: 'xs:ID',
+        isPrimaryId: true,
+        isOptional: false,
+        isOnlyV4: undefined
+    },
+    B: {
+        name: 'LinkGroupType',
+        type: 'xs:NMTOKEN',
+        isPrimaryId: false,
+        isOptional: false,
+        isOnlyV4: undefined
+    },
+    C: {
+        name: 'ManufacturerGLN',
+        type: 'xs:anyURI',
+        isPrimaryId: false,
+        isOptional: true,
+        isOnlyV4: undefined
+    },
+    D: {
+        name: 'LinkGroupNamespace',
+        type: 'xs:token',
+        isPrimaryId: false,
+        isOptional: true,
+        isOnlyV4: undefined
+    },
+    E: {
+        name: 'LinkGroupDesignator',
+        type: 'xs:string',
+        isPrimaryId: false,
+        isOptional: true,
+        isOnlyV4: undefined
+    },
 }
 const CHILD_TAGS = {
     LNK: { name: 'Link', isOnlyV4: undefined },
@@ -42,8 +72,8 @@ export class LinkGroup implements Entity {
     constructor(public attributes: LinkGroupAttributes, public isoxmlManager: ISOXMLManager) {
     }
 
-    static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, targetClass: EntityConstructor = LinkGroup): Promise<Entity> {
-        return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS)
+    static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, internalId?: string, targetClass: EntityConstructor = LinkGroup): Promise<Entity> {
+        return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS, internalId)
     }
 
     toXML(): ElementCompact {

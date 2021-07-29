@@ -58,8 +58,8 @@ export class ExtendedGrid extends Grid {
         super(attributes, isoxmlManager)
     }
 
-    static async fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager): Promise<Entity> {
-        const entity = await Grid.fromXML(xml, isoxmlManager, ExtendedGrid) as ExtendedGrid
+    static async fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, internalId: string): Promise<Entity> {
+        const entity = await Grid.fromXML(xml, isoxmlManager, internalId, ExtendedGrid) as ExtendedGrid
         const filename = entity.attributes.Filename
         entity.binaryData = await isoxmlManager.getParsedFile(`${filename}.BIN`, true)
         return entity

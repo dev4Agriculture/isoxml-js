@@ -30,15 +30,69 @@ export type PartfieldAttributes = {
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    A: { name: 'PartfieldId', type: 'xs:ID', isPrimaryId: true, isOnlyV4: false },
-    B: { name: 'PartfieldCode', type: 'xs:string', isPrimaryId: false, isOnlyV4: false },
-    C: { name: 'PartfieldDesignator', type: 'xs:string', isPrimaryId: false, isOnlyV4: false },
-    D: { name: 'PartfieldArea', type: 'xs:unsignedLong', isPrimaryId: false, isOnlyV4: false },
-    E: { name: 'CustomerIdRef', type: 'xs:IDREF', isPrimaryId: false, isOnlyV4: false },
-    F: { name: 'FarmIdRef', type: 'xs:IDREF', isPrimaryId: false, isOnlyV4: false },
-    G: { name: 'CropTypeIdRef', type: 'xs:IDREF', isPrimaryId: false, isOnlyV4: false },
-    H: { name: 'CropVarietyIdRef', type: 'xs:IDREF', isPrimaryId: false, isOnlyV4: false },
-    I: { name: 'FieldIdRef', type: 'xs:IDREF', isPrimaryId: false, isOnlyV4: false },
+    A: {
+        name: 'PartfieldId',
+        type: 'xs:ID',
+        isPrimaryId: true,
+        isOptional: false,
+        isOnlyV4: false
+    },
+    B: {
+        name: 'PartfieldCode',
+        type: 'xs:string',
+        isPrimaryId: false,
+        isOptional: true,
+        isOnlyV4: false
+    },
+    C: {
+        name: 'PartfieldDesignator',
+        type: 'xs:string',
+        isPrimaryId: false,
+        isOptional: false,
+        isOnlyV4: false
+    },
+    D: {
+        name: 'PartfieldArea',
+        type: 'xs:unsignedLong',
+        isPrimaryId: false,
+        isOptional: false,
+        isOnlyV4: false
+    },
+    E: {
+        name: 'CustomerIdRef',
+        type: 'xs:IDREF',
+        isPrimaryId: false,
+        isOptional: true,
+        isOnlyV4: false
+    },
+    F: {
+        name: 'FarmIdRef',
+        type: 'xs:IDREF',
+        isPrimaryId: false,
+        isOptional: true,
+        isOnlyV4: false
+    },
+    G: {
+        name: 'CropTypeIdRef',
+        type: 'xs:IDREF',
+        isPrimaryId: false,
+        isOptional: true,
+        isOnlyV4: false
+    },
+    H: {
+        name: 'CropVarietyIdRef',
+        type: 'xs:IDREF',
+        isPrimaryId: false,
+        isOptional: true,
+        isOnlyV4: false
+    },
+    I: {
+        name: 'FieldIdRef',
+        type: 'xs:IDREF',
+        isPrimaryId: false,
+        isOptional: true,
+        isOnlyV4: false
+    },
 }
 const CHILD_TAGS = {
     PLN: { name: 'PolygonnonTreatmentZoneonly', isOnlyV4: false },
@@ -53,8 +107,8 @@ export class Partfield implements Entity {
     constructor(public attributes: PartfieldAttributes, public isoxmlManager: ISOXMLManager) {
     }
 
-    static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, targetClass: EntityConstructor = Partfield): Promise<Entity> {
-        return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS)
+    static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, internalId?: string, targetClass: EntityConstructor = Partfield): Promise<Entity> {
+        return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS, internalId)
     }
 
     toXML(): ElementCompact {

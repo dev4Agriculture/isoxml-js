@@ -20,9 +20,27 @@ export type TimeLogAttributes = {
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    A: { name: 'Filename', type: 'xs:ID', isPrimaryId: false, isOnlyV4: false },
-    B: { name: 'Filelength', type: 'xs:unsignedLong', isPrimaryId: false, isOnlyV4: false },
-    C: { name: 'TimeLogType', type: 'xs:NMTOKEN', isPrimaryId: false, isOnlyV4: false },
+    A: {
+        name: 'Filename',
+        type: 'xs:ID',
+        isPrimaryId: false,
+        isOptional: false,
+        isOnlyV4: false
+    },
+    B: {
+        name: 'Filelength',
+        type: 'xs:unsignedLong',
+        isPrimaryId: false,
+        isOptional: true,
+        isOnlyV4: false
+    },
+    C: {
+        name: 'TimeLogType',
+        type: 'xs:NMTOKEN',
+        isPrimaryId: false,
+        isOptional: false,
+        isOnlyV4: false
+    },
 }
 const CHILD_TAGS = {
 }
@@ -33,8 +51,8 @@ export class TimeLog implements Entity {
     constructor(public attributes: TimeLogAttributes, public isoxmlManager: ISOXMLManager) {
     }
 
-    static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, targetClass: EntityConstructor = TimeLog): Promise<Entity> {
-        return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS)
+    static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, internalId?: string, targetClass: EntityConstructor = TimeLog): Promise<Entity> {
+        return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS, internalId)
     }
 
     toXML(): ElementCompact {

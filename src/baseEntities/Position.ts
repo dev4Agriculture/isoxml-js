@@ -41,15 +41,69 @@ export type PositionAttributes = {
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    A: { name: 'PositionNorth', type: 'xs:decimal', isPrimaryId: false, isOnlyV4: false },
-    B: { name: 'PositionEast', type: 'xs:decimal', isPrimaryId: false, isOnlyV4: false },
-    C: { name: 'PositionUp', type: 'xs:long', isPrimaryId: false, isOnlyV4: false },
-    D: { name: 'PositionStatus', type: 'xs:NMTOKEN', isPrimaryId: false, isOnlyV4: false },
-    E: { name: 'PDOP', type: 'xs:decimal', isPrimaryId: false, isOnlyV4: false },
-    F: { name: 'HDOP', type: 'xs:decimal', isPrimaryId: false, isOnlyV4: false },
-    G: { name: 'NumberOfSatellites', type: 'xs:unsignedByte', isPrimaryId: false, isOnlyV4: false },
-    H: { name: 'GpsUtcTime', type: 'xs:unsignedLong', isPrimaryId: false, isOnlyV4: false },
-    I: { name: 'GpsUtcDate', type: 'xs:unsignedShort', isPrimaryId: false, isOnlyV4: false },
+    A: {
+        name: 'PositionNorth',
+        type: 'xs:decimal',
+        isPrimaryId: false,
+        isOptional: false,
+        isOnlyV4: false
+    },
+    B: {
+        name: 'PositionEast',
+        type: 'xs:decimal',
+        isPrimaryId: false,
+        isOptional: false,
+        isOnlyV4: false
+    },
+    C: {
+        name: 'PositionUp',
+        type: 'xs:long',
+        isPrimaryId: false,
+        isOptional: true,
+        isOnlyV4: false
+    },
+    D: {
+        name: 'PositionStatus',
+        type: 'xs:NMTOKEN',
+        isPrimaryId: false,
+        isOptional: false,
+        isOnlyV4: false
+    },
+    E: {
+        name: 'PDOP',
+        type: 'xs:decimal',
+        isPrimaryId: false,
+        isOptional: true,
+        isOnlyV4: false
+    },
+    F: {
+        name: 'HDOP',
+        type: 'xs:decimal',
+        isPrimaryId: false,
+        isOptional: true,
+        isOnlyV4: false
+    },
+    G: {
+        name: 'NumberOfSatellites',
+        type: 'xs:unsignedByte',
+        isPrimaryId: false,
+        isOptional: true,
+        isOnlyV4: false
+    },
+    H: {
+        name: 'GpsUtcTime',
+        type: 'xs:unsignedLong',
+        isPrimaryId: false,
+        isOptional: true,
+        isOnlyV4: false
+    },
+    I: {
+        name: 'GpsUtcDate',
+        type: 'xs:unsignedShort',
+        isPrimaryId: false,
+        isOptional: true,
+        isOnlyV4: false
+    },
 }
 const CHILD_TAGS = {
 }
@@ -60,8 +114,8 @@ export class Position implements Entity {
     constructor(public attributes: PositionAttributes, public isoxmlManager: ISOXMLManager) {
     }
 
-    static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, targetClass: EntityConstructor = Position): Promise<Entity> {
-        return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS)
+    static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, internalId?: string, targetClass: EntityConstructor = Position): Promise<Entity> {
+        return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS, internalId)
     }
 
     toXML(): ElementCompact {

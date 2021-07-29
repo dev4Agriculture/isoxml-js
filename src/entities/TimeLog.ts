@@ -15,8 +15,8 @@ export class ExtendedTimeLog extends TimeLog {
         super(attributes, isoxmlManager)
     }
 
-    static async fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager): Promise<Entity> {
-        const entity = await TimeLog.fromXML(xml, isoxmlManager, ExtendedTimeLog) as ExtendedTimeLog
+    static async fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, internalId: string): Promise<Entity> {
+        const entity = await TimeLog.fromXML(xml, isoxmlManager, internalId, ExtendedTimeLog) as ExtendedTimeLog
         entity.xmlData = await isoxmlManager.getParsedFile(`${entity.attributes.Filename}.XML`, false)
         entity.binaryData = await isoxmlManager.getParsedFile(`${entity.attributes.Filename}.BIN`, true)
         return entity

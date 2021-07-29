@@ -21,9 +21,27 @@ export type TreatmentZoneAttributes = {
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    A: { name: 'TreatmentZoneCode', type: 'xs:unsignedByte', isPrimaryId: false, isOnlyV4: false },
-    B: { name: 'TreatmentZoneDesignator', type: 'xs:string', isPrimaryId: false, isOnlyV4: false },
-    C: { name: 'TreatmentZoneColour', type: 'xs:unsignedByte', isPrimaryId: false, isOnlyV4: false },
+    A: {
+        name: 'TreatmentZoneCode',
+        type: 'xs:unsignedByte',
+        isPrimaryId: false,
+        isOptional: false,
+        isOnlyV4: false
+    },
+    B: {
+        name: 'TreatmentZoneDesignator',
+        type: 'xs:string',
+        isPrimaryId: false,
+        isOptional: true,
+        isOnlyV4: false
+    },
+    C: {
+        name: 'TreatmentZoneColour',
+        type: 'xs:unsignedByte',
+        isPrimaryId: false,
+        isOptional: true,
+        isOnlyV4: false
+    },
 }
 const CHILD_TAGS = {
     PLN: { name: 'PolygonTreatmentZoneonly', isOnlyV4: false },
@@ -36,8 +54,8 @@ export class TreatmentZone implements Entity {
     constructor(public attributes: TreatmentZoneAttributes, public isoxmlManager: ISOXMLManager) {
     }
 
-    static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, targetClass: EntityConstructor = TreatmentZone): Promise<Entity> {
-        return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS)
+    static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, internalId?: string, targetClass: EntityConstructor = TreatmentZone): Promise<Entity> {
+        return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS, internalId)
     }
 
     toXML(): ElementCompact {

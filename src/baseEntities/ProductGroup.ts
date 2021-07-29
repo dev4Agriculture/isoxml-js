@@ -20,9 +20,27 @@ export type ProductGroupAttributes = {
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    A: { name: 'ProductGroupId', type: 'xs:ID', isPrimaryId: true, isOnlyV4: false },
-    B: { name: 'ProductGroupDesignator', type: 'xs:string', isPrimaryId: false, isOnlyV4: false },
-    C: { name: 'ProductGroupType', type: 'xs:NMTOKEN', isPrimaryId: false, isOnlyV4: true },
+    A: {
+        name: 'ProductGroupId',
+        type: 'xs:ID',
+        isPrimaryId: true,
+        isOptional: false,
+        isOnlyV4: false
+    },
+    B: {
+        name: 'ProductGroupDesignator',
+        type: 'xs:string',
+        isPrimaryId: false,
+        isOptional: false,
+        isOnlyV4: false
+    },
+    C: {
+        name: 'ProductGroupType',
+        type: 'xs:NMTOKEN',
+        isPrimaryId: false,
+        isOptional: true,
+        isOnlyV4: true
+    },
 }
 const CHILD_TAGS = {
 }
@@ -33,8 +51,8 @@ export class ProductGroup implements Entity {
     constructor(public attributes: ProductGroupAttributes, public isoxmlManager: ISOXMLManager) {
     }
 
-    static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, targetClass: EntityConstructor = ProductGroup): Promise<Entity> {
-        return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS)
+    static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, internalId?: string, targetClass: EntityConstructor = ProductGroup): Promise<Entity> {
+        return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS, internalId)
     }
 
     toXML(): ElementCompact {

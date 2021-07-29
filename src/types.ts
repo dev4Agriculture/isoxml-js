@@ -7,6 +7,7 @@ export interface AttributesDescription {
         name: string
         type: string
         isPrimaryId: boolean
+        isOptional: boolean
         isOnlyV4: boolean
     }
 }
@@ -31,7 +32,7 @@ export interface Entity {
 }
 
 export interface EntityConstructor {
-    fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager): Promise<Entity>
+    fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, internalId?: string): Promise<Entity>
     new (attributes: EntityAttributes, isoxmlManager: ISOXMLManager, xmlId?: string, fmisId?: string): Entity
 }
 

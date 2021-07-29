@@ -19,8 +19,20 @@ export type GuidanceGroupAttributes = {
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    A: { name: 'GuidanceGroupId', type: 'xs:ID', isPrimaryId: true, isOnlyV4: undefined },
-    B: { name: 'GuidanceGroupDesignator', type: 'xs:string', isPrimaryId: false, isOnlyV4: undefined },
+    A: {
+        name: 'GuidanceGroupId',
+        type: 'xs:ID',
+        isPrimaryId: true,
+        isOptional: false,
+        isOnlyV4: undefined
+    },
+    B: {
+        name: 'GuidanceGroupDesignator',
+        type: 'xs:string',
+        isPrimaryId: false,
+        isOptional: true,
+        isOnlyV4: undefined
+    },
 }
 const CHILD_TAGS = {
     GPN: { name: 'GuidancePattern', isOnlyV4: undefined },
@@ -33,8 +45,8 @@ export class GuidanceGroup implements Entity {
     constructor(public attributes: GuidanceGroupAttributes, public isoxmlManager: ISOXMLManager) {
     }
 
-    static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, targetClass: EntityConstructor = GuidanceGroup): Promise<Entity> {
-        return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS)
+    static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, internalId?: string, targetClass: EntityConstructor = GuidanceGroup): Promise<Entity> {
+        return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS, internalId)
     }
 
     toXML(): ElementCompact {

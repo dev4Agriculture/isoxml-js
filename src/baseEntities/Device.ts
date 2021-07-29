@@ -28,13 +28,55 @@ export type DeviceAttributes = {
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    A: { name: 'DeviceId', type: 'xs:ID', isPrimaryId: true, isOnlyV4: false },
-    B: { name: 'DeviceDesignator', type: 'xs:string', isPrimaryId: false, isOnlyV4: false },
-    C: { name: 'DeviceSoftwareVersion', type: 'xs:string', isPrimaryId: false, isOnlyV4: false },
-    D: { name: 'ClientNAME', type: 'xs:hexBinary', isPrimaryId: false, isOnlyV4: false },
-    E: { name: 'DeviceSerialNumber', type: 'xs:string', isPrimaryId: false, isOnlyV4: false },
-    F: { name: 'DeviceStructureLabel', type: 'xs:hexBinary', isPrimaryId: false, isOnlyV4: false },
-    G: { name: 'DeviceLocalizationLabel', type: 'xs:hexBinary', isPrimaryId: false, isOnlyV4: false },
+    A: {
+        name: 'DeviceId',
+        type: 'xs:ID',
+        isPrimaryId: true,
+        isOptional: false,
+        isOnlyV4: false
+    },
+    B: {
+        name: 'DeviceDesignator',
+        type: 'xs:string',
+        isPrimaryId: false,
+        isOptional: true,
+        isOnlyV4: false
+    },
+    C: {
+        name: 'DeviceSoftwareVersion',
+        type: 'xs:string',
+        isPrimaryId: false,
+        isOptional: true,
+        isOnlyV4: false
+    },
+    D: {
+        name: 'ClientNAME',
+        type: 'xs:hexBinary',
+        isPrimaryId: false,
+        isOptional: false,
+        isOnlyV4: false
+    },
+    E: {
+        name: 'DeviceSerialNumber',
+        type: 'xs:string',
+        isPrimaryId: false,
+        isOptional: true,
+        isOnlyV4: false
+    },
+    F: {
+        name: 'DeviceStructureLabel',
+        type: 'xs:hexBinary',
+        isPrimaryId: false,
+        isOptional: false,
+        isOnlyV4: false
+    },
+    G: {
+        name: 'DeviceLocalizationLabel',
+        type: 'xs:hexBinary',
+        isPrimaryId: false,
+        isOptional: false,
+        isOnlyV4: false
+    },
 }
 const CHILD_TAGS = {
     DET: { name: 'DeviceElement', isOnlyV4: false },
@@ -49,8 +91,8 @@ export class Device implements Entity {
     constructor(public attributes: DeviceAttributes, public isoxmlManager: ISOXMLManager) {
     }
 
-    static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, targetClass: EntityConstructor = Device): Promise<Entity> {
-        return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS)
+    static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, internalId?: string, targetClass: EntityConstructor = Device): Promise<Entity> {
+        return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS, internalId)
     }
 
     toXML(): ElementCompact {

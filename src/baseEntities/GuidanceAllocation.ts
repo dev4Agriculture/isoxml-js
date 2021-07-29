@@ -19,7 +19,13 @@ export type GuidanceAllocationAttributes = {
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    A: { name: 'GuidanceGroupIdRef', type: 'xs:IDREF', isPrimaryId: false, isOnlyV4: undefined },
+    A: {
+        name: 'GuidanceGroupIdRef',
+        type: 'xs:IDREF',
+        isPrimaryId: false,
+        isOptional: false,
+        isOnlyV4: undefined
+    },
 }
 const CHILD_TAGS = {
     ASP: { name: 'AllocationStamp', isOnlyV4: undefined },
@@ -32,8 +38,8 @@ export class GuidanceAllocation implements Entity {
     constructor(public attributes: GuidanceAllocationAttributes, public isoxmlManager: ISOXMLManager) {
     }
 
-    static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, targetClass: EntityConstructor = GuidanceAllocation): Promise<Entity> {
-        return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS)
+    static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, internalId?: string, targetClass: EntityConstructor = GuidanceAllocation): Promise<Entity> {
+        return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS, internalId)
     }
 
     toXML(): ElementCompact {

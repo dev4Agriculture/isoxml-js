@@ -17,8 +17,20 @@ export type CulturalPracticeAttributes = {
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    A: { name: 'CulturalPracticeId', type: 'xs:ID', isPrimaryId: true, isOnlyV4: false },
-    B: { name: 'CulturalPracticeDesignator', type: 'xs:string', isPrimaryId: false, isOnlyV4: false },
+    A: {
+        name: 'CulturalPracticeId',
+        type: 'xs:ID',
+        isPrimaryId: true,
+        isOptional: false,
+        isOnlyV4: false
+    },
+    B: {
+        name: 'CulturalPracticeDesignator',
+        type: 'xs:string',
+        isPrimaryId: false,
+        isOptional: false,
+        isOnlyV4: false
+    },
 }
 const CHILD_TAGS = {
     OTR: { name: 'OperationTechniqueReference', isOnlyV4: false },
@@ -30,8 +42,8 @@ export class CulturalPractice implements Entity {
     constructor(public attributes: CulturalPracticeAttributes, public isoxmlManager: ISOXMLManager) {
     }
 
-    static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, targetClass: EntityConstructor = CulturalPractice): Promise<Entity> {
-        return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS)
+    static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, internalId?: string, targetClass: EntityConstructor = CulturalPractice): Promise<Entity> {
+        return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS, internalId)
     }
 
     toXML(): ElementCompact {

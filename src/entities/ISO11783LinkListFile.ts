@@ -21,9 +21,9 @@ export class ExtendedISO11783LinkListFile extends ISO11783LinkListFile {
         super(attributes, isoxmlManager)
     }
 
-    static async fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager): Promise<Entity> {
+    static async fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, internalId?: string): Promise<Entity> {
         const entity =
-            await ISO11783LinkListFile.fromXML(xml, isoxmlManager) as ISO11783LinkListFile
+            await ISO11783LinkListFile.fromXML(xml, isoxmlManager, internalId) as ISO11783LinkListFile
 
         const linkGroup = entity.attributes.LinkGroup?.find(group => 
             group.attributes.LinkGroupType === LinkGroupLinkGroupTypeEnum.UniqueResolvableURIs &&
@@ -45,13 +45,13 @@ export class ExtendedISO11783LinkListFile extends ISO11783LinkListFile {
                     ObjectIdRef: ref,
                     LinkValue: ref.fmisId 
                 }, this.isoxmlManager))
-            this.attributes.LinkGroup = [
-                new LinkGroup({
-                    LinkGroupType: LinkGroupLinkGroupTypeEnum.UniqueResolvableURIs,
-                    LinkGroupNamespace: this.isoxmlManager.options.fmisURI,
-                    Link: links
-                }, this.isoxmlManager)
-            ]
+            const linkGroup = this.isoxmlManager.createEntityFromAttributes(TAGS.LinkGroup, {
+                LinkGroupType: LinkGroupLinkGroupTypeEnum.UniqueResolvableURIs,
+                LinkGroupNamespace: this.isoxmlManager.options.fmisURI,
+                Link: links
+            }) as LinkGroup
+            this.isoxmlManager.registerEntity(linkGroup)
+            this.attributes.LinkGroup = [linkGroup]
         }
         return super.toXML() 
     } 

@@ -15,7 +15,13 @@ export type DeviceObjectReferenceAttributes = {
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    A: { name: 'DeviceObjectId', type: 'xs:unsignedShort', isPrimaryId: false, isOnlyV4: false },
+    A: {
+        name: 'DeviceObjectId',
+        type: 'xs:unsignedShort',
+        isPrimaryId: false,
+        isOptional: false,
+        isOnlyV4: false
+    },
 }
 const CHILD_TAGS = {
 }
@@ -26,8 +32,8 @@ export class DeviceObjectReference implements Entity {
     constructor(public attributes: DeviceObjectReferenceAttributes, public isoxmlManager: ISOXMLManager) {
     }
 
-    static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, targetClass: EntityConstructor = DeviceObjectReference): Promise<Entity> {
-        return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS)
+    static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, internalId?: string, targetClass: EntityConstructor = DeviceObjectReference): Promise<Entity> {
+        return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS, internalId)
     }
 
     toXML(): ElementCompact {

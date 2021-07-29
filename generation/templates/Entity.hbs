@@ -37,7 +37,13 @@ export type {{name}}Attributes = {
 
 const ATTRIBUTES: AttributesDescription = {
     {{#attributes}}
-    {{xmlName}}: { name: '{{name}}', type: '{{xsdType}}', isPrimaryId: {{toString isPrimaryId}}, isOnlyV4: {{toString isOnlyV4}} },
+    {{xmlName}}: {
+        name: '{{name}}',
+        type: '{{xsdType}}',
+        isPrimaryId: {{toString isPrimaryId}},
+        isOptional: {{toString isOptional}},
+        isOnlyV4: {{toString isOnlyV4}}
+    },
     {{/attributes}}
 }
 const CHILD_TAGS = {
@@ -52,8 +58,8 @@ export class {{name}} implements Entity {
     constructor(public attributes: {{name}}Attributes, public isoxmlManager: ISOXMLManager) {
     }
 
-    static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, targetClass: EntityConstructor = {{name}}): Promise<Entity> {
-        return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS)
+    static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, internalId?: string, targetClass: EntityConstructor = {{name}}): Promise<Entity> {
+        return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS, internalId)
     }
 
     toXML(): ElementCompact {

@@ -57,16 +57,76 @@ export type TaskAttributes = {
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    A: { name: 'TaskId', type: 'xs:ID', isPrimaryId: true, isOnlyV4: false },
-    B: { name: 'TaskDesignator', type: 'xs:string', isPrimaryId: false, isOnlyV4: false },
-    C: { name: 'CustomerIdRef', type: 'xs:IDREF', isPrimaryId: false, isOnlyV4: false },
-    D: { name: 'FarmIdRef', type: 'xs:IDREF', isPrimaryId: false, isOnlyV4: false },
-    E: { name: 'PartfieldIdRef', type: 'xs:IDREF', isPrimaryId: false, isOnlyV4: false },
-    F: { name: 'ResponsibleWorkerIdRef', type: 'xs:IDREF', isPrimaryId: false, isOnlyV4: false },
-    G: { name: 'TaskStatus', type: 'xs:NMTOKEN', isPrimaryId: false, isOnlyV4: false },
-    H: { name: 'DefaultTreatmentZoneCode', type: 'xs:unsignedByte', isPrimaryId: false, isOnlyV4: false },
-    I: { name: 'PositionLostTreatmentZoneCode', type: 'xs:unsignedByte', isPrimaryId: false, isOnlyV4: false },
-    J: { name: 'OutOfFieldTreatmentZoneCode', type: 'xs:unsignedByte', isPrimaryId: false, isOnlyV4: false },
+    A: {
+        name: 'TaskId',
+        type: 'xs:ID',
+        isPrimaryId: true,
+        isOptional: false,
+        isOnlyV4: false
+    },
+    B: {
+        name: 'TaskDesignator',
+        type: 'xs:string',
+        isPrimaryId: false,
+        isOptional: true,
+        isOnlyV4: false
+    },
+    C: {
+        name: 'CustomerIdRef',
+        type: 'xs:IDREF',
+        isPrimaryId: false,
+        isOptional: true,
+        isOnlyV4: false
+    },
+    D: {
+        name: 'FarmIdRef',
+        type: 'xs:IDREF',
+        isPrimaryId: false,
+        isOptional: true,
+        isOnlyV4: false
+    },
+    E: {
+        name: 'PartfieldIdRef',
+        type: 'xs:IDREF',
+        isPrimaryId: false,
+        isOptional: true,
+        isOnlyV4: false
+    },
+    F: {
+        name: 'ResponsibleWorkerIdRef',
+        type: 'xs:IDREF',
+        isPrimaryId: false,
+        isOptional: true,
+        isOnlyV4: false
+    },
+    G: {
+        name: 'TaskStatus',
+        type: 'xs:NMTOKEN',
+        isPrimaryId: false,
+        isOptional: false,
+        isOnlyV4: false
+    },
+    H: {
+        name: 'DefaultTreatmentZoneCode',
+        type: 'xs:unsignedByte',
+        isPrimaryId: false,
+        isOptional: true,
+        isOnlyV4: false
+    },
+    I: {
+        name: 'PositionLostTreatmentZoneCode',
+        type: 'xs:unsignedByte',
+        isPrimaryId: false,
+        isOptional: true,
+        isOnlyV4: false
+    },
+    J: {
+        name: 'OutOfFieldTreatmentZoneCode',
+        type: 'xs:unsignedByte',
+        isPrimaryId: false,
+        isOptional: true,
+        isOnlyV4: false
+    },
 }
 const CHILD_TAGS = {
     TZN: { name: 'TreatmentZone', isOnlyV4: false },
@@ -90,8 +150,8 @@ export class Task implements Entity {
     constructor(public attributes: TaskAttributes, public isoxmlManager: ISOXMLManager) {
     }
 
-    static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, targetClass: EntityConstructor = Task): Promise<Entity> {
-        return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS)
+    static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, internalId?: string, targetClass: EntityConstructor = Task): Promise<Entity> {
+        return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS, internalId)
     }
 
     toXML(): ElementCompact {

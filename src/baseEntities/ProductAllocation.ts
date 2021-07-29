@@ -28,13 +28,55 @@ export type ProductAllocationAttributes = {
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    A: { name: 'ProductIdRef', type: 'xs:IDREF', isPrimaryId: false, isOnlyV4: false },
-    B: { name: 'QuantityDDI', type: 'xs:hexBinary', isPrimaryId: false, isOnlyV4: false },
-    C: { name: 'QuantityValue', type: 'xs:long', isPrimaryId: false, isOnlyV4: false },
-    D: { name: 'TransferMode', type: 'xs:NMTOKEN', isPrimaryId: false, isOnlyV4: false },
-    E: { name: 'DeviceElementIdRef', type: 'xs:IDREF', isPrimaryId: false, isOnlyV4: false },
-    F: { name: 'ValuePresentationIdRef', type: 'xs:IDREF', isPrimaryId: false, isOnlyV4: false },
-    G: { name: 'ProductSubTypeIdRef', type: 'xs:IDREF', isPrimaryId: false, isOnlyV4: true },
+    A: {
+        name: 'ProductIdRef',
+        type: 'xs:IDREF',
+        isPrimaryId: false,
+        isOptional: false,
+        isOnlyV4: false
+    },
+    B: {
+        name: 'QuantityDDI',
+        type: 'xs:hexBinary',
+        isPrimaryId: false,
+        isOptional: true,
+        isOnlyV4: false
+    },
+    C: {
+        name: 'QuantityValue',
+        type: 'xs:long',
+        isPrimaryId: false,
+        isOptional: true,
+        isOnlyV4: false
+    },
+    D: {
+        name: 'TransferMode',
+        type: 'xs:NMTOKEN',
+        isPrimaryId: false,
+        isOptional: true,
+        isOnlyV4: false
+    },
+    E: {
+        name: 'DeviceElementIdRef',
+        type: 'xs:IDREF',
+        isPrimaryId: false,
+        isOptional: true,
+        isOnlyV4: false
+    },
+    F: {
+        name: 'ValuePresentationIdRef',
+        type: 'xs:IDREF',
+        isPrimaryId: false,
+        isOptional: true,
+        isOnlyV4: false
+    },
+    G: {
+        name: 'ProductSubTypeIdRef',
+        type: 'xs:IDREF',
+        isPrimaryId: false,
+        isOptional: true,
+        isOnlyV4: true
+    },
 }
 const CHILD_TAGS = {
     ASP: { name: 'AllocationStamp', isOnlyV4: false },
@@ -46,8 +88,8 @@ export class ProductAllocation implements Entity {
     constructor(public attributes: ProductAllocationAttributes, public isoxmlManager: ISOXMLManager) {
     }
 
-    static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, targetClass: EntityConstructor = ProductAllocation): Promise<Entity> {
-        return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS)
+    static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, internalId?: string, targetClass: EntityConstructor = ProductAllocation): Promise<Entity> {
+        return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS, internalId)
     }
 
     toXML(): ElementCompact {

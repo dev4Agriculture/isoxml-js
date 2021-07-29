@@ -16,9 +16,27 @@ export type CropVarietyAttributes = {
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    A: { name: 'CropVarietyId', type: 'xs:ID', isPrimaryId: true, isOnlyV4: false },
-    B: { name: 'CropVarietyDesignator', type: 'xs:string', isPrimaryId: false, isOnlyV4: false },
-    C: { name: 'ProductIdRef', type: 'xs:IDREF', isPrimaryId: false, isOnlyV4: true },
+    A: {
+        name: 'CropVarietyId',
+        type: 'xs:ID',
+        isPrimaryId: true,
+        isOptional: false,
+        isOnlyV4: false
+    },
+    B: {
+        name: 'CropVarietyDesignator',
+        type: 'xs:string',
+        isPrimaryId: false,
+        isOptional: false,
+        isOnlyV4: false
+    },
+    C: {
+        name: 'ProductIdRef',
+        type: 'xs:IDREF',
+        isPrimaryId: false,
+        isOptional: true,
+        isOnlyV4: true
+    },
 }
 const CHILD_TAGS = {
 }
@@ -29,8 +47,8 @@ export class CropVariety implements Entity {
     constructor(public attributes: CropVarietyAttributes, public isoxmlManager: ISOXMLManager) {
     }
 
-    static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, targetClass: EntityConstructor = CropVariety): Promise<Entity> {
-        return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS)
+    static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, internalId?: string, targetClass: EntityConstructor = CropVariety): Promise<Entity> {
+        return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS, internalId)
     }
 
     toXML(): ElementCompact {

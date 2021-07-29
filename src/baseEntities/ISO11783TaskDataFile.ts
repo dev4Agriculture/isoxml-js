@@ -73,14 +73,62 @@ export type ISO11783TaskDataFileAttributes = {
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    VersionMajor: { name: 'VersionMajor', type: 'xs:NMTOKEN', isPrimaryId: false, isOnlyV4: false },
-    VersionMinor: { name: 'VersionMinor', type: 'xs:NMTOKEN', isPrimaryId: false, isOnlyV4: false },
-    ManagementSoftwareManufacturer: { name: 'ManagementSoftwareManufacturer', type: 'xs:string', isPrimaryId: false, isOnlyV4: false },
-    ManagementSoftwareVersion: { name: 'ManagementSoftwareVersion', type: 'xs:string', isPrimaryId: false, isOnlyV4: false },
-    TaskControllerManufacturer: { name: 'TaskControllerManufacturer', type: 'xs:string', isPrimaryId: false, isOnlyV4: false },
-    TaskControllerVersion: { name: 'TaskControllerVersion', type: 'xs:string', isPrimaryId: false, isOnlyV4: false },
-    DataTransferOrigin: { name: 'DataTransferOrigin', type: 'xs:NMTOKEN', isPrimaryId: false, isOnlyV4: false },
-    lang: { name: 'lang', type: 'xs:language', isPrimaryId: false, isOnlyV4: true },
+    VersionMajor: {
+        name: 'VersionMajor',
+        type: 'xs:NMTOKEN',
+        isPrimaryId: false,
+        isOptional: false,
+        isOnlyV4: false
+    },
+    VersionMinor: {
+        name: 'VersionMinor',
+        type: 'xs:NMTOKEN',
+        isPrimaryId: false,
+        isOptional: false,
+        isOnlyV4: false
+    },
+    ManagementSoftwareManufacturer: {
+        name: 'ManagementSoftwareManufacturer',
+        type: 'xs:string',
+        isPrimaryId: false,
+        isOptional: false,
+        isOnlyV4: false
+    },
+    ManagementSoftwareVersion: {
+        name: 'ManagementSoftwareVersion',
+        type: 'xs:string',
+        isPrimaryId: false,
+        isOptional: false,
+        isOnlyV4: false
+    },
+    TaskControllerManufacturer: {
+        name: 'TaskControllerManufacturer',
+        type: 'xs:string',
+        isPrimaryId: false,
+        isOptional: true,
+        isOnlyV4: false
+    },
+    TaskControllerVersion: {
+        name: 'TaskControllerVersion',
+        type: 'xs:string',
+        isPrimaryId: false,
+        isOptional: true,
+        isOnlyV4: false
+    },
+    DataTransferOrigin: {
+        name: 'DataTransferOrigin',
+        type: 'xs:NMTOKEN',
+        isPrimaryId: false,
+        isOptional: false,
+        isOnlyV4: false
+    },
+    lang: {
+        name: 'lang',
+        type: 'xs:language',
+        isPrimaryId: false,
+        isOptional: true,
+        isOnlyV4: true
+    },
 }
 const CHILD_TAGS = {
     AFE: { name: 'AttachedFile', isOnlyV4: true },
@@ -110,8 +158,8 @@ export class ISO11783TaskDataFile implements Entity {
     constructor(public attributes: ISO11783TaskDataFileAttributes, public isoxmlManager: ISOXMLManager) {
     }
 
-    static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, targetClass: EntityConstructor = ISO11783TaskDataFile): Promise<Entity> {
-        return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS)
+    static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, internalId?: string, targetClass: EntityConstructor = ISO11783TaskDataFile): Promise<Entity> {
+        return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS, internalId)
     }
 
     toXML(): ElementCompact {

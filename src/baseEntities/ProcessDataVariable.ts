@@ -22,13 +22,55 @@ export type ProcessDataVariableAttributes = {
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    A: { name: 'ProcessDataDDI', type: 'xs:hexBinary', isPrimaryId: false, isOnlyV4: false },
-    B: { name: 'ProcessDataValue', type: 'xs:long', isPrimaryId: false, isOnlyV4: false },
-    C: { name: 'ProductIdRef', type: 'xs:IDREF', isPrimaryId: false, isOnlyV4: false },
-    D: { name: 'DeviceElementIdRef', type: 'xs:IDREF', isPrimaryId: false, isOnlyV4: false },
-    E: { name: 'ValuePresentationIdRef', type: 'xs:IDREF', isPrimaryId: false, isOnlyV4: false },
-    F: { name: 'ActualCulturalPracticeValue', type: 'xs:long', isPrimaryId: false, isOnlyV4: true },
-    G: { name: 'ElementTypeInstanceValue', type: 'xs:long', isPrimaryId: false, isOnlyV4: true },
+    A: {
+        name: 'ProcessDataDDI',
+        type: 'xs:hexBinary',
+        isPrimaryId: false,
+        isOptional: false,
+        isOnlyV4: false
+    },
+    B: {
+        name: 'ProcessDataValue',
+        type: 'xs:long',
+        isPrimaryId: false,
+        isOptional: false,
+        isOnlyV4: false
+    },
+    C: {
+        name: 'ProductIdRef',
+        type: 'xs:IDREF',
+        isPrimaryId: false,
+        isOptional: true,
+        isOnlyV4: false
+    },
+    D: {
+        name: 'DeviceElementIdRef',
+        type: 'xs:IDREF',
+        isPrimaryId: false,
+        isOptional: true,
+        isOnlyV4: false
+    },
+    E: {
+        name: 'ValuePresentationIdRef',
+        type: 'xs:IDREF',
+        isPrimaryId: false,
+        isOptional: true,
+        isOnlyV4: false
+    },
+    F: {
+        name: 'ActualCulturalPracticeValue',
+        type: 'xs:long',
+        isPrimaryId: false,
+        isOptional: true,
+        isOnlyV4: true
+    },
+    G: {
+        name: 'ElementTypeInstanceValue',
+        type: 'xs:long',
+        isPrimaryId: false,
+        isOptional: true,
+        isOnlyV4: true
+    },
 }
 const CHILD_TAGS = {
     PDV: { name: 'ProcessDataVariable', isOnlyV4: false },
@@ -40,8 +82,8 @@ export class ProcessDataVariable implements Entity {
     constructor(public attributes: ProcessDataVariableAttributes, public isoxmlManager: ISOXMLManager) {
     }
 
-    static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, targetClass: EntityConstructor = ProcessDataVariable): Promise<Entity> {
-        return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS)
+    static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, internalId?: string, targetClass: EntityConstructor = ProcessDataVariable): Promise<Entity> {
+        return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS, internalId)
     }
 
     toXML(): ElementCompact {

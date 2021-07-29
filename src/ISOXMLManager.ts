@@ -23,9 +23,11 @@ const MAIN_FILENAME = 'TASKDATA.XML'
 const ROOT_FOLDER = 'TASKDATA'
 
 export class ISOXMLManager {
-    public xmlReferences: {[xmlId: string]: ISOXMLReference} = {}
     private nextIds: {[xmlId: string]: number} = {}
     private originalZip: JSZip
+    private parsingWarnings: string[] = []
+
+    public xmlReferences: {[xmlId: string]: ISOXMLReference} = {}
     public rootElement: ExtendedISO11783TaskDataFile
     public filesToSave: { [filenameWithExtension: string]: (Uint8Array | string) } = {}
 
@@ -114,13 +116,13 @@ export class ISOXMLManager {
         return ref
     }
 
-    public createEntityFromXML(tagName: TAGS, xml: ElementCompact): Promise<Entity> {
+    public createEntityFromXML(tagName: TAGS, xml: ElementCompact, internalId?: string): Promise<Entity> {
         const entityClass = getEntityClassByTag(tagName)
         if (!entityClass) {
             return null
         }
 
-        return entityClass.fromXML(xml, this)
+        return entityClass.fromXML(xml, this, internalId)
     }
 
     public createEntityFromAttributes(tagName: TAGS, attrs: EntityAttributes): Entity {
@@ -137,7 +139,7 @@ export class ISOXMLManager {
     public async parseISOXMLFile(data: Uint8Array|string, dataType: string): Promise<void> {
         if (dataType === 'application/xml' || dataType === 'text/xml') {
             const mainXML = xml2js(data as string, { compact: true, alwaysArray: true })
-            getEntityClassByTag(TAGS.ISO11783TaskDataFile).fromXML(mainXML, this)
+            getEntityClassByTag(TAGS.ISO11783TaskDataFile).fromXML(mainXML, this, '')
         } else if (dataType === 'application/zip') {
             this.originalZip = await JSZip.loadAsync(data)
             const mainFile = this.originalZip.file(new RegExp(MAIN_FILENAME + '$', 'i'))[0]
@@ -155,7 +157,7 @@ export class ISOXMLManager {
             }
 
             this.rootElement = await getEntityClassByTag(TAGS.ISO11783TaskDataFile)
-                .fromXML(mainXml[TAGS.ISO11783TaskDataFile][0], this) as ExtendedISO11783TaskDataFile
+                .fromXML(mainXml[TAGS.ISO11783TaskDataFile][0], this, '') as ExtendedISO11783TaskDataFile
         } else {
             throw new Error('This data type is not supported')
         }
@@ -237,5 +239,13 @@ export class ISOXMLManager {
         }
 
         return file.async(isBinary ? 'uint8array' : 'string')
+    }
+
+    public addWarning(warning: string): void {
+        this.parsingWarnings.push(warning)
+    }
+
+    public getWarnings(): string[] {
+        return this.parsingWarnings
     }
 }

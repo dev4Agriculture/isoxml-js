@@ -34,11 +34,41 @@ export type PolygonAttributes = {
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    A: { name: 'PolygonType', type: 'xs:NMTOKEN', isPrimaryId: false, isOnlyV4: false },
-    B: { name: 'PolygonDesignator', type: 'xs:string', isPrimaryId: false, isOnlyV4: false },
-    C: { name: 'PolygonArea', type: 'xs:unsignedLong', isPrimaryId: false, isOnlyV4: false },
-    D: { name: 'PolygonColour', type: 'xs:unsignedByte', isPrimaryId: false, isOnlyV4: false },
-    E: { name: 'PolygonId', type: 'xs:ID', isPrimaryId: true, isOnlyV4: true },
+    A: {
+        name: 'PolygonType',
+        type: 'xs:NMTOKEN',
+        isPrimaryId: false,
+        isOptional: false,
+        isOnlyV4: false
+    },
+    B: {
+        name: 'PolygonDesignator',
+        type: 'xs:string',
+        isPrimaryId: false,
+        isOptional: true,
+        isOnlyV4: false
+    },
+    C: {
+        name: 'PolygonArea',
+        type: 'xs:unsignedLong',
+        isPrimaryId: false,
+        isOptional: true,
+        isOnlyV4: false
+    },
+    D: {
+        name: 'PolygonColour',
+        type: 'xs:unsignedByte',
+        isPrimaryId: false,
+        isOptional: true,
+        isOnlyV4: false
+    },
+    E: {
+        name: 'PolygonId',
+        type: 'xs:ID',
+        isPrimaryId: true,
+        isOptional: true,
+        isOnlyV4: true
+    },
 }
 const CHILD_TAGS = {
     LSG: { name: 'LineString', isOnlyV4: false },
@@ -50,8 +80,8 @@ export class Polygon implements Entity {
     constructor(public attributes: PolygonAttributes, public isoxmlManager: ISOXMLManager) {
     }
 
-    static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, targetClass: EntityConstructor = Polygon): Promise<Entity> {
-        return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS)
+    static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, internalId?: string, targetClass: EntityConstructor = Polygon): Promise<Entity> {
+        return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS, internalId)
     }
 
     toXML(): ElementCompact {

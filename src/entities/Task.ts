@@ -18,12 +18,8 @@ export class ExtendedTask extends Task {
         super(attributes, isoxmlManager)
     }
 
-    static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager): Promise<Entity> {
-        return Task.fromXML(xml, isoxmlManager, ExtendedTask)
-    }
-
-    toXML(): ElementCompact {
-        return super.toXML()
+    static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, internalId: string): Promise<Entity> {
+        return Task.fromXML(xml, isoxmlManager, internalId, ExtendedTask)
     }
 
     addGridFromGeoJSON(geoJSON: FeatureCollection, DDI: number, deviceElemRef?: ISOXMLReference): void {

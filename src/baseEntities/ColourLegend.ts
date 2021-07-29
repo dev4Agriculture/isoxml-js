@@ -17,8 +17,20 @@ export type ColourLegendAttributes = {
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    A: { name: 'ColourLegendId', type: 'xs:ID', isPrimaryId: true, isOnlyV4: false },
-    B: { name: 'DefaultColor', type: 'xs:unsignedByte', isPrimaryId: false, isOnlyV4: false },
+    A: {
+        name: 'ColourLegendId',
+        type: 'xs:ID',
+        isPrimaryId: true,
+        isOptional: false,
+        isOnlyV4: false
+    },
+    B: {
+        name: 'DefaultColor',
+        type: 'xs:unsignedByte',
+        isPrimaryId: false,
+        isOptional: true,
+        isOnlyV4: false
+    },
 }
 const CHILD_TAGS = {
     CRG: { name: 'ColourRange', isOnlyV4: false },
@@ -30,8 +42,8 @@ export class ColourLegend implements Entity {
     constructor(public attributes: ColourLegendAttributes, public isoxmlManager: ISOXMLManager) {
     }
 
-    static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, targetClass: EntityConstructor = ColourLegend): Promise<Entity> {
-        return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS)
+    static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, internalId?: string, targetClass: EntityConstructor = ColourLegend): Promise<Entity> {
+        return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS, internalId)
     }
 
     toXML(): ElementCompact {

@@ -20,12 +20,48 @@ export type DataLogValueAttributes = {
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    A: { name: 'ProcessDataDDI', type: 'xs:hexBinary', isPrimaryId: false, isOnlyV4: false },
-    B: { name: 'ProcessDataValue', type: 'xs:long', isPrimaryId: false, isOnlyV4: false },
-    C: { name: 'DeviceElementIdRef', type: 'xs:IDREF', isPrimaryId: false, isOnlyV4: false },
-    D: { name: 'DataLogPGN', type: 'xs:unsignedLong', isPrimaryId: false, isOnlyV4: false },
-    E: { name: 'DataLogPGNStartBit', type: 'xs:unsignedByte', isPrimaryId: false, isOnlyV4: false },
-    F: { name: 'DataLogPGNStopBit', type: 'xs:unsignedByte', isPrimaryId: false, isOnlyV4: false },
+    A: {
+        name: 'ProcessDataDDI',
+        type: 'xs:hexBinary',
+        isPrimaryId: false,
+        isOptional: false,
+        isOnlyV4: false
+    },
+    B: {
+        name: 'ProcessDataValue',
+        type: 'xs:long',
+        isPrimaryId: false,
+        isOptional: false,
+        isOnlyV4: false
+    },
+    C: {
+        name: 'DeviceElementIdRef',
+        type: 'xs:IDREF',
+        isPrimaryId: false,
+        isOptional: false,
+        isOnlyV4: false
+    },
+    D: {
+        name: 'DataLogPGN',
+        type: 'xs:unsignedLong',
+        isPrimaryId: false,
+        isOptional: true,
+        isOnlyV4: false
+    },
+    E: {
+        name: 'DataLogPGNStartBit',
+        type: 'xs:unsignedByte',
+        isPrimaryId: false,
+        isOptional: true,
+        isOnlyV4: false
+    },
+    F: {
+        name: 'DataLogPGNStopBit',
+        type: 'xs:unsignedByte',
+        isPrimaryId: false,
+        isOptional: true,
+        isOnlyV4: false
+    },
 }
 const CHILD_TAGS = {
 }
@@ -36,8 +72,8 @@ export class DataLogValue implements Entity {
     constructor(public attributes: DataLogValueAttributes, public isoxmlManager: ISOXMLManager) {
     }
 
-    static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, targetClass: EntityConstructor = DataLogValue): Promise<Entity> {
-        return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS)
+    static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, internalId?: string, targetClass: EntityConstructor = DataLogValue): Promise<Entity> {
+        return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS, internalId)
     }
 
     toXML(): ElementCompact {

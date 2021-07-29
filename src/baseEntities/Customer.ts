@@ -26,19 +26,97 @@ export type CustomerAttributes = {
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    A: { name: 'CustomerId', type: 'xs:ID', isPrimaryId: true, isOnlyV4: false },
-    B: { name: 'CustomerLastName', type: 'xs:string', isPrimaryId: false, isOnlyV4: false },
-    C: { name: 'CustomerFirstName', type: 'xs:string', isPrimaryId: false, isOnlyV4: false },
-    D: { name: 'CustomerStreet', type: 'xs:string', isPrimaryId: false, isOnlyV4: false },
-    E: { name: 'CustomerPOBox', type: 'xs:string', isPrimaryId: false, isOnlyV4: false },
-    F: { name: 'CustomerPostalCode', type: 'xs:string', isPrimaryId: false, isOnlyV4: false },
-    G: { name: 'CustomerCity', type: 'xs:string', isPrimaryId: false, isOnlyV4: false },
-    H: { name: 'CustomerState', type: 'xs:string', isPrimaryId: false, isOnlyV4: false },
-    I: { name: 'CustomerCountry', type: 'xs:string', isPrimaryId: false, isOnlyV4: false },
-    J: { name: 'CustomerPhone', type: 'xs:string', isPrimaryId: false, isOnlyV4: false },
-    K: { name: 'CustomerMobile', type: 'xs:string', isPrimaryId: false, isOnlyV4: false },
-    L: { name: 'CustomerFax', type: 'xs:string', isPrimaryId: false, isOnlyV4: false },
-    M: { name: 'CustomerEMail', type: 'xs:string', isPrimaryId: false, isOnlyV4: false },
+    A: {
+        name: 'CustomerId',
+        type: 'xs:ID',
+        isPrimaryId: true,
+        isOptional: false,
+        isOnlyV4: false
+    },
+    B: {
+        name: 'CustomerLastName',
+        type: 'xs:string',
+        isPrimaryId: false,
+        isOptional: false,
+        isOnlyV4: false
+    },
+    C: {
+        name: 'CustomerFirstName',
+        type: 'xs:string',
+        isPrimaryId: false,
+        isOptional: true,
+        isOnlyV4: false
+    },
+    D: {
+        name: 'CustomerStreet',
+        type: 'xs:string',
+        isPrimaryId: false,
+        isOptional: true,
+        isOnlyV4: false
+    },
+    E: {
+        name: 'CustomerPOBox',
+        type: 'xs:string',
+        isPrimaryId: false,
+        isOptional: true,
+        isOnlyV4: false
+    },
+    F: {
+        name: 'CustomerPostalCode',
+        type: 'xs:string',
+        isPrimaryId: false,
+        isOptional: true,
+        isOnlyV4: false
+    },
+    G: {
+        name: 'CustomerCity',
+        type: 'xs:string',
+        isPrimaryId: false,
+        isOptional: true,
+        isOnlyV4: false
+    },
+    H: {
+        name: 'CustomerState',
+        type: 'xs:string',
+        isPrimaryId: false,
+        isOptional: true,
+        isOnlyV4: false
+    },
+    I: {
+        name: 'CustomerCountry',
+        type: 'xs:string',
+        isPrimaryId: false,
+        isOptional: true,
+        isOnlyV4: false
+    },
+    J: {
+        name: 'CustomerPhone',
+        type: 'xs:string',
+        isPrimaryId: false,
+        isOptional: true,
+        isOnlyV4: false
+    },
+    K: {
+        name: 'CustomerMobile',
+        type: 'xs:string',
+        isPrimaryId: false,
+        isOptional: true,
+        isOnlyV4: false
+    },
+    L: {
+        name: 'CustomerFax',
+        type: 'xs:string',
+        isPrimaryId: false,
+        isOptional: true,
+        isOnlyV4: false
+    },
+    M: {
+        name: 'CustomerEMail',
+        type: 'xs:string',
+        isPrimaryId: false,
+        isOptional: true,
+        isOnlyV4: false
+    },
 }
 const CHILD_TAGS = {
 }
@@ -49,8 +127,8 @@ export class Customer implements Entity {
     constructor(public attributes: CustomerAttributes, public isoxmlManager: ISOXMLManager) {
     }
 
-    static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, targetClass: EntityConstructor = Customer): Promise<Entity> {
-        return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS)
+    static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, internalId?: string, targetClass: EntityConstructor = Customer): Promise<Entity> {
+        return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS, internalId)
     }
 
     toXML(): ElementCompact {

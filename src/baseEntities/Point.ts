@@ -37,17 +37,83 @@ export type PointAttributes = {
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    A: { name: 'PointType', type: 'xs:NMTOKEN', isPrimaryId: false, isOnlyV4: false },
-    B: { name: 'PointDesignator', type: 'xs:string', isPrimaryId: false, isOnlyV4: false },
-    C: { name: 'PointNorth', type: 'xs:decimal', isPrimaryId: false, isOnlyV4: false },
-    D: { name: 'PointEast', type: 'xs:decimal', isPrimaryId: false, isOnlyV4: false },
-    E: { name: 'PointUp', type: 'xs:long', isPrimaryId: false, isOnlyV4: false },
-    F: { name: 'PointColour', type: 'xs:unsignedByte', isPrimaryId: false, isOnlyV4: false },
-    G: { name: 'PointId', type: 'xs:ID', isPrimaryId: true, isOnlyV4: true },
-    H: { name: 'PointHorizontalAccuracy', type: 'xs:decimal', isPrimaryId: false, isOnlyV4: true },
-    I: { name: 'PointVerticalAccuracy', type: 'xs:decimal', isPrimaryId: false, isOnlyV4: true },
-    J: { name: 'Filename', type: 'xs:string', isPrimaryId: false, isOnlyV4: true },
-    K: { name: 'Filelength', type: 'xs:unsignedLong', isPrimaryId: false, isOnlyV4: true },
+    A: {
+        name: 'PointType',
+        type: 'xs:NMTOKEN',
+        isPrimaryId: false,
+        isOptional: false,
+        isOnlyV4: false
+    },
+    B: {
+        name: 'PointDesignator',
+        type: 'xs:string',
+        isPrimaryId: false,
+        isOptional: true,
+        isOnlyV4: false
+    },
+    C: {
+        name: 'PointNorth',
+        type: 'xs:decimal',
+        isPrimaryId: false,
+        isOptional: false,
+        isOnlyV4: false
+    },
+    D: {
+        name: 'PointEast',
+        type: 'xs:decimal',
+        isPrimaryId: false,
+        isOptional: false,
+        isOnlyV4: false
+    },
+    E: {
+        name: 'PointUp',
+        type: 'xs:long',
+        isPrimaryId: false,
+        isOptional: true,
+        isOnlyV4: false
+    },
+    F: {
+        name: 'PointColour',
+        type: 'xs:unsignedByte',
+        isPrimaryId: false,
+        isOptional: true,
+        isOnlyV4: false
+    },
+    G: {
+        name: 'PointId',
+        type: 'xs:ID',
+        isPrimaryId: true,
+        isOptional: true,
+        isOnlyV4: true
+    },
+    H: {
+        name: 'PointHorizontalAccuracy',
+        type: 'xs:decimal',
+        isPrimaryId: false,
+        isOptional: true,
+        isOnlyV4: true
+    },
+    I: {
+        name: 'PointVerticalAccuracy',
+        type: 'xs:decimal',
+        isPrimaryId: false,
+        isOptional: true,
+        isOnlyV4: true
+    },
+    J: {
+        name: 'Filename',
+        type: 'xs:string',
+        isPrimaryId: false,
+        isOptional: true,
+        isOnlyV4: true
+    },
+    K: {
+        name: 'Filelength',
+        type: 'xs:unsignedLong',
+        isPrimaryId: false,
+        isOptional: true,
+        isOnlyV4: true
+    },
 }
 const CHILD_TAGS = {
 }
@@ -58,8 +124,8 @@ export class Point implements Entity {
     constructor(public attributes: PointAttributes, public isoxmlManager: ISOXMLManager) {
     }
 
-    static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, targetClass: EntityConstructor = Point): Promise<Entity> {
-        return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS)
+    static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, internalId?: string, targetClass: EntityConstructor = Point): Promise<Entity> {
+        return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS, internalId)
     }
 
     toXML(): ElementCompact {

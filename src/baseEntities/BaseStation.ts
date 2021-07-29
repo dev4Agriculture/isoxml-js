@@ -18,11 +18,41 @@ export type BaseStationAttributes = {
 }
 
 const ATTRIBUTES: AttributesDescription = {
-    A: { name: 'BaseStationId', type: 'xs:ID', isPrimaryId: true, isOnlyV4: undefined },
-    B: { name: 'BaseStationDesignator', type: 'xs:string', isPrimaryId: false, isOnlyV4: undefined },
-    C: { name: 'BaseStationNorth', type: 'xs:decimal', isPrimaryId: false, isOnlyV4: undefined },
-    D: { name: 'BaseStationEast', type: 'xs:decimal', isPrimaryId: false, isOnlyV4: undefined },
-    E: { name: 'BaseStationUp', type: 'xs:long', isPrimaryId: false, isOnlyV4: undefined },
+    A: {
+        name: 'BaseStationId',
+        type: 'xs:ID',
+        isPrimaryId: true,
+        isOptional: false,
+        isOnlyV4: undefined
+    },
+    B: {
+        name: 'BaseStationDesignator',
+        type: 'xs:string',
+        isPrimaryId: false,
+        isOptional: false,
+        isOnlyV4: undefined
+    },
+    C: {
+        name: 'BaseStationNorth',
+        type: 'xs:decimal',
+        isPrimaryId: false,
+        isOptional: false,
+        isOnlyV4: undefined
+    },
+    D: {
+        name: 'BaseStationEast',
+        type: 'xs:decimal',
+        isPrimaryId: false,
+        isOptional: false,
+        isOnlyV4: undefined
+    },
+    E: {
+        name: 'BaseStationUp',
+        type: 'xs:long',
+        isPrimaryId: false,
+        isOptional: false,
+        isOnlyV4: undefined
+    },
 }
 const CHILD_TAGS = {
 }
@@ -33,8 +63,8 @@ export class BaseStation implements Entity {
     constructor(public attributes: BaseStationAttributes, public isoxmlManager: ISOXMLManager) {
     }
 
-    static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, targetClass: EntityConstructor = BaseStation): Promise<Entity> {
-        return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS)
+    static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, internalId?: string, targetClass: EntityConstructor = BaseStation): Promise<Entity> {
+        return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS, internalId)
     }
 
     toXML(): ElementCompact {
