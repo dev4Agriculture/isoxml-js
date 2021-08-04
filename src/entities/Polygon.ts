@@ -60,7 +60,7 @@ export class ExtendedPolygon extends Polygon {
     }
 
     static normalizePolygons(polygons: Polygon[]): Polygon[] {
-        if (polygons.length === 0) {
+        if (!polygons || polygons.length === 0) {
             return []
         }
         const isoxmlManager = polygons[0].isoxmlManager

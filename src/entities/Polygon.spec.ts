@@ -72,4 +72,10 @@ describe('Polygon Entity', () => {
         expect(normalizedPolygons).toHaveLength(2)
         expect(stat(normalizedPolygons[0])).toEqual({inner: 1, outer: 1})
     })
+
+    it('should normalize polygons with undefined argument', async () => {
+        const normalizedPolygons = ExtendedPolygon.normalizePolygons(undefined)
+
+        expect(normalizedPolygons).toHaveLength(0)
+    })
 })
