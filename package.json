@@ -6,6 +6,7 @@
   "scripts": {
     "gen": "ts-node generation/index.ts",
     "test": "jest",
+    "coverage": "jest --coverage",
     "build": "tsc",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
   },
