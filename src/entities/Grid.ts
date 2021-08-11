@@ -110,10 +110,11 @@ export class ExtendedGrid extends Grid {
                     maxY: minY + (y + 1) * cellHeight
                 })
 
+
                 let feature = null
                 let maxArea = 0
-                let halfArea = (cellWidth)*(cellHeight)/2
-                if(searchResults.length > 1){
+                let halfArea = (cellWidth) * (cellHeight) / 2
+                if (searchResults.length > 0) {
                     const cell = [[
                         [minX + x * cellWidth,       minY + y * cellHeight],
                         [minX + x * cellWidth,       minY + (y + 1) * cellHeight],
@@ -124,23 +125,24 @@ export class ExtendedGrid extends Grid {
 
                     searchResults.some(res => {
                         const intersectionRes = intersection(res.feature.geometry.coordinates, cell)
-                        if (intersection.length) {
+                        if (intersectionRes.length) {
+                            if (searchResults.length === 1) {
+                                feature = res.feature
+                                return true
+                            }
                             const intersectionArea = area({type: 'MultiPolygon', coordinates: intersectionRes})
                             if( intersectionArea > halfArea) {
                                 feature = res.feature
-                                return true;
+                                return true
                             }
                             if (intersectionArea > maxArea) {
                                 feature = res.feature
                                 maxArea = intersectionArea
-                                return false;
+                                return false
                             }
                         }
                     })
-                } else if (searchResults.length == 1){
-                    feature = searchResults[0].feature
                 }
-
 
                 const value = feature ? feature.properties.DOSE : 0
 
