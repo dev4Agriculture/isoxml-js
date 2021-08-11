@@ -85,10 +85,11 @@ export class ExtendedGrid extends Grid {
             const [bboxMinX, bboxMinY, bboxMaxX, bboxMaxY] = turfBbox(f)
             return {minX: bboxMinX, minY: bboxMinY, maxX: bboxMaxX, maxY: bboxMaxY, feature: f}
         }))
-        console.log("Cells: X: "+ numRows + " Y: " + numCols)
 
         for (let y = 0; y < numRows; y++) {
             const subTree = new RBush<{feature: any}>()
+
+            // TODO: check that it gives performance boost (test case: many small polygons)
             subTree.load(tree.search({
                 minX: minX ,
                 minY: minY + y * cellHeight,
@@ -113,7 +114,7 @@ export class ExtendedGrid extends Grid {
 
                 let feature = null
                 let maxArea = 0
-                let halfArea = (cellWidth) * (cellHeight) / 2
+                let uncoveredArea = cellWidth * cellHeight
                 if (searchResults.length > 0) {
                     const cell = [[
                         [minX + x * cellWidth,       minY + y * cellHeight],
@@ -131,15 +132,15 @@ export class ExtendedGrid extends Grid {
                                 return true
                             }
                             const intersectionArea = area({type: 'MultiPolygon', coordinates: intersectionRes})
-                            if( intersectionArea > halfArea) {
-                                feature = res.feature
-                                return true
-                            }
+
+                            uncoveredArea -= intersectionArea
+
                             if (intersectionArea > maxArea) {
                                 feature = res.feature
                                 maxArea = intersectionArea
-                                return false
                             }
+
+                            return maxArea > uncoveredArea
                         }
                     })
                 }
