@@ -85,8 +85,16 @@ export class ExtendedGrid extends Grid {
             const [bboxMinX, bboxMinY, bboxMaxX, bboxMaxY] = turfBbox(f)
             return {minX: bboxMinX, minY: bboxMinY, maxX: bboxMaxX, maxY: bboxMaxY, feature: f}
         }))
+        console.log("Cells: X: "+ numRows + " Y: " + numCols)
 
         for (let y = 0; y < numRows; y++) {
+            const subTree = new RBush<{feature: any}>()
+            subTree.load(tree.search({
+                minX: minX ,
+                minY: minY + y * cellHeight,
+                maxX: minX + (numCols) * cellWidth,
+                maxY: minY + (y + 1) * cellHeight
+            }))
             for (let x = 0; x < numCols; x++) {
 
                 // Simplified algorithm: just check the center of cell
@@ -95,33 +103,44 @@ export class ExtendedGrid extends Grid {
                 // const searchResults = tree.search({minX: lng, minY: lat, maxX: lng, maxY: lat})
                 // const feature = searchResults.find(res => booleanPointInPolygon([lng, lat], res.feature))?.feature
 
-                const searchResults = tree.search({
+                const searchResults = subTree.search({
                     minX: minX + x * cellWidth,
                     minY: minY + y * cellHeight,
                     maxX: minX + (x + 1) * cellWidth,
                     maxY: minY + (y + 1) * cellHeight
                 })
 
-                const cell = [[
-                    [minX + x * cellWidth,       minY + y * cellHeight],
-                    [minX + x * cellWidth,       minY + (y + 1) * cellHeight],
-                    [minX + (x + 1) * cellWidth, minY + (y + 1) * cellHeight],
-                    [minX + (x + 1) * cellWidth, minY + y * cellHeight],
-                    [minX + x * cellWidth,       minY + y * cellHeight]
-                ]] as Polygon
-
                 let feature = null
                 let maxArea = 0
-                searchResults.forEach(res => {
-                    const intersectionRes = intersection(res.feature.geometry.coordinates, cell)
-                    if (intersection.length) {
-                        const intersectionArea = area({type: 'MultiPolygon', coordinates: intersectionRes})
-                        if (intersectionArea > maxArea) {
-                            feature = res.feature
-                            maxArea = intersectionArea
+                let halfArea = (cellWidth)*(cellHeight)/2
+                if(searchResults.length > 1){
+                    const cell = [[
+                        [minX + x * cellWidth,       minY + y * cellHeight],
+                        [minX + x * cellWidth,       minY + (y + 1) * cellHeight],
+                        [minX + (x + 1) * cellWidth, minY + (y + 1) * cellHeight],
+                        [minX + (x + 1) * cellWidth, minY + y * cellHeight],
+                        [minX + x * cellWidth,       minY + y * cellHeight]
+                    ]] as Polygon
+
+                    searchResults.some(res => {
+                        const intersectionRes = intersection(res.feature.geometry.coordinates, cell)
+                        if (intersection.length) {
+                            const intersectionArea = area({type: 'MultiPolygon', coordinates: intersectionRes})
+                            if( intersectionArea > halfArea) {
+                                feature = res.feature
+                                return true;
+                            }
+                            if (intersectionArea > maxArea) {
+                                feature = res.feature
+                                maxArea = intersectionArea
+                                return false;
+                            }
                         }
-                    }
-                })
+                    })
+                } else if (searchResults.length == 1){
+                    feature = searchResults[0].feature
+                }
+
 
                 const value = feature ? feature.properties.DOSE : 0
 
