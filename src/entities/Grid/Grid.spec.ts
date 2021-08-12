@@ -1,6 +1,7 @@
 import {readFileSync} from 'fs'
+
+import { ISOXMLManager } from '../../ISOXMLManager'
 import { ExtendedGrid } from './Grid'
-import { ISOXMLManager } from '../ISOXMLManager'
 
 describe('Grid Entity', () => {
   it('should create instance from GeoJSON', async () => {

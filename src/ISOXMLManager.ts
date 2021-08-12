@@ -8,7 +8,7 @@ import './entities'
 
 import { ExtendedISO11783TaskDataFile } from "./entities/ISO11783TaskDataFile"
 import { TAGS } from "./baseEntities/constants"
-import { GridParametersGenerator } from "./entities"
+import { GridGenerator, GridParametersGenerator } from "./entities"
 
 export type ISOXMLManagerOptions = {
     rootFolder?: string
@@ -16,7 +16,8 @@ export type ISOXMLManagerOptions = {
     fmisURI?: string
     fmisVersion?: string
     version?: number
-    gridRaramsGenerator?: GridParametersGenerator
+    gridRaramsGenerator?: GridParametersGenerator,
+    gridGenerator?: GridGenerator
 }
 
 const MAIN_FILENAME = 'TASKDATA.XML'
