@@ -1,7 +1,17 @@
 {
-  "name": "isoxml-v2",
+  "name": "isoxml",
   "version": "1.0.0",
-  "description": "",
+  "description": "JavaScript library to parse and generate ISOXML (ISO11783-10) files",
+  "keywords": ["isoxml", "iso-11783", "agriculture"],
+  "homepage": "https://github.com/dev4Agriculture/isoxml-js",
+  "bugs": "https://github.com/dev4Agriculture/isoxml-js/issues",
+  "license": "ISC",
+  "author": {
+    "name" : "Alexander Parshin",
+    "email" : "parshin.alexander@gmail.com",
+    "url" : "https://github.com/aparshin"
+  },
+  "files": ["dist"],
   "main": "dist/index.js",
   "scripts": {
     "gen": "ts-node generation/index.ts",
@@ -10,8 +20,6 @@
     "build": "tsc",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
   },
-  "author": "",
-  "license": "ISC",
   "dependencies": {
     "@turf/turf": "^6.4.0",
     "handlebars": "^4.7.7",
