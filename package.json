@@ -1,11 +1,11 @@
 {
   "name": "isoxml",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "JavaScript library to parse and generate ISOXML (ISO11783-10) files",
   "keywords": ["isoxml", "iso-11783", "agriculture"],
   "homepage": "https://github.com/dev4Agriculture/isoxml-js",
   "bugs": "https://github.com/dev4Agriculture/isoxml-js/issues",
-  "license": "ISC",
+  "license": "Apache-2.0",
   "author": {
     "name" : "Alexander Parshin",
     "email" : "parshin.alexander@gmail.com",
