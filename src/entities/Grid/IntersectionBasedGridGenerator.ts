@@ -78,7 +78,7 @@ export function intersectionBasedGridGenerator(geoJSON: FeatureCollection, gridP
 
             const value = feature ? feature.properties.DOSE : 0
 
-            int32array[y * numCols + x] = value
+            int32array[y * numCols + x] = Math.round(value)
         }
     }
 

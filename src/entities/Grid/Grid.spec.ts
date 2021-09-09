@@ -28,7 +28,7 @@ describe('Grid Entity', () => {
     const geoJSON = grid.toGeoJSON()
 
     expect(geoJSON).toBeTruthy()
-    expect(geoJSON.features[0].properties.DOSE).toBe(15)
+    expect(geoJSON.features[0].properties.DOSE).toBe(16) // 15.7 should be rounded to 16
 
   })
 })

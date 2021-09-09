@@ -130,7 +130,7 @@ export function cellCenterBasedGridGenerator(
             const feature = featureFinder.findFeature([lng, lat])
             const value = feature ? feature.properties.DOSE : 0
 
-            int32array[y * numCols + x] = value
+            int32array[y * numCols + x] = Math.round(value)
         }
     }
     //   console.log('cells generation', +new Date() - initDate)
