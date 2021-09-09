@@ -61,9 +61,9 @@ export class ISOXMLManager {
 
     public generateUniqueFilename(xmlTag: TAGS): string {
         const indexes = Object.keys(this.filesToSave)
-            .map(filename => filename.match(new RegExp(`^${xmlTag}(\\d{5})\\.\\w{3}$/`)))
+            .map(filename => filename.match(new RegExp(`^${xmlTag}(\\d{5})\\.\\w{3}$`)))
             .filter(e => e)
-            .map(matchResults => parseInt(matchResults[1]))
+            .map(matchResults => parseInt(matchResults[1], 10))
         const nextIndex = indexes.length ? Math.max.apply(null, indexes) + 1 : 1
         return xmlTag + ('0000' + nextIndex).substr(-5)
     }

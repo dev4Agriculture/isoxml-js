@@ -141,6 +141,15 @@ describe('ISOXML Manager', () => {
         expect(zip.file("testFolder/TASKDATA.XML")).toBeTruthy()
     })
 
+    it('should generate unique filenames', async () => {
+        const isoxmlManager = new ISOXMLManager()
+        const firstName = isoxmlManager.generateUniqueFilename(TAGS.Grid)
+        expect(firstName).toBe('GRD00001')
+        isoxmlManager.addFileToSave('', firstName + '.BIN')
+        const secondName = isoxmlManager.generateUniqueFilename(TAGS.Grid)
+        expect(secondName).toBe('GRD00002')
+    })
+
     it('should not save V4Only elements in V3', async () => {
         const isoxmlData = readFileSync('./data/task_full.zip')
         const isoxmlManager = new ISOXMLManager()
