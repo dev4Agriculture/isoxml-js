@@ -7,7 +7,7 @@ import { fromXML, toXML } from '../utils'
 
 import { Entity, EntityConstructor, AttributesDescription } from '../types'
 
-export const enum ExternalFileReferenceFiletypeEnum {
+export enum ExternalFileReferenceFiletypeEnum {
     XML = '1',
 }
 

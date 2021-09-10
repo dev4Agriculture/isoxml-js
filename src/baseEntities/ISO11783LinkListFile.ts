@@ -8,16 +8,16 @@ import { LinkGroup } from './LinkGroup'
 
 import { Entity, EntityConstructor, AttributesDescription } from '../types'
 
-export const enum ISO11783LinkListFileVersionMajorEnum {
+export enum ISO11783LinkListFileVersionMajorEnum {
     TheVersionOfTheSecondEditionPublishedAsAFinalDraftInternationalStandard = '4',
 }
-export const enum ISO11783LinkListFileVersionMinorEnum {
+export enum ISO11783LinkListFileVersionMinorEnum {
     Value0 = '0',
     Value1 = '1',
     Value2 = '2',
     Value3 = '3',
 }
-export const enum ISO11783LinkListFileDataTransferOriginEnum {
+export enum ISO11783LinkListFileDataTransferOriginEnum {
     FMIS = '1',
     MICS = '2',
 }

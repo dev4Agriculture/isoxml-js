@@ -8,7 +8,7 @@ import { CodedCommentListValue } from './CodedCommentListValue'
 
 import { Entity, EntityConstructor, AttributesDescription, ISOXMLReference } from '../types'
 
-export const enum CodedCommentCodedCommentScopeEnum {
+export enum CodedCommentCodedCommentScopeEnum {
     Point = '1',
     Global = '2',
     Continuous = '3',

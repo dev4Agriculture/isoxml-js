@@ -8,7 +8,7 @@ import { AllocationStamp } from './AllocationStamp'
 
 import { Entity, EntityConstructor, AttributesDescription, ISOXMLReference } from '../types'
 
-export const enum ProductAllocationTransferModeEnum {
+export enum ProductAllocationTransferModeEnum {
     Filling = '1',
     Emptying = '2',
     Remainder = '3',

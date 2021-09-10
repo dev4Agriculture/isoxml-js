@@ -8,7 +8,7 @@ import { LineString } from './LineString'
 
 import { Entity, EntityConstructor, AttributesDescription } from '../types'
 
-export const enum PolygonPolygonTypeEnum {
+export enum PolygonPolygonTypeEnum {
     PartfieldBoundary = '1',
     TreatmentZone = '2',
     WaterSurface = '3',

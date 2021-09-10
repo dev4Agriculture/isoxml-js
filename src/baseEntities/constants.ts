@@ -1,4 +1,4 @@
-export const enum TAGS {
+export enum TAGS {
     AllocationStamp = 'ASP',
     BaseStation = 'BSN',
     CodedComment = 'CCT',

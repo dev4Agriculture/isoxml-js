@@ -7,7 +7,7 @@ import { fromXML, toXML } from '../utils'
 
 import { Entity, EntityConstructor, AttributesDescription } from '../types'
 
-export const enum PointPointTypeEnum {
+export enum PointPointTypeEnum {
     Flag = '1',
     Other = '2',
     FieldAccess = '3',

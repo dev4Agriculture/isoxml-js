@@ -14,7 +14,7 @@ import { Entity, EntityConstructor, AttributesDescription{{#if includeReference}
 
 {{#attributes}}
 {{#if typeEnum}}
-export const enum {{../name}}{{name}}Enum {
+export enum {{../name}}{{name}}Enum {
     {{#typeEnum}}
     {{name}} = '{{value}}',
     {{/typeEnum}}

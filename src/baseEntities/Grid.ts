@@ -7,7 +7,7 @@ import { fromXML, toXML } from '../utils'
 
 import { Entity, EntityConstructor, AttributesDescription } from '../types'
 
-export const enum GridGridTypeEnum {
+export enum GridGridTypeEnum {
     GridType1 = '1',
     GridType2 = '2',
 }

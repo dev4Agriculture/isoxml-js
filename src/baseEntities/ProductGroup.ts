@@ -7,7 +7,7 @@ import { fromXML, toXML } from '../utils'
 
 import { Entity, EntityConstructor, AttributesDescription } from '../types'
 
-export const enum ProductGroupProductGroupTypeEnum {
+export enum ProductGroupProductGroupTypeEnum {
     ProductGroupDefault = '1',
     CropType = '2',
 }

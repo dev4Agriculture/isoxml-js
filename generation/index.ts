@@ -1,13 +1,13 @@
 import {readFileSync, mkdirSync, writeFileSync, rmSync} from 'fs'
 import {join} from 'path'
-import {compile, registerHelper} from 'handlebars'
+import Handlebars from 'handlebars'
 import {ElementCompact, xml2js} from 'xml-js'
 
-registerHelper('ifnoteq', function(arg1, arg2, options) {
+Handlebars.registerHelper('ifnoteq', function(arg1, arg2, options) {
     return arg1 !== arg2 ? options.fn(this) : options.inverse(this)
 })
 
-registerHelper('toString', function(x) {
+Handlebars.registerHelper('toString', function(x) {
     return '' + x
 })
 
@@ -48,14 +48,14 @@ function normalizeText (text: string): string {
 }
 
 
-const entityTemplate = compile(
+const entityTemplate = Handlebars.compile(
     readFileSync('./generation/templates/Entity.hbs', 'utf-8'
 ))
-const indexTemplate = compile(
+const indexTemplate = Handlebars.compile(
     readFileSync('./generation/templates/index.hbs', 'utf-8'
 ))
 
-const constantsTemplate = compile(
+const constantsTemplate = Handlebars.compile(
     readFileSync('./generation/templates/constants.hbs', 'utf-8'
 ))
 
