@@ -49,3 +49,11 @@ interface ISOXMLFileInformation {
 }
 
 export type ISOFileInformation = ISOBinaryFileInformation | ISOXMLFileInformation
+
+export type GridValueDescription = {
+    DDI: number
+    name: string
+    unit: string
+    scale: number
+    offset: number
+}
