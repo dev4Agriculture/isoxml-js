@@ -1,3 +1,4 @@
+import { ElementCompact } from "xml-js"
 import {
     LineString,
     LineStringAttributes,
@@ -8,12 +9,17 @@ import {
 import { TAGS } from "../baseEntities/constants"
 import { registerEntityClass } from "../classRegistry"
 import { ISOXMLManager } from "../ISOXMLManager"
+import { Entity } from "../types"
 
 export class ExtendedLineString extends LineString {
     public tag = TAGS.LineString
 
     constructor(attributes: LineStringAttributes, isoxmlManager: ISOXMLManager) {
         super(attributes, isoxmlManager)
+    }
+
+    static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, internalId: string): Promise<Entity> {
+        return LineString.fromXML(xml, isoxmlManager, internalId, ExtendedLineString)
     }
 
     toCoordinatesArray(): [number, number][] {

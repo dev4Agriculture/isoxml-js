@@ -23,7 +23,12 @@ export class ExtendedTask extends Task {
         return Task.fromXML(xml, isoxmlManager, internalId, ExtendedTask)
     }
 
-    addGridFromGeoJSON(geoJSON: FeatureCollection, DDI: number, deviceElemRef?: ISOXMLReference, vpnRef?: ISOXMLReference): void {
+    addGridFromGeoJSON(
+        geoJSON: FeatureCollection,
+        DDI: number,
+        deviceElemRef?: ISOXMLReference,
+        vpnRef?: ISOXMLReference
+    ): void {
         const processDataVariable = this.isoxmlManager.createEntityFromAttributes(
             TAGS.ProcessDataVariable, {
                 ProcessDataDDI: DDIToString(DDI),

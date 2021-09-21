@@ -1,9 +1,11 @@
 import { area as turfArea, MultiPolygon as TurfMultiPolygon, Polygon as TurfPolygon} from "@turf/turf"
 import { intersection} from "polygon-clipping"
+import { ElementCompact } from "xml-js"
 import { LineStringLineStringTypeEnum, Polygon, PolygonAttributes, PolygonPolygonTypeEnum } from "../baseEntities"
 import { TAGS } from "../baseEntities/constants"
 import { registerEntityClass } from "../classRegistry"
 import { ISOXMLManager } from "../ISOXMLManager"
+import { Entity } from "../types"
 import { ExtendedLineString } from "./LineString"
 
 export class ExtendedPolygon extends Polygon {
@@ -11,6 +13,10 @@ export class ExtendedPolygon extends Polygon {
 
     constructor(attributes: PolygonAttributes, isoxmlManager: ISOXMLManager) {
         super(attributes, isoxmlManager)
+    }
+
+    static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, internalId: string): Promise<Entity> {
+        return Polygon.fromXML(xml, isoxmlManager, internalId, ExtendedPolygon)
     }
 
     static fromGeoJSON(
