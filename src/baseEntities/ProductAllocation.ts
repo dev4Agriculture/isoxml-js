@@ -33,49 +33,51 @@ const ATTRIBUTES: AttributesDescription = {
         type: 'xs:IDREF',
         isPrimaryId: false,
         isOptional: false,
-        isOnlyV4: false
+        isOnlyV4: false,
     },
     B: {
         name: 'QuantityDDI',
         type: 'xs:hexBinary',
         isPrimaryId: false,
         isOptional: true,
-        isOnlyV4: false
+        isOnlyV4: false,
     },
     C: {
         name: 'QuantityValue',
         type: 'xs:long',
         isPrimaryId: false,
         isOptional: true,
-        isOnlyV4: false
+        isOnlyV4: false,
+        minValue: 0,
+        maxValue: 2147483647,
     },
     D: {
         name: 'TransferMode',
         type: 'xs:NMTOKEN',
         isPrimaryId: false,
         isOptional: true,
-        isOnlyV4: false
+        isOnlyV4: false,
     },
     E: {
         name: 'DeviceElementIdRef',
         type: 'xs:IDREF',
         isPrimaryId: false,
         isOptional: true,
-        isOnlyV4: false
+        isOnlyV4: false,
     },
     F: {
         name: 'ValuePresentationIdRef',
         type: 'xs:IDREF',
         isPrimaryId: false,
         isOptional: true,
-        isOnlyV4: false
+        isOnlyV4: false,
     },
     G: {
         name: 'ProductSubTypeIdRef',
         type: 'xs:IDREF',
         isPrimaryId: false,
         isOptional: true,
-        isOnlyV4: true
+        isOnlyV4: true,
     },
 }
 const CHILD_TAGS = {

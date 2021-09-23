@@ -25,42 +25,50 @@ const ATTRIBUTES: AttributesDescription = {
         type: 'xs:unsignedShort',
         isPrimaryId: false,
         isOptional: false,
-        isOnlyV4: false
+        isOnlyV4: false,
+        minValue: 1,
+        maxValue: 65534,
     },
     B: {
         name: 'DeviceProcessDataDDI',
         type: 'xs:hexBinary',
         isPrimaryId: false,
         isOptional: false,
-        isOnlyV4: false
+        isOnlyV4: false,
     },
     C: {
         name: 'DeviceProcessDataProperty',
         type: 'xs:unsignedByte',
         isPrimaryId: false,
         isOptional: false,
-        isOnlyV4: false
+        isOnlyV4: false,
+        minValue: 0,
+        maxValue: 7,
     },
     D: {
         name: 'DeviceProcessDataTriggerMethods',
         type: 'xs:unsignedByte',
         isPrimaryId: false,
         isOptional: false,
-        isOnlyV4: false
+        isOnlyV4: false,
+        minValue: 0,
+        maxValue: 31,
     },
     E: {
         name: 'DeviceProcessDataDesignator',
         type: 'xs:string',
         isPrimaryId: false,
         isOptional: true,
-        isOnlyV4: false
+        isOnlyV4: false,
     },
     F: {
         name: 'DeviceValuePresentationObjectId',
         type: 'xs:unsignedShort',
         isPrimaryId: false,
         isOptional: true,
-        isOnlyV4: false
+        isOnlyV4: false,
+        minValue: 1,
+        maxValue: 65534,
     },
 }
 const CHILD_TAGS = {

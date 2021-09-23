@@ -22,21 +22,21 @@ const ATTRIBUTES: AttributesDescription = {
         type: 'xs:IDREF',
         isPrimaryId: false,
         isOptional: false,
-        isOnlyV4: undefined
+        isOnlyV4: undefined,
     },
     B: {
         name: 'LinkValue',
         type: 'xs:token',
         isPrimaryId: false,
         isOptional: false,
-        isOnlyV4: undefined
+        isOnlyV4: undefined,
     },
     C: {
         name: 'LinkDesignator',
         type: 'xs:string',
         isPrimaryId: false,
         isOptional: true,
-        isOnlyV4: undefined
+        isOnlyV4: undefined,
     },
 }
 const CHILD_TAGS = {

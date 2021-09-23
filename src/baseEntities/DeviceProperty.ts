@@ -24,35 +24,41 @@ const ATTRIBUTES: AttributesDescription = {
         type: 'xs:unsignedShort',
         isPrimaryId: false,
         isOptional: false,
-        isOnlyV4: false
+        isOnlyV4: false,
+        minValue: 1,
+        maxValue: 65534,
     },
     B: {
         name: 'DevicePropertyDDI',
         type: 'xs:hexBinary',
         isPrimaryId: false,
         isOptional: false,
-        isOnlyV4: false
+        isOnlyV4: false,
     },
     C: {
         name: 'DevicePropertyValue',
         type: 'xs:long',
         isPrimaryId: false,
         isOptional: false,
-        isOnlyV4: false
+        isOnlyV4: false,
+        minValue: -2147483648,
+        maxValue: 2147483647,
     },
     D: {
         name: 'DevicePropertyDesignator',
         type: 'xs:string',
         isPrimaryId: false,
         isOptional: true,
-        isOnlyV4: false
+        isOnlyV4: false,
     },
     E: {
         name: 'DeviceValuePresentationObjectId',
         type: 'xs:unsignedShort',
         isPrimaryId: false,
         isOptional: true,
-        isOnlyV4: false
+        isOnlyV4: false,
+        minValue: 1,
+        maxValue: 65534,
     },
 }
 const CHILD_TAGS = {

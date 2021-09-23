@@ -23,35 +23,43 @@ const ATTRIBUTES: AttributesDescription = {
         type: 'xs:ID',
         isPrimaryId: true,
         isOptional: false,
-        isOnlyV4: undefined
+        isOnlyV4: undefined,
     },
     B: {
         name: 'BaseStationDesignator',
         type: 'xs:string',
         isPrimaryId: false,
         isOptional: false,
-        isOnlyV4: undefined
+        isOnlyV4: undefined,
     },
     C: {
         name: 'BaseStationNorth',
         type: 'xs:decimal',
         isPrimaryId: false,
         isOptional: false,
-        isOnlyV4: undefined
+        isOnlyV4: undefined,
+        minValue: -90,
+        maxValue: 90,
+        fractionDigits: 9,
     },
     D: {
         name: 'BaseStationEast',
         type: 'xs:decimal',
         isPrimaryId: false,
         isOptional: false,
-        isOnlyV4: undefined
+        isOnlyV4: undefined,
+        minValue: -180,
+        maxValue: 180,
+        fractionDigits: 9,
     },
     E: {
         name: 'BaseStationUp',
         type: 'xs:long',
         isPrimaryId: false,
         isOptional: false,
-        isOnlyV4: undefined
+        isOnlyV4: undefined,
+        minValue: -2147483647,
+        maxValue: 2147483647,
     },
 }
 const CHILD_TAGS = {

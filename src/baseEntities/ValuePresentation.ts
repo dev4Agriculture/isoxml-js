@@ -24,42 +24,48 @@ const ATTRIBUTES: AttributesDescription = {
         type: 'xs:ID',
         isPrimaryId: true,
         isOptional: false,
-        isOnlyV4: false
+        isOnlyV4: false,
     },
     B: {
         name: 'Offset',
         type: 'xs:long',
         isPrimaryId: false,
         isOptional: false,
-        isOnlyV4: false
+        isOnlyV4: false,
+        minValue: -2147483648,
+        maxValue: 2147483647,
     },
     C: {
         name: 'Scale',
         type: 'xs:decimal',
         isPrimaryId: false,
         isOptional: false,
-        isOnlyV4: false
+        isOnlyV4: false,
+        minValue: 1e-9,
+        maxValue: 100000000,
     },
     D: {
         name: 'NumberOfDecimals',
         type: 'xs:unsignedByte',
         isPrimaryId: false,
         isOptional: false,
-        isOnlyV4: false
+        isOnlyV4: false,
+        minValue: 0,
+        maxValue: 7,
     },
     E: {
         name: 'UnitDesignator',
         type: 'xs:string',
         isPrimaryId: false,
         isOptional: true,
-        isOnlyV4: false
+        isOnlyV4: false,
     },
     F: {
         name: 'ColourLegendIdRef',
         type: 'xs:IDREF',
         isPrimaryId: false,
         isOptional: true,
-        isOnlyV4: false
+        isOnlyV4: false,
     },
 }
 const CHILD_TAGS = {

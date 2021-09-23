@@ -2,14 +2,18 @@ import { ElementCompact } from "xml-js"
 import { TAGS } from "./baseEntities/constants"
 import { ISOXMLManager } from './ISOXMLManager'
 
+export interface AttributeDescription {
+    name: string
+    type: string
+    isPrimaryId: boolean
+    isOptional: boolean
+    isOnlyV4: boolean
+    minValue?: number
+    maxValue?: number
+    fractionDigits?: number
+}
 export interface AttributesDescription {
-    [xmlTag: string]: {
-        name: string
-        type: string
-        isPrimaryId: boolean
-        isOptional: boolean
-        isOnlyV4: boolean
-    }
+    [xmlTag: string]: AttributeDescription
 }
 
 export interface ReferencesDescription {

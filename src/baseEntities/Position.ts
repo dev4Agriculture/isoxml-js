@@ -46,63 +46,81 @@ const ATTRIBUTES: AttributesDescription = {
         type: 'xs:decimal',
         isPrimaryId: false,
         isOptional: false,
-        isOnlyV4: false
+        isOnlyV4: false,
+        minValue: -90,
+        maxValue: 90,
+        fractionDigits: 9,
     },
     B: {
         name: 'PositionEast',
         type: 'xs:decimal',
         isPrimaryId: false,
         isOptional: false,
-        isOnlyV4: false
+        isOnlyV4: false,
+        minValue: -180,
+        maxValue: 180,
+        fractionDigits: 9,
     },
     C: {
         name: 'PositionUp',
         type: 'xs:long',
         isPrimaryId: false,
         isOptional: true,
-        isOnlyV4: false
+        isOnlyV4: false,
+        minValue: -2147483648,
+        maxValue: 2147483647,
     },
     D: {
         name: 'PositionStatus',
         type: 'xs:NMTOKEN',
         isPrimaryId: false,
         isOptional: false,
-        isOnlyV4: false
+        isOnlyV4: false,
     },
     E: {
         name: 'PDOP',
         type: 'xs:decimal',
         isPrimaryId: false,
         isOptional: true,
-        isOnlyV4: false
+        isOnlyV4: false,
+        minValue: 0,
+        maxValue: 99.9,
     },
     F: {
         name: 'HDOP',
         type: 'xs:decimal',
         isPrimaryId: false,
         isOptional: true,
-        isOnlyV4: false
+        isOnlyV4: false,
+        minValue: 0,
+        maxValue: 99.9,
     },
     G: {
         name: 'NumberOfSatellites',
         type: 'xs:unsignedByte',
         isPrimaryId: false,
         isOptional: true,
-        isOnlyV4: false
+        isOnlyV4: false,
+        minValue: 0,
+        maxValue: 254,
     },
     H: {
         name: 'GpsUtcTime',
         type: 'xs:unsignedLong',
         isPrimaryId: false,
         isOptional: true,
-        isOnlyV4: false
+        isOnlyV4: false,
+        minValue: 0,
+        maxValue: 4294967294,
     },
     I: {
         name: 'GpsUtcDate',
         type: 'xs:unsignedShort',
         isPrimaryId: false,
         isOptional: true,
-        isOnlyV4: false
+        isOnlyV4: false,
+        minValue: 0,
+        maxValue: 65534,
     },
 }
 const CHILD_TAGS = {

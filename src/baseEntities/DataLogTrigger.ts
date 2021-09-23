@@ -31,84 +31,102 @@ const ATTRIBUTES: AttributesDescription = {
         type: 'xs:hexBinary',
         isPrimaryId: false,
         isOptional: false,
-        isOnlyV4: false
+        isOnlyV4: false,
     },
     B: {
         name: 'DataLogMethod',
         type: 'xs:unsignedByte',
         isPrimaryId: false,
         isOptional: false,
-        isOnlyV4: false
+        isOnlyV4: false,
+        minValue: 1,
+        maxValue: 31,
     },
     C: {
         name: 'DataLogDistanceInterval',
         type: 'xs:long',
         isPrimaryId: false,
         isOptional: true,
-        isOnlyV4: false
+        isOnlyV4: false,
+        minValue: 0,
+        maxValue: 1000000,
     },
     D: {
         name: 'DataLogTimeInterval',
         type: 'xs:long',
         isPrimaryId: false,
         isOptional: true,
-        isOnlyV4: false
+        isOnlyV4: false,
+        minValue: 0,
+        maxValue: 60000,
     },
     E: {
         name: 'DataLogThresholdMinimum',
         type: 'xs:long',
         isPrimaryId: false,
         isOptional: true,
-        isOnlyV4: false
+        isOnlyV4: false,
+        minValue: -2147483647,
+        maxValue: 2147483647,
     },
     F: {
         name: 'DataLogThresholdMaximum',
         type: 'xs:long',
         isPrimaryId: false,
         isOptional: true,
-        isOnlyV4: false
+        isOnlyV4: false,
+        minValue: -2147483647,
+        maxValue: 2147483647,
     },
     G: {
         name: 'DataLogThresholdChange',
         type: 'xs:long',
         isPrimaryId: false,
         isOptional: true,
-        isOnlyV4: false
+        isOnlyV4: false,
+        minValue: -2147483647,
+        maxValue: 2147483647,
     },
     H: {
         name: 'DeviceElementIdRef',
         type: 'xs:IDREF',
         isPrimaryId: false,
         isOptional: true,
-        isOnlyV4: false
+        isOnlyV4: false,
     },
     I: {
         name: 'ValuePresentationIdRef',
         type: 'xs:IDREF',
         isPrimaryId: false,
         isOptional: true,
-        isOnlyV4: false
+        isOnlyV4: false,
     },
     J: {
         name: 'DataLogPGN',
         type: 'xs:unsignedLong',
         isPrimaryId: false,
         isOptional: true,
-        isOnlyV4: false
+        isOnlyV4: false,
+        minValue: 0,
+        maxValue: 262143,
     },
     K: {
         name: 'DataLogPGNStartBit',
         type: 'xs:unsignedByte',
         isPrimaryId: false,
         isOptional: true,
-        isOnlyV4: false
+        isOnlyV4: false,
+        minValue: 0,
+        maxValue: 63,
     },
     L: {
         name: 'DataLogPGNStopBit',
         type: 'xs:unsignedByte',
         isPrimaryId: false,
         isOptional: true,
-        isOnlyV4: false
+        isOnlyV4: false,
+        minValue: 0,
+        maxValue: 63,
     },
 }
 const CHILD_TAGS = {

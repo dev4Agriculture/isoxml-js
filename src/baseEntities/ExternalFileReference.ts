@@ -24,14 +24,14 @@ const ATTRIBUTES: AttributesDescription = {
         type: 'xs:ID',
         isPrimaryId: false,
         isOptional: false,
-        isOnlyV4: false
+        isOnlyV4: false,
     },
     B: {
         name: 'Filetype',
         type: 'xs:NMTOKEN',
         isPrimaryId: false,
         isOptional: false,
-        isOnlyV4: false
+        isOnlyV4: false,
     },
 }
 const CHILD_TAGS = {

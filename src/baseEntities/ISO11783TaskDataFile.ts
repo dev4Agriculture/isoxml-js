@@ -78,56 +78,56 @@ const ATTRIBUTES: AttributesDescription = {
         type: 'xs:NMTOKEN',
         isPrimaryId: false,
         isOptional: false,
-        isOnlyV4: false
+        isOnlyV4: false,
     },
     VersionMinor: {
         name: 'VersionMinor',
         type: 'xs:NMTOKEN',
         isPrimaryId: false,
         isOptional: false,
-        isOnlyV4: false
+        isOnlyV4: false,
     },
     ManagementSoftwareManufacturer: {
         name: 'ManagementSoftwareManufacturer',
         type: 'xs:string',
         isPrimaryId: false,
         isOptional: false,
-        isOnlyV4: false
+        isOnlyV4: false,
     },
     ManagementSoftwareVersion: {
         name: 'ManagementSoftwareVersion',
         type: 'xs:string',
         isPrimaryId: false,
         isOptional: false,
-        isOnlyV4: false
+        isOnlyV4: false,
     },
     TaskControllerManufacturer: {
         name: 'TaskControllerManufacturer',
         type: 'xs:string',
         isPrimaryId: false,
         isOptional: true,
-        isOnlyV4: false
+        isOnlyV4: false,
     },
     TaskControllerVersion: {
         name: 'TaskControllerVersion',
         type: 'xs:string',
         isPrimaryId: false,
         isOptional: true,
-        isOnlyV4: false
+        isOnlyV4: false,
     },
     DataTransferOrigin: {
         name: 'DataTransferOrigin',
         type: 'xs:NMTOKEN',
         isPrimaryId: false,
         isOptional: false,
-        isOnlyV4: false
+        isOnlyV4: false,
     },
     lang: {
         name: 'lang',
         type: 'xs:language',
         isPrimaryId: false,
         isOptional: true,
-        isOnlyV4: true
+        isOnlyV4: true,
     },
 }
 const CHILD_TAGS = {

@@ -35,63 +35,65 @@ const ATTRIBUTES: AttributesDescription = {
         type: 'xs:ID',
         isPrimaryId: true,
         isOptional: false,
-        isOnlyV4: false
+        isOnlyV4: false,
     },
     B: {
         name: 'PartfieldCode',
         type: 'xs:string',
         isPrimaryId: false,
         isOptional: true,
-        isOnlyV4: false
+        isOnlyV4: false,
     },
     C: {
         name: 'PartfieldDesignator',
         type: 'xs:string',
         isPrimaryId: false,
         isOptional: false,
-        isOnlyV4: false
+        isOnlyV4: false,
     },
     D: {
         name: 'PartfieldArea',
         type: 'xs:unsignedLong',
         isPrimaryId: false,
         isOptional: false,
-        isOnlyV4: false
+        isOnlyV4: false,
+        minValue: 0,
+        maxValue: 4294967294,
     },
     E: {
         name: 'CustomerIdRef',
         type: 'xs:IDREF',
         isPrimaryId: false,
         isOptional: true,
-        isOnlyV4: false
+        isOnlyV4: false,
     },
     F: {
         name: 'FarmIdRef',
         type: 'xs:IDREF',
         isPrimaryId: false,
         isOptional: true,
-        isOnlyV4: false
+        isOnlyV4: false,
     },
     G: {
         name: 'CropTypeIdRef',
         type: 'xs:IDREF',
         isPrimaryId: false,
         isOptional: true,
-        isOnlyV4: false
+        isOnlyV4: false,
     },
     H: {
         name: 'CropVarietyIdRef',
         type: 'xs:IDREF',
         isPrimaryId: false,
         isOptional: true,
-        isOnlyV4: false
+        isOnlyV4: false,
     },
     I: {
         name: 'FieldIdRef',
         type: 'xs:IDREF',
         isPrimaryId: false,
         isOptional: true,
-        isOnlyV4: false
+        isOnlyV4: false,
     },
 }
 const CHILD_TAGS = {

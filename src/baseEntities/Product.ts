@@ -35,70 +35,78 @@ const ATTRIBUTES: AttributesDescription = {
         type: 'xs:ID',
         isPrimaryId: true,
         isOptional: false,
-        isOnlyV4: false
+        isOnlyV4: false,
     },
     B: {
         name: 'ProductDesignator',
         type: 'xs:string',
         isPrimaryId: false,
         isOptional: false,
-        isOnlyV4: false
+        isOnlyV4: false,
     },
     C: {
         name: 'ProductGroupIdRef',
         type: 'xs:IDREF',
         isPrimaryId: false,
         isOptional: true,
-        isOnlyV4: false
+        isOnlyV4: false,
     },
     D: {
         name: 'ValuePresentationIdRef',
         type: 'xs:IDREF',
         isPrimaryId: false,
         isOptional: true,
-        isOnlyV4: false
+        isOnlyV4: false,
     },
     E: {
         name: 'QuantityDDI',
         type: 'xs:hexBinary',
         isPrimaryId: false,
         isOptional: true,
-        isOnlyV4: false
+        isOnlyV4: false,
     },
     F: {
         name: 'ProductType',
         type: 'xs:NMTOKEN',
         isPrimaryId: false,
         isOptional: true,
-        isOnlyV4: true
+        isOnlyV4: true,
     },
     G: {
         name: 'MixtureRecipeQuantity',
         type: 'xs:long',
         isPrimaryId: false,
         isOptional: true,
-        isOnlyV4: true
+        isOnlyV4: true,
+        minValue: 0,
+        maxValue: 2147483647,
     },
     H: {
         name: 'DensityMassPerVolume',
         type: 'xs:long',
         isPrimaryId: false,
         isOptional: true,
-        isOnlyV4: true
+        isOnlyV4: true,
+        minValue: 0,
+        maxValue: 2147483647,
     },
     I: {
         name: 'DensityMassPerCount',
         type: 'xs:long',
         isPrimaryId: false,
         isOptional: true,
-        isOnlyV4: true
+        isOnlyV4: true,
+        minValue: 0,
+        maxValue: 2147483647,
     },
     J: {
         name: 'DensityVolumePerCount',
         type: 'xs:long',
         isPrimaryId: false,
         isOptional: true,
-        isOnlyV4: true
+        isOnlyV4: true,
+        minValue: 0,
+        maxValue: 2147483647,
     },
 }
 const CHILD_TAGS = {

@@ -42,77 +42,93 @@ const ATTRIBUTES: AttributesDescription = {
         type: 'xs:NMTOKEN',
         isPrimaryId: false,
         isOptional: false,
-        isOnlyV4: false
+        isOnlyV4: false,
     },
     B: {
         name: 'PointDesignator',
         type: 'xs:string',
         isPrimaryId: false,
         isOptional: true,
-        isOnlyV4: false
+        isOnlyV4: false,
     },
     C: {
         name: 'PointNorth',
         type: 'xs:decimal',
         isPrimaryId: false,
         isOptional: false,
-        isOnlyV4: false
+        isOnlyV4: false,
+        minValue: -90,
+        maxValue: 90,
+        fractionDigits: 9,
     },
     D: {
         name: 'PointEast',
         type: 'xs:decimal',
         isPrimaryId: false,
         isOptional: false,
-        isOnlyV4: false
+        isOnlyV4: false,
+        minValue: -180,
+        maxValue: 180,
+        fractionDigits: 9,
     },
     E: {
         name: 'PointUp',
         type: 'xs:long',
         isPrimaryId: false,
         isOptional: true,
-        isOnlyV4: false
+        isOnlyV4: false,
+        minValue: -2147483647,
+        maxValue: 2147483647,
     },
     F: {
         name: 'PointColour',
         type: 'xs:unsignedByte',
         isPrimaryId: false,
         isOptional: true,
-        isOnlyV4: false
+        isOnlyV4: false,
+        minValue: 0,
+        maxValue: 254,
     },
     G: {
         name: 'PointId',
         type: 'xs:ID',
         isPrimaryId: true,
         isOptional: true,
-        isOnlyV4: true
+        isOnlyV4: true,
     },
     H: {
         name: 'PointHorizontalAccuracy',
         type: 'xs:decimal',
         isPrimaryId: false,
         isOptional: true,
-        isOnlyV4: true
+        isOnlyV4: true,
+        minValue: 0,
+        maxValue: 65,
     },
     I: {
         name: 'PointVerticalAccuracy',
         type: 'xs:decimal',
         isPrimaryId: false,
         isOptional: true,
-        isOnlyV4: true
+        isOnlyV4: true,
+        minValue: 0,
+        maxValue: 65,
     },
     J: {
         name: 'Filename',
         type: 'xs:string',
         isPrimaryId: false,
         isOptional: true,
-        isOnlyV4: true
+        isOnlyV4: true,
     },
     K: {
         name: 'Filelength',
         type: 'xs:unsignedLong',
         isPrimaryId: false,
         isOptional: true,
-        isOnlyV4: true
+        isOnlyV4: true,
+        minValue: 0,
+        maxValue: 4294967294,
     },
 }
 const CHILD_TAGS = {

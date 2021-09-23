@@ -20,7 +20,9 @@ const ATTRIBUTES: AttributesDescription = {
         type: 'xs:unsignedShort',
         isPrimaryId: false,
         isOptional: false,
-        isOnlyV4: false
+        isOnlyV4: false,
+        minValue: 1,
+        maxValue: 65534,
     },
 }
 const CHILD_TAGS = {

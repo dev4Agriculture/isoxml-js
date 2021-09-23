@@ -29,28 +29,30 @@ const ATTRIBUTES: AttributesDescription = {
         type: 'xs:dateTime',
         isPrimaryId: false,
         isOptional: false,
-        isOnlyV4: false
+        isOnlyV4: false,
     },
     B: {
         name: 'Stop',
         type: 'xs:dateTime',
         isPrimaryId: false,
         isOptional: true,
-        isOnlyV4: false
+        isOnlyV4: false,
     },
     C: {
         name: 'Duration',
         type: 'xs:unsignedLong',
         isPrimaryId: false,
         isOptional: true,
-        isOnlyV4: false
+        isOnlyV4: false,
+        minValue: 0,
+        maxValue: 4294967294,
     },
     D: {
         name: 'Type',
         type: 'xs:NMTOKEN',
         isPrimaryId: false,
         isOptional: false,
-        isOnlyV4: false
+        isOnlyV4: false,
     },
 }
 const CHILD_TAGS = {

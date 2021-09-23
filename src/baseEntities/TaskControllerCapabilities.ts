@@ -33,49 +33,57 @@ const ATTRIBUTES: AttributesDescription = {
         type: 'xs:hexBinary',
         isPrimaryId: false,
         isOptional: false,
-        isOnlyV4: undefined
+        isOnlyV4: undefined,
     },
     B: {
         name: 'TaskControllerDesignator',
         type: 'xs:string',
         isPrimaryId: false,
         isOptional: false,
-        isOnlyV4: undefined
+        isOnlyV4: undefined,
     },
     C: {
         name: 'VersionNumber',
         type: 'xs:NMTOKEN',
         isPrimaryId: false,
         isOptional: false,
-        isOnlyV4: undefined
+        isOnlyV4: undefined,
     },
     D: {
         name: 'ProvidedCapabilities',
         type: 'xs:unsignedByte',
         isPrimaryId: false,
         isOptional: false,
-        isOnlyV4: undefined
+        isOnlyV4: undefined,
+        minValue: 0,
+        maxValue: 63,
     },
     E: {
         name: 'NumberOfBoomsSectionControl',
         type: 'xs:unsignedByte',
         isPrimaryId: false,
         isOptional: false,
-        isOnlyV4: undefined
+        isOnlyV4: undefined,
+        minValue: 0,
+        maxValue: 254,
     },
     F: {
         name: 'NumberOfSectionsSectionControl',
         type: 'xs:unsignedByte',
         isPrimaryId: false,
         isOptional: false,
-        isOnlyV4: undefined
+        isOnlyV4: undefined,
+        minValue: 0,
+        maxValue: 254,
     },
     G: {
         name: 'NumberOfControlChannels',
         type: 'xs:unsignedByte',
         isPrimaryId: false,
         isOptional: false,
-        isOnlyV4: undefined
+        isOnlyV4: undefined,
+        minValue: 0,
+        maxValue: 254,
     },
 }
 const CHILD_TAGS = {

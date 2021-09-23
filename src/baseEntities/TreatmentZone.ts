@@ -26,21 +26,25 @@ const ATTRIBUTES: AttributesDescription = {
         type: 'xs:unsignedByte',
         isPrimaryId: false,
         isOptional: false,
-        isOnlyV4: false
+        isOnlyV4: false,
+        minValue: 0,
+        maxValue: 254,
     },
     B: {
         name: 'TreatmentZoneDesignator',
         type: 'xs:string',
         isPrimaryId: false,
         isOptional: true,
-        isOnlyV4: false
+        isOnlyV4: false,
     },
     C: {
         name: 'TreatmentZoneColour',
         type: 'xs:unsignedByte',
         isPrimaryId: false,
         isOptional: true,
-        isOnlyV4: false
+        isOnlyV4: false,
+        minValue: 0,
+        maxValue: 254,
     },
 }
 const CHILD_TAGS = {

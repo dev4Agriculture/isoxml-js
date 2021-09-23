@@ -33,70 +33,88 @@ const ATTRIBUTES: AttributesDescription = {
         type: 'xs:decimal',
         isPrimaryId: false,
         isOptional: false,
-        isOnlyV4: false
+        isOnlyV4: false,
+        minValue: -90,
+        maxValue: 90,
+        fractionDigits: 9,
     },
     B: {
         name: 'GridMinimumEastPosition',
         type: 'xs:decimal',
         isPrimaryId: false,
         isOptional: false,
-        isOnlyV4: false
+        isOnlyV4: false,
+        minValue: -180,
+        maxValue: 180,
+        fractionDigits: 9,
     },
     C: {
         name: 'GridCellNorthSize',
         type: 'xs:double',
         isPrimaryId: false,
         isOptional: false,
-        isOnlyV4: false
+        isOnlyV4: false,
+        minValue: 0,
+        maxValue: 1,
     },
     D: {
         name: 'GridCellEastSize',
         type: 'xs:double',
         isPrimaryId: false,
         isOptional: false,
-        isOnlyV4: false
+        isOnlyV4: false,
+        minValue: 0,
+        maxValue: 1,
     },
     E: {
         name: 'GridMaximumColumn',
         type: 'xs:unsignedLong',
         isPrimaryId: false,
         isOptional: false,
-        isOnlyV4: false
+        isOnlyV4: false,
+        minValue: 0,
+        maxValue: 4294967295,
     },
     F: {
         name: 'GridMaximumRow',
         type: 'xs:unsignedLong',
         isPrimaryId: false,
         isOptional: false,
-        isOnlyV4: false
+        isOnlyV4: false,
+        minValue: 0,
+        maxValue: 4294967295,
     },
     G: {
         name: 'Filename',
         type: 'xs:ID',
         isPrimaryId: false,
         isOptional: false,
-        isOnlyV4: false
+        isOnlyV4: false,
     },
     H: {
         name: 'Filelength',
         type: 'xs:unsignedLong',
         isPrimaryId: false,
         isOptional: true,
-        isOnlyV4: false
+        isOnlyV4: false,
+        minValue: 0,
+        maxValue: 4294967294,
     },
     I: {
         name: 'GridType',
         type: 'xs:NMTOKEN',
         isPrimaryId: false,
         isOptional: false,
-        isOnlyV4: false
+        isOnlyV4: false,
     },
     J: {
         name: 'TreatmentZoneCode',
         type: 'xs:unsignedByte',
         isPrimaryId: false,
         isOptional: true,
-        isOnlyV4: false
+        isOnlyV4: false,
+        minValue: 0,
+        maxValue: 254,
     },
 }
 const CHILD_TAGS = {

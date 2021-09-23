@@ -28,49 +28,53 @@ const ATTRIBUTES: AttributesDescription = {
         type: 'xs:hexBinary',
         isPrimaryId: false,
         isOptional: false,
-        isOnlyV4: undefined
+        isOnlyV4: undefined,
     },
     B: {
         name: 'UserClientNAME',
         type: 'xs:hexBinary',
         isPrimaryId: false,
         isOptional: false,
-        isOnlyV4: undefined
+        isOnlyV4: undefined,
     },
     C: {
         name: 'SourceDeviceStructureLabel',
         type: 'xs:hexBinary',
         isPrimaryId: false,
         isOptional: false,
-        isOnlyV4: undefined
+        isOnlyV4: undefined,
     },
     D: {
         name: 'UserDeviceStructureLabel',
         type: 'xs:hexBinary',
         isPrimaryId: false,
         isOptional: false,
-        isOnlyV4: undefined
+        isOnlyV4: undefined,
     },
     E: {
         name: 'SourceDeviceElementNumber',
         type: 'xs:unsignedShort',
         isPrimaryId: false,
         isOptional: false,
-        isOnlyV4: undefined
+        isOnlyV4: undefined,
+        minValue: 0,
+        maxValue: 4095,
     },
     F: {
         name: 'UserDeviceElementNumber',
         type: 'xs:unsignedShort',
         isPrimaryId: false,
         isOptional: false,
-        isOnlyV4: undefined
+        isOnlyV4: undefined,
+        minValue: 0,
+        maxValue: 4095,
     },
     G: {
         name: 'ProcessDataDDI',
         type: 'xs:hexBinary',
         isPrimaryId: false,
         isOptional: false,
-        isOnlyV4: undefined
+        isOnlyV4: undefined,
     },
 }
 const CHILD_TAGS = {

@@ -24,7 +24,7 @@ const ATTRIBUTES: AttributesDescription = {
         type: 'xs:IDREF',
         isPrimaryId: false,
         isOptional: false,
-        isOnlyV4: undefined
+        isOnlyV4: undefined,
     },
 }
 const CHILD_TAGS = {

@@ -34,7 +34,7 @@ describe('ISOXML Manager', () => {
         expect(isoxmlManager.getWarnings()).toHaveLength(0)
         const data = await isoxmlManager.saveISOXML()
         // writeFileSync('./data/test_grid_out.zip', data)
-        expect(data.length).toBe(14080)
+        expect(data.length).toBe(13954)
 
         const zip = await JSZip.loadAsync(data)
         expect(zip.file("TASKDATA/GRD00001.BIN")).toBeTruthy()
@@ -89,7 +89,7 @@ describe('ISOXML Manager', () => {
         expect(isoxmlManager.getWarnings()).toHaveLength(0)
         const data = await isoxmlManager.saveISOXML()
         // writeFileSync('./data/test1_out.zip', data)
-        expect(data.length).toBe(3973)
+        expect(data.length).toBe(3783)
     })
 
     it('should manually create ISOXML', async () => {

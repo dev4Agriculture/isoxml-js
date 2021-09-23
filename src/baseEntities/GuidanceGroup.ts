@@ -24,14 +24,14 @@ const ATTRIBUTES: AttributesDescription = {
         type: 'xs:ID',
         isPrimaryId: true,
         isOptional: false,
-        isOnlyV4: undefined
+        isOnlyV4: undefined,
     },
     B: {
         name: 'GuidanceGroupDesignator',
         type: 'xs:string',
         isPrimaryId: false,
         isOptional: true,
-        isOnlyV4: undefined
+        isOnlyV4: undefined,
     },
 }
 const CHILD_TAGS = {

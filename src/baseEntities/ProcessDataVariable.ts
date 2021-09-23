@@ -27,49 +27,55 @@ const ATTRIBUTES: AttributesDescription = {
         type: 'xs:hexBinary',
         isPrimaryId: false,
         isOptional: false,
-        isOnlyV4: false
+        isOnlyV4: false,
     },
     B: {
         name: 'ProcessDataValue',
         type: 'xs:long',
         isPrimaryId: false,
         isOptional: false,
-        isOnlyV4: false
+        isOnlyV4: false,
+        minValue: -2147483648,
+        maxValue: 2147483647,
     },
     C: {
         name: 'ProductIdRef',
         type: 'xs:IDREF',
         isPrimaryId: false,
         isOptional: true,
-        isOnlyV4: false
+        isOnlyV4: false,
     },
     D: {
         name: 'DeviceElementIdRef',
         type: 'xs:IDREF',
         isPrimaryId: false,
         isOptional: true,
-        isOnlyV4: false
+        isOnlyV4: false,
     },
     E: {
         name: 'ValuePresentationIdRef',
         type: 'xs:IDREF',
         isPrimaryId: false,
         isOptional: true,
-        isOnlyV4: false
+        isOnlyV4: false,
     },
     F: {
         name: 'ActualCulturalPracticeValue',
         type: 'xs:long',
         isPrimaryId: false,
         isOptional: true,
-        isOnlyV4: true
+        isOnlyV4: true,
+        minValue: -2147483648,
+        maxValue: 2147483647,
     },
     G: {
         name: 'ElementTypeInstanceValue',
         type: 'xs:long',
         isPrimaryId: false,
         isOptional: true,
-        isOnlyV4: true
+        isOnlyV4: true,
+        minValue: -2147483648,
+        maxValue: 2147483647,
     },
 }
 const CHILD_TAGS = {

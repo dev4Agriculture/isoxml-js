@@ -21,14 +21,16 @@ const ATTRIBUTES: AttributesDescription = {
         type: 'xs:IDREF',
         isPrimaryId: false,
         isOptional: false,
-        isOnlyV4: undefined
+        isOnlyV4: undefined,
     },
     B: {
         name: 'QuantityValue',
         type: 'xs:long',
         isPrimaryId: false,
         isOptional: false,
-        isOnlyV4: undefined
+        isOnlyV4: undefined,
+        minValue: 0,
+        maxValue: 2147483647,
     },
 }
 const CHILD_TAGS = {

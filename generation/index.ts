@@ -11,6 +11,10 @@ Handlebars.registerHelper('toString', function(x) {
     return '' + x
 })
 
+Handlebars.registerHelper('isdefined', function (value) {
+  return value !== undefined;
+})
+
 const XSD2TS: {[xsdType: string]: string} = {
     'xs:IDREF': 'ISOXMLReference',
     'xs:ID': 'string',
@@ -128,7 +132,18 @@ function parseClassesFromFile(filename: string): any[] {
                 const isPrimaryId = xsdType === 'xs:ID' && attrName === `${name}Id`
 
                 const type = XSD2TS[xsdType]
-                return {xmlName, name: attrName, type, xsdType, isOptional, isPrimaryId, typeEnum}
+
+                let numericalRestrictions = {} as any
+                if (restrictions?.[0]['xs:minInclusive']) {
+                    numericalRestrictions.minValue = parseFloat(restrictions[0]['xs:minInclusive'][0]._attributes['value'])
+                }
+                if (restrictions?.[0]['xs:maxInclusive']) {
+                    numericalRestrictions.maxValue = parseFloat(restrictions[0]['xs:maxInclusive'][0]._attributes['value'])
+                }
+                if (restrictions?.[0]['xs:fractionDigits']) {
+                    numericalRestrictions.fractionDigits = parseFloat(restrictions[0]['xs:fractionDigits'][0]._attributes['value'])
+                }
+                return {xmlName, name: attrName, type, xsdType, isOptional, isPrimaryId, typeEnum, numericalRestrictions}
             } catch (e) {
                 console.log('Error parsing attribute', attr, elem)
                 console.log(e)

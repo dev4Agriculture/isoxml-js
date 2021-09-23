@@ -35,42 +35,48 @@ const ATTRIBUTES: AttributesDescription = {
         type: 'xs:ID',
         isPrimaryId: true,
         isOptional: false,
-        isOnlyV4: false
+        isOnlyV4: false,
     },
     B: {
         name: 'DeviceElementObjectId',
         type: 'xs:unsignedShort',
         isPrimaryId: false,
         isOptional: false,
-        isOnlyV4: false
+        isOnlyV4: false,
+        minValue: 1,
+        maxValue: 65534,
     },
     C: {
         name: 'DeviceElementType',
         type: 'xs:NMTOKEN',
         isPrimaryId: false,
         isOptional: false,
-        isOnlyV4: false
+        isOnlyV4: false,
     },
     D: {
         name: 'DeviceElementDesignator',
         type: 'xs:string',
         isPrimaryId: false,
         isOptional: true,
-        isOnlyV4: false
+        isOnlyV4: false,
     },
     E: {
         name: 'DeviceElementNumber',
         type: 'xs:unsignedShort',
         isPrimaryId: false,
         isOptional: false,
-        isOnlyV4: false
+        isOnlyV4: false,
+        minValue: 0,
+        maxValue: 4095,
     },
     F: {
         name: 'ParentObjectId',
         type: 'xs:unsignedShort',
         isPrimaryId: false,
         isOptional: false,
-        isOnlyV4: false
+        isOnlyV4: false,
+        minValue: 0,
+        maxValue: 65534,
     },
 }
 const CHILD_TAGS = {

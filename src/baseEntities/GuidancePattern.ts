@@ -74,105 +74,117 @@ const ATTRIBUTES: AttributesDescription = {
         type: 'xs:ID',
         isPrimaryId: true,
         isOptional: false,
-        isOnlyV4: undefined
+        isOnlyV4: undefined,
     },
     B: {
         name: 'GuidancePatternDesignator',
         type: 'xs:string',
         isPrimaryId: false,
         isOptional: true,
-        isOnlyV4: undefined
+        isOnlyV4: undefined,
     },
     C: {
         name: 'GuidancePatternType',
         type: 'xs:NMTOKEN',
         isPrimaryId: false,
         isOptional: false,
-        isOnlyV4: undefined
+        isOnlyV4: undefined,
     },
     D: {
         name: 'GuidancePatternOptions',
         type: 'xs:NMTOKEN',
         isPrimaryId: false,
         isOptional: true,
-        isOnlyV4: undefined
+        isOnlyV4: undefined,
     },
     E: {
         name: 'GuidancePatternPropagationDirection',
         type: 'xs:NMTOKEN',
         isPrimaryId: false,
         isOptional: true,
-        isOnlyV4: undefined
+        isOnlyV4: undefined,
     },
     F: {
         name: 'GuidancePatternExtension',
         type: 'xs:NMTOKEN',
         isPrimaryId: false,
         isOptional: true,
-        isOnlyV4: undefined
+        isOnlyV4: undefined,
     },
     G: {
         name: 'GuidancePatternHeading',
         type: 'xs:decimal',
         isPrimaryId: false,
         isOptional: true,
-        isOnlyV4: undefined
+        isOnlyV4: undefined,
+        minValue: 0,
+        maxValue: 360,
     },
     H: {
         name: 'GuidancePatternRadius',
         type: 'xs:unsignedLong',
         isPrimaryId: false,
         isOptional: true,
-        isOnlyV4: undefined
+        isOnlyV4: undefined,
+        minValue: 0,
+        maxValue: 4294967294,
     },
     I: {
         name: 'GuidancePatternGNSSMethod',
         type: 'xs:NMTOKEN',
         isPrimaryId: false,
         isOptional: true,
-        isOnlyV4: undefined
+        isOnlyV4: undefined,
     },
     J: {
         name: 'GuidancePatternHorizontalAccuracy',
         type: 'xs:decimal',
         isPrimaryId: false,
         isOptional: true,
-        isOnlyV4: undefined
+        isOnlyV4: undefined,
+        minValue: 0,
+        maxValue: 65,
     },
     K: {
         name: 'GuidancePatternVerticalAccuracy',
         type: 'xs:decimal',
         isPrimaryId: false,
         isOptional: true,
-        isOnlyV4: undefined
+        isOnlyV4: undefined,
+        minValue: 0,
+        maxValue: 65,
     },
     L: {
         name: 'BaseStationIdRef',
         type: 'xs:IDREF',
         isPrimaryId: false,
         isOptional: true,
-        isOnlyV4: undefined
+        isOnlyV4: undefined,
     },
     M: {
         name: 'OriginalSRID',
         type: 'xs:string',
         isPrimaryId: false,
         isOptional: true,
-        isOnlyV4: undefined
+        isOnlyV4: undefined,
     },
     N: {
         name: 'NumberOfSwathsLeft',
         type: 'xs:unsignedLong',
         isPrimaryId: false,
         isOptional: true,
-        isOnlyV4: undefined
+        isOnlyV4: undefined,
+        minValue: 0,
+        maxValue: 4294967294,
     },
     O: {
         name: 'NumberOfSwathsRight',
         type: 'xs:unsignedLong',
         isPrimaryId: false,
         isOptional: true,
-        isOnlyV4: undefined
+        isOnlyV4: undefined,
+        minValue: 0,
+        maxValue: 4294967294,
     },
 }
 const CHILD_TAGS = {

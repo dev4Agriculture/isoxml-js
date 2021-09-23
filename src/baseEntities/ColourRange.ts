@@ -22,21 +22,27 @@ const ATTRIBUTES: AttributesDescription = {
         type: 'xs:long',
         isPrimaryId: false,
         isOptional: false,
-        isOnlyV4: false
+        isOnlyV4: false,
+        minValue: -2147483647,
+        maxValue: 2147483647,
     },
     B: {
         name: 'MaximumValue',
         type: 'xs:long',
         isPrimaryId: false,
         isOptional: false,
-        isOnlyV4: false
+        isOnlyV4: false,
+        minValue: -2147483647,
+        maxValue: 2147483647,
     },
     C: {
         name: 'Colour',
         type: 'xs:unsignedByte',
         isPrimaryId: false,
         isOptional: false,
-        isOnlyV4: false
+        isOnlyV4: false,
+        minValue: 0,
+        maxValue: 254,
     },
 }
 const CHILD_TAGS = {

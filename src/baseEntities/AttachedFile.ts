@@ -29,42 +29,46 @@ const ATTRIBUTES: AttributesDescription = {
         type: 'xs:ID',
         isPrimaryId: false,
         isOptional: false,
-        isOnlyV4: undefined
+        isOnlyV4: undefined,
     },
     B: {
         name: 'Preserve',
         type: 'xs:NMTOKEN',
         isPrimaryId: false,
         isOptional: false,
-        isOnlyV4: undefined
+        isOnlyV4: undefined,
     },
     C: {
         name: 'ManufacturerGLN',
         type: 'xs:anyURI',
         isPrimaryId: false,
         isOptional: false,
-        isOnlyV4: undefined
+        isOnlyV4: undefined,
     },
     D: {
         name: 'FileType',
         type: 'xs:unsignedByte',
         isPrimaryId: false,
         isOptional: false,
-        isOnlyV4: undefined
+        isOnlyV4: undefined,
+        minValue: 1,
+        maxValue: 254,
     },
     E: {
         name: 'FileVersion',
         type: 'xs:string',
         isPrimaryId: false,
         isOptional: true,
-        isOnlyV4: undefined
+        isOnlyV4: undefined,
     },
     F: {
         name: 'FileLength',
         type: 'xs:unsignedLong',
         isPrimaryId: false,
         isOptional: true,
-        isOnlyV4: undefined
+        isOnlyV4: undefined,
+        minValue: 0,
+        maxValue: 4294967294,
     },
 }
 const CHILD_TAGS = {

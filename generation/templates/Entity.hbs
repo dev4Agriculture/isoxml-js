@@ -42,7 +42,16 @@ const ATTRIBUTES: AttributesDescription = {
         type: '{{xsdType}}',
         isPrimaryId: {{toString isPrimaryId}},
         isOptional: {{toString isOptional}},
-        isOnlyV4: {{toString isOnlyV4}}
+        isOnlyV4: {{toString isOnlyV4}},
+        {{#if (isdefined numericalRestrictions.minValue)}}
+        minValue: {{numericalRestrictions.minValue}},
+        {{/if}}
+        {{#if (isdefined numericalRestrictions.maxValue)}}
+        maxValue: {{numericalRestrictions.maxValue}},
+        {{/if}}
+        {{#if (isdefined numericalRestrictions.fractionDigits)}}
+        fractionDigits: {{numericalRestrictions.fractionDigits}},
+        {{/if}}
     },
     {{/attributes}}
 }

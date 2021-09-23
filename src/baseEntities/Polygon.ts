@@ -39,35 +39,39 @@ const ATTRIBUTES: AttributesDescription = {
         type: 'xs:NMTOKEN',
         isPrimaryId: false,
         isOptional: false,
-        isOnlyV4: false
+        isOnlyV4: false,
     },
     B: {
         name: 'PolygonDesignator',
         type: 'xs:string',
         isPrimaryId: false,
         isOptional: true,
-        isOnlyV4: false
+        isOnlyV4: false,
     },
     C: {
         name: 'PolygonArea',
         type: 'xs:unsignedLong',
         isPrimaryId: false,
         isOptional: true,
-        isOnlyV4: false
+        isOnlyV4: false,
+        minValue: 0,
+        maxValue: 4294967294,
     },
     D: {
         name: 'PolygonColour',
         type: 'xs:unsignedByte',
         isPrimaryId: false,
         isOptional: true,
-        isOnlyV4: false
+        isOnlyV4: false,
+        minValue: 0,
+        maxValue: 254,
     },
     E: {
         name: 'PolygonId',
         type: 'xs:ID',
         isPrimaryId: true,
         isOptional: true,
-        isOnlyV4: true
+        isOnlyV4: true,
     },
 }
 const CHILD_TAGS = {

@@ -1,10 +1,12 @@
 import { ElementCompact } from "xml-js"
 import { TAGS } from "./baseEntities/constants"
 import { ISOXMLManager } from "./ISOXMLManager"
-import { AttributesDescription, Entity, EntityConstructor, ISOXMLReference, ReferencesDescription } from "./types"
+import { AttributeDescription, AttributesDescription, Entity, EntityConstructor, ISOXMLReference, ReferencesDescription } from "./types"
 
+type AttributeGenerator = (value: any, attrDescription: AttributeDescription, isoxmlManager: ISOXMLManager) => string
+type AttributeParser = (value: string, attrDescription: AttributeDescription, isoxmlManager: ISOXMLManager) => any
 
-function idrefParser (value: string, isoxmlManager: ISOXMLManager): ISOXMLReference {
+function idrefParser (value: string, attrDescription: AttributeDescription, isoxmlManager: ISOXMLManager): ISOXMLReference {
     return isoxmlManager.registerEntity(null, value)
 }
 
@@ -24,15 +26,19 @@ function idrefGenerator (value: ISOXMLReference): string {
     return value.xmlId
 }
 
-function numberGenerator (value: number): string {
-    return value.toString()
+function numberGenerator (value: number, attrDescription: AttributeDescription): string {
+    if ('fractionDigits' in attrDescription) {
+        return parseFloat(value.toFixed(attrDescription.fractionDigits)).toString()
+    } else {
+        return value.toString()
+    }
 }
 
 function dateTimeGenerator (value: Date): string {
     return value.toISOString()
 }
 
-const PARSERS: {[xsdType: string]: {(value: string, isoxmlManager: ISOXMLManager): any}} = {
+const PARSERS: {[xsdType: string]: AttributeParser} = {
     'xs:IDREF': idrefParser,
     'xs:unsignedByte': integerParser,
     'xs:long': integerParser,
@@ -43,7 +49,7 @@ const PARSERS: {[xsdType: string]: {(value: string, isoxmlManager: ISOXMLManager
     'xs:dateTime': dateTimeParser
 }
 
-const GENERATORS: {[xsdType: string]: {(value: any, isoxmlManager: ISOXMLManager): string}} = {
+const GENERATORS: {[xsdType: string]: AttributeGenerator} = {
     'xs:IDREF': idrefGenerator,
     'xs:unsignedByte': numberGenerator,
     'xs:long': numberGenerator,
@@ -80,7 +86,7 @@ function xml2attrs(
         }
         const parser = PARSERS[attrDescription.type]
         result[attrDescription.name] = parser
-            ? parser(xml._attributes[xmlAttr] as string, isoxmlManager)
+            ? parser(xml._attributes[xmlAttr] as string, attrDescription, isoxmlManager)
             : xml._attributes[xmlAttr]
     })
 
@@ -121,7 +127,7 @@ function attrs2xml(
         }
         const generator = GENERATORS[attrDescription.type]
         result[xmlAttr] = generator
-            ? generator(entity.attributes[attrName], entity.isoxmlManager)
+            ? generator(entity.attributes[attrName], attrDescription, entity.isoxmlManager)
             : entity.attributes[attrName]
     })
 

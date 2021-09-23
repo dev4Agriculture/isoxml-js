@@ -26,35 +26,41 @@ const ATTRIBUTES: AttributesDescription = {
         type: 'xs:IDREF',
         isPrimaryId: false,
         isOptional: true,
-        isOnlyV4: undefined
+        isOnlyV4: undefined,
     },
     B: {
         name: 'GuidancePatternIdRef',
         type: 'xs:IDREF',
         isPrimaryId: false,
         isOptional: true,
-        isOnlyV4: undefined
+        isOnlyV4: undefined,
     },
     C: {
         name: 'GuidanceEastShift',
         type: 'xs:long',
         isPrimaryId: false,
         isOptional: true,
-        isOnlyV4: undefined
+        isOnlyV4: undefined,
+        minValue: -2147483648,
+        maxValue: 2147483647,
     },
     D: {
         name: 'GuidanceNorthShift',
         type: 'xs:long',
         isPrimaryId: false,
         isOptional: true,
-        isOnlyV4: undefined
+        isOnlyV4: undefined,
+        minValue: -2147483648,
+        maxValue: 2147483647,
     },
     E: {
         name: 'PropagationOffset',
         type: 'xs:long',
         isPrimaryId: false,
         isOptional: true,
-        isOnlyV4: undefined
+        isOnlyV4: undefined,
+        minValue: -2147483648,
+        maxValue: 2147483647,
     },
 }
 const CHILD_TAGS = {
