@@ -1,6 +1,6 @@
 {
   "name": "isoxml",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "JavaScript library to parse and generate ISOXML (ISO11783-10) files",
   "keywords": [
     "isoxml",
@@ -24,7 +24,9 @@
     "test": "jest",
     "coverage": "jest --coverage",
     "build": "tsc",
-    "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "prepare": "npm run build",
+    "prepublishOnly": "npm t && npm run lint"
   },
   "dependencies": {
     "@turf/turf": "^6.4.0",

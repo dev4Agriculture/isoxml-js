@@ -1,12 +1,23 @@
 import { ElementCompact } from "xml-js"
 import { TAGS } from "./baseEntities/constants"
 import { ISOXMLManager } from "./ISOXMLManager"
-import { AttributeDescription, AttributesDescription, Entity, EntityConstructor, ISOXMLReference, ReferencesDescription } from "./types"
+import {
+    AttributeDescription,
+    AttributesDescription,
+    Entity,
+    EntityConstructor,
+    ISOXMLReference,
+    ReferencesDescription
+} from "./types"
 
 type AttributeGenerator = (value: any, attrDescription: AttributeDescription, isoxmlManager: ISOXMLManager) => string
 type AttributeParser = (value: string, attrDescription: AttributeDescription, isoxmlManager: ISOXMLManager) => any
 
-function idrefParser (value: string, attrDescription: AttributeDescription, isoxmlManager: ISOXMLManager): ISOXMLReference {
+function idrefParser (
+    value: string,
+    attrDescription: AttributeDescription,
+    isoxmlManager: ISOXMLManager
+): ISOXMLReference {
     return isoxmlManager.registerEntity(null, value)
 }
 

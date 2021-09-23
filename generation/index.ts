@@ -12,7 +12,7 @@ Handlebars.registerHelper('toString', function(x) {
 })
 
 Handlebars.registerHelper('isdefined', function (value) {
-  return value !== undefined;
+  return value !== undefined
 })
 
 const XSD2TS: {[xsdType: string]: string} = {
@@ -133,17 +133,29 @@ function parseClassesFromFile(filename: string): any[] {
 
                 const type = XSD2TS[xsdType]
 
-                let numericalRestrictions = {} as any
+                const numericalRestrictions = {} as any
                 if (restrictions?.[0]['xs:minInclusive']) {
-                    numericalRestrictions.minValue = parseFloat(restrictions[0]['xs:minInclusive'][0]._attributes['value'])
+                    numericalRestrictions.minValue =
+                        parseFloat(restrictions[0]['xs:minInclusive'][0]._attributes['value'])
                 }
                 if (restrictions?.[0]['xs:maxInclusive']) {
-                    numericalRestrictions.maxValue = parseFloat(restrictions[0]['xs:maxInclusive'][0]._attributes['value'])
+                    numericalRestrictions.maxValue =
+                        parseFloat(restrictions[0]['xs:maxInclusive'][0]._attributes['value'])
                 }
                 if (restrictions?.[0]['xs:fractionDigits']) {
-                    numericalRestrictions.fractionDigits = parseFloat(restrictions[0]['xs:fractionDigits'][0]._attributes['value'])
+                    numericalRestrictions.fractionDigits =
+                        parseFloat(restrictions[0]['xs:fractionDigits'][0]._attributes['value'])
                 }
-                return {xmlName, name: attrName, type, xsdType, isOptional, isPrimaryId, typeEnum, numericalRestrictions}
+                return {
+                    xmlName,
+                    name: attrName,
+                    type,
+                    xsdType,
+                    isOptional,
+                    isPrimaryId,
+                    typeEnum,
+                    numericalRestrictions
+                }
             } catch (e) {
                 console.log('Error parsing attribute', attr, elem)
                 console.log(e)

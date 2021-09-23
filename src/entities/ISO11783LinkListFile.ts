@@ -22,8 +22,12 @@ export class ExtendedISO11783LinkListFile extends ISO11783LinkListFile {
     }
 
     static async fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, internalId?: string): Promise<Entity> {
-        const entity =
-            await ISO11783LinkListFile.fromXML(xml, isoxmlManager, internalId, ExtendedISO11783LinkListFile) as ISO11783LinkListFile
+        const entity = await ISO11783LinkListFile.fromXML(
+            xml,
+            isoxmlManager,
+            internalId,
+            ExtendedISO11783LinkListFile
+        ) as ISO11783LinkListFile
 
         const linkGroup = entity.attributes.LinkGroup?.find(group => 
             group.attributes.LinkGroupType === LinkGroupLinkGroupTypeEnum.UniqueResolvableURIs &&
