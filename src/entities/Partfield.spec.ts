@@ -14,7 +14,7 @@ describe('Partfield Entity', () => {
 
         partfield.boundaryFromGeoJSON(MULTIPOLYGON.features[0].geometry as MultiPolygon, isoxmlManager)
 
-        expect(partfield.attributes.PartfieldArea).toBe(2026305612.294442)
+        expect(partfield.attributes.PartfieldArea).toBe(2026305612)
         expect(partfield.attributes.PolygonnonTreatmentZoneonly).toHaveLength(2)
     })
 
