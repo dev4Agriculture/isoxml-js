@@ -1,6 +1,5 @@
-import { js2xml, xml2js, ElementCompact } from "xml-js"
 import JSZip from 'jszip'
-import { Entity, EntityAttributes, ISOXMLReference } from "./types"
+import { Entity, EntityAttributes, ISOXMLReference, XMLElement } from './types'
 import { getEntityClassByTag } from './classRegistry'
 
 import './baseEntities'
@@ -9,6 +8,7 @@ import './entities'
 import { ExtendedISO11783TaskDataFile } from "./entities/ISO11783TaskDataFile"
 import { TAGS } from "./baseEntities/constants"
 import { GridGenerator, GridParametersGenerator } from "./entities"
+import { js2xml, xml2js } from './xmlManager'
 
 export type ISOXMLManagerOptions = {
     rootFolder?: string
@@ -117,7 +117,7 @@ export class ISOXMLManager {
         return ref
     }
 
-    public createEntityFromXML(tagName: TAGS, xml: ElementCompact, internalId?: string): Promise<Entity> {
+    public createEntityFromXML(tagName: TAGS, xml: XMLElement, internalId?: string): Promise<Entity> {
         const entityClass = getEntityClassByTag(tagName)
         if (!entityClass) {
             return null
@@ -139,7 +139,7 @@ export class ISOXMLManager {
     public async parseISOXMLFile(data: Uint8Array, dataType: 'application/zip'): Promise<void>
     public async parseISOXMLFile(data: Uint8Array|string, dataType: string): Promise<void> {
         if (dataType === 'application/xml' || dataType === 'text/xml') {
-            const mainXML = xml2js(data as string, { compact: true, alwaysArray: true })
+            const mainXML = xml2js(data as string)
             getEntityClassByTag(TAGS.ISO11783TaskDataFile).fromXML(mainXML, this, '')
         } else if (dataType === 'application/zip') {
             this.originalZip = await JSZip.loadAsync(data)
@@ -149,7 +149,7 @@ export class ISOXMLManager {
             }
 
             const mainXmlString = await mainFile.async('string')
-            const mainXml = xml2js(mainXmlString, { compact: true, alwaysArray: true })
+            const mainXml = xml2js(mainXmlString)
 
             this.options.rootFolder = mainFile.name.match(/(.*[/\\])/)?.[1] ?? ''
 
@@ -172,16 +172,10 @@ export class ISOXMLManager {
         }
 
         const json = {
-            _declaration: {
-                _attributes: {
-                version: '1.0',
-                encoding: 'utf-8'
-                }
-            },
             ISO11783_TaskData: this.rootElement.toXML()
         }
 
-        const mainXML = js2xml(json, { compact: true, spaces: 2 })
+        const mainXML = js2xml(json)
 
         const zipWriter = new JSZip()
         zipWriter.file(`${this.options.rootFolder}${MAIN_FILENAME}`, mainXML)

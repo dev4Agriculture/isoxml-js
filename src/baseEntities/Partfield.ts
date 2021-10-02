@@ -1,9 +1,9 @@
-import { ElementCompact } from 'xml-js'
-
 import { TAGS } from './constants'
 import { ISOXMLManager } from '../ISOXMLManager'
 import { registerEntityClass } from '../classRegistry'
 import { fromXML, toXML } from '../utils'
+import { XMLElement } from '../types'
+
 import { Polygon } from './Polygon'
 import { LineString } from './LineString'
 import { Point } from './Point'
@@ -26,7 +26,7 @@ export type PartfieldAttributes = {
     Point?: Point[]
     GuidanceGroup?: GuidanceGroup[]
     ProprietaryAttributes?: {[name: string]: string}
-    ProprietaryTags?: {[tag: string]: ElementCompact[]}
+    ProprietaryTags?: {[tag: string]: XMLElement[]}
 }
 
 const ATTRIBUTES: AttributesDescription = {
@@ -109,11 +109,11 @@ export class Partfield implements Entity {
     constructor(public attributes: PartfieldAttributes, public isoxmlManager: ISOXMLManager) {
     }
 
-    static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, internalId?: string, targetClass: EntityConstructor = Partfield): Promise<Entity> {
+    static fromXML(xml: XMLElement, isoxmlManager: ISOXMLManager, internalId?: string, targetClass: EntityConstructor = Partfield): Promise<Entity> {
         return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS, internalId)
     }
 
-    toXML(): ElementCompact {
+    toXML(): XMLElement {
         return toXML(this, ATTRIBUTES, CHILD_TAGS)
     }
 }

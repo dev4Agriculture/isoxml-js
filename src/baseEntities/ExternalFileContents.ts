@@ -1,9 +1,9 @@
-import { ElementCompact } from 'xml-js'
-
 import { TAGS } from './constants'
 import { ISOXMLManager } from '../ISOXMLManager'
 import { registerEntityClass } from '../classRegistry'
 import { fromXML, toXML } from '../utils'
+import { XMLElement } from '../types'
+
 import { BaseStation } from './BaseStation'
 import { CodedComment } from './CodedComment'
 import { CodedCommentGroup } from './CodedCommentGroup'
@@ -42,7 +42,7 @@ export type ExternalFileContentsAttributes = {
     ValuePresentation?: ValuePresentation[]
     Worker?: Worker[]
     ProprietaryAttributes?: {[name: string]: string}
-    ProprietaryTags?: {[tag: string]: ElementCompact[]}
+    ProprietaryTags?: {[tag: string]: XMLElement[]}
 }
 
 const ATTRIBUTES: AttributesDescription = {
@@ -72,11 +72,11 @@ export class ExternalFileContents implements Entity {
     constructor(public attributes: ExternalFileContentsAttributes, public isoxmlManager: ISOXMLManager) {
     }
 
-    static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, internalId?: string, targetClass: EntityConstructor = ExternalFileContents): Promise<Entity> {
+    static fromXML(xml: XMLElement, isoxmlManager: ISOXMLManager, internalId?: string, targetClass: EntityConstructor = ExternalFileContents): Promise<Entity> {
         return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS, internalId)
     }
 
-    toXML(): ElementCompact {
+    toXML(): XMLElement {
         return toXML(this, ATTRIBUTES, CHILD_TAGS)
     }
 }

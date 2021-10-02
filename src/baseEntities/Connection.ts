@@ -1,9 +1,9 @@
-import { ElementCompact } from 'xml-js'
-
 import { TAGS } from './constants'
 import { ISOXMLManager } from '../ISOXMLManager'
 import { registerEntityClass } from '../classRegistry'
 import { fromXML, toXML } from '../utils'
+import { XMLElement } from '../types'
+
 
 import { Entity, EntityConstructor, AttributesDescription, ISOXMLReference } from '../types'
 
@@ -14,7 +14,7 @@ export type ConnectionAttributes = {
     DeviceIdRef_1: ISOXMLReference
     DeviceElementIdRef_1: ISOXMLReference
     ProprietaryAttributes?: {[name: string]: string}
-    ProprietaryTags?: {[tag: string]: ElementCompact[]}
+    ProprietaryTags?: {[tag: string]: XMLElement[]}
 }
 
 const ATTRIBUTES: AttributesDescription = {
@@ -56,11 +56,11 @@ export class Connection implements Entity {
     constructor(public attributes: ConnectionAttributes, public isoxmlManager: ISOXMLManager) {
     }
 
-    static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, internalId?: string, targetClass: EntityConstructor = Connection): Promise<Entity> {
+    static fromXML(xml: XMLElement, isoxmlManager: ISOXMLManager, internalId?: string, targetClass: EntityConstructor = Connection): Promise<Entity> {
         return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS, internalId)
     }
 
-    toXML(): ElementCompact {
+    toXML(): XMLElement {
         return toXML(this, ATTRIBUTES, CHILD_TAGS)
     }
 }

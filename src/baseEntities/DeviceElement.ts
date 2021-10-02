@@ -1,9 +1,9 @@
-import { ElementCompact } from 'xml-js'
-
 import { TAGS } from './constants'
 import { ISOXMLManager } from '../ISOXMLManager'
 import { registerEntityClass } from '../classRegistry'
 import { fromXML, toXML } from '../utils'
+import { XMLElement } from '../types'
+
 import { DeviceObjectReference } from './DeviceObjectReference'
 
 import { Entity, EntityConstructor, AttributesDescription } from '../types'
@@ -26,7 +26,7 @@ export type DeviceElementAttributes = {
     ParentObjectId: number
     DeviceObjectReference?: DeviceObjectReference[]
     ProprietaryAttributes?: {[name: string]: string}
-    ProprietaryTags?: {[tag: string]: ElementCompact[]}
+    ProprietaryTags?: {[tag: string]: XMLElement[]}
 }
 
 const ATTRIBUTES: AttributesDescription = {
@@ -89,11 +89,11 @@ export class DeviceElement implements Entity {
     constructor(public attributes: DeviceElementAttributes, public isoxmlManager: ISOXMLManager) {
     }
 
-    static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, internalId?: string, targetClass: EntityConstructor = DeviceElement): Promise<Entity> {
+    static fromXML(xml: XMLElement, isoxmlManager: ISOXMLManager, internalId?: string, targetClass: EntityConstructor = DeviceElement): Promise<Entity> {
         return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS, internalId)
     }
 
-    toXML(): ElementCompact {
+    toXML(): XMLElement {
         return toXML(this, ATTRIBUTES, CHILD_TAGS)
     }
 }

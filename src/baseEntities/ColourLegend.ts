@@ -1,9 +1,9 @@
-import { ElementCompact } from 'xml-js'
-
 import { TAGS } from './constants'
 import { ISOXMLManager } from '../ISOXMLManager'
 import { registerEntityClass } from '../classRegistry'
 import { fromXML, toXML } from '../utils'
+import { XMLElement } from '../types'
+
 import { ColourRange } from './ColourRange'
 
 import { Entity, EntityConstructor, AttributesDescription } from '../types'
@@ -13,7 +13,7 @@ export type ColourLegendAttributes = {
     DefaultColor?: number
     ColourRange?: ColourRange[]
     ProprietaryAttributes?: {[name: string]: string}
-    ProprietaryTags?: {[tag: string]: ElementCompact[]}
+    ProprietaryTags?: {[tag: string]: XMLElement[]}
 }
 
 const ATTRIBUTES: AttributesDescription = {
@@ -44,11 +44,11 @@ export class ColourLegend implements Entity {
     constructor(public attributes: ColourLegendAttributes, public isoxmlManager: ISOXMLManager) {
     }
 
-    static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, internalId?: string, targetClass: EntityConstructor = ColourLegend): Promise<Entity> {
+    static fromXML(xml: XMLElement, isoxmlManager: ISOXMLManager, internalId?: string, targetClass: EntityConstructor = ColourLegend): Promise<Entity> {
         return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS, internalId)
     }
 
-    toXML(): ElementCompact {
+    toXML(): XMLElement {
         return toXML(this, ATTRIBUTES, CHILD_TAGS)
     }
 }

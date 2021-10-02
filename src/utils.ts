@@ -1,4 +1,3 @@
-import { ElementCompact } from "xml-js"
 import { TAGS } from "./baseEntities/constants"
 import { ISOXMLManager } from "./ISOXMLManager"
 import {
@@ -7,7 +6,8 @@ import {
     Entity,
     EntityConstructor,
     ISOXMLReference,
-    ReferencesDescription
+    ReferencesDescription,
+    XMLElement
 } from "./types"
 
 type AttributeGenerator = (value: any, attrDescription: AttributeDescription, isoxmlManager: ISOXMLManager) => string
@@ -74,7 +74,7 @@ const GENERATORS: {[xsdType: string]: AttributeGenerator} = {
 const PROPRIETARY_NAME = /^P\d+_/
 
 function xml2attrs(
-    xml: ElementCompact,
+    xml: XMLElement,
     attributesDescription: AttributesDescription,
     isoxmlManager: ISOXMLManager,
     internalId: string
@@ -146,7 +146,7 @@ function attrs2xml(
 }
 
 export async function xml2ChildTags(
-    xml: ElementCompact,
+    xml: XMLElement,
     referencesDescription: ReferencesDescription,
     isoxmlManager: ISOXMLManager,
     internalId: string
@@ -195,7 +195,7 @@ export function childTags2Xml(
 }
 
 export async function fromXML(
-    xml: ElementCompact,
+    xml: XMLElement,
     isoxmlManager: ISOXMLManager,
     entityClass: EntityConstructor,
     attributesDescription: AttributesDescription,
@@ -221,7 +221,7 @@ export function toXML(
     entity: Entity,
     attributesDescription: AttributesDescription,
     referencesDescription: ReferencesDescription
-): ElementCompact {
+): XMLElement {
     return {
         _attributes: attrs2xml(entity, attributesDescription),
         ...childTags2Xml(entity, referencesDescription)

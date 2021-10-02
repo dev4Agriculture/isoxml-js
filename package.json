@@ -30,11 +30,11 @@
   },
   "dependencies": {
     "@turf/turf": "^6.4.0",
+    "fast-xml-parser": "^3.20.3",
     "handlebars": "^4.7.7",
     "jszip": "^3.6.0",
     "polygon-clipping": "^0.15.3",
-    "rbush": "^3.0.1",
-    "xml-js": "^1.6.11"
+    "rbush": "^3.0.1"
   },
   "devDependencies": {
     "@types/jest": "^27.0.1",

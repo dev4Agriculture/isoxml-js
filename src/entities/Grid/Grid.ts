@@ -1,9 +1,8 @@
 import {FeatureCollection } from '@turf/turf'
-import { ElementCompact } from 'xml-js'
 
 import { ISOXMLManager } from '../../ISOXMLManager'
 import { registerEntityClass } from '../../classRegistry'
-import { Entity } from '../../types'
+import { Entity, XMLElement } from '../../types'
 
 import { Grid, GridAttributes, GridGridTypeEnum } from '../../baseEntities/Grid'
 import { TAGS } from '../../baseEntities/constants'
@@ -33,7 +32,7 @@ export class ExtendedGrid extends Grid {
         super(attributes, isoxmlManager)
     }
 
-    static async fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, internalId: string): Promise<Entity> {
+    static async fromXML(xml: XMLElement, isoxmlManager: ISOXMLManager, internalId: string): Promise<Entity> {
         const entity = await Grid.fromXML(xml, isoxmlManager, internalId, ExtendedGrid) as ExtendedGrid
         const filename = entity.attributes.Filename
         entity.binaryData = await isoxmlManager.getParsedFile(`${filename}.BIN`, true)
@@ -80,7 +79,7 @@ export class ExtendedGrid extends Grid {
         return entity
     }
 
-    toXML(): ElementCompact { 
+    toXML(): XMLElement { 
         this.isoxmlManager.addFileToSave(this.binaryData, `${this.attributes.Filename}.BIN`) 
         return super.toXML() 
     } 

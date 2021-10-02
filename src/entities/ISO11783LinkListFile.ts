@@ -1,4 +1,3 @@
-import { ElementCompact } from "xml-js"
 import {
     ISO11783LinkListFile,
     ISO11783LinkListFileAttributes,
@@ -10,7 +9,7 @@ import {
 import { TAGS } from "../baseEntities/constants"
 import { registerEntityClass } from "../classRegistry"
 import { ISOXMLManager } from "../ISOXMLManager"
-import { Entity } from "../types"
+import { Entity, XMLElement } from "../types"
 
 export class ExtendedISO11783LinkListFile extends ISO11783LinkListFile {
     public tag = TAGS.ISO11783LinkListFile
@@ -21,7 +20,7 @@ export class ExtendedISO11783LinkListFile extends ISO11783LinkListFile {
         super(attributes, isoxmlManager)
     }
 
-    static async fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, internalId?: string): Promise<Entity> {
+    static async fromXML(xml: XMLElement, isoxmlManager: ISOXMLManager, internalId?: string): Promise<Entity> {
         const entity = await ISO11783LinkListFile.fromXML(
             xml,
             isoxmlManager,
@@ -40,7 +39,7 @@ export class ExtendedISO11783LinkListFile extends ISO11783LinkListFile {
         return entity
     }
 
-    toXML(): ElementCompact { 
+    toXML(): XMLElement { 
         this.attributes.LinkGroup = []
         if (this.isoxmlManager.options.fmisURI) {
             const links = Object.values(this.isoxmlManager.xmlReferences)

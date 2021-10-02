@@ -1,9 +1,7 @@
-import { ElementCompact, xml2js } from 'xml-js'
-
 import { ISOXMLManager } from '../ISOXMLManager'
 import { getEntityClassByTag, registerEntityClass } from '../classRegistry'
 
-import { Entity } from '../types'
+import { Entity, XMLElement } from '../types'
 
 import {
     ISO11783TaskDataFile,
@@ -14,6 +12,7 @@ import {
 import { ExternalFileContents } from '../baseEntities/ExternalFileContents'
 import { TAGS } from '../baseEntities/constants'
 import { ExtendedAttachedFile } from './AttachedFile'
+import { xml2js } from '../xmlManager'
 
 function isoxmlManagerOptionsToAttributes(isoxmlManager: ISOXMLManager) {
     const opts = isoxmlManager.options
@@ -41,7 +40,7 @@ export class ExtendedISO11783TaskDataFile extends ISO11783TaskDataFile {
         return new ExtendedISO11783TaskDataFile(isoxmlManagerOptionsToAttributes(isoxmlManager), isoxmlManager)
     }
 
-    static async fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, internalId?: string): Promise<Entity> {
+    static async fromXML(xml: XMLElement, isoxmlManager: ISOXMLManager, internalId?: string): Promise<Entity> {
         const entity = await ISO11783TaskDataFile.fromXML(
             xml, isoxmlManager, internalId, ExtendedISO11783TaskDataFile
         ) as ExtendedISO11783TaskDataFile
@@ -51,7 +50,7 @@ export class ExtendedISO11783TaskDataFile extends ISO11783TaskDataFile {
         for (const externalFile of externalFiles) {
             const filename = externalFile.attributes.Filename
             const data = await isoxmlManager.getParsedFile(`${filename}.XML`, false)
-            const xml = xml2js(data, { compact: true, alwaysArray: true })
+            const xml = xml2js(data)
             const fileContent = await getEntityClassByTag(TAGS.ExternalFileContents)
                 .fromXML(xml[TAGS.ExternalFileContents][0], isoxmlManager, filename)
 
@@ -66,7 +65,7 @@ export class ExtendedISO11783TaskDataFile extends ISO11783TaskDataFile {
         return entity
     }
 
-    toXML(): ElementCompact {
+    toXML(): XMLElement {
         if (this.isoxmlManager.options.version === 4) {
             this.attributes.VersionMajor = '4' as any
             this.attributes.VersionMinor = '2' as any

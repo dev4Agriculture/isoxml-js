@@ -34,7 +34,7 @@ describe('ISOXML Manager', () => {
         expect(isoxmlManager.getWarnings()).toHaveLength(0)
         const data = await isoxmlManager.saveISOXML()
         // writeFileSync('./data/test_grid_out.zip', data)
-        expect(data.length).toBe(13954)
+        expect(data.length).toBe(14065)
 
         const zip = await JSZip.loadAsync(data)
         expect(zip.file("TASKDATA/GRD00001.BIN")).toBeTruthy()
@@ -89,7 +89,7 @@ describe('ISOXML Manager', () => {
         expect(isoxmlManager.getWarnings()).toHaveLength(0)
         const data = await isoxmlManager.saveISOXML()
         // writeFileSync('./data/test1_out.zip', data)
-        expect(data.length).toBe(3783)
+        expect(data.length).toBe(4044)
     })
 
     it('should manually create ISOXML', async () => {
@@ -103,9 +103,28 @@ describe('ISOXML Manager', () => {
 
         const data = await isoxmlManager.saveISOXML()
         // writeFileSync('./data/test1_out.zip', data)
-        expect(data.length).toBe(464)
+        expect(data.length).toBe(470)
         const zip = await JSZip.loadAsync(data)
         expect(zip.file("TASKDATA/TASKDATA.XML")).toBeTruthy()
+    })
+
+    it('should handle strings with special characters properly', async () => {
+        const isoxmlManager = new ISOXMLManager()
+        const task = isoxmlManager.createEntityFromAttributes(TAGS.Task, {
+            TaskStatus: TaskTaskStatusEnum.Planned
+        }) as ExtendedTask
+        isoxmlManager.registerEntity(task)
+
+        isoxmlManager.rootElement.attributes.Task = [task]
+
+        isoxmlManager.updateOptions({fmisTitle: `&<>'"`})
+
+        const data = await isoxmlManager.saveISOXML()
+
+        // writeFileSync('./data/out_characters.zip', data)
+        const isoxmlManager2 = new ISOXMLManager()
+        await isoxmlManager2.parseISOXMLFile(data, 'application/zip')
+        expect(isoxmlManager2.options.fmisTitle).toBe(`&<>'"`)
     })
 
     it('should preserve FMIS IDs', async () => {

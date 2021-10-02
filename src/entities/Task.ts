@@ -1,9 +1,7 @@
-import { ElementCompact } from 'xml-js'
-
 import { ISOXMLManager } from '../ISOXMLManager'
 import { registerEntityClass } from '../classRegistry'
 
-import { Entity, GridValueDescription, ISOXMLReference } from '../types'
+import { Entity, GridValueDescription, ISOXMLReference, XMLElement } from '../types'
 
 import { Task, TaskAttributes, TreatmentZone, ValuePresentation } from '../baseEntities'
 import { ExtendedGrid } from './Grid'
@@ -19,7 +17,7 @@ export class ExtendedTask extends Task {
         super(attributes, isoxmlManager)
     }
 
-    static fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, internalId: string): Promise<Entity> {
+    static fromXML(xml: XMLElement, isoxmlManager: ISOXMLManager, internalId: string): Promise<Entity> {
         return Task.fromXML(xml, isoxmlManager, internalId, ExtendedTask)
     }
 

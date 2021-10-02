@@ -1,7 +1,7 @@
 import {readFileSync, mkdirSync, writeFileSync, rmSync} from 'fs'
 import {join} from 'path'
 import Handlebars from 'handlebars'
-import {ElementCompact, xml2js} from 'xml-js'
+import xmlParser from 'fast-xml-parser'
 
 Handlebars.registerHelper('ifnoteq', function(arg1, arg2, options) {
     return arg1 !== arg2 ? options.fn(this) : options.inverse(this)
@@ -64,18 +64,21 @@ const constantsTemplate = Handlebars.compile(
 ))
 
 function parseClassesFromFile(filename: string): any[] {
-    const schema = xml2js(
-        readFileSync(filename, 'utf-8'), 
-        {compact: true, alwaysArray: true}
-    ) as ElementCompact
+    const schema = xmlParser.parse(readFileSync(filename, 'utf-8'), {
+        textNodeName: '_text',
+        attributeNamePrefix: '',
+        ignoreAttributes: false,
+        attrNodeName: '_attributes',
+        arrayMode: true
+    })
 
     const elements = schema['xs:schema'][0]['xs:element']
 
-    const tags = elements.map((elem: ElementCompact) => {
+    const tags = elements.map((elem: any) => {
         const tag = elem._attributes?.name
         const name = normalizeText(elem['xs:annotation'][0]['xs:documentation'][0]._text)
 
-        const attributes = (elem['xs:complexType'][0]['xs:attribute'] || []).map((attr: ElementCompact) => {
+        const attributes = (elem['xs:complexType'][0]['xs:attribute'] || []).map((attr: any) => {
             try {
                 const xmlName = attr._attributes?.name
                 const attrName = attr['xs:annotation']
@@ -165,7 +168,7 @@ function parseClassesFromFile(filename: string): any[] {
         let children = []
 
         if (elem['xs:complexType'][0]['xs:choice'] && elem['xs:complexType'][0]['xs:choice'][0]['xs:element']) {
-            children = elem['xs:complexType'][0]['xs:choice'][0]['xs:element'].map((children: ElementCompact) => {
+            children = elem['xs:complexType'][0]['xs:choice'][0]['xs:element'].map((children: any) => {
                 const name = children['xs:annotation'] && children['xs:annotation'][0]['xs:documentation']
                     ? normalizeText(children['xs:annotation'][0]['xs:documentation'][0]._text)
                     : null

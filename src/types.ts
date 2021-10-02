@@ -1,6 +1,11 @@
-import { ElementCompact } from "xml-js"
 import { TAGS } from "./baseEntities/constants"
 import { ISOXMLManager } from './ISOXMLManager'
+
+export interface XMLElement {
+    _attributes?: {[attr: string]: any}
+    _text?: string
+    [tag: string]: any
+}
 
 export interface AttributeDescription {
     name: string
@@ -32,11 +37,11 @@ export interface Entity {
     isoxmlManager: ISOXMLManager
     attributes: EntityAttributes
     tag: TAGS
-    toXML (): ElementCompact
+    toXML (): XMLElement
 }
 
 export interface EntityConstructor {
-    fromXML(xml: ElementCompact, isoxmlManager: ISOXMLManager, internalId?: string): Promise<Entity>
+    fromXML(xml: XMLElement, isoxmlManager: ISOXMLManager, internalId?: string): Promise<Entity>
     new (attributes: EntityAttributes, isoxmlManager: ISOXMLManager, xmlId?: string, fmisId?: string): Entity
 }
 
