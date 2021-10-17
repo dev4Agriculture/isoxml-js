@@ -7,12 +7,23 @@ import { ISOXMLManager } from './ISOXMLManager'
 
 describe('ISOXML Manager', () => {
 
-    it('should parse ISOXML', async () => {
+    it('should parse ISOXML as ZIP', async () => {
         const isoxmlData = readFileSync('./data/test1.zip')
         const isoxmlManager = new ISOXMLManager()
         await isoxmlManager.parseISOXMLFile(new Uint8Array(isoxmlData.buffer), 'application/zip')
         expect(isoxmlManager.rootElement).toBeTruthy()
         expect(isoxmlManager.getWarnings()).toHaveLength(0)
+    })
+
+    it('should parse TASKDATA.XML as string', async () => {
+        const isoxmlData = readFileSync('./data/test1.zip')
+        const zip = await JSZip.loadAsync(isoxmlData)
+        const taskDataStr = await zip.file("TASKDATA/TASKDATA.XML").async('string')
+        const isoxmlManager = new ISOXMLManager()
+        await isoxmlManager.parseISOXMLFile(taskDataStr, 'application/xml')
+        expect(isoxmlManager.rootElement).toBeTruthy()
+        expect(isoxmlManager.rootElement.attributes.Task).toHaveLength(2)
+        expect(isoxmlManager.options.rootFolder).toBe('')
     })
 
     it('should parse ISOXML with external files', async () => {

@@ -139,8 +139,16 @@ export class ISOXMLManager {
     public async parseISOXMLFile(data: Uint8Array, dataType: 'application/zip'): Promise<void>
     public async parseISOXMLFile(data: Uint8Array|string, dataType: string): Promise<void> {
         if (dataType === 'application/xml' || dataType === 'text/xml') {
-            const mainXML = xml2js(data as string)
-            getEntityClassByTag(TAGS.ISO11783TaskDataFile).fromXML(mainXML, this, '')
+            this.options.rootFolder = ''
+            const mainXml = xml2js(data as string)
+
+            if (!mainXml['ISO11783_TaskData']) {
+                throw new Error('Incorrect structure of TASKDATA.XML')
+            }
+
+            this.rootElement = await getEntityClassByTag(TAGS.ISO11783TaskDataFile)
+                .fromXML(mainXml[TAGS.ISO11783TaskDataFile][0], this, '') as ExtendedISO11783TaskDataFile
+
         } else if (dataType === 'application/zip') {
             this.originalZip = await JSZip.loadAsync(data)
             const mainFile = this.originalZip.file(new RegExp(MAIN_FILENAME + '$', 'i'))[0]
@@ -148,10 +156,10 @@ export class ISOXMLManager {
                 throw new Error("Zip file doesn't contain TASKDATA.XML")
             }
 
+            this.options.rootFolder = mainFile.name.match(/(.*[/\\])/)?.[1] ?? ''
+
             const mainXmlString = await mainFile.async('string')
             const mainXml = xml2js(mainXmlString)
-
-            this.options.rootFolder = mainFile.name.match(/(.*[/\\])/)?.[1] ?? ''
 
             if (!mainXml['ISO11783_TaskData']) {
                 throw new Error('Incorrect structure of TASKDATA.XML')
