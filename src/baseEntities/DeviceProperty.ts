@@ -79,4 +79,4 @@ export class DeviceProperty implements Entity {
     }
 }
 
-registerEntityClass(TAGS.DeviceProperty, DeviceProperty)
+registerEntityClass('main', TAGS.DeviceProperty, DeviceProperty)

@@ -97,4 +97,4 @@ export class ProcessDataVariable implements Entity {
     }
 }
 
-registerEntityClass(TAGS.ProcessDataVariable, ProcessDataVariable)
+registerEntityClass('main', TAGS.ProcessDataVariable, ProcessDataVariable)

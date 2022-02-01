@@ -67,4 +67,4 @@ export class TreatmentZone implements Entity {
     }
 }
 
-registerEntityClass(TAGS.TreatmentZone, TreatmentZone)
+registerEntityClass('main', TAGS.TreatmentZone, TreatmentZone)

@@ -43,4 +43,4 @@ export class DeviceObjectReference implements Entity {
     }
 }
 
-registerEntityClass(TAGS.DeviceObjectReference, DeviceObjectReference)
+registerEntityClass('main', TAGS.DeviceObjectReference, DeviceObjectReference)

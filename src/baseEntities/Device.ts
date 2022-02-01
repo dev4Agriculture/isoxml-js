@@ -100,4 +100,4 @@ export class Device implements Entity {
     }
 }
 
-registerEntityClass(TAGS.Device, Device)
+registerEntityClass('main', TAGS.Device, Device)

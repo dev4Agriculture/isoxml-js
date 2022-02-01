@@ -60,4 +60,4 @@ export class CommentAllocation implements Entity {
     }
 }
 
-registerEntityClass(TAGS.CommentAllocation, CommentAllocation)
+registerEntityClass('main', TAGS.CommentAllocation, CommentAllocation)

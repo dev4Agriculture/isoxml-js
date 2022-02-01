@@ -7,7 +7,7 @@ import { XMLElement } from '../types'
 
 import { Entity, EntityConstructor, AttributesDescription } from '../types'
 
-export enum PositionPositionStatusEnum {
+export enum TimelogPositionPositionStatusEnum {
     NoGPSFix = '0',
     GNSSFix = '1',
     DGNSSFix = '2',
@@ -26,11 +26,11 @@ export enum PositionPositionStatusEnum {
     PositionStatusValueIsNotAvailable = '15',
 }
 
-export type PositionAttributes = {
+export type TimelogPositionAttributes = {
     PositionNorth: number
     PositionEast: number
     PositionUp?: number
-    PositionStatus: PositionPositionStatusEnum
+    PositionStatus: TimelogPositionPositionStatusEnum
     PDOP?: number
     HDOP?: number
     NumberOfSatellites?: number
@@ -50,6 +50,7 @@ const ATTRIBUTES: AttributesDescription = {
         minValue: -90,
         maxValue: 90,
         fractionDigits: 9,
+        allowEmptyString: true,
     },
     B: {
         name: 'PositionEast',
@@ -60,6 +61,7 @@ const ATTRIBUTES: AttributesDescription = {
         minValue: -180,
         maxValue: 180,
         fractionDigits: 9,
+        allowEmptyString: true,
     },
     C: {
         name: 'PositionUp',
@@ -69,6 +71,7 @@ const ATTRIBUTES: AttributesDescription = {
         isOnlyV4: false,
         minValue: -2147483648,
         maxValue: 2147483647,
+        allowEmptyString: true,
     },
     D: {
         name: 'PositionStatus',
@@ -76,6 +79,7 @@ const ATTRIBUTES: AttributesDescription = {
         isPrimaryId: false,
         isOptional: false,
         isOnlyV4: false,
+        allowEmptyString: true,
     },
     E: {
         name: 'PDOP',
@@ -85,6 +89,7 @@ const ATTRIBUTES: AttributesDescription = {
         isOnlyV4: false,
         minValue: 0,
         maxValue: 99.9,
+        allowEmptyString: true,
     },
     F: {
         name: 'HDOP',
@@ -94,6 +99,7 @@ const ATTRIBUTES: AttributesDescription = {
         isOnlyV4: false,
         minValue: 0,
         maxValue: 99.9,
+        allowEmptyString: true,
     },
     G: {
         name: 'NumberOfSatellites',
@@ -103,6 +109,7 @@ const ATTRIBUTES: AttributesDescription = {
         isOnlyV4: false,
         minValue: 0,
         maxValue: 254,
+        allowEmptyString: true,
     },
     H: {
         name: 'GpsUtcTime',
@@ -112,6 +119,7 @@ const ATTRIBUTES: AttributesDescription = {
         isOnlyV4: false,
         minValue: 0,
         maxValue: 4294967294,
+        allowEmptyString: true,
     },
     I: {
         name: 'GpsUtcDate',
@@ -121,18 +129,19 @@ const ATTRIBUTES: AttributesDescription = {
         isOnlyV4: false,
         minValue: 0,
         maxValue: 65534,
+        allowEmptyString: true,
     },
 }
 const CHILD_TAGS = {
 }
 
-export class Position implements Entity {
+export class TimelogPosition implements Entity {
     public tag = TAGS.Position
 
-    constructor(public attributes: PositionAttributes, public isoxmlManager: ISOXMLManager) {
+    constructor(public attributes: TimelogPositionAttributes, public isoxmlManager: ISOXMLManager) {
     }
 
-    static fromXML(xml: XMLElement, isoxmlManager: ISOXMLManager, internalId?: string, targetClass: EntityConstructor = Position): Promise<Entity> {
+    static fromXML(xml: XMLElement, isoxmlManager: ISOXMLManager, internalId?: string, targetClass: EntityConstructor = TimelogPosition): Promise<Entity> {
         return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS, internalId)
     }
 
@@ -141,4 +150,4 @@ export class Position implements Entity {
     }
 }
 
-registerEntityClass('main', TAGS.Position, Position)
+registerEntityClass('timelog', TAGS.Position, TimelogPosition)

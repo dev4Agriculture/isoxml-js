@@ -104,4 +104,4 @@ export class Farm implements Entity {
     }
 }
 
-registerEntityClass(TAGS.Farm, Farm)
+registerEntityClass('main', TAGS.Farm, Farm)

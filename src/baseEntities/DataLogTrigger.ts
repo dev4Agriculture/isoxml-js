@@ -147,4 +147,4 @@ export class DataLogTrigger implements Entity {
     }
 }
 
-registerEntityClass(TAGS.DataLogTrigger, DataLogTrigger)
+registerEntityClass('main', TAGS.DataLogTrigger, DataLogTrigger)

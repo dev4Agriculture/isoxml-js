@@ -62,4 +62,4 @@ export class TimeLog implements Entity {
     }
 }
 
-registerEntityClass(TAGS.TimeLog, TimeLog)
+registerEntityClass('main', TAGS.TimeLog, TimeLog)

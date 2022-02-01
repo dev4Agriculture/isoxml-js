@@ -63,4 +63,4 @@ export class ColourRange implements Entity {
     }
 }
 
-registerEntityClass(TAGS.ColourRange, ColourRange)
+registerEntityClass('main', TAGS.ColourRange, ColourRange)

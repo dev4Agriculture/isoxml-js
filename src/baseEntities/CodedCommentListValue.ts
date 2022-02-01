@@ -48,4 +48,4 @@ export class CodedCommentListValue implements Entity {
     }
 }
 
-registerEntityClass(TAGS.CodedCommentListValue, CodedCommentListValue)
+registerEntityClass('main', TAGS.CodedCommentListValue, CodedCommentListValue)

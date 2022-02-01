@@ -81,4 +81,4 @@ export class ExternalFileContents implements Entity {
     }
 }
 
-registerEntityClass(TAGS.ExternalFileContents, ExternalFileContents)
+registerEntityClass('main', TAGS.ExternalFileContents, ExternalFileContents)

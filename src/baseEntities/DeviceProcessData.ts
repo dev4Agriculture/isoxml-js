@@ -89,4 +89,4 @@ export class DeviceProcessData implements Entity {
     }
 }
 
-registerEntityClass(TAGS.DeviceProcessData, DeviceProcessData)
+registerEntityClass('main', TAGS.DeviceProcessData, DeviceProcessData)

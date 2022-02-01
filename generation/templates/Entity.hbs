@@ -14,7 +14,7 @@ import { Entity, EntityConstructor, AttributesDescription{{#if includeReference}
 
 {{#attributes}}
 {{#if typeEnum}}
-export enum {{../name}}{{name}}Enum {
+export enum {{../prefix}}{{../name}}{{name}}Enum {
     {{#typeEnum}}
     {{name}} = '{{value}}',
     {{/typeEnum}}
@@ -22,10 +22,10 @@ export enum {{../name}}{{name}}Enum {
 {{/if}}
 {{/attributes}}
 
-export type {{name}}Attributes = {
+export type {{prefix}}{{name}}Attributes = {
 {{#attributes}}
     {{#unless isPrimaryId}}
-    {{name}}{{#if isOptional}}?{{/if}}: {{#if typeEnum}}{{../name}}{{name}}Enum{{else}}{{type}}{{/if}}
+    {{name}}{{#if isOptional}}?{{/if}}: {{#if typeEnum}}{{../prefix}}{{../name}}{{name}}Enum{{else}}{{type}}{{/if}}
     {{/unless}}
 {{/attributes}}
 {{#children}}
@@ -52,6 +52,9 @@ const ATTRIBUTES: AttributesDescription = {
         {{#if (isdefined numericalRestrictions.fractionDigits)}}
         fractionDigits: {{numericalRestrictions.fractionDigits}},
         {{/if}}
+        {{#if (isdefined numericalRestrictions.allowEmptyString)}}
+        allowEmptyString: {{numericalRestrictions.allowEmptyString}},
+        {{/if}}
     },
     {{/attributes}}
 }
@@ -61,13 +64,13 @@ const CHILD_TAGS = {
     {{/children}}
 }
 
-export class {{name}} implements Entity {
+export class {{prefix}}{{name}} implements Entity {
     public tag = TAGS.{{name}}
 
-    constructor(public attributes: {{name}}Attributes, public isoxmlManager: ISOXMLManager) {
+    constructor(public attributes: {{prefix}}{{name}}Attributes, public isoxmlManager: ISOXMLManager) {
     }
 
-    static fromXML(xml: XMLElement, isoxmlManager: ISOXMLManager, internalId?: string, targetClass: EntityConstructor = {{name}}): Promise<Entity> {
+    static fromXML(xml: XMLElement, isoxmlManager: ISOXMLManager, internalId?: string, targetClass: EntityConstructor = {{prefix}}{{name}}): Promise<Entity> {
         return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS, internalId)
     }
 
@@ -76,4 +79,4 @@ export class {{name}} implements Entity {
     }
 }
 
-registerEntityClass(TAGS.{{name}}, {{name}})
+registerEntityClass('{{realm}}', TAGS.{{name}}, {{prefix}}{{name}})

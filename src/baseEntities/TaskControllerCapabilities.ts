@@ -104,4 +104,4 @@ export class TaskControllerCapabilities implements Entity {
     }
 }
 
-registerEntityClass(TAGS.TaskControllerCapabilities, TaskControllerCapabilities)
+registerEntityClass('main', TAGS.TaskControllerCapabilities, TaskControllerCapabilities)

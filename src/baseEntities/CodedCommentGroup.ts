@@ -48,4 +48,4 @@ export class CodedCommentGroup implements Entity {
     }
 }
 
-registerEntityClass(TAGS.CodedCommentGroup, CodedCommentGroup)
+registerEntityClass('main', TAGS.CodedCommentGroup, CodedCommentGroup)

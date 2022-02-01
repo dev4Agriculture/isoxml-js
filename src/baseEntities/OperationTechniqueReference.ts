@@ -41,4 +41,4 @@ export class OperationTechniqueReference implements Entity {
     }
 }
 
-registerEntityClass(TAGS.OperationTechniqueReference, OperationTechniqueReference)
+registerEntityClass('main', TAGS.OperationTechniqueReference, OperationTechniqueReference)

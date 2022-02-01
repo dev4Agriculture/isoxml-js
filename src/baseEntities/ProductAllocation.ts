@@ -99,4 +99,4 @@ export class ProductAllocation implements Entity {
     }
 }
 
-registerEntityClass(TAGS.ProductAllocation, ProductAllocation)
+registerEntityClass('main', TAGS.ProductAllocation, ProductAllocation)

@@ -60,4 +60,4 @@ export class DeviceAllocation implements Entity {
     }
 }
 
-registerEntityClass(TAGS.DeviceAllocation, DeviceAllocation)
+registerEntityClass('main', TAGS.DeviceAllocation, DeviceAllocation)

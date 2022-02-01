@@ -113,4 +113,4 @@ export class ISO11783LinkListFile implements Entity {
     }
 }
 
-registerEntityClass(TAGS.ISO11783LinkListFile, ISO11783LinkListFile)
+registerEntityClass('main', TAGS.ISO11783LinkListFile, ISO11783LinkListFile)

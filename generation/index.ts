@@ -30,7 +30,8 @@ const XSD2TS: {[xsdType: string]: string} = {
     'xs:hexBinary': 'string',
     'xs:dateTime': 'string',
     'xs:anyURI': 'string',
-    'xs:language': 'string'
+    'xs:language': 'string',
+    'emptyString': 'string'
 }
 
 function capitalize(word: string): string {
@@ -63,7 +64,7 @@ const constantsTemplate = Handlebars.compile(
     readFileSync('./generation/templates/constants.hbs', 'utf-8'
 ))
 
-function parseClassesFromFile(filename: string): any[] {
+function parseClassesFromFile(realm: string, filename: string, classPrefix: string = ''): any[] {
     const schema = xmlParser.parse(readFileSync(filename, 'utf-8'), {
         textNodeName: '_text',
         attributeNamePrefix: '',
@@ -90,13 +91,17 @@ function parseClassesFromFile(filename: string): any[] {
                 let xsdType: string
 
                 let restrictions
+                let allowEmptyString = false
                 if (attr._attributes?.type) {
                     xsdType = attr._attributes?.type as string
                 } else {
                     restrictions = 
                         attr['xs:simpleType'][0]['xs:restriction'] ||
                         attr['xs:simpleType'][0]['xs:union'][0]['xs:simpleType'][0]['xs:restriction']
+
                     xsdType = restrictions[0]._attributes.base
+
+                    allowEmptyString = attr['xs:simpleType'][0]['xs:union']?.[0]._attributes['memberTypes'] === 'emptyString'
                 }
 
                 if (!xsdType) {
@@ -149,6 +154,9 @@ function parseClassesFromFile(filename: string): any[] {
                     numericalRestrictions.fractionDigits =
                         parseFloat(restrictions[0]['xs:fractionDigits'][0]._attributes['value'])
                 }
+                if (allowEmptyString) {
+                    numericalRestrictions.allowEmptyString = true
+                }
                 return {
                     xmlName,
                     name: attrName,
@@ -177,7 +185,8 @@ function parseClassesFromFile(filename: string): any[] {
         }
 
         return {
-            tag, name, attributes, children,
+            tag, attributes, children, realm, name,
+            prefix: classPrefix,
             includeReference: !!attributes.find(attr => attr.type === 'ISOXMLReference')
         }
     })
@@ -186,16 +195,34 @@ function parseClassesFromFile(filename: string): any[] {
 }
 
 
-const classesV4 = [
-    ...parseClassesFromFile('./generation/xsd/ISO11783_Common_V4-3.xsd'),
-    ...parseClassesFromFile('./generation/xsd/ISO11783_TaskFile_V4-3.xsd'),
-    ...parseClassesFromFile('./generation/xsd/ISO11783_LinkListFile_V4-3.xsd'),
-    ...parseClassesFromFile('./generation/xsd/ISO11783_ExternalFile_V4-3.xsd')
+const mainClassesV4 = [
+    ...parseClassesFromFile('main', './generation/xsd/ISO11783_Common_V4-3.xsd'),
+    ...parseClassesFromFile('main', './generation/xsd/ISO11783_TaskFile_V4-3.xsd'),
+    ...parseClassesFromFile('main', './generation/xsd/ISO11783_LinkListFile_V4-3.xsd'),
+    ...parseClassesFromFile('main', './generation/xsd/ISO11783_ExternalFile_V4-3.xsd'),
 ]
 
-classesV4.forEach(cls => {
+const timelogClassesV4 = [
+    ...parseClassesFromFile('timelog', './generation/xsd/ISO11783_TimeLog_V4-3.xsd', 'Timelog')
+]
+
+const classesV4 = [...mainClassesV4, ...timelogClassesV4]
+
+mainClassesV4.forEach(cls => {
     cls.children.forEach(child => {
-        child.className = classesV4.find(cls => cls.tag === child.tag).name
+        const childClass = mainClassesV4.find(cls => cls.tag === child.tag)
+        child.className = childClass.prefix + childClass.name
+        if (!child.name) {
+            console.log(`Missing child name: ${cls.tag}->${child.tag}`)
+            child.name = child.className
+        }
+    })
+})
+
+timelogClassesV4.forEach(cls => {
+    cls.children.forEach(child => {
+        const childClass = timelogClassesV4.find(cls => cls.tag === child.tag)
+        child.className = childClass.prefix + childClass.name
         if (!child.name) {
             console.log(`Missing child name: ${cls.tag}->${child.tag}`)
             child.name = child.className
@@ -205,8 +232,8 @@ classesV4.forEach(cls => {
 
 console.log('------- Analysis of ISO1173-10:2009 (v3.3) -------')
 
-const classesV3 = parseClassesFromFile('./generation/xsd/ISO11783_TaskFile_V3-3.xsd')
-const tagsV4 = classesV4.map(cls => cls.tag)
+const classesV3 = parseClassesFromFile('main', './generation/xsd/ISO11783_TaskFile_V3-3.xsd')
+const tagsV4 = mainClassesV4.map(cls => cls.tag)
 const tagsV3 = classesV3.map(cls => cls.tag)
 
 const removedTags = tagsV3.filter(tag => !tagsV4.includes(tag))
@@ -220,7 +247,6 @@ classesV4.forEach(clsv4 => {
     if (!clsv3) {
         return
     }
-
 
     const attrXMLNamesV4 = clsv4.attributes.map(attr => attr.xmlName)
     const attrXMLNamesV3 = clsv3.attributes.map(attr => attr.xmlName)
@@ -258,8 +284,8 @@ mkdirSync('./src/baseEntities', {recursive: true})
 
 classesV4.forEach((cls: any) => {
     const classDefinition = entityTemplate(cls)
-    writeFileSync(join('src/baseEntities', `${cls.name}.ts`), classDefinition)
+    writeFileSync(join('src/baseEntities', `${cls.prefix}${cls.name}.ts`), classDefinition)
 })
 
 writeFileSync('src/baseEntities/index.ts', indexTemplate({tags: classesV4}))
-writeFileSync('src/baseEntities/constants.ts', constantsTemplate({tags: classesV4}))
+writeFileSync('src/baseEntities/constants.ts', constantsTemplate({tags: mainClassesV4}))

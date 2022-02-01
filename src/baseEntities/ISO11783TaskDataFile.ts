@@ -167,4 +167,4 @@ export class ISO11783TaskDataFile implements Entity {
     }
 }
 
-registerEntityClass(TAGS.ISO11783TaskDataFile, ISO11783TaskDataFile)
+registerEntityClass('main', TAGS.ISO11783TaskDataFile, ISO11783TaskDataFile)

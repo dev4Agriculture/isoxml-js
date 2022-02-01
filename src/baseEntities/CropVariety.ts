@@ -56,4 +56,4 @@ export class CropVariety implements Entity {
     }
 }
 
-registerEntityClass(TAGS.CropVariety, CropVariety)
+registerEntityClass('main', TAGS.CropVariety, CropVariety)

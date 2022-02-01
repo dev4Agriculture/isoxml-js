@@ -51,7 +51,7 @@ export class ExtendedISO11783TaskDataFile extends ISO11783TaskDataFile {
             const filename = externalFile.attributes.Filename
             const data = await isoxmlManager.getParsedFile(`${filename}.XML`, false)
             const xml = xml2js(data)
-            const fileContent = await getEntityClassByTag(TAGS.ExternalFileContents)
+            const fileContent = await getEntityClassByTag('main', TAGS.ExternalFileContents)
                 .fromXML(xml[TAGS.ExternalFileContents][0], isoxmlManager, filename)
 
             entity.appendFromExternalFile(fileContent)
@@ -98,4 +98,4 @@ export class ExtendedISO11783TaskDataFile extends ISO11783TaskDataFile {
     }
 }
 
-registerEntityClass(TAGS.ISO11783TaskDataFile, ExtendedISO11783TaskDataFile)
+registerEntityClass('main', TAGS.ISO11783TaskDataFile, ExtendedISO11783TaskDataFile)

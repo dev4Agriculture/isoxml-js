@@ -57,4 +57,4 @@ export class Link implements Entity {
     }
 }
 
-registerEntityClass(TAGS.Link, Link)
+registerEntityClass('main', TAGS.Link, Link)

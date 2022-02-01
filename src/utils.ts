@@ -21,11 +21,17 @@ function idrefParser (
     return isoxmlManager.registerEntity(null, value)
 }
 
-function integerParser (value: string): number {
+function integerParser (value: string, attrDescription: AttributeDescription): number {
+    if (value === '' && attrDescription.allowEmptyString) {
+        return null
+    }
     return parseInt(value, 10)
 }
 
-function floatParser (value: string): number {
+function floatParser (value: string, attrDescription: AttributeDescription): number {
+    if (value === '' && attrDescription.allowEmptyString) {
+        return null
+    }
     return parseFloat(value)
 }
 
@@ -38,6 +44,10 @@ function idrefGenerator (value: ISOXMLReference): string {
 }
 
 function numberGenerator (value: number, attrDescription: AttributeDescription): string {
+    if (attrDescription.allowEmptyString && value === null) {
+        return ''
+    }
+
     if ('fractionDigits' in attrDescription) {
         return parseFloat(value.toFixed(attrDescription.fractionDigits)).toString()
     } else {

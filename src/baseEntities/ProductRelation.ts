@@ -51,4 +51,4 @@ export class ProductRelation implements Entity {
     }
 }
 
-registerEntityClass(TAGS.ProductRelation, ProductRelation)
+registerEntityClass('main', TAGS.ProductRelation, ProductRelation)

@@ -135,4 +135,4 @@ export class Grid implements Entity {
     }
 }
 
-registerEntityClass(TAGS.Grid, Grid)
+registerEntityClass('main', TAGS.Grid, Grid)

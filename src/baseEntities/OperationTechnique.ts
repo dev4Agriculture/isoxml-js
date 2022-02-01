@@ -48,4 +48,4 @@ export class OperationTechnique implements Entity {
     }
 }
 
-registerEntityClass(TAGS.OperationTechnique, OperationTechnique)
+registerEntityClass('main', TAGS.OperationTechnique, OperationTechnique)

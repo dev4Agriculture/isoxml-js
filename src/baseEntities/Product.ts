@@ -128,4 +128,4 @@ export class Product implements Entity {
     }
 }
 
-registerEntityClass(TAGS.Product, Product)
+registerEntityClass('main', TAGS.Product, Product)

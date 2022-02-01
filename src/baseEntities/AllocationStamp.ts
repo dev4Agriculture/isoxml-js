@@ -74,4 +74,4 @@ export class AllocationStamp implements Entity {
     }
 }
 
-registerEntityClass(TAGS.AllocationStamp, AllocationStamp)
+registerEntityClass('main', TAGS.AllocationStamp, AllocationStamp)

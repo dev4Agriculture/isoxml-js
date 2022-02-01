@@ -93,4 +93,4 @@ export class Polygon implements Entity {
     }
 }
 
-registerEntityClass(TAGS.Polygon, Polygon)
+registerEntityClass('main', TAGS.Polygon, Polygon)

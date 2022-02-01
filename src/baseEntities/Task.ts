@@ -165,4 +165,4 @@ export class Task implements Entity {
     }
 }
 
-registerEntityClass(TAGS.Task, Task)
+registerEntityClass('main', TAGS.Task, Task)

@@ -127,4 +127,4 @@ export class ExtendedGrid extends Grid {
     }
 }
 
-registerEntityClass(TAGS.Grid, ExtendedGrid)
+registerEntityClass('main', TAGS.Grid, ExtendedGrid)

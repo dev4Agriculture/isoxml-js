@@ -89,4 +89,4 @@ export class DataLogValue implements Entity {
     }
 }
 
-registerEntityClass(TAGS.DataLogValue, DataLogValue)
+registerEntityClass('main', TAGS.DataLogValue, DataLogValue)

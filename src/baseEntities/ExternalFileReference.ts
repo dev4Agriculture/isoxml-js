@@ -52,4 +52,4 @@ export class ExternalFileReference implements Entity {
     }
 }
 
-registerEntityClass(TAGS.ExternalFileReference, ExternalFileReference)
+registerEntityClass('main', TAGS.ExternalFileReference, ExternalFileReference)

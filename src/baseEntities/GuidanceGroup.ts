@@ -54,4 +54,4 @@ export class GuidanceGroup implements Entity {
     }
 }
 
-registerEntityClass(TAGS.GuidanceGroup, GuidanceGroup)
+registerEntityClass('main', TAGS.GuidanceGroup, GuidanceGroup)

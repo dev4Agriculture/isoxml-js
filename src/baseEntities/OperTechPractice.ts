@@ -49,4 +49,4 @@ export class OperTechPractice implements Entity {
     }
 }
 
-registerEntityClass(TAGS.OperTechPractice, OperTechPractice)
+registerEntityClass('main', TAGS.OperTechPractice, OperTechPractice)

@@ -89,4 +89,4 @@ export class AttachedFile implements Entity {
     }
 }
 
-registerEntityClass(TAGS.AttachedFile, AttachedFile)
+registerEntityClass('main', TAGS.AttachedFile, AttachedFile)

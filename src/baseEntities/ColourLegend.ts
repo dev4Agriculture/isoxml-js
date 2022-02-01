@@ -53,4 +53,4 @@ export class ColourLegend implements Entity {
     }
 }
 
-registerEntityClass(TAGS.ColourLegend, ColourLegend)
+registerEntityClass('main', TAGS.ColourLegend, ColourLegend)

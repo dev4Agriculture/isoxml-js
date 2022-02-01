@@ -65,4 +65,4 @@ export class Connection implements Entity {
     }
 }
 
-registerEntityClass(TAGS.Connection, Connection)
+registerEntityClass('main', TAGS.Connection, Connection)

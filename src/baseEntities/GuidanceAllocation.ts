@@ -47,4 +47,4 @@ export class GuidanceAllocation implements Entity {
     }
 }
 
-registerEntityClass(TAGS.GuidanceAllocation, GuidanceAllocation)
+registerEntityClass('main', TAGS.GuidanceAllocation, GuidanceAllocation)

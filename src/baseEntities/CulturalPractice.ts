@@ -51,4 +51,4 @@ export class CulturalPractice implements Entity {
     }
 }
 
-registerEntityClass(TAGS.CulturalPractice, CulturalPractice)
+registerEntityClass('main', TAGS.CulturalPractice, CulturalPractice)

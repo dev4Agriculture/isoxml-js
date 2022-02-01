@@ -71,4 +71,4 @@ export class ExtendedISO11783LinkListFile extends ISO11783LinkListFile {
     }
 }
 
-registerEntityClass(TAGS.ISO11783LinkListFile, ExtendedISO11783LinkListFile)
+registerEntityClass('main', TAGS.ISO11783LinkListFile, ExtendedISO11783LinkListFile)

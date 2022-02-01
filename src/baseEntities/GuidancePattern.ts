@@ -207,4 +207,4 @@ export class GuidancePattern implements Entity {
     }
 }
 
-registerEntityClass(TAGS.GuidancePattern, GuidancePattern)
+registerEntityClass('main', TAGS.GuidancePattern, GuidancePattern)

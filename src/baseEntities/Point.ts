@@ -43,6 +43,7 @@ const ATTRIBUTES: AttributesDescription = {
         isPrimaryId: false,
         isOptional: false,
         isOnlyV4: false,
+        allowEmptyString: true,
     },
     B: {
         name: 'PointDesignator',
@@ -60,6 +61,7 @@ const ATTRIBUTES: AttributesDescription = {
         minValue: -90,
         maxValue: 90,
         fractionDigits: 9,
+        allowEmptyString: true,
     },
     D: {
         name: 'PointEast',
@@ -70,6 +72,7 @@ const ATTRIBUTES: AttributesDescription = {
         minValue: -180,
         maxValue: 180,
         fractionDigits: 9,
+        allowEmptyString: true,
     },
     E: {
         name: 'PointUp',
@@ -79,6 +82,7 @@ const ATTRIBUTES: AttributesDescription = {
         isOnlyV4: false,
         minValue: -2147483647,
         maxValue: 2147483647,
+        allowEmptyString: true,
     },
     F: {
         name: 'PointColour',
@@ -88,6 +92,7 @@ const ATTRIBUTES: AttributesDescription = {
         isOnlyV4: false,
         minValue: 0,
         maxValue: 254,
+        allowEmptyString: true,
     },
     G: {
         name: 'PointId',
@@ -104,6 +109,7 @@ const ATTRIBUTES: AttributesDescription = {
         isOnlyV4: true,
         minValue: 0,
         maxValue: 65,
+        allowEmptyString: true,
     },
     I: {
         name: 'PointVerticalAccuracy',
@@ -113,6 +119,7 @@ const ATTRIBUTES: AttributesDescription = {
         isOnlyV4: true,
         minValue: 0,
         maxValue: 65,
+        allowEmptyString: true,
     },
     J: {
         name: 'Filename',
@@ -149,4 +156,4 @@ export class Point implements Entity {
     }
 }
 
-registerEntityClass(TAGS.Point, Point)
+registerEntityClass('main', TAGS.Point, Point)

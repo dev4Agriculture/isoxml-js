@@ -136,4 +136,4 @@ export class Worker implements Entity {
     }
 }
 
-registerEntityClass(TAGS.Worker, Worker)
+registerEntityClass('main', TAGS.Worker, Worker)

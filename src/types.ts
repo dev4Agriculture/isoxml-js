@@ -16,6 +16,7 @@ export interface AttributeDescription {
     minValue?: number
     maxValue?: number
     fractionDigits?: number
+    allowEmptyString?: boolean
 }
 export interface AttributesDescription {
     [xmlTag: string]: AttributeDescription

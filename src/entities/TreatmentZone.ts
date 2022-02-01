@@ -23,4 +23,4 @@ export class ExtendedTreatmentZone extends TreatmentZone {
     }
 }
 
-registerEntityClass(TAGS.TreatmentZone, ExtendedTreatmentZone)
+registerEntityClass('main', TAGS.TreatmentZone, ExtendedTreatmentZone)

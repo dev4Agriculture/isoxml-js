@@ -44,4 +44,4 @@ export class WorkerAllocation implements Entity {
     }
 }
 
-registerEntityClass(TAGS.WorkerAllocation, WorkerAllocation)
+registerEntityClass('main', TAGS.WorkerAllocation, WorkerAllocation)

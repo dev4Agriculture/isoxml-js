@@ -41,4 +41,4 @@ export class ExtendedLineString extends LineString {
     }
 }
 
-registerEntityClass(TAGS.LineString, ExtendedLineString)
+registerEntityClass('main', TAGS.LineString, ExtendedLineString)

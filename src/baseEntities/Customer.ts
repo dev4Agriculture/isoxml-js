@@ -136,4 +136,4 @@ export class Customer implements Entity {
     }
 }
 
-registerEntityClass(TAGS.Customer, Customer)
+registerEntityClass('main', TAGS.Customer, Customer)

@@ -96,4 +96,4 @@ export class ControlAssignment implements Entity {
     }
 }
 
-registerEntityClass(TAGS.ControlAssignment, ControlAssignment)
+registerEntityClass('main', TAGS.ControlAssignment, ControlAssignment)

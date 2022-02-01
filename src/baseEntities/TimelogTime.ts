@@ -4,28 +4,20 @@ import { registerEntityClass } from '../classRegistry'
 import { fromXML, toXML } from '../utils'
 import { XMLElement } from '../types'
 
-import { Position } from './Position'
-import { DataLogValue } from './DataLogValue'
+import { TimelogPosition } from './TimelogPosition'
+import { TimelogDataLogValue } from './TimelogDataLogValue'
 
 import { Entity, EntityConstructor, AttributesDescription } from '../types'
 
-export enum TimeTypeEnum {
-    Planned = '1',
-    Preliminary = '2',
+export enum TimelogTimeTypeEnum {
     Effective = '4',
-    Ineffective = '5',
-    Repair = '6',
-    Clearing = '7',
-    PoweredDown = '8',
 }
 
-export type TimeAttributes = {
+export type TimelogTimeAttributes = {
     Start: string
-    Stop?: string
-    Duration?: number
-    Type: TimeTypeEnum
-    Position?: Position[]
-    DataLogValue?: DataLogValue[]
+    Type: TimelogTimeTypeEnum
+    Position?: TimelogPosition[]
+    DataLogValue?: TimelogDataLogValue[]
     ProprietaryAttributes?: {[name: string]: string}
     ProprietaryTags?: {[tag: string]: XMLElement[]}
 }
@@ -33,26 +25,10 @@ export type TimeAttributes = {
 const ATTRIBUTES: AttributesDescription = {
     A: {
         name: 'Start',
-        type: 'xs:dateTime',
+        type: 'emptyString',
         isPrimaryId: false,
         isOptional: false,
         isOnlyV4: false,
-    },
-    B: {
-        name: 'Stop',
-        type: 'xs:dateTime',
-        isPrimaryId: false,
-        isOptional: true,
-        isOnlyV4: false,
-    },
-    C: {
-        name: 'Duration',
-        type: 'xs:unsignedLong',
-        isPrimaryId: false,
-        isOptional: true,
-        isOnlyV4: false,
-        minValue: 0,
-        maxValue: 4294967294,
     },
     D: {
         name: 'Type',
@@ -67,13 +43,13 @@ const CHILD_TAGS = {
     DLV: { name: 'DataLogValue', isOnlyV4: false },
 }
 
-export class Time implements Entity {
+export class TimelogTime implements Entity {
     public tag = TAGS.Time
 
-    constructor(public attributes: TimeAttributes, public isoxmlManager: ISOXMLManager) {
+    constructor(public attributes: TimelogTimeAttributes, public isoxmlManager: ISOXMLManager) {
     }
 
-    static fromXML(xml: XMLElement, isoxmlManager: ISOXMLManager, internalId?: string, targetClass: EntityConstructor = Time): Promise<Entity> {
+    static fromXML(xml: XMLElement, isoxmlManager: ISOXMLManager, internalId?: string, targetClass: EntityConstructor = TimelogTime): Promise<Entity> {
         return fromXML(xml, isoxmlManager, targetClass, ATTRIBUTES, CHILD_TAGS, internalId)
     }
 
@@ -82,4 +58,4 @@ export class Time implements Entity {
     }
 }
 
-registerEntityClass('main', TAGS.Time, Time)
+registerEntityClass('timelog', TAGS.Time, TimelogTime)

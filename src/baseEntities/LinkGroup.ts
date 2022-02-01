@@ -81,4 +81,4 @@ export class LinkGroup implements Entity {
     }
 }
 
-registerEntityClass(TAGS.LinkGroup, LinkGroup)
+registerEntityClass('main', TAGS.LinkGroup, LinkGroup)

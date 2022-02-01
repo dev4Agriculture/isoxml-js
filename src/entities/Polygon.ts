@@ -130,4 +130,4 @@ export class ExtendedPolygon extends Polygon {
     }
 }
 
-registerEntityClass(TAGS.Polygon, ExtendedPolygon)
+registerEntityClass('main', TAGS.Polygon, ExtendedPolygon)

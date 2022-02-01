@@ -80,4 +80,4 @@ export class BaseStation implements Entity {
     }
 }
 
-registerEntityClass(TAGS.BaseStation, BaseStation)
+registerEntityClass('main', TAGS.BaseStation, BaseStation)

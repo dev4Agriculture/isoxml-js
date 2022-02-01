@@ -81,4 +81,4 @@ export class DeviceValuePresentation implements Entity {
     }
 }
 
-registerEntityClass(TAGS.DeviceValuePresentation, DeviceValuePresentation)
+registerEntityClass('main', TAGS.DeviceValuePresentation, DeviceValuePresentation)

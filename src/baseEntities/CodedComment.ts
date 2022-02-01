@@ -72,4 +72,4 @@ export class CodedComment implements Entity {
     }
 }
 
-registerEntityClass(TAGS.CodedComment, CodedComment)
+registerEntityClass('main', TAGS.CodedComment, CodedComment)

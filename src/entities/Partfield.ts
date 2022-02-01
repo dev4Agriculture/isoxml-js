@@ -30,4 +30,4 @@ export class ExtendedPartfield extends Partfield {
     }
 }
 
-registerEntityClass(TAGS.Partfield, ExtendedPartfield)
+registerEntityClass('main', TAGS.Partfield, ExtendedPartfield)

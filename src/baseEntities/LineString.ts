@@ -100,4 +100,4 @@ export class LineString implements Entity {
     }
 }
 
-registerEntityClass(TAGS.LineString, LineString)
+registerEntityClass('main', TAGS.LineString, LineString)

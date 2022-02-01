@@ -60,4 +60,4 @@ export class ProductGroup implements Entity {
     }
 }
 
-registerEntityClass(TAGS.ProductGroup, ProductGroup)
+registerEntityClass('main', TAGS.ProductGroup, ProductGroup)

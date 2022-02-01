@@ -59,4 +59,4 @@ export class CropType implements Entity {
     }
 }
 
-registerEntityClass(TAGS.CropType, CropType)
+registerEntityClass('main', TAGS.CropType, CropType)

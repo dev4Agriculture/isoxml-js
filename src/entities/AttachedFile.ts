@@ -66,4 +66,4 @@ export class ExtendedAttachedFile extends AttachedFile {
     }
 }
 
-registerEntityClass(TAGS.AttachedFile, ExtendedAttachedFile)
+registerEntityClass('main', TAGS.AttachedFile, ExtendedAttachedFile)

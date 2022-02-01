@@ -92,4 +92,4 @@ export class ExtendedTask extends Task {
     }
 }
 
-registerEntityClass(TAGS.Task, ExtendedTask)
+registerEntityClass('main', TAGS.Task, ExtendedTask)

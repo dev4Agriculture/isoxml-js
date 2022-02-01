@@ -118,4 +118,4 @@ export class Partfield implements Entity {
     }
 }
 
-registerEntityClass(TAGS.Partfield, Partfield)
+registerEntityClass('main', TAGS.Partfield, Partfield)

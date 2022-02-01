@@ -17,7 +17,8 @@ export type ISOXMLManagerOptions = {
     fmisVersion?: string
     version?: number
     gridRaramsGenerator?: GridParametersGenerator,
-    gridGenerator?: GridGenerator
+    gridGenerator?: GridGenerator,
+    realm?: string
 }
 
 const MAIN_FILENAME = 'TASKDATA.XML'
@@ -39,7 +40,8 @@ export class ISOXMLManager {
             version: 4,
             fmisTitle: 'FMIS',
             fmisVersion: '1.0',
-            rootFolder: ROOT_FOLDER
+            rootFolder: ROOT_FOLDER,
+            realm: 'main'
         }
 
         this.updateOptions(options)
@@ -118,7 +120,7 @@ export class ISOXMLManager {
     }
 
     public createEntityFromXML(tagName: TAGS, xml: XMLElement, internalId?: string): Promise<Entity> {
-        const entityClass = getEntityClassByTag(tagName)
+        const entityClass = getEntityClassByTag(this.options.realm, tagName)
         if (!entityClass) {
             return null
         }
@@ -127,7 +129,7 @@ export class ISOXMLManager {
     }
 
     public createEntityFromAttributes(tagName: TAGS, attrs: EntityAttributes): Entity {
-        const entityClass = getEntityClassByTag(tagName)
+        const entityClass = getEntityClassByTag(this.options.realm, tagName)
         if (!entityClass) {
             return null
         }
@@ -146,7 +148,7 @@ export class ISOXMLManager {
                 throw new Error('Incorrect structure of TASKDATA.XML')
             }
 
-            this.rootElement = await getEntityClassByTag(TAGS.ISO11783TaskDataFile)
+            this.rootElement = await getEntityClassByTag(this.options.realm, TAGS.ISO11783TaskDataFile)
                 .fromXML(mainXml[TAGS.ISO11783TaskDataFile][0], this, '') as ExtendedISO11783TaskDataFile
 
         } else if (dataType === 'application/zip') {
@@ -165,7 +167,7 @@ export class ISOXMLManager {
                 throw new Error('Incorrect structure of TASKDATA.XML')
             }
 
-            this.rootElement = await getEntityClassByTag(TAGS.ISO11783TaskDataFile)
+            this.rootElement = await getEntityClassByTag(this.options.realm, TAGS.ISO11783TaskDataFile)
                 .fromXML(mainXml[TAGS.ISO11783TaskDataFile][0], this, '') as ExtendedISO11783TaskDataFile
         } else {
             throw new Error('This data type is not supported')
