@@ -60,9 +60,10 @@ interface ISOXMLFileInformation {
 
 export type ISOFileInformation = ISOBinaryFileInformation | ISOXMLFileInformation
 
-export type GridValueDescription = {
-    DDI: number
-    name: string
+export type ValueInformation = {
+    DDINumber: number
+    DDIString: string
+    DDEntityName: string
     unit: string
     scale: number
     offset: number

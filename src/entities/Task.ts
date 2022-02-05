@@ -1,7 +1,7 @@
 import { ISOXMLManager } from '../ISOXMLManager'
 import { registerEntityClass } from '../classRegistry'
 
-import { Entity, GridValueDescription, ISOXMLReference, XMLElement } from '../types'
+import { Entity, ValueInformation, ISOXMLReference, XMLElement } from '../types'
 
 import { Task, TaskAttributes, TreatmentZone, ValuePresentation } from '../baseEntities'
 import { ExtendedGrid } from './Grid'
@@ -58,7 +58,7 @@ export class ExtendedTask extends Task {
         return (this.attributes.Grid[0] as ExtendedGrid).toGeoJSON()
     }
 
-    getGridValuesDescription(): GridValueDescription[] {
+    getGridValuesDescription(): ValueInformation[] {
         const grid = this.attributes.Grid?.[0]
         if (!grid) {
             return []
@@ -82,8 +82,9 @@ export class ExtendedTask extends Task {
             const scale = vpn ? vpn.attributes.Scale : ddEntity.bitResolution
             const offset = vpn ? vpn.attributes.Offset : 0
             return {
-                DDI: ddIndex,
-                name: ddEntity.name,
+                DDINumber: ddIndex,
+                DDIString: pdv.attributes.ProcessDataDDI,
+                DDEntityName: ddEntity.name,
                 unit,
                 scale,
                 offset

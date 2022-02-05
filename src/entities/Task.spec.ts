@@ -51,7 +51,7 @@ describe('Task Entity', () => {
         const descriptionAfter = task.getGridValuesDescription()
 
         expect(descriptionAfter).toHaveLength(1)
-        expect(descriptionAfter[0].DDI).toBe(1)
+        expect(descriptionAfter[0].DDINumber).toBe(1)
         expect(descriptionAfter[0].scale).toBe(0.01)
         expect(descriptionAfter[0].offset).toBe(0)
 
@@ -66,7 +66,7 @@ describe('Task Entity', () => {
         const descriptionAfterWithVPN = task.getGridValuesDescription()
 
         expect(descriptionAfterWithVPN).toHaveLength(1)
-        expect(descriptionAfterWithVPN[0].DDI).toBe(1)
+        expect(descriptionAfterWithVPN[0].DDINumber).toBe(1)
         expect(descriptionAfterWithVPN[0].scale).toBe(2)
         expect(descriptionAfterWithVPN[0].offset).toBe(20)
         expect(descriptionAfterWithVPN[0].unit).toBe('custom-unit')
