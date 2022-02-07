@@ -7,8 +7,7 @@ import { Task, TaskAttributes, TreatmentZone, ValuePresentation } from '../baseE
 import { ExtendedGrid } from './Grid'
 import { FeatureCollection } from '@turf/helpers'
 import { TAGS } from '../baseEntities/constants'
-import { DDIToString } from '../utils'
-import DDEntities from '../DDEntities'
+import { constructValueInformation, DDIToString } from '../utils'
 
 export class ExtendedTask extends Task {
     public tag = TAGS.Task
@@ -73,22 +72,8 @@ export class ExtendedTask extends Task {
         }
 
         return (treatmentZone.attributes.ProcessDataVariable || []).map(pdv => {
-            const ddIndex = parseInt(pdv.attributes.ProcessDataDDI, 16)
-            const ddEntity = DDEntities[ddIndex]
-
             const vpn = pdv.attributes.ValuePresentationIdRef?.entity as ValuePresentation
-
-            const unit = vpn ? (vpn.attributes.UnitDesignator || '') : (ddEntity?.unit || '')
-            const scale = vpn ? vpn.attributes.Scale : (ddEntity?.bitResolution ?? 1)
-            const offset = vpn ? vpn.attributes.Offset : 0
-            return {
-                DDINumber: ddIndex,
-                DDIString: pdv.attributes.ProcessDataDDI,
-                DDEntityName: ddEntity?.name ?? '',
-                unit,
-                scale,
-                offset
-            }
+            return constructValueInformation(pdv.attributes.ProcessDataDDI, vpn)
         })
     }
 }

@@ -1,11 +1,12 @@
 import BufferReader from './BufferReader'
-import { TimelogTime, TimeLog, TimeLogAttributes, PositionAttributes } from "../../baseEntities"
+import { TimelogTime, TimeLog, TimeLogAttributes, PositionAttributes, TimelogDataLogValue } from "../../baseEntities"
 import { TAGS } from "../../baseEntities/constants"
 import { registerEntityClass } from "../../classRegistry"
 import { ISOXMLManager } from "../../ISOXMLManager"
 import { Entity, ValueInformation, XMLElement } from "../../types"
 import { js2xml, xml2js } from "../../xmlManager"
-import DDEntities from '../../DDEntities'
+import { ExtendedDeviceElement } from '../DeviceElement'
+import { constructValueInformation } from '../../utils'
 
 export interface TimeLogRecord {
     time: Date
@@ -64,6 +65,17 @@ export class ExtendedTimeLog extends TimeLog {
         return entity
     }
 
+    private findValuePresentation(dataLogValue: TimelogDataLogValue) {
+        const detId = dataLogValue.attributes.DeviceElementIdRef?.xmlId
+        if (!detId) {
+            return null
+        }
+
+        const deviceElement = this.isoxmlManager.getEntityByXmlId<ExtendedDeviceElement>(detId)
+
+        return deviceElement?.getValuePresentation(dataLogValue.attributes.ProcessDataDDI)
+    }
+
     toXML(): XMLElement { 
         const json = {
             [TAGS.Time]: this.timeLogInfo.toXML()
@@ -95,6 +107,8 @@ export class ExtendedTimeLog extends TimeLog {
             const days = reader.nextUint16()
 
             record.time = new Date(1000 * 60 * 60 * 24 * days + ms) //TODO: timezone ?
+
+            let isValidPosition = false // skip items with lat = lng = 0
 
             if (headerPos) {
                 const position: PositionAttributes = {} as any
@@ -153,12 +167,16 @@ export class ExtendedTimeLog extends TimeLog {
                     position.GpsUtcDate = headerPos.GpsUtcDate
                 }
 
+                isValidPosition = position.PositionEast !== 0 || position.PositionNorth !== 0
+
                 record.position = position
 
-                minPoint[0] = Math.min(minPoint[0], position.PositionEast)
-                minPoint[1] = Math.min(minPoint[1], position.PositionNorth)
-                maxPoint[0] = Math.max(maxPoint[0], position.PositionEast)
-                maxPoint[1] = Math.max(maxPoint[1], position.PositionNorth)
+                if (isValidPosition) {
+                    minPoint[0] = Math.min(minPoint[0], position.PositionEast)
+                    minPoint[1] = Math.min(minPoint[1], position.PositionNorth)
+                    maxPoint[0] = Math.max(maxPoint[0], position.PositionEast)
+                    maxPoint[1] = Math.max(maxPoint[1], position.PositionNorth)
+                }
             }
 
             const count = reader.nextUint8()
@@ -186,26 +204,19 @@ export class ExtendedTimeLog extends TimeLog {
             }
 
             record.values = values
-            records.push(record)
+
+            if (isValidPosition) {
+                records.push(record)
+            }
         }
 
         const bbox = [...minPoint, ...maxPoint] as [number, number, number, number]
 
         const valuesInfo = (this.timeLogInfo.attributes.DataLogValue || []).map(dlv => {
             const ddi = dlv.attributes.ProcessDataDDI
-            const ddiNumber = parseInt(dlv.attributes.ProcessDataDDI, 16)
-            const ddEntity = DDEntities[ddiNumber]
-            const unit = ddEntity?.unit ?? ''
-            const scale = ddEntity?.bitResolution ?? 1
-            const offset = 0
-            const info: DataLogValueInfo = {
-                DDINumber: ddiNumber,
-                DDIString: ddi,
-                DDEntityName: ddEntity?.name ?? '',
-                unit,
-                scale,
-                offset
-            }
+            const vpn = this.findValuePresentation(dlv)
+
+            const info = constructValueInformation(ddi, vpn) as DataLogValueInfo
 
             if (ddi in ranges) {
                 info.minValue = ranges[ddi].min

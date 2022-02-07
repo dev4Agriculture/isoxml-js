@@ -1,4 +1,6 @@
+import { DeviceValuePresentation, ValuePresentation } from "./baseEntities"
 import { TAGS } from "./baseEntities/constants"
+import DDEntities from "./DDEntities"
 import { ISOXMLManager } from "./ISOXMLManager"
 import {
     AttributeDescription,
@@ -7,6 +9,7 @@ import {
     EntityConstructor,
     ISOXMLReference,
     ReferencesDescription,
+    ValueInformation,
     XMLElement
 } from "./types"
 
@@ -240,4 +243,20 @@ export function toXML(
 
 export function DDIToString(DDI: number): string {
     return ('0000' + DDI.toString(16).toUpperCase()).slice(-4)
+}
+
+export function constructValueInformation(ddiString: string, vpn: ValuePresentation | DeviceValuePresentation): ValueInformation {
+    const ddiNumber = parseInt(ddiString, 16)
+    const ddEntity = DDEntities[ddiNumber]
+    const unit = vpn ? (vpn.attributes.UnitDesignator || '') : (ddEntity?.unit || '')
+    const scale = vpn ? vpn.attributes.Scale : (ddEntity?.bitResolution ?? 1)
+    const offset = vpn ? vpn.attributes.Offset : 0
+    return {
+        DDINumber: ddiNumber,
+        DDIString: ddiString,
+        DDEntityName: ddEntity?.name ?? '',
+        unit,
+        scale,
+        offset
+    }
 }
