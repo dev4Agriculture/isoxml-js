@@ -78,13 +78,13 @@ export class ExtendedTask extends Task {
 
             const vpn = pdv.attributes.ValuePresentationIdRef?.entity as ValuePresentation
 
-            const unit = vpn ? (vpn.attributes.UnitDesignator || '') : ddEntity.unit
-            const scale = vpn ? vpn.attributes.Scale : ddEntity.bitResolution
+            const unit = vpn ? (vpn.attributes.UnitDesignator || '') : (ddEntity?.unit || '')
+            const scale = vpn ? vpn.attributes.Scale : (ddEntity?.bitResolution ?? 1)
             const offset = vpn ? vpn.attributes.Offset : 0
             return {
                 DDINumber: ddIndex,
                 DDIString: pdv.attributes.ProcessDataDDI,
-                DDEntityName: ddEntity.name,
+                DDEntityName: ddEntity?.name ?? '',
                 unit,
                 scale,
                 offset

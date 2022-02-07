@@ -39,18 +39,25 @@ export class ExtendedTimeLog extends TimeLog {
         const xmlFilename = `${entity.attributes.Filename}.XML`
         const binFilename = `${entity.attributes.Filename}.BIN`
         entity.binaryData = await isoxmlManager.getParsedFile(binFilename, true)
+        if (!entity.binaryData) {
+            isoxmlManager.addWarning(`TimeLog binary file "${binFilename}" is missing`)
+        }
 
         const xmlData = await isoxmlManager.getParsedFile(xmlFilename, false)
+        if (!xmlData) {
+            isoxmlManager.addWarning(`TimeLog header file "${xmlFilename}" is missing`)
+            return entity
+        }
         const xmlTimelog = xml2js(xmlData)
 
-        const infoIsoxmlManager = new ISOXMLManager({realm: 'timelog'})
+        const timeLogIsoxmlManager = new ISOXMLManager({realm: 'timelog'})
         entity.timeLogInfo = await TimelogTime.fromXML(
             xmlTimelog[TAGS.Time][0],
-            infoIsoxmlManager,
+            timeLogIsoxmlManager,
             `${xmlFilename}->${TAGS.Time}[0]`
         ) as TimelogTime
 
-        infoIsoxmlManager.getWarnings().forEach(warning => {
+        timeLogIsoxmlManager.getWarnings().forEach(warning => {
             isoxmlManager.addWarning(warning)
         })
 
@@ -188,13 +195,13 @@ export class ExtendedTimeLog extends TimeLog {
             const ddi = dlv.attributes.ProcessDataDDI
             const ddiNumber = parseInt(dlv.attributes.ProcessDataDDI, 16)
             const ddEntity = DDEntities[ddiNumber]
-            const unit = ddEntity.unit
-            const scale = ddEntity.bitResolution
+            const unit = ddEntity?.unit ?? ''
+            const scale = ddEntity?.bitResolution ?? 1
             const offset = 0
             const info: DataLogValueInfo = {
                 DDINumber: ddiNumber,
                 DDIString: ddi,
-                DDEntityName: ddEntity.name,
+                DDEntityName: ddEntity?.name ?? '',
                 unit,
                 scale,
                 offset

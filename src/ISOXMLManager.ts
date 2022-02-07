@@ -1,4 +1,4 @@
-import JSZip from 'jszip'
+import JSZip, { JSZipObject } from 'jszip'
 import { Entity, EntityAttributes, ISOXMLReference, XMLElement } from './types'
 import { getEntityClassByTag } from './classRegistry'
 
@@ -232,12 +232,20 @@ export class ISOXMLManager {
 
     public getParsedFile(filenameWithExtension: string, isBinary: true): Promise<Uint8Array> 
     public getParsedFile(filenameWithExtension: string, isBinary: false): Promise<string> 
-    public getParsedFile(filenameWithExtension: string, isBinary: boolean): Promise<Uint8Array | string> {
+    public getParsedFile(filenameWithExtension: string, isBinary: boolean, addLetterCaseWarning: boolean = true): Promise<Uint8Array | string> {
         if (!this.originalZip) {
             return null
         }
 
-        const file = this.originalZip.file(`${this.options.rootFolder}${filenameWithExtension}`)
+        let file: JSZipObject = null
+        this.originalZip.folder(this.options.rootFolder).forEach((relativePath, f) => {
+            if (relativePath.toUpperCase() === filenameWithExtension.toUpperCase()) {
+                if (relativePath !== filenameWithExtension && addLetterCaseWarning) {
+                    this.addWarning(`Letter case of filename ${filenameWithExtension} doesn't match (real file: ${relativePath})`)
+                }
+                file = f
+            }
+        })
 
         if (!file) {
             return null
