@@ -1,28 +1,28 @@
-import xmlParser from 'fast-xml-parser'
+import {XMLBuilder, XmlBuilderOptionsOptional, XMLParser, X2jOptionsOptional} from 'fast-xml-parser'
 import { XMLElement } from './types'
 
-const XML_PARSE_OPTIONS: xmlParser.X2jOptionsOptional = {
+const XML_PARSE_OPTIONS: X2jOptionsOptional = {
     textNodeName: '_text',
     attributeNamePrefix: '',
     ignoreAttributes: false,
-    attrNodeName: '_attributes',
-    parseNodeValue: false,
+    attributesGroupName: '_attributes',
+    parseTagValue: false,
     parseAttributeValue: false,
-    arrayMode: true,
-    attrValueProcessor: (value: string) => 
+    isArray: (tagName: string, jPath: string, isLeafNode: boolean, isAttribute: boolean) => !isAttribute,
+    attributeValueProcessor: (name: string, value: string) => 
         value.replace(/&amp;/g, '&')
           .replace(/&apos;/g, "'")
           .replace(/&quot;/g, '"')
           .replace(/&lt;/g, '<')
           .replace(/&gt;/g, '>')
 }
-const XML_GENERATE_OPTIONS: xmlParser.J2xOptionsOptional = {
+const XML_BUILD_OPTIONS: XmlBuilderOptionsOptional = {
     textNodeName: '_text',
     attributeNamePrefix: '',
     ignoreAttributes: false,
-    attrNodeName: '_attributes',
+    attributesGroupName: '_attributes',
     format: true,
-    attrValueProcessor: (value: string) => 
+    attributeValueProcessor: (name: string, value: string) => 
         value.replace(/&/g, '&amp;')
           .replace(/'/g, '&apos;')
           .replace(/"/g, '&quot;')
@@ -32,9 +32,9 @@ const XML_GENERATE_OPTIONS: xmlParser.J2xOptionsOptional = {
 
 export function js2xml(json: XMLElement): string {
     return `<?xml version="1.0" encoding="UTF-8"?>
-${new xmlParser.j2xParser(XML_GENERATE_OPTIONS).parse(json)}`
+${new XMLBuilder(XML_BUILD_OPTIONS).build(json)}`
 }
 
 export function xml2js(xml: string): XMLElement {
-    return xmlParser.parse(xml, XML_PARSE_OPTIONS)
+    return new XMLParser(XML_PARSE_OPTIONS).parse(xml)
 }
