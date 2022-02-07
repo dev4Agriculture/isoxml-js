@@ -232,7 +232,11 @@ export class ISOXMLManager {
 
     public getParsedFile(filenameWithExtension: string, isBinary: true): Promise<Uint8Array> 
     public getParsedFile(filenameWithExtension: string, isBinary: false): Promise<string> 
-    public getParsedFile(filenameWithExtension: string, isBinary: boolean, addLetterCaseWarning: boolean = true): Promise<Uint8Array | string> {
+    public getParsedFile(
+        filenameWithExtension: string,
+        isBinary: boolean,
+        addLetterCaseWarning = true
+    ): Promise<Uint8Array | string> {
         if (!this.originalZip) {
             return null
         }
@@ -241,7 +245,9 @@ export class ISOXMLManager {
         this.originalZip.folder(this.options.rootFolder).forEach((relativePath, f) => {
             if (relativePath.toUpperCase() === filenameWithExtension.toUpperCase()) {
                 if (relativePath !== filenameWithExtension && addLetterCaseWarning) {
-                    this.addWarning(`Letter case of filename ${filenameWithExtension} doesn't match (real file: ${relativePath})`)
+                    this.addWarning(
+                        `Letter case of filename ${filenameWithExtension} doesn't match (real file: ${relativePath})`
+                    )
                 }
                 file = f
             }

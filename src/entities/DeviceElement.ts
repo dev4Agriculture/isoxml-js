@@ -15,7 +15,7 @@ export class ExtendedDeviceElement extends DeviceElement {
         return DeviceElement.fromXML(xml, isoxmlManager, internalId, ExtendedDeviceElement)
     }
 
-    getParentDevice() {
+    getParentDevice(): Device {
         return this.isoxmlManager.getEntitiesOfTag<Device>(TAGS.Device).find(
             device => (device.attributes.DeviceElement || []).find(deviceElement => deviceElement === this)
         )

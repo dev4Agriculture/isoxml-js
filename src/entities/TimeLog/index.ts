@@ -1,5 +1,12 @@
 import BufferReader from './BufferReader'
-import { TimelogTime, TimeLog, TimeLogAttributes, PositionAttributes, TimelogDataLogValue } from "../../baseEntities"
+import {
+    TimelogTime,
+    TimeLog,
+    TimeLogAttributes,
+    PositionAttributes,
+    TimelogDataLogValue,
+    PositionPositionStatusEnum
+} from "../../baseEntities"
 import { TAGS } from "../../baseEntities/constants"
 import { registerEntityClass } from "../../classRegistry"
 import { ISOXMLManager } from "../../ISOXMLManager"
@@ -132,7 +139,7 @@ export class ExtendedTimeLog extends TimeLog {
                 }
 
                 if ((headerPos.PositionStatus as any) === '') {
-                    position.PositionStatus = reader.nextUint8().toString()
+                    position.PositionStatus = reader.nextUint8().toString() as PositionPositionStatusEnum
                 } else {
                     position.PositionStatus = headerPos.PositionStatus as any
                 }
@@ -183,7 +190,7 @@ export class ExtendedTimeLog extends TimeLog {
 
             const values = {}
 
-            for (var dlv = 0; dlv < count; dlv++) {
+            for (let dlv = 0; dlv < count; dlv++) {
                 const dlvIdx = reader.nextUint8()
                 const ddi = this.timeLogInfo.attributes.DataLogValue[dlvIdx].attributes.ProcessDataDDI
                 const value = reader.nextInt32()

@@ -245,7 +245,10 @@ export function DDIToString(DDI: number): string {
     return ('0000' + DDI.toString(16).toUpperCase()).slice(-4)
 }
 
-export function constructValueInformation(ddiString: string, vpn: ValuePresentation | DeviceValuePresentation): ValueInformation {
+export function constructValueInformation(
+    ddiString: string,
+    vpn: ValuePresentation | DeviceValuePresentation
+): ValueInformation {
     const ddiNumber = parseInt(ddiString, 16)
     const ddEntity = DDEntities[ddiNumber]
     const unit = vpn ? (vpn.attributes.UnitDesignator || '') : (ddEntity?.unit || '')

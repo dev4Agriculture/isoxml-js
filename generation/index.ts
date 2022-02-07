@@ -64,7 +64,7 @@ const constantsTemplate = Handlebars.compile(
     readFileSync('./generation/templates/constants.hbs', 'utf-8'
 ))
 
-function parseClassesFromFile(realm: string, filename: string, classPrefix: string = ''): any[] {
+function parseClassesFromFile(realm: string, filename: string, classPrefix = ''): any[] {
     const schema = xmlParser.parse(readFileSync(filename, 'utf-8'), {
         textNodeName: '_text',
         attributeNamePrefix: '',
@@ -101,7 +101,8 @@ function parseClassesFromFile(realm: string, filename: string, classPrefix: stri
 
                     xsdType = restrictions[0]._attributes.base
 
-                    allowEmptyString = attr['xs:simpleType'][0]['xs:union']?.[0]._attributes['memberTypes'] === 'emptyString'
+                    allowEmptyString = 
+                        attr['xs:simpleType'][0]['xs:union']?.[0]._attributes['memberTypes'] === 'emptyString'
                 }
 
                 if (!xsdType) {
