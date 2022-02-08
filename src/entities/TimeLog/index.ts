@@ -18,12 +18,15 @@ import { constructValueInformation } from '../../utils'
 export interface TimeLogRecord {
     time: Date
     position: PositionAttributes,
-    values: {[ddi: string]: number}
+    values: {[ddi_det: string]: number}
 }
 
 export type DataLogValueInfo = ValueInformation & {
     minValue?: number
     maxValue?: number
+    deviceElementId: string
+    deviceElementDesignator?: string
+    valueKey: string
 }
 
 export interface TimeLogInfo {
@@ -105,7 +108,7 @@ export class ExtendedTimeLog extends TimeLog {
         const minPoint: [number, number] = [ Infinity,  Infinity]
         const maxPoint: [number, number] = [-Infinity, -Infinity]
 
-        const ranges: {[ddi: string]: {min: number, max: number}} = {}
+        const ranges: {[ddi_det: string]: {min: number, max: number}} = {}
 
         while (reader.tell() < this.binaryData.length) {
             const record: TimeLogRecord = {} as any
@@ -193,21 +196,25 @@ export class ExtendedTimeLog extends TimeLog {
             for (let dlv = 0; dlv < count; dlv++) {
                 const dlvIdx = reader.nextUint8()
                 const ddi = this.timeLogInfo.attributes.DataLogValue[dlvIdx].attributes.ProcessDataDDI
+                const detId = this.timeLogInfo.attributes.DataLogValue[dlvIdx].attributes.DeviceElementIdRef.xmlId
                 const value = reader.nextInt32()
 
-                if (!ranges[ddi]) {
-                    ranges[ddi] = {
-                        min: value,
-                        max: value
-                    }
-                } else {
-                    ranges[ddi] = {
-                        min: Math.min(ranges[ddi].min, value),
-                        max: Math.max(ranges[ddi].max, value)
+                const key = `${ddi}_${detId}`
+
+                if (isValidPosition) {
+                    if (!ranges[key]) {
+                        ranges[key] = {
+                            min: value,
+                            max: value
+                        }
+                    } else {
+                        ranges[key] = {
+                            min: Math.min(ranges[key].min, value),
+                            max: Math.max(ranges[key].max, value)
+                        }
                     }
                 }
-
-                values[ddi] = value
+                values[key] = value
             }
 
             record.values = values
@@ -225,9 +232,23 @@ export class ExtendedTimeLog extends TimeLog {
 
             const info = constructValueInformation(ddi, vpn) as DataLogValueInfo
 
-            if (ddi in ranges) {
-                info.minValue = ranges[ddi].min
-                info.maxValue = ranges[ddi].max
+            const detId = dlv.attributes.DeviceElementIdRef.xmlId
+            const deviceElement = this.isoxmlManager.getEntityByXmlId<ExtendedDeviceElement>(detId)
+            const device = deviceElement?.getParentDevice()
+
+            const key = `${ddi}_${detId}`
+
+            const deviceName = device?.attributes.DeviceDesignator ?? ''
+            const deviceElementName = deviceElement?.attributes.DeviceElementDesignator ?? ''
+
+            info.deviceElementId = detId
+            info.deviceElementDesignator = [deviceName, deviceElementName].join(' - ')
+            info.valueKey = key
+
+
+            if (key in ranges) {
+                info.minValue = ranges[key].min
+                info.maxValue = ranges[key].max
             }
 
             return info
