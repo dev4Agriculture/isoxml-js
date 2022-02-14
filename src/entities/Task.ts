@@ -3,7 +3,7 @@ import { registerEntityClass } from '../classRegistry'
 
 import { Entity, ValueInformation, ISOXMLReference, XMLElement } from '../types'
 
-import { Task, TaskAttributes, TreatmentZone, ValuePresentation } from '../baseEntities'
+import { ProcessDataVariable, Task, TaskAttributes, TreatmentZone, ValuePresentation } from '../baseEntities'
 import { ExtendedGrid } from './Grid'
 import { FeatureCollection } from '@turf/helpers'
 import { TAGS } from '../baseEntities/constants'
@@ -26,7 +26,7 @@ export class ExtendedTask extends Task {
         deviceElemRef?: ISOXMLReference,
         vpnRef?: ISOXMLReference
     ): void {
-        const processDataVariable = this.isoxmlManager.createEntityFromAttributes(
+        const processDataVariable = this.isoxmlManager.createEntityFromAttributes<ProcessDataVariable>(
             TAGS.ProcessDataVariable, {
                 ProcessDataDDI: DDIToString(DDI),
                 ProcessDataValue: 0,

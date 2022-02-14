@@ -247,19 +247,23 @@ export function DDIToString(DDI: number): string {
 
 export function constructValueInformation(
     ddiString: string,
-    vpn: ValuePresentation | DeviceValuePresentation
+    vpn?: ValuePresentation | DeviceValuePresentation
 ): ValueInformation {
     const ddiNumber = parseInt(ddiString, 16)
     const ddEntity = DDEntities[ddiNumber]
     const unit = vpn ? (vpn.attributes.UnitDesignator || '') : (ddEntity?.unit || '')
     const scale = vpn ? vpn.attributes.Scale : (ddEntity?.bitResolution ?? 1)
     const offset = vpn ? vpn.attributes.Offset : 0
+    const numberOfDecimals = vpn
+        ? vpn.attributes.NumberOfDecimals
+        : Math.ceil(-Math.log10(ddEntity?.bitResolution || 1))
     return {
         DDINumber: ddiNumber,
         DDIString: ddiString,
         DDEntityName: ddEntity?.name ?? '',
         unit,
         scale,
-        offset
+        offset,
+        numberOfDecimals
     }
 }

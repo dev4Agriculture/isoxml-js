@@ -67,4 +67,5 @@ export type ValueInformation = {
     unit: string
     scale: number
     offset: number
+    numberOfDecimals: number
 }

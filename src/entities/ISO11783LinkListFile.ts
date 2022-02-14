@@ -48,11 +48,11 @@ export class ExtendedISO11783LinkListFile extends ISO11783LinkListFile {
                     ObjectIdRef: ref,
                     LinkValue: ref.fmisId 
                 }, this.isoxmlManager))
-            const linkGroup = this.isoxmlManager.createEntityFromAttributes(TAGS.LinkGroup, {
+            const linkGroup = this.isoxmlManager.createEntityFromAttributes<LinkGroup>(TAGS.LinkGroup, {
                 LinkGroupType: LinkGroupLinkGroupTypeEnum.UniqueResolvableURIs,
                 LinkGroupNamespace: this.isoxmlManager.options.fmisURI,
                 Link: links
-            }) as LinkGroup
+            })
             this.isoxmlManager.registerEntity(linkGroup)
             this.attributes.LinkGroup = [linkGroup]
         }

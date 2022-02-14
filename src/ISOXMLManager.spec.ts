@@ -105,9 +105,9 @@ describe('ISOXML Manager', () => {
 
     it('should manually create ISOXML', async () => {
         const isoxmlManager = new ISOXMLManager()
-        const task = isoxmlManager.createEntityFromAttributes(TAGS.Task, {
+        const task = isoxmlManager.createEntityFromAttributes<ExtendedTask>(TAGS.Task, {
             TaskStatus: TaskTaskStatusEnum.Planned
-        }) as ExtendedTask
+        })
         isoxmlManager.registerEntity(task)
 
         isoxmlManager.rootElement.attributes.Task = [task]
@@ -121,9 +121,9 @@ describe('ISOXML Manager', () => {
 
     it('should handle strings with special characters properly', async () => {
         const isoxmlManager = new ISOXMLManager()
-        const task = isoxmlManager.createEntityFromAttributes(TAGS.Task, {
+        const task = isoxmlManager.createEntityFromAttributes<ExtendedTask>(TAGS.Task, {
             TaskStatus: TaskTaskStatusEnum.Planned
-        }) as ExtendedTask
+        })
         isoxmlManager.registerEntity(task)
 
         isoxmlManager.rootElement.attributes.Task = [task]
@@ -140,9 +140,9 @@ describe('ISOXML Manager', () => {
 
     it('should preserve FMIS IDs', async () => {
         const isoxmlManager = new ISOXMLManager({fmisURI: 'http://example.com'})
-        const task = isoxmlManager.createEntityFromAttributes(TAGS.Task, {
+        const task = isoxmlManager.createEntityFromAttributes<ExtendedTask>(TAGS.Task, {
             TaskStatus: TaskTaskStatusEnum.Planned
-        }) as ExtendedTask
+        })
         const ref = isoxmlManager.registerEntity(task, null, '777')
 
         isoxmlManager.rootElement.attributes.Task = [task]
@@ -158,9 +158,9 @@ describe('ISOXML Manager', () => {
 
     it('should support "rootFolder" option', async () => {
         const isoxmlManager = new ISOXMLManager({ rootFolder: "testFolder" })
-        const task = isoxmlManager.createEntityFromAttributes(TAGS.Task, {
+        const task = isoxmlManager.createEntityFromAttributes<ExtendedTask>(TAGS.Task, {
             TaskStatus: TaskTaskStatusEnum.Planned
-        }) as ExtendedTask
+        })
         isoxmlManager.registerEntity(task)
 
         isoxmlManager.rootElement.attributes.Task = [task]

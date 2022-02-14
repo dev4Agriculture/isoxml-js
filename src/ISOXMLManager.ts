@@ -128,13 +128,13 @@ export class ISOXMLManager {
         return entityClass.fromXML(xml, this, internalId)
     }
 
-    public createEntityFromAttributes(tagName: TAGS, attrs: EntityAttributes): Entity {
+    public createEntityFromAttributes<T extends Entity = Entity>(tagName: TAGS, attrs: EntityAttributes): T {
         const entityClass = getEntityClassByTag(this.options.realm, tagName)
         if (!entityClass) {
             return null
         }
 
-        return new entityClass(attrs, this)
+        return new entityClass(attrs, this) as T
     }
 
     public async parseISOXMLFile(data: string, dataType: 'text/xml' | 'application/xml'): Promise<void>
