@@ -39,7 +39,8 @@ export class ExtendedTimeLog extends TimeLog {
     public tag = TAGS.TimeLog
 
     public binaryData: Uint8Array
-    public timeLogInfo: TimelogTime
+    public timeLogHeader: TimelogTime
+    private parsedTimeLog: TimeLogInfo = null
 
     constructor(attributes: TimeLogAttributes, isoxmlManager: ISOXMLManager) {
         super(attributes, isoxmlManager)
@@ -62,7 +63,7 @@ export class ExtendedTimeLog extends TimeLog {
         const xmlTimelog = xml2js(xmlData)
 
         const timeLogIsoxmlManager = new ISOXMLManager({realm: 'timelog'})
-        entity.timeLogInfo = await TimelogTime.fromXML(
+        entity.timeLogHeader = await TimelogTime.fromXML(
             xmlTimelog[TAGS.Time][0],
             timeLogIsoxmlManager,
             `${xmlFilename}->${TAGS.Time}[0]`
@@ -88,7 +89,7 @@ export class ExtendedTimeLog extends TimeLog {
 
     toXML(): XMLElement { 
         const json = {
-            [TAGS.Time]: this.timeLogInfo.toXML()
+            [TAGS.Time]: this.timeLogHeader.toXML()
         }
         const xmlData = js2xml(json)
 
@@ -99,11 +100,15 @@ export class ExtendedTimeLog extends TimeLog {
 
     parseBinaryFile(): TimeLogInfo {
 
+        if (this.parsedTimeLog) {
+            return this.parsedTimeLog
+        }
+
         const records: TimeLogRecord[] = []
 
         const reader = new BufferReader(this.binaryData.buffer)
 
-        const headerPos = this.timeLogInfo.attributes.Position?.[0]?.attributes
+        const headerPos = this.timeLogHeader.attributes.Position?.[0]?.attributes
 
         const minPoint: [number, number] = [ Infinity,  Infinity]
         const maxPoint: [number, number] = [-Infinity, -Infinity]
@@ -195,8 +200,8 @@ export class ExtendedTimeLog extends TimeLog {
 
             for (let dlv = 0; dlv < count; dlv++) {
                 const dlvIdx = reader.nextUint8()
-                const ddi = this.timeLogInfo.attributes.DataLogValue[dlvIdx].attributes.ProcessDataDDI
-                const detId = this.timeLogInfo.attributes.DataLogValue[dlvIdx].attributes.DeviceElementIdRef.xmlId
+                const ddi = this.timeLogHeader.attributes.DataLogValue[dlvIdx].attributes.ProcessDataDDI
+                const detId = this.timeLogHeader.attributes.DataLogValue[dlvIdx].attributes.DeviceElementIdRef.xmlId
                 const value = reader.nextInt32()
 
                 const key = `${ddi}_${detId}`
@@ -226,7 +231,7 @@ export class ExtendedTimeLog extends TimeLog {
 
         const bbox = [...minPoint, ...maxPoint] as [number, number, number, number]
 
-        const valuesInfo = (this.timeLogInfo.attributes.DataLogValue || []).map(dlv => {
+        const valuesInfo = (this.timeLogHeader.attributes.DataLogValue || []).map(dlv => {
             const ddi = dlv.attributes.ProcessDataDDI
             const vpn = this.findValuePresentation(dlv)
 
@@ -254,11 +259,71 @@ export class ExtendedTimeLog extends TimeLog {
             return info
         })
 
-        return {
+        this.parsedTimeLog = {
             bbox,
             valuesInfo,
             timeLogs: records
         }
+
+        return this.parsedTimeLog
+    }
+
+    // This is a modified and a more conservative version of the Boxplot algorithm
+    // It doesn't work well in all the cases, but sometimes it can be useful
+    public rangesWithoutOutliyers(): {minValue: number, maxValue: number}[] {
+        const parsedTimeLog = this.parseBinaryFile()
+        const uniqueValues: {[valueKey: string]: Set<number>} = {}
+
+        parsedTimeLog.valuesInfo.forEach(valueInfo => {
+            uniqueValues[valueInfo.valueKey] = new Set<number>()
+        })
+
+        parsedTimeLog.timeLogs.forEach(item => {
+            Object.keys(item.values).forEach(valueKey => {
+                uniqueValues[valueKey].add(item.values[valueKey])
+            })
+        })
+
+        const newValuesInfo = parsedTimeLog.valuesInfo.map(valueInfo => {
+            const values = [...uniqueValues[valueInfo.valueKey]] 
+            if (values.length < 8) {
+                return {minValue: valueInfo.minValue, maxValue: valueInfo.maxValue}
+            }
+
+            values.sort((a, b) => a - b)
+
+            const q1 = values[values.length >> 2]
+            const q3 = values[(values.length * 3) >> 2]
+            const iqr = q3 - q1
+            const upperBoundary = q3 + 2.5 * iqr
+            const lowerBoundary = q1 - 2.5 * iqr
+
+            // console.log(values, q1, q3, lowerBoundary, upperBoundary)
+
+            let minValue: number
+            let maxValue: number
+
+            for (let i = 0; i < values.length; i++) {
+                if (values[i] >= lowerBoundary) {
+                    minValue = values[i]
+                    break
+                }
+            }
+
+            for (let i = values.length - 1; i >= 0; i--) {
+                if (values[i] <= upperBoundary) {
+                    maxValue = values[i]
+                    break
+                }
+            }
+
+            return {
+                minValue,
+                maxValue
+            }
+        })
+
+        return newValuesInfo
     }
 }
 
