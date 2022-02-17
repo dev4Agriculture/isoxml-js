@@ -47,4 +47,20 @@ describe('Partfield Entity', () => {
         const xml = partfield.toXML()
         expect(xml[TAGS.Polygon]).toHaveLength(2)
     })
+
+    it('should return GeoJSON', () => {
+        const isoxmlManager = new ISOXMLManager({version: 3})
+        const partfield = new ExtendedPartfield({
+            PartfieldDesignator: 'test',
+            PartfieldArea: 0
+        }, isoxmlManager)
+
+        partfield.boundaryFromGeoJSON(MULTIPOLYGON.features[0].geometry as MultiPolygon, isoxmlManager)
+
+        const geoJSON = partfield.toGeoJSON()
+        expect(geoJSON.type).toBe('MultiPolygon')
+        expect(geoJSON.coordinates).toHaveLength(2)
+        expect(geoJSON.coordinates[0]).toHaveLength(2)
+        expect(geoJSON.coordinates[1]).toHaveLength(2)
+    })
 })

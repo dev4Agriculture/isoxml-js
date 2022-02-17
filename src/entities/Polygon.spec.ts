@@ -1,11 +1,11 @@
 import { ISOXMLManager } from '../ISOXMLManager'
-import { LineStringLineStringTypeEnum, PolygonPolygonTypeEnum } from '../baseEntities'
+import { LineStringLineStringTypeEnum, Polygon, PolygonPolygonTypeEnum } from '../baseEntities'
 import { ExtendedPolygon } from './Polygon'
 import { MultiPolygon } from '@turf/helpers'
 import { MULTIPOLYGON } from './testdata/geometry'
 
 
-function stat(polygon: ExtendedPolygon) {
+function stat(polygon: Polygon) {
     return {
         outer: polygon.attributes.LineString
             .filter(
@@ -77,5 +77,29 @@ describe('Polygon Entity', () => {
         const normalizedPolygons = ExtendedPolygon.normalizePolygons(undefined)
 
         expect(normalizedPolygons).toHaveLength(0)
+    })
+
+    it('should convert to GeoJSON', async () => {
+
+        // Version 3 allows us to test LineString splitting algorithm
+        const isoxmlManager = new ISOXMLManager({version: 3})
+        const polygons = ExtendedPolygon.fromGeoJSON(
+            MULTIPOLYGON.features[0].geometry as MultiPolygon,
+            PolygonPolygonTypeEnum.TreatmentZone,
+            isoxmlManager
+        )
+
+        const geoJSON = ExtendedPolygon.toGeoJSON(polygons)
+
+        expect(geoJSON.type).toBe('MultiPolygon')
+        expect(geoJSON.coordinates).toHaveLength(2)
+        expect(geoJSON.coordinates[0]).toHaveLength(2)
+        expect(geoJSON.coordinates[1]).toHaveLength(2)
+        expect(geoJSON.bbox).toEqual([
+            -44.90386962890624,
+            60.52959025656515,
+            -43.38500976562497,
+            61.31442918692164
+        ])
     })
 })

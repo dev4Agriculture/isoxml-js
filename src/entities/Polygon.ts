@@ -1,5 +1,10 @@
-import { area as turfArea, MultiPolygon as TurfMultiPolygon, Polygon as TurfPolygon} from "@turf/turf"
-import { intersection} from "polygon-clipping"
+import {
+    area as turfArea,
+    bbox as turfBbox,
+    MultiPolygon as TurfMultiPolygon,
+    Polygon as TurfPolygon
+} from "@turf/turf"
+import { intersection } from "polygon-clipping"
 import { LineStringLineStringTypeEnum, Polygon, PolygonAttributes, PolygonPolygonTypeEnum } from "../baseEntities"
 import { TAGS } from "../baseEntities/constants"
 import { registerEntityClass } from "../classRegistry"
@@ -64,6 +69,7 @@ export class ExtendedPolygon extends Polygon {
         }
     }
 
+    // converts polygons to fits format of the target ISOXML version (taken from the first Polygon)
     static normalizePolygons(polygons: Polygon[]): Polygon[] {
         if (!polygons || polygons.length === 0) {
             return []
@@ -127,6 +133,70 @@ export class ExtendedPolygon extends Polygon {
             })
             return splittedPolygons
         }
+    }
+
+    static toGeoJSON(polygons: Polygon[]): TurfMultiPolygon {
+        if (!polygons || polygons.length === 0) {
+            return null
+        }
+
+        const geoJSONCoordinates = []
+
+        polygons.forEach(polygon => {
+            const outerRings = polygon.attributes.LineString
+                .filter((ring) => ring.attributes.LineStringType === LineStringLineStringTypeEnum.PolygonExterior)
+                .map((ring: ExtendedLineString) => ring.toCoordinatesArray())
+
+            const innerRings = polygon.attributes.LineString
+                .filter((ring) => ring.attributes.LineStringType === LineStringLineStringTypeEnum.PolygonInterior)
+                .map((ring: ExtendedLineString) => ring.toCoordinatesArray())
+
+            if (outerRings.length === 0) {
+                return
+            } else if (outerRings.length === 1) {
+                geoJSONCoordinates.push([
+                    outerRings[0],
+                    ...innerRings
+                ])
+                return
+            }
+
+            const outerRingIdxs = innerRings.map((ring) => {
+                let maxArea = 0
+                let bestIdx = -1
+                outerRings.forEach((outerRing, idx) => {
+                    const intersectionRes = intersection(
+                        [outerRing],
+                        [ring]
+                    )
+
+                    if (intersectionRes) {
+                        const areaRes = turfArea({ type: 'MultiPolygon', coordinates: intersectionRes })
+                        if (areaRes > maxArea) {
+                            maxArea = areaRes
+                            bestIdx = idx
+                        }
+                    }
+                })
+                return bestIdx
+            })
+
+            outerRings.forEach((outerRing, outerIdx) => {
+                geoJSONCoordinates.push([
+                    outerRing,
+                    ...innerRings.filter((_, innerIdx) => outerRingIdxs[innerIdx] === outerIdx)
+                ])
+            })
+        })
+
+        const geoJSON: TurfMultiPolygon = {
+            type: 'MultiPolygon',
+            coordinates: geoJSONCoordinates
+        }
+
+        geoJSON.bbox = turfBbox(geoJSON)
+
+        return geoJSON
     }
 }
 
