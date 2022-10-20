@@ -45,11 +45,11 @@ console.log(isoxmlManager.getWarnings())
 console.log(isoxmlManager.options)
 
 // get all the Partfileds
-const partfields: Partfield[] = isoxmlManager.rootElement.attributes.Partfield || []
+var partfields: Partfield[] = isoxmlManager.rootElement.attributes.Partfield || []
 
 // print designators of all the Partfields
-partfields.forEach(partfiled => {
-    console.log(`${partfield.attributes.PartfieldDesignator`)
+partfields.forEach(partfield => {
+    console.log(`${partfield.attributes.PartfieldDesignator}`)
 })
 ```
 
