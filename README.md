@@ -24,40 +24,42 @@ yarn add isoxml
 
 ## Usage Examples
 
-Parse ISOXML (Node.js environments)
+Parse ISOXML (Node.js environments):
 ```
-import fs from 'fs'
-import { ISOXMLManager } from 'isoxml'
+import { readFileSync } from 'fs'
+import { join } from 'path'
+import { ISOXMLManager, Partfield } from 'isoxml'
 
 // read a zipped ISOXML
-const isoxmlData = fs.readFileSync('isoxml.zip')
+const isoxmlData = readFileSync(join(__dirname, '../data/task_with_warnings.zip'))
 
 // create new ISOXMLManager instance with default parameters
 const isoxmlManager = new ISOXMLManager()
 
 // parse the file
-await isoxmlManager.parseISOXMLFile(new Uint8Array(isoxmlData.buffer), 'application/zip')
+isoxmlManager.parseISOXMLFile(new Uint8Array(isoxmlData.buffer), 'application/zip').then(() => {
 
-// getWarnings() method returns all the warnings from the last parsing
-console.log(isoxmlManager.getWarnings())
+    // getWarnings() method returns all the warnings from the last parsing
+    console.log(isoxmlManager.getWarnings())
 
-// all global attributes of the parsed file
-console.log(isoxmlManager.options)
+    // all global attributes of the parsed file
+    console.log(isoxmlManager.options)
 
-// get all the Partfileds
-var partfields: Partfield[] = isoxmlManager.rootElement.attributes.Partfield || []
+    // get all the Partfileds
+    const partfields: Partfield[] = isoxmlManager.rootElement.attributes.Partfield || []
 
-// print designators of all the Partfields
-partfields.forEach(partfield => {
-    console.log(`${partfield.attributes.PartfieldDesignator}`)
+    // print designators of all the Partfields
+    partfields.forEach(partfield => {
+        console.log(`${partfield.attributes.PartfieldDesignator}`)
+    })
 })
 ```
 
-Create manually and save ISOXML:
+Create manually and save ISOXML (Node.js environment):
 ```
-import fs from 'fs'
-import { ISOXMLManager } from 'isoxml'
-
+import { readFileSync, writeFileSync } from 'fs'
+import { join } from 'path'
+import { ISOXMLManager, TAGS, TaskTaskStatusEnum, ExtendedTask } from 'isoxml'
 
 const isoxmlManager = new ISOXMLManager()
 
@@ -66,7 +68,7 @@ const task = isoxmlManager.createEntityFromAttributes(TAGS.Task, {
     TaskStatus: TaskTaskStatusEnum.Planned
 }) as ExtendedTask
 
-const geoJSONdata = JSON.parse(fs.readFileSync('zones.geojson', 'utf-8'))
+const geoJSONdata = JSON.parse(readFileSync(join(__dirname, '../data/test.geojson'), 'utf-8'))
 
 // add Grid to the task from GeoJSON. "1" is DDI
 task.addGridFromGeoJSON(geoJSONdata, 1)
@@ -78,7 +80,15 @@ isoxmlManager.registerEntity(task)
 isoxmlManager.rootElement.attributes.Task = [task]
 
 // save ISOXML as a zip file
-const data: Uint8Array = await isoxmlManager.saveISOXML()
+isoxmlManager.saveISOXML().then((data: Uint8Array) => {
+    writeFileSync('./isoxml.zip', data)
+})
+```
+
+You can find these examples in the `examples` folder. Note, that you must build the library before running them locally. For example:
+```
+npm run build
+ts-node examples/parse.ts
 ```
 
 ## Classes Overview
