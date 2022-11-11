@@ -28,6 +28,9 @@ export class ExtendedGrid extends Grid {
 
     public binaryData: Uint8Array
 
+    // lazy calculated list of referenced TreatmentZone codes
+    private allReferencedTZNCodes?: number[]
+
     constructor(attributes: GridAttributes, isoxmlManager: ISOXMLManager) {
         super(attributes, isoxmlManager)
     }
@@ -36,6 +39,19 @@ export class ExtendedGrid extends Grid {
         const entity = await Grid.fromXML(xml, isoxmlManager, internalId, ExtendedGrid) as ExtendedGrid
         const filename = entity.attributes.Filename
         entity.binaryData = await isoxmlManager.getParsedFile(`${filename}.BIN`, true)
+
+        const nRows = entity.attributes.GridMaximumRow
+        const nCols = entity.attributes.GridMaximumColumn
+        const bytesPerElem = entity.attributes.GridType === GridGridTypeEnum.GridType1 ? 1 : 4
+        const expectedSize = nRows * nCols * bytesPerElem
+
+        if (expectedSize !== entity.binaryData.length) {
+            isoxmlManager.addWarning(
+                `Invalid size of grid file ${ filename }.BIN: ` +
+                `expected ${expectedSize} bytes, but real size is ${entity.binaryData.length}`
+            )
+        }
+
         return entity
     }
 
@@ -124,6 +140,24 @@ export class ExtendedGrid extends Grid {
             type: 'FeatureCollection',
             features: features.filter(e => e)
         }
+    }
+
+    // the result will be cached
+    getAllReferencedTZNCodes(): number[] {
+
+        if (!this.allReferencedTZNCodes) {
+            if (this.attributes.GridType === GridGridTypeEnum.GridType1) {
+                const codes = new Set<number>()
+                for (let i = 0; i < this.binaryData.length; i++) {
+                    codes.add(this.binaryData[i])
+                }
+                this.allReferencedTZNCodes = [...codes]
+            } else {
+                this.allReferencedTZNCodes = [this.attributes.TreatmentZoneCode]
+            }
+        }
+
+        return this.allReferencedTZNCodes
     }
 }
 

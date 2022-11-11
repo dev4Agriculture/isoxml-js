@@ -63,9 +63,15 @@ export class ExtendedTask extends Task {
             return []
         }
 
-        const treatmentZoneCode = grid.attributes.TreatmentZoneCode
+        const treatmentZoneCodes = (grid as ExtendedGrid).getAllReferencedTZNCodes()
+
+        if (treatmentZoneCodes.length === 0) {
+            return []
+        }
+
+        // we assume that all the referenced TreatmentZones have the same set of ProcessDataVariables
         const treatmentZone = (this.attributes.TreatmentZone || [])
-            .find(tz => tz.attributes.TreatmentZoneCode === treatmentZoneCode)
+            .find(tz => tz.attributes.TreatmentZoneCode === treatmentZoneCodes[0])
 
         if (!treatmentZone) {
             return []
