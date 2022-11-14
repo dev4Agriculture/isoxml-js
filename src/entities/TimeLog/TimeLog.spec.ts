@@ -26,7 +26,7 @@ describe('TimeLog Entity', () => {
 
         const timeLog = isoxmlManager.getEntityByXmlId<Task>('TSK-1').attributes.TimeLog[0] as ExtendedTimeLog
 
-        const ranges = timeLog.rangesWithoutOutliyers()
+        const ranges = timeLog.rangesWithoutOutliers()
 
         expect(ranges[2].minValue).toBe(-2231)
         expect(ranges[2].maxValue).toBe(334)

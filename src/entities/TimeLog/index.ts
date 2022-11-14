@@ -270,7 +270,7 @@ export class ExtendedTimeLog extends TimeLog {
 
     // This is a modified and a more conservative version of the Boxplot algorithm
     // It doesn't work well in all the cases, but sometimes it can be useful
-    public rangesWithoutOutliyers(): {minValue: number, maxValue: number}[] {
+    public rangesWithoutOutliers(): {minValue: number, maxValue: number}[] {
         const parsedTimeLog = this.parseBinaryFile()
         const uniqueValues: {[valueKey: string]: Set<number>} = {}
 

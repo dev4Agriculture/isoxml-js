@@ -164,3 +164,21 @@ The original XSDs are taken from https://www.isobus.net/isobus/file/supportingDo
   * `npm run build` - generate JS files in `/dist` folder
   * `npm run test` - run tests (based on Jest)
   * `npm run coverage` - show test coverage report
+
+## Outliers Removal Algorithm
+
+ExtendedTimeLog class includes an algorithm to detect outliers in the data. Use method `rangesWithoutOutliers()` to calculate the range of values without outliers:
+```
+  const timelog = task.attributes.TimeLog[0]
+
+  // one range per DLV. Order corresponds to order of DLVs
+  const newRanges: {min: number, max: number}[] = timelog.rangesWithoutOutliers()
+```
+
+The outliers a modified and a more conservative version of the Boxplot algorithm. It doesn't work well in all the cases, but sometimes it can be useful. Here is a more detailed algorithm description:
+1. Calculate all unique timelog values
+2. If number of unique values < 8, return original range
+2. Sort unique values in ascending order
+3. Calculate q1 = values[values.length / 4] and q3 = values[values.length * 3 / 4]
+4. Calculate upper and lower boundaries: upperBoundary = q3 + 2.5 * (q3 - q1), lowerBoundary = q1 - 2.5 * (q3 - q1)
+5. Return as new range min and max values inside [lowerBoundary, upperBoundary]
