@@ -325,6 +325,31 @@ export class ExtendedTimeLog extends TimeLog {
 
         return newValuesInfo
     }
+
+    /** Filles missing values with the latest value */
+    getFilledTimeLogs(): TimeLogRecord[] {
+        const timeLogInfo = this.parseBinaryFile()
+        const sortedTimeLogs = timeLogInfo.timeLogs.sort((a, b) => +a.time - +b.time)
+
+        const latestValues: {[ddi_det: string]: number} = {}
+
+        return sortedTimeLogs.map(timeLog => {
+            const filledValues: {[ddi_det: string]: number} = {}
+            timeLogInfo.valuesInfo.forEach(valueInfo => {
+                const valueKey = valueInfo.valueKey
+                if (valueKey in timeLog.values) {
+                    filledValues[valueKey] = timeLog.values[valueKey]
+                    latestValues[valueKey] = timeLog.values[valueKey]
+                } else if (valueKey in latestValues) {
+                    filledValues[valueKey] = latestValues[valueKey]
+                }
+            })
+            return {
+                ...timeLog,
+                values: filledValues
+            }
+        })
+    }
 }
 
 registerEntityClass('main', TAGS.TimeLog, ExtendedTimeLog)

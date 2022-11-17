@@ -31,4 +31,17 @@ describe('TimeLog Entity', () => {
         expect(ranges[2].minValue).toBe(-2231)
         expect(ranges[2].maxValue).toBe(334)
     })
+
+    it('should fill missing values', async () => {
+        const isoxmlData = readFileSync('./data/2021-04-09T15_33_26_taskdata.zip')
+        const isoxmlManager = new ISOXMLManager()
+
+        await isoxmlManager.parseISOXMLFile(new Uint8Array(isoxmlData.buffer), 'application/zip')
+
+        const timeLog = isoxmlManager.getEntityByXmlId<Task>('TSK-1').attributes.TimeLog[0] as ExtendedTimeLog
+
+        const filledValues = timeLog.getFilledTimeLogs()
+
+        expect(filledValues[3].values['0090_DET-1']).toBe(67159)
+    })
 })
