@@ -68,4 +68,5 @@ export type ValueInformation = {
     scale: number
     offset: number
     numberOfDecimals: number
+    isProprietary: boolean
 }

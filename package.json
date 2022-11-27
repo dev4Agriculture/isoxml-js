@@ -1,6 +1,6 @@
 {
   "name": "isoxml",
-  "version": "1.7.1",
+  "version": "1.7.2",
   "description": "JavaScript library to parse and generate ISOXML (ISO11783-10) files",
   "keywords": [
     "isoxml",

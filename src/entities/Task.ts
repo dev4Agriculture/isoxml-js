@@ -8,6 +8,7 @@ import { ExtendedGrid } from './Grid'
 import { FeatureCollection } from '@turf/helpers'
 import { TAGS } from '../baseEntities/constants'
 import { constructValueInformation, DDIToString } from '../utils'
+import { ExtendedDeviceElement } from './DeviceElement'
 
 export class ExtendedTask extends Task {
     public tag = TAGS.Task
@@ -79,7 +80,9 @@ export class ExtendedTask extends Task {
 
         return (treatmentZone.attributes.ProcessDataVariable || []).map(pdv => {
             const vpn = pdv.attributes.ValuePresentationIdRef?.entity as ValuePresentation
-            return constructValueInformation(pdv.attributes.ProcessDataDDI, vpn)
+            const det = pdv.attributes.DeviceElementIdRef?.entity as ExtendedDeviceElement
+            const pdp = det?.getDataProcess(pdv.attributes.ProcessDataDDI)
+            return constructValueInformation(pdv.attributes.ProcessDataDDI, vpn, pdp)
         })
     }
 }

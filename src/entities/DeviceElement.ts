@@ -1,4 +1,10 @@
-import { Device, DeviceElement, DeviceElementAttributes, DeviceValuePresentation } from "../baseEntities"
+import {
+    Device,
+    DeviceElement,
+    DeviceElementAttributes,
+    DeviceProcessData,
+    DeviceValuePresentation
+} from "../baseEntities"
 import { TAGS } from "../baseEntities/constants"
 import { registerEntityClass } from "../classRegistry"
 import { ISOXMLManager } from "../ISOXMLManager"
@@ -15,7 +21,7 @@ export class ExtendedDeviceElement extends DeviceElement {
         return DeviceElement.fromXML(xml, isoxmlManager, internalId, ExtendedDeviceElement)
     }
 
-    getParentDevice(): Device {
+    getParentDevice(): Device | undefined {
         return this.isoxmlManager.getEntitiesOfTag<Device>(TAGS.Device).find(
             device => (device.attributes.DeviceElement || []).find(deviceElement => deviceElement === this)
         )
@@ -28,19 +34,30 @@ export class ExtendedDeviceElement extends DeviceElement {
             return null
         }
 
-        const processData = (device.attributes.DeviceProcessData || []).find(
-            dpd => dpd.attributes.DeviceProcessDataDDI === ddi &&
-                (this.attributes.DeviceObjectReference || [])
-                    .find(ref => ref.attributes.DeviceObjectId === dpd.attributes.DeviceProcessDataObjectId)
-        )
+        const processData = this.getDataProcess(ddi)
 
         const dvpObjectId = processData?.attributes.DeviceValuePresentationObjectId
+
         if (!dvpObjectId) {
             return null
         }
 
         return (device.attributes.DeviceValuePresentation || [])
             .find(dvp => dvp.attributes.DeviceValuePresentationObjectId === dvpObjectId)
+    }
+
+    getDataProcess(ddi: string): DeviceProcessData {
+        const device = this.getParentDevice()
+
+        if (!device) {
+            return null
+        }
+
+        return (device.attributes.DeviceProcessData || []).find(
+            dpd => dpd.attributes.DeviceProcessDataDDI === ddi &&
+                (this.attributes.DeviceObjectReference || [])
+                    .find(ref => ref.attributes.DeviceObjectId === dpd.attributes.DeviceProcessDataObjectId)
+        )
     }
 }
 

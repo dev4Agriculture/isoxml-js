@@ -1,4 +1,4 @@
-import { ValuePresentation } from "./baseEntities"
+import { DeviceProcessData, ValuePresentation } from "./baseEntities"
 import { TAGS } from "./baseEntities/constants"
 import { ISOXMLManager } from "./ISOXMLManager"
 import { constructValueInformation } from "./utils"
@@ -15,6 +15,7 @@ describe('Utils', () => {
         expect(valueInfo.numberOfDecimals).toBe(2)
         expect(valueInfo.offset).toBe(0)
         expect(valueInfo.scale).toBe(0.01)
+        expect(valueInfo.isProprietary).toBe(false)
     })
 
     it('constructValueInformation with ValuePresentation', async () => {
@@ -37,6 +38,25 @@ describe('Utils', () => {
         expect(valueInfo.numberOfDecimals).toBe(1)
         expect(valueInfo.offset).toBe(0)
         expect(valueInfo.scale).toBe(0.0001)
+        expect(valueInfo.isProprietary).toBe(false)
+    })
+
+    it('constructValueInformation with DeviceProcessData', async () => {
+        const isoxmlManager = new ISOXMLManager()
+
+        const dpd = isoxmlManager.createEntityFromAttributes<DeviceProcessData>(TAGS.DeviceProcessData, {
+            DeviceProcessDataObjectId: 0,
+            DeviceProcessDataDDI: 'FFFF',
+            DeviceProcessDataProperty: 1,
+            DeviceProcessDataTriggerMethods: 0,
+            DeviceProcessDataDesignator: 'Test process'
+        })
+
+        const valueInfo = constructValueInformation('FFFF', null, dpd)
+
+        expect(valueInfo.DDIString).toBe('FFFF')
+        expect(valueInfo.DDINumber).toBe(0xFFFF)
+        expect(valueInfo.DDEntityName).toBe('Test process')
     })
 
     it('constructValueInformation - unknown DDEntity', async () => {

@@ -12,8 +12,8 @@ import { registerEntityClass } from "../../classRegistry"
 import { ISOXMLManager } from "../../ISOXMLManager"
 import { Entity, ValueInformation, XMLElement } from "../../types"
 import { js2xml, xml2js } from "../../xmlManager"
-import { ExtendedDeviceElement } from '../DeviceElement'
 import { constructValueInformation } from '../../utils'
+import { ExtendedDeviceElement } from '../DeviceElement'
 
 export interface TimeLogRecord {
     time: Date
@@ -76,15 +76,13 @@ export class ExtendedTimeLog extends TimeLog {
         return entity
     }
 
-    private findValuePresentation(dataLogValue: TimelogDataLogValue) {
+    private getDLVDeviceElement(dataLogValue: TimelogDataLogValue) {
         const detId = dataLogValue.attributes.DeviceElementIdRef?.xmlId
         if (!detId) {
             return null
         }
 
-        const deviceElement = this.isoxmlManager.getEntityByXmlId<ExtendedDeviceElement>(detId)
-
-        return deviceElement?.getValuePresentation(dataLogValue.attributes.ProcessDataDDI)
+        return this.isoxmlManager.getEntityByXmlId<ExtendedDeviceElement>(detId)
     }
 
     toXML(): XMLElement { 
@@ -233,12 +231,13 @@ export class ExtendedTimeLog extends TimeLog {
 
         const valuesInfo = (this.timeLogHeader.attributes.DataLogValue || []).map(dlv => {
             const ddi = dlv.attributes.ProcessDataDDI
-            const vpn = this.findValuePresentation(dlv)
+            const deviceElement = this.getDLVDeviceElement(dlv)
+            const vpn = deviceElement?.getValuePresentation(ddi)
+            const dpd = deviceElement?.getDataProcess(ddi)
 
-            const info = constructValueInformation(ddi, vpn) as DataLogValueInfo
+            const info = constructValueInformation(ddi, vpn, dpd) as DataLogValueInfo
 
             const detId = dlv.attributes.DeviceElementIdRef.xmlId
-            const deviceElement = this.isoxmlManager.getEntityByXmlId<ExtendedDeviceElement>(detId)
             const device = deviceElement?.getParentDevice()
 
             const key = `${ddi}_${detId}`
@@ -247,7 +246,7 @@ export class ExtendedTimeLog extends TimeLog {
             const deviceElementName = deviceElement?.attributes.DeviceElementDesignator ?? ''
 
             info.deviceElementId = detId
-            info.deviceElementDesignator = [deviceName, deviceElementName].join(' - ')
+            info.deviceElementDesignator = [deviceName, deviceElementName].filter(e => e).join(' - ')
             info.valueKey = key
 
 

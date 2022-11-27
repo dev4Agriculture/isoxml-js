@@ -1,4 +1,4 @@
-import { DeviceValuePresentation, ValuePresentation } from "./baseEntities"
+import { DeviceProcessData, DeviceValuePresentation, ValuePresentation } from "./baseEntities"
 import { TAGS } from "./baseEntities/constants"
 import DDEntities from "./DDEntities"
 import { ISOXMLManager } from "./ISOXMLManager"
@@ -247,7 +247,8 @@ export function DDIToString(DDI: number): string {
 
 export function constructValueInformation(
     ddiString: string,
-    vpn?: ValuePresentation | DeviceValuePresentation
+    vpn?: ValuePresentation | DeviceValuePresentation,
+    dpd?: DeviceProcessData
 ): ValueInformation {
     const ddiNumber = parseInt(ddiString, 16)
     const ddEntity = DDEntities[ddiNumber]
@@ -257,13 +258,21 @@ export function constructValueInformation(
     const numberOfDecimals = vpn
         ? vpn.attributes.NumberOfDecimals
         : Math.ceil(-Math.log10(ddEntity?.bitResolution || 1))
+
+    const ddiName = ddEntity?.name
+    const dpdDesignator = dpd?.attributes.DeviceProcessDataDesignator
+    const DDEntityName = ddiName && dpdDesignator
+        ? `${dpdDesignator} (${ddiName})`
+        : (ddiName ?? dpdDesignator ?? '')
+
     return {
         DDINumber: ddiNumber,
         DDIString: ddiString,
-        DDEntityName: ddEntity?.name ?? '',
+        DDEntityName,
         unit,
         scale,
         offset,
-        numberOfDecimals
+        numberOfDecimals,
+        isProprietary: ddiNumber >= 57344 && ddiNumber <= 65534
     }
 }
