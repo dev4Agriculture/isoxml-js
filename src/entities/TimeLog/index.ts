@@ -3,9 +3,9 @@ import {
     TimelogTime,
     TimeLog,
     TimeLogAttributes,
-    PositionAttributes,
     TimelogDataLogValue,
-    PositionPositionStatusEnum
+    TimelogPositionAttributes,
+    TimelogPositionPositionStatusEnum
 } from "../../baseEntities"
 import { TAGS } from "../../baseEntities/constants"
 import { registerEntityClass } from "../../classRegistry"
@@ -17,8 +17,9 @@ import { ExtendedDeviceElement } from '../DeviceElement'
 
 export interface TimeLogRecord {
     time: Date
-    position: PositionAttributes,
+    position: TimelogPositionAttributes,
     values: {[ddi_det: string]: number}
+    isValidPosition: boolean
 }
 
 export type DataLogValueInfo = ValueInformation & {
@@ -40,6 +41,7 @@ export class ExtendedTimeLog extends TimeLog {
 
     public binaryData: Uint8Array
     public timeLogHeader: TimelogTime
+    public parsingErrors: string[] = []
     private parsedTimeLog: TimeLogInfo = null
 
     constructor(attributes: TimeLogAttributes, isoxmlManager: ISOXMLManager) {
@@ -115,115 +117,119 @@ export class ExtendedTimeLog extends TimeLog {
 
         while (reader.tell() < this.binaryData.length) {
             const record: TimeLogRecord = {} as any
-
-            const ms = reader.nextUint32()
-            const days = reader.nextUint16()
-
-            record.time = new Date(1000 * 60 * 60 * 24 * days + ms) //TODO: timezone ?
-
             let isValidPosition = false // skip items with lat = lng = 0
 
-            if (headerPos) {
-                const position: PositionAttributes = {} as any
+            try {
+                const ms = reader.nextUint32()
+                const days = reader.nextUint16()
 
-                if (headerPos.PositionNorth === null) {
-                    position.PositionNorth = reader.nextInt32() / 10000000
-                } else {
-                    position.PositionNorth = headerPos.PositionNorth
-                }
+                record.time = new Date(1000 * 60 * 60 * 24 * days + ms) //TODO: timezone ?
 
-                if (headerPos.PositionEast === null) {
-                    position.PositionEast = reader.nextInt32() / 10000000
-                } else {
-                    position.PositionEast = headerPos.PositionEast
-                }
+                if (headerPos) {
+                    const position: TimelogPositionAttributes = {} as any
 
-                if (headerPos.PositionUp === null) {
-                    position.PositionUp = reader.nextInt32()
-                } else {
-                    position.PositionUp = headerPos.PositionUp
-                }
-
-                if ((headerPos.PositionStatus as any) === '') {
-                    position.PositionStatus = reader.nextUint8().toString() as PositionPositionStatusEnum
-                } else {
-                    position.PositionStatus = headerPos.PositionStatus as any
-                }
-
-                if (headerPos.PDOP === null) {
-                    position.PDOP = reader.nextUint16() / 10
-                } else {
-                    position.PDOP = headerPos.PDOP
-                }
-
-                if (headerPos.HDOP === null) {
-                    position.HDOP = reader.nextUint16() / 10
-                } else {
-                    position.HDOP = headerPos.HDOP
-                }
-
-                if (headerPos.NumberOfSatellites === null) {
-                    position.NumberOfSatellites = reader.nextUint8()
-                } else {
-                    position.NumberOfSatellites = headerPos.NumberOfSatellites
-                }
-
-                if (headerPos.GpsUtcTime === null) {
-                    position.GpsUtcTime = reader.nextUint32()
-                } else {
-                    position.GpsUtcTime = headerPos.GpsUtcTime
-                }
-
-                if (headerPos.GpsUtcDate === null) {
-                    position.GpsUtcDate = reader.nextUint16()
-                } else {
-                    position.GpsUtcDate = headerPos.GpsUtcDate
-                }
-
-                isValidPosition = position.PositionEast !== 0 || position.PositionNorth !== 0
-
-                record.position = position
-
-                if (isValidPosition) {
-                    minPoint[0] = Math.min(minPoint[0], position.PositionEast)
-                    minPoint[1] = Math.min(minPoint[1], position.PositionNorth)
-                    maxPoint[0] = Math.max(maxPoint[0], position.PositionEast)
-                    maxPoint[1] = Math.max(maxPoint[1], position.PositionNorth)
-                }
-            }
-
-            const count = reader.nextUint8()
-
-            const values = {}
-
-            for (let dlv = 0; dlv < count; dlv++) {
-                const dlvIdx = reader.nextUint8()
-                const ddi = this.timeLogHeader.attributes.DataLogValue[dlvIdx].attributes.ProcessDataDDI
-                const detId = this.timeLogHeader.attributes.DataLogValue[dlvIdx].attributes.DeviceElementIdRef.xmlId
-                const value = reader.nextInt32()
-
-                const key = `${ddi}_${detId}`
-
-                if (isValidPosition) {
-                    if (!ranges[key]) {
-                        ranges[key] = {
-                            min: value,
-                            max: value
-                        }
+                    if (headerPos.PositionNorth === null) {
+                        position.PositionNorth = reader.nextInt32() / 10000000
                     } else {
-                        ranges[key] = {
-                            min: Math.min(ranges[key].min, value),
-                            max: Math.max(ranges[key].max, value)
-                        }
+                        position.PositionNorth = headerPos.PositionNorth
+                    }
+
+                    if (headerPos.PositionEast === null) {
+                        position.PositionEast = reader.nextInt32() / 10000000
+                    } else {
+                        position.PositionEast = headerPos.PositionEast
+                    }
+
+                    if (headerPos.PositionUp === null) {
+                        position.PositionUp = reader.nextInt32()
+                    } else {
+                        position.PositionUp = headerPos.PositionUp
+                    }
+
+                    if ((headerPos.PositionStatus as any) === '') {
+                        position.PositionStatus = reader.nextUint8().toString() as TimelogPositionPositionStatusEnum
+                    } else {
+                        position.PositionStatus = headerPos.PositionStatus as any
+                    }
+
+                    if (headerPos.PDOP === null) {
+                        position.PDOP = reader.nextUint16() / 10
+                    } else {
+                        position.PDOP = headerPos.PDOP
+                    }
+
+                    if (headerPos.HDOP === null) {
+                        position.HDOP = reader.nextUint16() / 10
+                    } else {
+                        position.HDOP = headerPos.HDOP
+                    }
+
+                    if (headerPos.NumberOfSatellites === null) {
+                        position.NumberOfSatellites = reader.nextUint8()
+                    } else {
+                        position.NumberOfSatellites = headerPos.NumberOfSatellites
+                    }
+
+                    if (headerPos.GpsUtcTime === null) {
+                        position.GpsUtcTime = reader.nextUint32()
+                    } else {
+                        position.GpsUtcTime = headerPos.GpsUtcTime
+                    }
+
+                    if (headerPos.GpsUtcDate === null) {
+                        position.GpsUtcDate = reader.nextUint16()
+                    } else {
+                        position.GpsUtcDate = headerPos.GpsUtcDate
+                    }
+
+                    isValidPosition = position.PositionEast !== 0 || position.PositionNorth !== 0
+
+                    record.position = position
+
+                    if (isValidPosition) {
+                        minPoint[0] = Math.min(minPoint[0], position.PositionEast)
+                        minPoint[1] = Math.min(minPoint[1], position.PositionNorth)
+                        maxPoint[0] = Math.max(maxPoint[0], position.PositionEast)
+                        maxPoint[1] = Math.max(maxPoint[1], position.PositionNorth)
                     }
                 }
-                values[key] = value
-            }
 
-            record.values = values
+                const count = reader.nextUint8()
 
-            if (isValidPosition) {
+                const values = {}
+
+                for (let dlv = 0; dlv < count; dlv++) {
+                    const dlvIdx = reader.nextUint8()
+                    const ddi = this.timeLogHeader.attributes.DataLogValue[dlvIdx].attributes.ProcessDataDDI
+                    const detId = this.timeLogHeader.attributes.DataLogValue[dlvIdx].attributes.DeviceElementIdRef.xmlId
+                    const value = reader.nextInt32()
+
+                    const key = `${ddi}_${detId}`
+
+                    if (isValidPosition) {
+                        if (!ranges[key]) {
+                            ranges[key] = {
+                                min: value,
+                                max: value
+                            }
+                        } else {
+                            ranges[key] = {
+                                min: Math.min(ranges[key].min, value),
+                                max: Math.max(ranges[key].max, value)
+                            }
+                        }
+                    }
+                    values[key] = value
+                }
+
+                record.values = values
+                record.isValidPosition = isValidPosition
                 records.push(record)
+            } catch (error) {
+                this.parsingErrors.push(
+                    `Can't parse timelog record #${records.length}: not enough bytes in binary file`
+                )
+                break
             }
         }
 
