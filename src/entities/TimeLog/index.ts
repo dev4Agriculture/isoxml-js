@@ -50,8 +50,8 @@ export class ExtendedTimeLog extends TimeLog {
 
     static async fromXML(xml: XMLElement, isoxmlManager: ISOXMLManager, internalId: string): Promise<Entity> {
         const entity = await TimeLog.fromXML(xml, isoxmlManager, internalId, ExtendedTimeLog) as ExtendedTimeLog
-        const xmlFilename = `${entity.attributes.Filename}.XML`
-        const binFilename = `${entity.attributes.Filename}.BIN`
+        const xmlFilename = `${entity.attributes.Filename}.xml`
+        const binFilename = `${entity.attributes.Filename}.bin`
         entity.binaryData = await isoxmlManager.getParsedFile(binFilename, true)
         if (!entity.binaryData) {
             isoxmlManager.addWarning(`TimeLog binary file "${binFilename}" is missing`)

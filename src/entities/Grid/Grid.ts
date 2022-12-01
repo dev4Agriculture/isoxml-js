@@ -38,7 +38,7 @@ export class ExtendedGrid extends Grid {
     static async fromXML(xml: XMLElement, isoxmlManager: ISOXMLManager, internalId: string): Promise<Entity> {
         const entity = await Grid.fromXML(xml, isoxmlManager, internalId, ExtendedGrid) as ExtendedGrid
         const filename = entity.attributes.Filename
-        entity.binaryData = await isoxmlManager.getParsedFile(`${filename}.BIN`, true)
+        entity.binaryData = await isoxmlManager.getParsedFile(`${filename}.bin`, true)
 
         const nRows = entity.attributes.GridMaximumRow
         const nCols = entity.attributes.GridMaximumColumn

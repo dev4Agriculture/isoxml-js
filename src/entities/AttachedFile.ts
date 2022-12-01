@@ -22,6 +22,10 @@ export class ExtendedAttachedFile extends AttachedFile {
 
         const filename = entity.attributes.FilenameWithExtension
 
+        if (filename.toUpperCase() !== filename) {
+            isoxmlManager.addWarning(`[${internalId}] Name of attached file must be uppercase (real name: ${filename})`)
+        }
+
         if (entity.attributes.FileType === 1) {
             const linkListString = await isoxmlManager.getParsedFile(filename, false)
             let linkListXml
