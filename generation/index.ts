@@ -1,7 +1,7 @@
 import {readFileSync, mkdirSync, writeFileSync, rmSync} from 'fs'
 import {join} from 'path'
 import Handlebars from 'handlebars'
-import xmlParser from 'fast-xml-parser'
+import {XMLParser} from 'fast-xml-parser'
 
 Handlebars.registerHelper('ifnoteq', function(arg1, arg2, options) {
     return arg1 !== arg2 ? options.fn(this) : options.inverse(this)
@@ -65,13 +65,15 @@ const constantsTemplate = Handlebars.compile(
 ))
 
 function parseClassesFromFile(realm: string, filename: string, classPrefix = ''): any[] {
-    const schema = xmlParser.parse(readFileSync(filename, 'utf-8'), {
+    const schema = new XMLParser({
         textNodeName: '_text',
         attributeNamePrefix: '',
         ignoreAttributes: false,
-        attrNodeName: '_attributes',
-        arrayMode: true
-    })
+        attributesGroupName: '_attributes',
+        parseTagValue: false,
+        parseAttributeValue: false,
+        isArray: (tagName: string, jPath: string, isLeafNode: boolean, isAttribute: boolean) => !isAttribute,
+    }).parse(readFileSync(filename, 'utf-8'))
 
     const elements = schema['xs:schema'][0]['xs:element']
 
@@ -114,7 +116,7 @@ function parseClassesFromFile(realm: string, filename: string, classPrefix = '')
                     console.log('Unknown type', xsdType)
                 }
 
-                let typeEnum = null
+                let typeEnum = null as any
                 if (xsdType === 'xs:NMTOKEN') {
                     typeEnum = restrictions[0]['xs:enumeration'].map(enumElem => {
                         const value = enumElem._attributes.value

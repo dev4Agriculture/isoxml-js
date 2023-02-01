@@ -1,6 +1,6 @@
 {
   "name": "isoxml",
-  "version": "1.8.0",
+  "version": "1.8.1",
   "description": "JavaScript library to parse and generate ISOXML (ISO11783-10) files",
   "keywords": [
     "isoxml",
@@ -30,22 +30,22 @@
   },
   "dependencies": {
     "@turf/turf": "^6.4.0",
-    "fast-xml-parser": "^4.0.2",
+    "fast-xml-parser": "^4.0.15",
     "handlebars": "^4.7.7",
-    "jszip": "^3.6.0",
+    "jszip": "^3.10.1",
     "polygon-clipping": "^0.15.3",
     "rbush": "^3.0.1"
   },
   "devDependencies": {
-    "@types/jest": "^27.0.1",
+    "@types/jest": "^29.4.0",
     "@types/node": "^16.9.0",
     "@types/rbush": "^3.0.0",
-    "@typescript-eslint/eslint-plugin": "^4.28.5",
-    "@typescript-eslint/parser": "^4.28.5",
-    "eslint": "^7.31.0",
-    "jest": "^27.0.5",
-    "ts-jest": "^27.0.3",
-    "ts-node": "^10.0.0",
-    "typescript": "^4.3.4"
+    "@typescript-eslint/eslint-plugin": "^5.50.0",
+    "@typescript-eslint/parser": "^5.50.0",
+    "eslint": "^8.33.0",
+    "jest": "^29.4.1",
+    "ts-jest": "^29.0.5",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.9.5"
   }
 }
