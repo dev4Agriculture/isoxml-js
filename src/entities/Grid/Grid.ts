@@ -45,9 +45,11 @@ export class ExtendedGrid extends Grid {
         const bytesPerElem = entity.attributes.GridType === GridGridTypeEnum.GridType1 ? 1 : 4
         const expectedSize = nRows * nCols * bytesPerElem
 
-        if (expectedSize !== entity.binaryData.length) {
+        if (!entity.binaryData) {
+            isoxmlManager.addWarning(`[${internalId}] Missing grid file ${filename}.BIN`)
+        } else if (expectedSize !== entity.binaryData.length) {
             isoxmlManager.addWarning(
-                `Invalid size of grid file ${ filename }.BIN: ` +
+                `[${internalId}] Invalid size of grid file ${ filename }.BIN: ` +
                 `expected ${expectedSize} bytes, but real size is ${entity.binaryData.length}`
             )
         }

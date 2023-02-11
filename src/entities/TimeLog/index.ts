@@ -54,12 +54,12 @@ export class ExtendedTimeLog extends TimeLog {
         const binFilename = `${entity.attributes.Filename}.bin`
         entity.binaryData = await isoxmlManager.getParsedFile(binFilename, true)
         if (!entity.binaryData) {
-            isoxmlManager.addWarning(`TimeLog binary file "${binFilename}" is missing`)
+            isoxmlManager.addWarning(`[${internalId}] TimeLog binary file "${binFilename}" is missing`)
         }
 
         const xmlData = await isoxmlManager.getParsedFile(xmlFilename, false)
         if (!xmlData) {
-            isoxmlManager.addWarning(`TimeLog header file "${xmlFilename}" is missing`)
+            isoxmlManager.addWarning(`[${internalId}] TimeLog header file "${xmlFilename}" is missing`)
             return entity
         }
         const xmlTimelog = xml2js(xmlData)
