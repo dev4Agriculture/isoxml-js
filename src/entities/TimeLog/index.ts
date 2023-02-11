@@ -118,6 +118,7 @@ export class ExtendedTimeLog extends TimeLog {
         while (reader.tell() < this.binaryData.length) {
             const record: TimeLogRecord = {} as any
             let isValidPosition = false // skip items with lat = lng = 0
+            const position: TimelogPositionAttributes = {} as any
 
             try {
                 const ms = reader.nextUint32()
@@ -126,8 +127,6 @@ export class ExtendedTimeLog extends TimeLog {
                 record.time = new Date(1000 * 60 * 60 * 24 * days + ms) //TODO: timezone ?
 
                 if (headerPos) {
-                    const position: TimelogPositionAttributes = {} as any
-
                     if (headerPos.PositionNorth === null) {
                         position.PositionNorth = reader.nextInt32() / 10000000
                     } else {
@@ -185,13 +184,6 @@ export class ExtendedTimeLog extends TimeLog {
                     isValidPosition = position.PositionEast !== 0 || position.PositionNorth !== 0
 
                     record.position = position
-
-                    if (isValidPosition) {
-                        minPoint[0] = Math.min(minPoint[0], position.PositionEast)
-                        minPoint[1] = Math.min(minPoint[1], position.PositionNorth)
-                        maxPoint[0] = Math.max(maxPoint[0], position.PositionEast)
-                        maxPoint[1] = Math.max(maxPoint[1], position.PositionNorth)
-                    }
                 }
 
                 const count = reader.nextUint8()
@@ -230,6 +222,14 @@ export class ExtendedTimeLog extends TimeLog {
                     `Can't parse timelog record #${records.length}: not enough bytes in binary file`
                 )
                 break
+            }
+
+            // update bbox only after parsing the whole record to exclude invalid records
+            if (isValidPosition) {
+                minPoint[0] = Math.min(minPoint[0], position.PositionEast)
+                minPoint[1] = Math.min(minPoint[1], position.PositionNorth)
+                maxPoint[0] = Math.max(maxPoint[0], position.PositionEast)
+                maxPoint[1] = Math.max(maxPoint[1], position.PositionNorth)
             }
         }
 
