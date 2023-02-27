@@ -1,76 +1,51 @@
 /* This example suppose that the isoxml is built locally (run "npm run build" first) */
 
-import { readFileSync, writeFileSync } from 'fs'
-import { join } from 'path'
-import { ISOXMLManager, TAGS, TaskTaskStatusEnum, ExtendedTask } from '../dist'
-import {Polygon, PolygonPolygonTypeEnum} from '../dist'
-import { Partfield,LineString, LineStringLineStringTypeEnum} from '../dist'
-import { PointPointTypeEnum, Point } from '../dist'
+import { writeFileSync } from 'fs'
+import {
+    ISOXMLManager,
+    TAGS,
+    TaskTaskStatusEnum,
+    ExtendedTask,
+    ExtendedPolygon,
+    Partfield,
+    PolygonPolygonTypeEnum
+} from '../dist'
+
 const isoxmlManager = new ISOXMLManager()
 
+const geoJSON = {
+    type: "Polygon" as const,
+    coordinates: [
+        // outer ring
+        [
+            [52.1,7.1],
+            [52.1,7.2],
+            [52.2,7.2],
+            [52.2,7.1],
+            [52.1,7.1]
+        ],
+        // inner ring (hole)
+        [
+            [52.13,7.12],
+            [52.13,7.18],
+            [52.18,7.18],
+            [52.18,7.12],
+            [52.13,7.12]
+        ]
+    ]
+}
 
-//Create the Outer Boundary from an array of points
-const outerBoundary = [
-    [52.1,7.1],
-    [52.1,7.2],
-    [52.2,7.2],
-    [52.2,7.1],
-    [52.1,7.1]
-]
-
-const outerPoints = [] as Point[]
-outerBoundary.forEach(entry =>
-    {
-        outerPoints.push(isoxmlManager.createEntityFromAttributes(TAGS.Point, {
-            PointNorth: entry[0],
-            PointEast: entry[1],
-            PointType: PointPointTypeEnum.Other
-        }) as Point)
-    }
+// create ISOXML polygons from GeoJSON
+const polygons = ExtendedPolygon.fromGeoJSON(
+    geoJSON,
+    PolygonPolygonTypeEnum.PartfieldBoundary,
+    isoxmlManager
 )
 
-//Add an inner Boundary (a hole) to the Partfield
-const outerLineString = isoxmlManager.createEntityFromAttributes(TAGS.LineString, {
-    Point : outerPoints,
-    LineStringType : LineStringLineStringTypeEnum.PolygonExterior,
-}) as LineString
-
-const innerBoundary = [
-    [52.13,7.12],
-    [52.13,7.18],
-    [52.18,7.18],
-    [52.18,7.12],
-    [52.13,7.12]
-
-]
-
-const innerPoints = [] as Point[]
-innerBoundary.forEach(entry =>
-    {
-        innerPoints.push(isoxmlManager.createEntityFromAttributes(TAGS.Point, {
-            PointNorth: entry[0],
-            PointEast: entry[1],
-            PointType: PointPointTypeEnum.Other
-        }) as Point)
-    }
-)
-
-const innerLineString = isoxmlManager.createEntityFromAttributes(TAGS.LineString, {
-    Point : innerPoints,
-    LineStringType : LineStringLineStringTypeEnum.PolygonInterior,
-}) as LineString
-
-
-//Add the Polygon to the Partfield
-const polygon = isoxmlManager.createEntityFromAttributes(TAGS.Polygon, {
-    PolygonType: PolygonPolygonTypeEnum.PartfieldBoundary, 
-    LineString : [outerLineString,innerLineString]
-}) as Polygon
-
-
+// create a Partfield
 const partfield = isoxmlManager.createEntityFromAttributes(TAGS.Partfield, {
     PartfieldDesignator : "Test",
-    PolygonnonTreatmentZoneonly: [polygon]
+    PolygonnonTreatmentZoneonly: polygons
   }) as Partfield
 
 // assign a local ID to the partfield ("PFD1" in our case)
