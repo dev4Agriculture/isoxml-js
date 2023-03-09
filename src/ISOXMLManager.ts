@@ -80,8 +80,9 @@ export class ISOXMLManager {
      *   - otherwise, generate new reference
      * if "xmlId" is not provided, do the following:
      *   - try to find the "entity" (the same JS object) in references
-     *   - try to find the entity with the same type and "fmisId" if references
+     *   - try to find the entity with the same type and "fmisId" if provided
      *   - if both above failed, create new reference
+     * Returns undefined if failed to create reference
      */
     public registerEntity(entity?: Entity, xmlId?: string, fmisId?: string): ISOXMLReference {
         if (!entity && !xmlId) {
@@ -92,7 +93,7 @@ export class ISOXMLManager {
             const tag = entity.tag
             const existingReference = Object.values(this.xmlReferences)
                 .filter(ref => ref.xmlId.startsWith(tag))
-                .find(ref =>  ref.entity === entity || (fmisId && fmisId === ref.fmisId))
+                .find(ref => ref.entity === entity || (fmisId && fmisId === ref.fmisId))
 
             if (existingReference) {
                 xmlId = existingReference.xmlId
@@ -101,8 +102,17 @@ export class ISOXMLManager {
                 xmlId = `${entity.tag}${this.nextIds[entity.tag]++}`
             }
         } else {
-            const {tag, id} = this.parseXmlId(xmlId)
-            this.nextIds[tag] = Math.max(this.nextIds[tag] || 1, id + 1)
+            const parsedXmlId = this.parseXmlId(xmlId)
+            if (!parsedXmlId) {
+                return
+            }
+
+            // check consistency between xmlId and entity
+            if (entity && entity.tag !== parsedXmlId.tag) {
+                return
+            }
+
+            this.nextIds[parsedXmlId.tag] = Math.max(this.nextIds[parsedXmlId.tag] || 1, parsedXmlId.id + 1)
         }
 
         this.xmlReferences[xmlId] = this.xmlReferences[xmlId] || {xmlId}
