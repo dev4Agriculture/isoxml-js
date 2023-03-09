@@ -63,7 +63,7 @@ export class ExtendedGrid extends Grid {
         treatmentZoneCode?: number
     ): ExtendedGrid {
         const gridParamsGenerator = 
-            isoxmlManager.options.gridRaramsGenerator ||
+            isoxmlManager.options.gridParamsGenerator ||
             createGridParamsGenerator(GRID_CELL_SIZE, GRID_CELL_SIZE)
 
         const gridParams = gridParamsGenerator(geoJSON)
