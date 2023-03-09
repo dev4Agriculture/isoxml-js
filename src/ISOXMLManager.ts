@@ -16,7 +16,7 @@ export type ISOXMLManagerOptions = {
     fmisURI?: string
     fmisVersion?: string
     version?: number
-    gridRaramsGenerator?: GridParametersGenerator,
+    gridParamsGenerator?: GridParametersGenerator,
     gridGenerator?: GridGenerator,
     realm?: string
 }
