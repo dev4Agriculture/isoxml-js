@@ -46,10 +46,10 @@ export class ExtendedGrid extends Grid {
         const expectedSize = nRows * nCols * bytesPerElem
 
         if (!entity.binaryData) {
-            isoxmlManager.addWarning(`[${internalId}] Missing grid file ${filename}.BIN`)
+            isoxmlManager.addWarning(`[${internalId}] Missing grid file ${filename}.bin`)
         } else if (expectedSize !== entity.binaryData.length) {
             isoxmlManager.addWarning(
-                `[${internalId}] Invalid size of grid file ${ filename }.BIN: ` +
+                `[${internalId}] Invalid size of grid file ${ filename }.bin: ` +
                 `expected ${expectedSize} bytes, but real size is ${entity.binaryData.length}`
             )
         }
@@ -77,7 +77,7 @@ export class ExtendedGrid extends Grid {
 
         const filename = isoxmlManager.generateUniqueFilename(TAGS.Grid)
 
-        isoxmlManager.addFileToSave(new Uint8Array(buffer), `${filename}.BIN`)
+        isoxmlManager.addFileToSave(new Uint8Array(buffer), `${filename}.bin`)
 
         const entity = new ExtendedGrid({
             GridMinimumNorthPosition: minY,
@@ -98,7 +98,7 @@ export class ExtendedGrid extends Grid {
     }
 
     toXML(): XMLElement { 
-        this.isoxmlManager.addFileToSave(this.binaryData, `${this.attributes.Filename}.BIN`) 
+        this.isoxmlManager.addFileToSave(this.binaryData, `${this.attributes.Filename}.bin`) 
         return super.toXML() 
     } 
 

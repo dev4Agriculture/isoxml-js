@@ -48,7 +48,7 @@ describe('ISOXML Manager', () => {
         expect(data.length).toBe(14065)
 
         const zip = await JSZip.loadAsync(data)
-        expect(zip.file("TASKDATA/GRD00001.BIN")).toBeTruthy()
+        expect(zip.file("TASKDATA/GRD00001.bin")).toBeTruthy()
     })
 
     it('should parse and save timelog files', async () => {
@@ -60,8 +60,8 @@ describe('ISOXML Manager', () => {
         // writeFileSync('./data/test_timelog_out.zip', data)
 
         const zip = await JSZip.loadAsync(data)
-        expect(zip.file("TASKDATA/TLG00001.XML")).toBeTruthy()
-        expect(zip.file("TASKDATA/TLG00001.BIN")).toBeTruthy()
+        expect(zip.file("TASKDATA/TLG00001.xml")).toBeTruthy()
+        expect(zip.file("TASKDATA/TLG00001.bin")).toBeTruthy()
     })
 
     it('should preserve attached files', async () => {

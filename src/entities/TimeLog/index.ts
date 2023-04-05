@@ -93,8 +93,8 @@ export class ExtendedTimeLog extends TimeLog {
         }
         const xmlData = js2xml(json)
 
-        this.isoxmlManager.addFileToSave(xmlData, `${this.attributes.Filename}.XML`) 
-        this.isoxmlManager.addFileToSave(this.binaryData, `${this.attributes.Filename}.BIN`) 
+        this.isoxmlManager.addFileToSave(xmlData, `${this.attributes.Filename}.xml`) 
+        this.isoxmlManager.addFileToSave(this.binaryData, `${this.attributes.Filename}.bin`) 
         return super.toXML() 
     } 
 
