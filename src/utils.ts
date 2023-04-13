@@ -242,7 +242,7 @@ export function toXML(
 }
 
 export function DDIToString(DDI: number): string {
-    return ('0000' + DDI.toString(16).toUpperCase()).slice(-4)
+    return DDI.toString(16).toUpperCase().padStart(4, '0')
 }
 
 export function constructValueInformation(
