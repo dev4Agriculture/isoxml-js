@@ -17,6 +17,8 @@ jobs:
       with:
         node-version: 18.14
 
+    - run: npm ci
+
     - run: npm test
 
 
@@ -31,6 +33,8 @@ jobs:
       with:
         node-version: 18.14
 
-    - run: npm lint
+    - run: npm ci
+
+    - run: npm run lint
 
 
