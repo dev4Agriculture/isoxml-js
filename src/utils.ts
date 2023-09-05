@@ -165,7 +165,7 @@ export async function xml2ChildTags(
     internalId: string
 ): Promise<{[tag: string]: Entity[]}> {
     const result = {}
-    for (const tagName in xml) {
+    for (const tagName of Object.keys(xml)) {
         const refDescription = referencesDescription[tagName]
         if (!refDescription) {
             if (tagName.match(PROPRIETARY_NAME)) {
@@ -176,9 +176,8 @@ export async function xml2ChildTags(
             continue 
         }
         result[refDescription.name] = []
-        for (const idx in xml[tagName]) {
+        for (const [idx, childXml] of xml[tagName].entries()) {
             const childInternalId = `${internalId}->${tagName}[${idx}]`
-            const childXml = xml[tagName][idx]
             result[refDescription.name].push(
                 await isoxmlManager.createEntityFromXML(tagName as TAGS, childXml, childInternalId)
             )
