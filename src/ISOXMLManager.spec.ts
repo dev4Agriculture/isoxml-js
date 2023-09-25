@@ -5,8 +5,9 @@ import { TAGS } from './baseEntities/constants'
 import { ExtendedTask } from './entities/Task'
 import { ISOXMLManager } from './ISOXMLManager'
 
-// make sure that Array prototype pollution doesn't break the library
-(Array.prototype as any).anyCustomMethod = () => 0
+// make sure that Array and Object prototype pollution doesn't break the library
+(Array.prototype as any).anyCustomMethod = () => 0;
+(Object.prototype as any).anyCustomMethod = () => 0
 
 describe('ISOXML Manager', () => {
 
