@@ -26,7 +26,6 @@ describe('Utils', () => {
             Scale: 0.0001,
             NumberOfDecimals: 1,
             UnitDesignator: 'l/h'
-
         })
 
         const valueInfo = constructValueInformation('0001', valuePresentation)
@@ -39,6 +38,20 @@ describe('Utils', () => {
         expect(valueInfo.offset).toBe(0)
         expect(valueInfo.scale).toBe(0.0001)
         expect(valueInfo.isProprietary).toBe(false)
+    })
+
+    it('constructValueInformation with ValuePresentation without unit', async () => {
+        const isoxmlManager = new ISOXMLManager()
+
+        const valuePresentation = isoxmlManager.createEntityFromAttributes<ValuePresentation>(TAGS.ValuePresentation, {
+            Offset: 0,
+            Scale: 0.0001,
+            NumberOfDecimals: 1
+        })
+
+        const valueInfo = constructValueInformation('0001', valuePresentation)
+
+        expect(valueInfo.unit).toBe('')
     })
 
     it('constructValueInformation with DeviceProcessData', async () => {

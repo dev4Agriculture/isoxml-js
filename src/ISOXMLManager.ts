@@ -163,12 +163,30 @@ export class ISOXMLManager {
 
         } else if (dataType === 'application/zip') {
             this.originalZip = await JSZip.loadAsync(data)
-            const mainFile = this.originalZip.file(new RegExp(MAIN_FILENAME + '$', 'i'))[0]
-            if (!mainFile) {
-                throw new Error("Zip file doesn't contain TASKDATA.XML")
+            const mainFilenames = Object.keys(this.originalZip.files).filter(path => {
+                const splitted = path.split('/')
+                return splitted[splitted.length - 1].toLowerCase() === MAIN_FILENAME.toLowerCase()
+            })
+
+            if (mainFilenames.length === 0) {
+                throw new Error("ZIP file doesn't contain TASKDATA.XML")
             }
 
-            this.options.rootFolder = mainFile.name.match(/(.*[/\\])/)?.[1] ?? ''
+            if (mainFilenames.length > 1) {
+                this.addWarning("More than one TASKDATA.XML files found in ZIP file - selecting one of them")
+            }
+
+            const mainFilename = mainFilenames.find(
+                filename => filename.toLowerCase() === `${ROOT_FOLDER}/${MAIN_FILENAME}`.toLowerCase()
+            ) ?? mainFilenames[0]
+
+            if (mainFilename.slice(-MAIN_FILENAME.length) !== MAIN_FILENAME) {
+                this.addWarning(`Name of the main file must be uppercase (real name: ${mainFilename})`)
+            }
+
+            this.options.rootFolder = mainFilename.slice(0, -MAIN_FILENAME.length)
+
+            const mainFile = this.originalZip.file(mainFilename)
 
             const mainXmlString = await mainFile.async('string')
             const mainXml = xml2js(mainXmlString)
