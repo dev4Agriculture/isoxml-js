@@ -7,7 +7,7 @@ import { XMLElement } from '../types'
 
 import { Entity, EntityConstructor, AttributesDescription } from '../types'
 
-export enum TaskControllerCapabilitiesVersionNumberEnum {
+export const enum TaskControllerCapabilitiesVersionNumberEnum {
     TheVersionOfTheDIS1FirstDraftInternationalStandard = '0',
     TheVersionOfTheFDIS1FinalDraftInternationalStandardFirstEdition = '1',
     TheVersionOfTheFDIS2AndTheFirstEditionPublishedAsAnInternationalStandard = '2',

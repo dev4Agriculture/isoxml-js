@@ -7,7 +7,7 @@ import { XMLElement } from '../types'
 
 import { Entity, EntityConstructor, AttributesDescription } from '../types'
 
-export enum ProductGroupProductGroupTypeEnum {
+export const enum ProductGroupProductGroupTypeEnum {
     ProductGroupDefault = '1',
     CropType = '2',
 }

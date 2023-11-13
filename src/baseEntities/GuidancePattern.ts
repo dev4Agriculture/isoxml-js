@@ -9,31 +9,31 @@ import { Polygon } from './Polygon'
 
 import { Entity, EntityConstructor, AttributesDescription, ISOXMLReference } from '../types'
 
-export enum GuidancePatternGuidancePatternTypeEnum {
+export const enum GuidancePatternGuidancePatternTypeEnum {
     AB = '1',
     A = '2',
     Curve = '3',
     Pivot = '4',
     Spiral = '5',
 }
-export enum GuidancePatternGuidancePatternOptionsEnum {
+export const enum GuidancePatternGuidancePatternOptionsEnum {
     ClockwiseForPivot = '1',
     CounterClockwiseForPivot = '2',
     FullCircleForPivot = '3',
 }
-export enum GuidancePatternGuidancePatternPropagationDirectionEnum {
+export const enum GuidancePatternGuidancePatternPropagationDirectionEnum {
     BothDirections = '1',
     LeftDirectionOnly = '2',
     RightDirectionOnly = '3',
     NoPropagation = '4',
 }
-export enum GuidancePatternGuidancePatternExtensionEnum {
+export const enum GuidancePatternGuidancePatternExtensionEnum {
     FromBothFirstAndLastPoint = '1',
     FromFirstPointAOnly = '2',
     FromLastPointBOnly = '3',
     NoExtensions = '4',
 }
-export enum GuidancePatternGuidancePatternGNSSMethodEnum {
+export const enum GuidancePatternGuidancePatternGNSSMethodEnum {
     NoGPSFix = '0',
     GNSSFix = '1',
     DGNSSFix = '2',

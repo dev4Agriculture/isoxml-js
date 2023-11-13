@@ -8,7 +8,7 @@ import { Position } from './Position'
 
 import { Entity, EntityConstructor, AttributesDescription } from '../types'
 
-export enum AllocationStampTypeEnum {
+export const enum AllocationStampTypeEnum {
     Planned = '1',
     EffectiveRealized = '4',
 }

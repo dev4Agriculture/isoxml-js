@@ -9,7 +9,7 @@ import { DataLogValue } from './DataLogValue'
 
 import { Entity, EntityConstructor, AttributesDescription } from '../types'
 
-export enum TimeTypeEnum {
+export const enum TimeTypeEnum {
     Planned = '1',
     Preliminary = '2',
     Effective = '4',

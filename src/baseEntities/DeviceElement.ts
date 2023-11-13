@@ -8,7 +8,7 @@ import { DeviceObjectReference } from './DeviceObjectReference'
 
 import { Entity, EntityConstructor, AttributesDescription } from '../types'
 
-export enum DeviceElementDeviceElementTypeEnum {
+export const enum DeviceElementDeviceElementTypeEnum {
     Device = '1',
     Function = '2',
     Bin = '3',

@@ -7,7 +7,7 @@ import { XMLElement } from '../types'
 
 import { Entity, EntityConstructor, AttributesDescription } from '../types'
 
-export enum AttachedFilePreserveEnum {
+export const enum AttachedFilePreserveEnum {
     TaskControllerDoesNotNeedToPreserveAttachedFile = '1',
     PreserveOnTaskControllerAndSendBackToFMIS = '2',
 }

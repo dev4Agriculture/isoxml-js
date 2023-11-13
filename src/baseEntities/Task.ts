@@ -20,7 +20,7 @@ import { GuidanceAllocation } from './GuidanceAllocation'
 
 import { Entity, EntityConstructor, AttributesDescription, ISOXMLReference } from '../types'
 
-export enum TaskTaskStatusEnum {
+export const enum TaskTaskStatusEnum {
     Planned = '1',
     Running = '2',
     Paused = '3',

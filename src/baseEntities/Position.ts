@@ -7,7 +7,7 @@ import { XMLElement } from '../types'
 
 import { Entity, EntityConstructor, AttributesDescription } from '../types'
 
-export enum PositionPositionStatusEnum {
+export const enum PositionPositionStatusEnum {
     NoGPSFix = '0',
     GNSSFix = '1',
     DGNSSFix = '2',

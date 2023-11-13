@@ -7,7 +7,7 @@ import { XMLElement } from '../types'
 
 import { Entity, EntityConstructor, AttributesDescription } from '../types'
 
-export enum TimeLogTimeLogTypeEnum {
+export const enum TimeLogTimeLogTypeEnum {
     BinaryTimelogFileType1 = '1',
 }
 

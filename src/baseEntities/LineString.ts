@@ -8,7 +8,7 @@ import { Point } from './Point'
 
 import { Entity, EntityConstructor, AttributesDescription } from '../types'
 
-export enum LineStringLineStringTypeEnum {
+export const enum LineStringLineStringTypeEnum {
     PolygonExterior = '1',
     PolygonInterior = '2',
     TramLine = '3',
