@@ -1,6 +1,6 @@
 {
   "name": "isoxml",
-  "version": "1.9.4",
+  "version": "1.9.5",
   "description": "JavaScript library to parse and generate ISOXML (ISO11783-10) files",
   "keywords": [
     "isoxml",
@@ -19,11 +19,12 @@
     "dist"
   ],
   "main": "dist/index.js",
+  "module": "dist_es/index.js",
   "scripts": {
     "gen": "ts-node generation/index.ts",
     "test": "jest",
     "coverage": "jest --coverage",
-    "build": "tsc",
+    "build": "tsc -p tsconfig.json && tsc -p tsconfig-es.json",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "prepare": "npm run build",
     "prepublishOnly": "npm t && npm run lint"
