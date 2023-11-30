@@ -49,7 +49,7 @@ export class ISOXMLManager {
         this.rootElement = ExtendedISO11783TaskDataFile.fromISOXMLManagerOptions(this)
     }
 
-    private parseXmlId(xmlId: string) {
+    static parseXmlId(xmlId: string) {
         const match = xmlId.match(/([A-Z]{3})(-?\d+)/)
         if (!match) {
             return null
@@ -102,7 +102,7 @@ export class ISOXMLManager {
                 xmlId = `${entity.tag}${this.nextIds[entity.tag]++}`
             }
         } else {
-            const parsedXmlId = this.parseXmlId(xmlId)
+            const parsedXmlId = ISOXMLManager.parseXmlId(xmlId)
             if (!parsedXmlId) {
                 return
             }
@@ -242,7 +242,7 @@ export class ISOXMLManager {
 
     public getEntitiesOfTag<T extends Entity>(tag: TAGS): T[] {
         return Object.values(this.xmlReferences)
-            .filter(ref => this.parseXmlId(ref.xmlId).tag === tag && ref.entity)
+            .filter(ref => ISOXMLManager.parseXmlId(ref.xmlId).tag === tag && ref.entity)
             .map(ref => ref.entity as T)
     }
 
