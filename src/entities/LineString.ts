@@ -35,7 +35,8 @@ export class ExtendedLineString extends LineString {
             Point: coordinates.map(c => new Point({
                 PointType: PointPointTypeEnum.Other,
                 PointNorth: c[1],
-                PointEast: c[0]
+                PointEast: c[0],
+                PointUp: c[2]
             }, isoxmlManager))
         }, isoxmlManager)
     }
