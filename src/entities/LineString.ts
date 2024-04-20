@@ -36,7 +36,7 @@ export class ExtendedLineString extends LineString {
                 PointType: PointPointTypeEnum.Other,
                 PointNorth: c[1],
                 PointEast: c[0],
-                PointUp: c[2]
+                ...c[2] != undefined && {PointUp: c[2] / 1000},
             }, isoxmlManager))
         }, isoxmlManager)
     }
