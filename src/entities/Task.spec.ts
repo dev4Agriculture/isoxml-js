@@ -1,7 +1,8 @@
 import { readFileSync } from 'fs'
 import { ISOXMLManager } from '../ISOXMLManager'
 import { ExtendedTask } from './Task'
-import { TaskTaskStatusEnum, ValuePresentation } from '../baseEntities'
+import { ProcessDataVariable, TaskTaskStatusEnum, ValuePresentation } from '../baseEntities'
+import { TAGS } from '../baseEntities/constants'
 
 describe('Task Entity', () => {
     it('should add Grid from GeoJSON', async () => {
@@ -12,7 +13,11 @@ describe('Task Entity', () => {
             TaskStatus: TaskTaskStatusEnum.Planned
         }, isoxmlManager) as ExtendedTask
 
-        task.addGridFromGeoJSON(geoJSONdata, 1)
+        task.addGridFromGeoJSON(
+            geoJSONdata,
+            [isoxmlManager.createEntityFromAttributes(TAGS.ProcessDataVariable, {ProcessDataDDI: '0001'})],
+            ['DOSE']
+        )
         
         expect(task.attributes.TreatmentZone).toHaveLength(2)
         expect(task.attributes.Grid).toHaveLength(1)
@@ -26,12 +31,16 @@ describe('Task Entity', () => {
             TaskStatus: TaskTaskStatusEnum.Planned
         }, isoxmlManager)
 
-        task.addGridFromGeoJSON(geoJSONdata, 1)
+        task.addGridFromGeoJSON(
+            geoJSONdata,
+            [isoxmlManager.createEntityFromAttributes(TAGS.ProcessDataVariable, {ProcessDataDDI: '0001'})],
+            ['DOSE']
+        )
 
-        const geoJSON = task.getGridAsGeoJSON()
+        const geoJSON = task.getGridAsGeoJSON(['DOSE'])
 
         expect(geoJSON).toBeTruthy()
-        expect(geoJSON.features[0].properties.DOSE).toBe(16) // 15.7 should be rounded to 16
+        expect(geoJSON.features[0].properties!.DOSE).toBe(16) // 15.7 should be rounded to 16
     })
 
     it('should return grid values description', async () => {
@@ -46,7 +55,11 @@ describe('Task Entity', () => {
 
         expect(descriptionBefore).toHaveLength(0)
 
-        task.addGridFromGeoJSON(geoJSONdata, 1)
+        task.addGridFromGeoJSON(
+            geoJSONdata,
+            [isoxmlManager.createEntityFromAttributes(TAGS.ProcessDataVariable, {ProcessDataDDI: '0001'})],
+            ['DOSE']
+        )
 
         const descriptionAfter = task.getGridValuesDescription()
 
@@ -62,7 +75,17 @@ describe('Task Entity', () => {
             UnitDesignator: 'custom-unit'
         }, isoxmlManager)
 
-        task.addGridFromGeoJSON(geoJSONdata, 1, undefined, isoxmlManager.registerEntity(vpn))
+        task.addGridFromGeoJSON(
+            geoJSONdata,
+            [isoxmlManager.createEntityFromAttributes(
+                TAGS.ProcessDataVariable,
+                {
+                    ProcessDataDDI: '0001',
+                    ValuePresentationIdRef: isoxmlManager.registerEntity(vpn)
+                }
+            )],
+            ['DOSE']
+        )
         const descriptionAfterWithVPN = task.getGridValuesDescription()
 
         expect(descriptionAfterWithVPN).toHaveLength(1)
@@ -80,7 +103,13 @@ describe('Task Entity', () => {
             TaskStatus: TaskTaskStatusEnum.Planned
         }, isoxmlManager)
 
-        task.addGridFromGeoJSON(geoJSONdata, 1, undefined, undefined, 11, 22, 33)
+        const pdv = isoxmlManager.createEntityFromAttributes<ProcessDataVariable>(
+            TAGS.ProcessDataVariable,
+            {
+                ProcessDataDDI: '0001',
+            }
+        )
+        task.addGridFromGeoJSON(geoJSONdata, [pdv], ['DOSE'], [11], [22], [33])
 
         expect(task.attributes.TreatmentZone).toHaveLength(4)
 

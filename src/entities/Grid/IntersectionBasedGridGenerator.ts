@@ -5,10 +5,14 @@ import RBush from "rbush"
 
 import { GridParameters } from ".."
 
-export function intersectionBasedGridGenerator(geoJSON: FeatureCollection, gridParams: GridParameters): ArrayBuffer {
+export function intersectionBasedGridGenerator(
+    geoJSON: FeatureCollection,
+    propertyNames: string[],
+    gridParams: GridParameters
+): ArrayBuffer {
     const {minX, minY, numCols, numRows, cellWidth, cellHeight} = gridParams
 
-    const filelength = numCols * numRows * 4
+    const filelength = numCols * numRows * 4 * propertyNames.length
     const buffer = new ArrayBuffer(filelength)
     const int32array = new Int32Array(buffer)
 
@@ -18,6 +22,7 @@ export function intersectionBasedGridGenerator(geoJSON: FeatureCollection, gridP
         return {minX: bboxMinX, minY: bboxMinY, maxX: bboxMaxX, maxY: bboxMaxY, feature: f}
     }))
 
+    let index = 0
     for (let y = 0; y < numRows; y++) {
         const subTree = new RBush<{feature: any}>()
 
@@ -77,9 +82,10 @@ export function intersectionBasedGridGenerator(geoJSON: FeatureCollection, gridP
                 })
             }
 
-            const value = feature ? feature.properties.DOSE : 0
-
-            int32array[y * numCols + x] = Math.round(value)
+            for (const propertyName of propertyNames) {
+                const value = Math.round(feature?.properties[propertyName] ?? 0)
+                int32array[index++] = value
+            }
         }
     }
 

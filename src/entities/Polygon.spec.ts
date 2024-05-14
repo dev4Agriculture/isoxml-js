@@ -26,6 +26,7 @@ describe('Polygon Entity', () => {
             PolygonPolygonTypeEnum.TreatmentZone,
             isoxmlManager
         )
+        const xml = polygons[0].toXML()
         expect(polygons).toHaveLength(1)
         expect(stat(polygons[0])).toEqual({inner: 2, outer: 2})
     })

@@ -21,7 +21,11 @@ export type GridParameters = {
 }
 
 export type GridParametersGenerator = (geometry: FeatureCollection) => GridParameters
-export type GridGenerator = (geometry: FeatureCollection, gridParams: GridParameters) => ArrayBuffer
+export type GridGenerator = (
+    featureCollection: FeatureCollection,
+    propertyNames: string[],
+    gridParams: GridParameters
+) => ArrayBuffer
 
 export class ExtendedGrid extends Grid {
     public tag = TAGS.Grid
@@ -57,8 +61,10 @@ export class ExtendedGrid extends Grid {
         return entity
     }
 
+    /** Creates Grid of Type 2 */
     static fromGeoJSON(
         geoJSON: FeatureCollection,
+        geoJSONPropertyNames: string[],
         isoxmlManager: ISOXMLManager,
         treatmentZoneCode?: number
     ): ExtendedGrid {
@@ -73,7 +79,7 @@ export class ExtendedGrid extends Grid {
             cellCenterBasedGridGenerator
 
         const {minX, minY, numCols, numRows, cellWidth, cellHeight} = gridParams
-        const buffer = gridGenerator(geoJSON, gridParams)
+        const buffer = gridGenerator(geoJSON, geoJSONPropertyNames, gridParams)
 
         const filename = isoxmlManager.generateUniqueFilename(TAGS.Grid)
 
@@ -87,7 +93,7 @@ export class ExtendedGrid extends Grid {
             GridMaximumColumn: numCols,
             GridMaximumRow: numRows,
             Filename: filename,
-            Filelength: numCols * numRows * 4,
+            Filelength: numCols * numRows * 4 * geoJSONPropertyNames.length,
             GridType: GridGridTypeEnum.GridType2,
             ...typeof treatmentZoneCode === 'number' && {TreatmentZoneCode: treatmentZoneCode}
         }, isoxmlManager)
@@ -102,29 +108,47 @@ export class ExtendedGrid extends Grid {
         return super.toXML() 
     } 
 
-    toGeoJSON(): FeatureCollection {
-        const cells = new Int32Array(this.binaryData.buffer)
+    /** Supports only Grid of Type 2 */
+    toGeoJSON(propertyNames: string[]): FeatureCollection {
+        if (this.attributes.GridType === GridGridTypeEnum.GridType1) {
+            throw new Error('GeoJSON for Grids of Type 1 are not supported')
+        }
         const rows = this.attributes.GridMaximumRow
         const cols = this.attributes.GridMaximumColumn
         const w = this.attributes.GridCellEastSize
         const h = this.attributes.GridCellNorthSize
         const minX = this.attributes.GridMinimumEastPosition
         const minY = this.attributes.GridMinimumNorthPosition
+        const numValues = propertyNames.length
+
+        const extectedBufferSize = rows * cols * 4 * numValues
+
+        if (extectedBufferSize !== this.binaryData.length) {
+            throw new Error('Can not generate GeoJSON: invalid size of binary data.')
+        }
+
+        const cells = new Int32Array(this.binaryData.buffer)
 
         const features = new Array(rows * cols)
 
+        let index = 0
         for (let y = 0; y < rows; y++) {
             for (let x = 0; x < cols; x++) {
-                const dose = cells[y * cols + x]
-                if (dose === 0.0) {
+
+                let allAreZeros = true
+                const properties = {}
+                for (const attrName of propertyNames) {
+                    const value = cells[index++]
+                    properties[attrName] = value
+                    allAreZeros &&= value === 0
+                }
+                if (allAreZeros) {
                     features[y * cols + x] = null
                     continue
                 }
                 features[y * cols + x] = {
                     type: 'Feature',
-                    properties: {
-                        DOSE: dose
-                    },
+                    properties,
                     geometry: {
                         type: 'Polygon',
                         coordinates: [[
