@@ -20,35 +20,86 @@ export class ExtendedTask extends Task {
     static fromXML(xml: XMLElement, isoxmlManager: ISOXMLManager, internalId: string): Promise<Entity> {
         return Task.fromXML(xml, isoxmlManager, internalId, ExtendedTask)
     }
+    
+    private findFreeTZNCode(): number | undefined {
+        const tznCodes = new Set(this.attributes.TreatmentZone?.map(tzn => tzn.attributes.TreatmentZoneCode))
+        for (let i = 0; i < 255; i++) {
+            if (!tznCodes.has(i)) {
+                return i
+            }
+        }
+    }
 
+    /** Adds Grid and corresponding TreatmentZones to the Task.
+     * 
+     * Implementation notes:
+     * - this function doesn't remove any existing TreatmentZones from the task, it just adds new TZNs.
+     * - TZN codes are generated automatically.
+     * - if OutOfFieldTreatmentZone in the task is not defined,
+     *   it will be created using outOfFieldValue (which is 0 by default)
+     * - if defaultTreatmentValue or positionLostValue are defined, corresponding TZNs will be created and used
+     */
     addGridFromGeoJSON(
         geoJSON: FeatureCollection,
         DDI: number,
         deviceElemRef?: ISOXMLReference,
-        vpnRef?: ISOXMLReference
+        vpnRef?: ISOXMLReference,
+        defaultTreatmentValue?: number,
+        positionLostValue?: number,
+        outOfFieldValue?: number,
     ): void {
-        const processDataVariable = this.isoxmlManager.createEntityFromAttributes<ProcessDataVariable>(
-            TAGS.ProcessDataVariable, {
-                ProcessDataDDI: DDIToString(DDI),
-                ProcessDataValue: 0,
-                ...deviceElemRef && { DeviceElementIdRef: deviceElemRef },
-                ...vpnRef && { ValuePresentationIdRef: vpnRef }
-            })
-        this.attributes.TreatmentZone = [
+        const createPDV = (value: number) =>
+            this.isoxmlManager.createEntityFromAttributes<ProcessDataVariable>(
+                TAGS.ProcessDataVariable, {
+                    ProcessDataDDI: DDIToString(DDI),
+                    ProcessDataValue: value,
+                    ...deviceElemRef && { DeviceElementIdRef: deviceElemRef },
+                    ...vpnRef && { ValuePresentationIdRef: vpnRef }
+                }
+            )
+        this.attributes.TreatmentZone = this.attributes.TreatmentZone ?? []
+
+        if (this.attributes.OutOfFieldTreatmentZoneCode === undefined || outOfFieldValue !== undefined) {
+            this.attributes.OutOfFieldTreatmentZoneCode = this.findFreeTZNCode()
+            this.attributes.TreatmentZone.push(
+                this.isoxmlManager.createEntityFromAttributes(TAGS.TreatmentZone, {
+                    TreatmentZoneCode: this.attributes.OutOfFieldTreatmentZoneCode,
+                    ProcessDataVariable: [createPDV(outOfFieldValue ?? 0)]
+                })
+            )
+        }
+
+        const gridTZNCode = this.findFreeTZNCode()
+        this.attributes.TreatmentZone.push(
             this.isoxmlManager.createEntityFromAttributes(TAGS.TreatmentZone, {
-                TreatmentZoneCode: 0,
-                ProcessDataVariable: [processDataVariable]
-            }) as TreatmentZone,
-            this.isoxmlManager.createEntityFromAttributes(TAGS.TreatmentZone, {
-                TreatmentZoneCode: 1,
-                ProcessDataVariable: [processDataVariable]
+                TreatmentZoneCode: gridTZNCode,
+                ProcessDataVariable: [createPDV(0)]
             }) as TreatmentZone
+        )
+
+        this.attributes.Grid = [
+            ExtendedGrid.fromGeoJSON(geoJSON, this.isoxmlManager, gridTZNCode)
         ]
 
-        this.attributes.OutOfFieldTreatmentZoneCode = 0
-        this.attributes.Grid = [
-            ExtendedGrid.fromGeoJSON(geoJSON, this.isoxmlManager, 1)
-        ]
+        if (defaultTreatmentValue !== undefined) {
+            this.attributes.DefaultTreatmentZoneCode = this.findFreeTZNCode()
+            this.attributes.TreatmentZone.push(
+                this.isoxmlManager.createEntityFromAttributes(TAGS.TreatmentZone, {
+                    TreatmentZoneCode: this.attributes.DefaultTreatmentZoneCode,
+                    ProcessDataVariable: [createPDV(defaultTreatmentValue)]
+                }) as TreatmentZone,
+            )
+        }
+
+        if (positionLostValue !== undefined) {
+            this.attributes.PositionLostTreatmentZoneCode = this.findFreeTZNCode()
+            this.attributes.TreatmentZone.push(
+                this.isoxmlManager.createEntityFromAttributes(TAGS.TreatmentZone, {
+                    TreatmentZoneCode: this.attributes.PositionLostTreatmentZoneCode,
+                    ProcessDataVariable: [createPDV(positionLostValue)]
+                }) as TreatmentZone,
+            )
+        }
     }
 
     getGridAsGeoJSON(): FeatureCollection {
