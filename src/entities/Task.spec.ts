@@ -1,7 +1,7 @@
 import { readFileSync } from 'fs'
 import { ISOXMLManager } from '../ISOXMLManager'
 import { ExtendedTask } from './Task'
-import { TaskTaskStatusEnum, TreatmentZone, ValuePresentation } from '../baseEntities'
+import { TaskTaskStatusEnum, ValuePresentation } from '../baseEntities'
 
 describe('Task Entity', () => {
     it('should add Grid from GeoJSON', async () => {
