@@ -62,7 +62,7 @@ describe('Task Entity', () => {
             UnitDesignator: 'custom-unit'
         }, isoxmlManager)
 
-        task.addGridFromGeoJSON(geoJSONdata, 1, null, isoxmlManager.registerEntity(vpn))
+        task.addGridFromGeoJSON(geoJSONdata, 1, undefined, isoxmlManager.registerEntity(vpn))
         const descriptionAfterWithVPN = task.getGridValuesDescription()
 
         expect(descriptionAfterWithVPN).toHaveLength(1)
@@ -70,5 +70,37 @@ describe('Task Entity', () => {
         expect(descriptionAfterWithVPN[0].scale).toBe(2)
         expect(descriptionAfterWithVPN[0].offset).toBe(20)
         expect(descriptionAfterWithVPN[0].unit).toBe('custom-unit')
+    })
+
+    it('should support positionLostValue and outOfFieldValue', async () => {
+        const geoJSONdata = JSON.parse(readFileSync('./data/test.geojson', 'utf-8'))
+        const isoxmlManager = new ISOXMLManager()
+
+        const task = new ExtendedTask({
+            TaskStatus: TaskTaskStatusEnum.Planned
+        }, isoxmlManager)
+
+        task.addGridFromGeoJSON(geoJSONdata, 1, undefined, undefined, 11, 22, 33)
+
+        expect(task.attributes.TreatmentZone).toHaveLength(4)
+
+        const getTZNValue = (code: number) => {
+            const tzn = task.attributes.TreatmentZone!.find(
+                tzn => tzn.attributes.TreatmentZoneCode == code
+            )
+            return tzn?.attributes.ProcessDataVariable![0].attributes.ProcessDataValue
+        }
+
+        expect(getTZNValue(task.attributes.DefaultTreatmentZoneCode!)).toBe(11)
+        expect(getTZNValue(task.attributes.PositionLostTreatmentZoneCode!)).toBe(22)
+        expect(getTZNValue(task.attributes.OutOfFieldTreatmentZoneCode!)).toBe(33)
+
+        const tznCodes = new Set([
+            task.attributes.DefaultTreatmentZoneCode,
+            task.attributes.PositionLostTreatmentZoneCode,
+            task.attributes.OutOfFieldTreatmentZoneCode,
+            task.attributes.Grid![0].attributes.TreatmentZoneCode
+        ])
+        expect(tznCodes.size).toBe(4) // all TZN codes are different
     })
 })
