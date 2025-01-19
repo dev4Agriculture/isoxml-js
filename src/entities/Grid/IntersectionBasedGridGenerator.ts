@@ -1,5 +1,6 @@
 import { area, bbox as turfBbox, FeatureCollection } from "@turf/turf"
-import { intersection, Polygon } from 'polygon-clipping'
+import type { Polygon } from 'polygon-clipping'
+import geomOps from 'polygon-clipping'
 import RBush from "rbush"
 
 import { GridParameters } from ".."
@@ -56,7 +57,7 @@ export function intersectionBasedGridGenerator(geoJSON: FeatureCollection, gridP
                 ]] as Polygon
 
                 searchResults.some(res => {
-                    const intersectionRes = intersection(res.feature.geometry.coordinates, cell)
+                    const intersectionRes = geomOps.intersection(res.feature.geometry.coordinates, cell)
                     if (intersectionRes.length) {
                         if (searchResults.length === 1) {
                             feature = res.feature

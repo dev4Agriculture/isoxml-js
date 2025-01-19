@@ -4,7 +4,7 @@ import {
     MultiPolygon as TurfMultiPolygon,
     Polygon as TurfPolygon
 } from "@turf/turf"
-import { intersection } from "polygon-clipping"
+import geomOps from "polygon-clipping"
 import { LineStringLineStringTypeEnum, Polygon, PolygonAttributes, PolygonPolygonTypeEnum } from "../baseEntities"
 import { TAGS } from "../baseEntities/constants"
 import { registerEntityClass } from "../classRegistry"
@@ -103,7 +103,7 @@ export class ExtendedPolygon extends Polygon {
                     let maxArea = 0
                     let bestIdx = -1
                     outerRings.forEach((outerRing, idx) => {
-                        const intersectionRes = intersection(
+                        const intersectionRes = geomOps.intersection(
                             [(outerRing as ExtendedLineString).toCoordinatesArray()],
                             [(ring as ExtendedLineString).toCoordinatesArray()]
                         )
@@ -165,7 +165,7 @@ export class ExtendedPolygon extends Polygon {
                 let maxArea = 0
                 let bestIdx = -1
                 outerRings.forEach((outerRing, idx) => {
-                    const intersectionRes = intersection(
+                    const intersectionRes = geomOps.intersection(
                         [outerRing],
                         [ring]
                     )
