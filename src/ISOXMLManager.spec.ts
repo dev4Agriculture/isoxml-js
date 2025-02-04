@@ -207,7 +207,10 @@ describe('ISOXML Manager', () => {
         expect(isoxmlManager2.options.version).toBe(3)
         expect(isoxmlManager2.rootElement.attributes).not.toHaveProperty('BaseStation')
         expect(isoxmlManager2.rootElement.attributes.CropType[0].attributes).not.toHaveProperty('ProductGroupIdRef')
-        expect(isoxmlManager2.rootElement.attributes.Task[0].attributes.Time[0].attributes.Start.split('.').length==1)
+        expect(isoxmlManager2.rootElement.attributes.Task.length==1)
+        expect(isoxmlManager2.rootElement.attributes.Task[0].attributes.Time.length>0)
+        expect(isoxmlManager2.rootElement.attributes.Task[0].attributes.Time[0].attributes.Start !== "")
+        expect(isoxmlManager2.rootElement.attributes.Task[0].attributes.Time[0].attributes.Start.endsWith("21:00:00"))
     })
 
     it('should add warnings', async () => {
