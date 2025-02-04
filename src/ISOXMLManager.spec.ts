@@ -306,10 +306,6 @@ describe('ISOXML Manager', () => {
         expect(isoxmlManager.createEntityFromXML('unknown_tag' as any, {})).toBeNull()
     })
 
-    it('should not have timezones in V3', async () => {
-        const isoxmlManager = new ISOXMLManager
-    })
-
     describe('registerEntity', () => {
         it('should catch inconsistency errors in entities', async () => {
             const isoxmlManager = new ISOXMLManager()
