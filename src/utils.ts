@@ -58,8 +58,15 @@ function numberGenerator (value: number, attrDescription: AttributeDescription):
     }
 }
 
-function dateTimeGenerator (value: Date): string {
-    return value.toISOString()
+function dateTimeGenerator (value: Date, attrDescription: AttributeDescription, isoxmlManager: ISOXMLManager ): string {
+    if(isoxmlManager){
+        if(isoxmlManager.options.version === 3){
+            return value.toISOString().split(".")[0]
+        } else 
+        {
+            return value.toISOString()
+        }
+    }
 }
 
 const PARSERS: {[xsdType: string]: AttributeParser} = {

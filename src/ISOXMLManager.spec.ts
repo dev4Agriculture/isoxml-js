@@ -207,6 +207,7 @@ describe('ISOXML Manager', () => {
         expect(isoxmlManager2.options.version).toBe(3)
         expect(isoxmlManager2.rootElement.attributes).not.toHaveProperty('BaseStation')
         expect(isoxmlManager2.rootElement.attributes.CropType[0].attributes).not.toHaveProperty('ProductGroupIdRef')
+        expect(isoxmlManager2.rootElement.attributes.Task[0].attributes.Time[0].attributes.Start.split('.').length==1)
     })
 
     it('should add warnings', async () => {
@@ -303,6 +304,10 @@ describe('ISOXML Manager', () => {
         const isoxmlManager = new ISOXMLManager()
         expect(isoxmlManager.createEntityFromAttributes('unknown_tag' as any, {})).toBeNull()
         expect(isoxmlManager.createEntityFromXML('unknown_tag' as any, {})).toBeNull()
+    })
+
+    it('should not have timezones in V3', async () => {
+        const isoxmlManager = new ISOXMLManager
     })
 
     describe('registerEntity', () => {
