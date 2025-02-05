@@ -199,7 +199,6 @@ describe('ISOXML Manager', () => {
         expect(isoxmlManager.getWarnings()).toHaveLength(0)
         isoxmlManager.updateOptions({version: 3})
         const data = await isoxmlManager.saveISOXML()
-        // writeFileSync('./data/test_grid_out.zip', data)
 
         const isoxmlManager2 = new ISOXMLManager()
         await isoxmlManager2.parseISOXMLFile(data, 'application/zip')
@@ -207,7 +206,27 @@ describe('ISOXML Manager', () => {
         expect(isoxmlManager2.options.version).toBe(3)
         expect(isoxmlManager2.rootElement.attributes).not.toHaveProperty('BaseStation')
         expect(isoxmlManager2.rootElement.attributes.CropType[0].attributes).not.toHaveProperty('ProductGroupIdRef')
+        expect(isoxmlManager2.rootElement.attributes.Task.length==1)
     })
+
+    it('Ensure that Timestamps do not have a timezone in V3', async () =>{
+        const isoxmlData = readFileSync('./data/task_full.zip')
+        const isoxmlManager = new ISOXMLManager()
+        await isoxmlManager.parseISOXMLFile(new Uint8Array(isoxmlData.buffer), 'application/zip')
+        expect(isoxmlManager.getWarnings()).toHaveLength(0)
+        isoxmlManager.updateOptions({version: 3})
+        const data = await isoxmlManager.saveISOXML()
+        const zip = await JSZip.loadAsync(data)
+        expect(zip.file("TASKDATA/TASKDATA.XML")).toBeTruthy()
+        const xmlFile = zip.file("TASKDATA/TASKDATA.XML")
+        const text = await xmlFile.async('text')
+        expect(!text.includes("000Z"))
+        expect(text.includes('2021-03-18T21:00:00.000Z'))
+        
+
+    },4000)
+
+
 
     it('should add warnings', async () => {
         const isoxmlData = readFileSync('./data/task_with_warnings.zip')
