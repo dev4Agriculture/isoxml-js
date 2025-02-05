@@ -15,12 +15,16 @@ The main features:
 ## Installation
 Just run
 ```
-npm install isoxml
+npm install isoxml-js
 ```
 or 
 ```
-yarn add isoxml
+yarn add isoxml-js
 ```
+
+**Remark**:
+This package was renamed from isoxml to isoxml-js on 05.02.2025 for npm access reasons. It might change back to isoxml in the future!
+
 
 ## Usage Examples
 
@@ -182,3 +186,8 @@ The outliers a modified and a more conservative version of the Boxplot algorithm
 3. Calculate q1 = values[values.length / 4] and q3 = values[values.length * 3 / 4]
 4. Calculate upper and lower boundaries: upperBoundary = q3 + 2.5 * (q3 - q1), lowerBoundary = q1 - 2.5 * (q3 - q1)
 5. Return as new range min and max values inside [lowerBoundary, upperBoundary]
+
+
+## Authors
+
+This package was developed by Alexander Parshin with minor adjustments and review by Frank Wiebeler, dev4Agriculture.
