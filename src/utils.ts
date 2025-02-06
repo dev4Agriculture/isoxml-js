@@ -59,13 +59,10 @@ function numberGenerator (value: number, attrDescription: AttributeDescription):
 }
 
 function dateTimeGenerator (value: Date, attrDescription: AttributeDescription, isoxmlManager: ISOXMLManager ): string {
-    if(isoxmlManager){
-        if(isoxmlManager.options.version === 3){
-            return value.toISOString().split(".")[0]
-        } else 
-        {
-            return value.toISOString()
-        }
+    if (isoxmlManager.options.version === 3) {
+        return value.toISOString().split(".")[0]
+    } else {
+        return value.toISOString()
     }
 }
 
