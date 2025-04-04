@@ -126,10 +126,10 @@ export class ExtendedTimeLog extends TimeLog {
 
                 // Date-class constructor requires milliseconds since 1970-01-01
                 // Binary file provides days since 1980-01-01 (see ISO for reference)
-                // therefore add ten years to get the correct time
-                const TEN_YEARS_MILLISECONDS = 10 * 365 * 24 * 60 * 60 * 1000;
+                // therefore, add milliseconds between 1970-01-01 midnight and 1980-01-01 midnight
+                const MILLISECONDS_JS_ISO_DIFFERENCE = Date.UTC(1980, 0, 1)
 
-                record.time = new Date(TEN_YEARS_MILLISECONDS + 1000 * 60 * 60 * 24 * days + ms) //TODO: timezone ?
+                record.time = new Date(MILLISECONDS_JS_ISO_DIFFERENCE + 1000 * 60 * 60 * 24 * days + ms)
 
                 if (headerPos) {
                     if (headerPos.PositionNorth === null) {
