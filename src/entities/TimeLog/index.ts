@@ -129,7 +129,7 @@ export class ExtendedTimeLog extends TimeLog {
                 // therefore, add milliseconds between 1970-01-01 midnight and 1980-01-01 midnight
                 const MILLISECONDS_JS_ISO_DIFFERENCE = Date.UTC(1980, 0, 1)
 
-                record.time = new Date(MILLISECONDS_JS_ISO_DIFFERENCE + 1000 * 60 * 60 * 24 * days + ms)
+                record.time = new Date(MILLISECONDS_JS_ISO_DIFFERENCE + 1000 * 60 * 60 * 24 * days + ms) // TODO: timezones
 
                 if (headerPos) {
                     if (headerPos.PositionNorth === null) {
