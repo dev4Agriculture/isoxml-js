@@ -15,6 +15,11 @@ import { js2xml, xml2js } from "../../xmlManager"
 import { constructValueInformation } from '../../utils'
 import { ExtendedDeviceElement } from '../DeviceElement'
 
+// Date-class constructor requires milliseconds since 1970-01-01
+// Binary file provides days since 1980-01-01 (see ISO for reference)
+// therefore, add milliseconds between 1970-01-01 midnight and 1980-01-01 midnight
+const MILLISECONDS_JS_ISO_DIFFERENCE = Date.UTC(1980, 0, 1)
+
 export interface TimeLogRecord {
     time: Date
     position: TimelogPositionAttributes,
@@ -124,12 +129,8 @@ export class ExtendedTimeLog extends TimeLog {
                 const ms = reader.nextUint32()
                 const days = reader.nextUint16()
 
-                // Date-class constructor requires milliseconds since 1970-01-01
-                // Binary file provides days since 1980-01-01 (see ISO for reference)
-                // therefore, add milliseconds between 1970-01-01 midnight and 1980-01-01 midnight
-                const MILLISECONDS_JS_ISO_DIFFERENCE = Date.UTC(1980, 0, 1)
-
-                record.time = new Date(MILLISECONDS_JS_ISO_DIFFERENCE + 1000 * 60 * 60 * 24 * days + ms) // TODO: timezones
+                // TODO: timezones
+                record.time = new Date(MILLISECONDS_JS_ISO_DIFFERENCE + 1000 * 60 * 60 * 24 * days + ms)
 
                 if (headerPos) {
                     if (headerPos.PositionNorth === null) {
