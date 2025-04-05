@@ -124,7 +124,12 @@ export class ExtendedTimeLog extends TimeLog {
                 const ms = reader.nextUint32()
                 const days = reader.nextUint16()
 
-                record.time = new Date(1000 * 60 * 60 * 24 * days + ms) //TODO: timezone ?
+                // Date-class constructor requires milliseconds since 1970-01-01
+                // Binary file provides days since 1980-01-01 (see ISO for reference)
+                // therefore, add milliseconds between 1970-01-01 midnight and 1980-01-01 midnight
+                const MILLISECONDS_JS_ISO_DIFFERENCE = Date.UTC(1980, 0, 1)
+
+                record.time = new Date(MILLISECONDS_JS_ISO_DIFFERENCE + 1000 * 60 * 60 * 24 * days + ms) // TODO: timezones
 
                 if (headerPos) {
                     if (headerPos.PositionNorth === null) {
