@@ -17,10 +17,24 @@ export class ExtendedTask extends Task {
         super(attributes, isoxmlManager)
     }
 
-    static fromXML(xml: XMLElement, isoxmlManager: ISOXMLManager, internalId: string): Promise<Entity> {
-        return Task.fromXML(xml, isoxmlManager, internalId, ExtendedTask)
+    static async fromXML(xml: XMLElement, isoxmlManager: ISOXMLManager, internalId: string): Promise<Entity> {
+        const entity = await Task.fromXML(xml, isoxmlManager, internalId, ExtendedTask) as ExtendedTask
+        if ((entity.attributes.Grid ?? []).length > 0) {
+            const grid = entity.attributes.Grid[0] as ExtendedGrid
+            const treatmentZoneCode = grid.attributes.TreatmentZoneCode
+            if (treatmentZoneCode !== undefined) {
+                const treatmentZone = entity.attributes.TreatmentZone?.find(
+                    tz => tz.attributes.TreatmentZoneCode === treatmentZoneCode
+                )
+                const pdvCount = treatmentZone?.attributes.ProcessDataVariable?.length ?? 0
+                if (pdvCount > 0) {
+                    grid.verifyGridSize(isoxmlManager, pdvCount)
+                }
+            }
+        }
+        return entity
     }
-    
+
     private findFreeTZNCode(): number | undefined {
         const tznCodes = new Set(this.attributes.TreatmentZone?.map(tzn => tzn.attributes.TreatmentZoneCode))
         for (let i = 0; i < 255; i++) {
@@ -31,7 +45,7 @@ export class ExtendedTask extends Task {
     }
 
     /** Adds Grid and corresponding TreatmentZones to the Task.
-     * 
+     *
      * Implementation notes:
      * - this function doesn't remove any existing TreatmentZones from the task, it just adds new TZNs.
      * - TZN codes are generated automatically.

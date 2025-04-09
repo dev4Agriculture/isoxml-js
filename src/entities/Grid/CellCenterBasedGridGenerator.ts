@@ -135,7 +135,7 @@ export function cellCenterBasedGridGenerator(
                 const value = Math.round(feature?.properties[propertyName] ?? 0)
                 int32array[index++] = value
             }
-            
+
         }
     }
     //   console.log('cells generation', +new Date() - initDate)

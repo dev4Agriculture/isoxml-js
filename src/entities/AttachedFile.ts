@@ -45,7 +45,7 @@ export class ExtendedAttachedFile extends AttachedFile {
         return entity
     }
 
-    toXML(): XMLElement { 
+    toXML(): XMLElement {
         if (this.attributes.FileType === 1) {
             const linkListFile = ExtendedISO11783LinkListFile.fromISOXMLManager(this.isoxmlManager)
 
@@ -53,12 +53,12 @@ export class ExtendedAttachedFile extends AttachedFile {
                 [TAGS.ISO11783LinkListFile]: linkListFile.toXML()
             }
             const xmlString = js2xml(json)
-            this.isoxmlManager.addFileToSave(xmlString, this.attributes.FilenameWithExtension) 
+            this.isoxmlManager.addFileToSave(xmlString, this.attributes.FilenameWithExtension)
         } else {
-            this.isoxmlManager.addFileToSave(this.fileData, this.attributes.FilenameWithExtension) 
+            this.isoxmlManager.addFileToSave(this.fileData, this.attributes.FilenameWithExtension)
         }
-        return super.toXML() 
-    } 
+        return super.toXML()
+    }
 
     static linkListFromISOXMLManager(isoxmlManager: ISOXMLManager): ExtendedAttachedFile {
         return new ExtendedAttachedFile({
@@ -66,7 +66,7 @@ export class ExtendedAttachedFile extends AttachedFile {
             Preserve: AttachedFilePreserveEnum.PreserveOnTaskControllerAndSendBackToFMIS,
             FileType: 1,
             ManufacturerGLN: ''
-        }, isoxmlManager) 
+        }, isoxmlManager)
     }
 }
 

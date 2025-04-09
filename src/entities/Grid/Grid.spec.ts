@@ -2,6 +2,7 @@ import {readFileSync} from 'fs'
 
 import { ISOXMLManager } from '../../ISOXMLManager'
 import { ExtendedGrid } from './Grid'
+import { Task } from '../../baseEntities/Task'
 
 describe('Grid Entity', () => {
   it('should create instance from GeoJSON', async () => {
@@ -30,5 +31,21 @@ describe('Grid Entity', () => {
     expect(geoJSON).toBeTruthy()
     expect(geoJSON.features[0].properties!.DOSE).toBe(16) // 15.7 should be rounded to 16
 
+  })
+
+  it('should verify grid size correctly', async () => {
+    const isoxmlData = readFileSync('./data/task_with_grid.zip')
+    const isoxmlManager = new ISOXMLManager({version: 4})
+
+    await isoxmlManager.parseISOXMLFile(new Uint8Array(isoxmlData.buffer), 'application/zip')
+
+    const grid = isoxmlManager.getEntityByXmlId<Task>('TSK1').attributes.Grid![0] as ExtendedGrid
+
+    const anotherIsoxmlManager = new ISOXMLManager({version: 4})
+
+    grid.verifyGridSize(anotherIsoxmlManager, 1)
+    expect(anotherIsoxmlManager.getWarnings()).toHaveLength(0)
+    grid.verifyGridSize(anotherIsoxmlManager, 2)
+    expect(anotherIsoxmlManager.getWarnings()).toHaveLength(1)
   })
 })

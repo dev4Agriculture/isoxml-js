@@ -44,18 +44,8 @@ export class ExtendedGrid extends Grid {
         const filename = entity.attributes.Filename
         entity.binaryData = await isoxmlManager.getParsedFile(`${filename}.bin`, true)
 
-        const nRows = entity.attributes.GridMaximumRow
-        const nCols = entity.attributes.GridMaximumColumn
-        const bytesPerElem = entity.attributes.GridType === GridGridTypeEnum.GridType1 ? 1 : 4
-        const expectedSize = nRows * nCols * bytesPerElem
-
         if (!entity.binaryData) {
             isoxmlManager.addWarning(`[${internalId}] Missing grid file ${filename}.bin`)
-        } else if (expectedSize !== entity.binaryData.length) {
-            isoxmlManager.addWarning(
-                `[${internalId}] Invalid size of grid file ${ filename }.bin: ` +
-                `expected ${expectedSize} bytes, but real size is ${entity.binaryData.length}`
-            )
         }
 
         return entity
@@ -68,13 +58,13 @@ export class ExtendedGrid extends Grid {
         isoxmlManager: ISOXMLManager,
         treatmentZoneCode?: number
     ): ExtendedGrid {
-        const gridParamsGenerator = 
+        const gridParamsGenerator =
             isoxmlManager.options.gridParamsGenerator ||
             createGridParamsGenerator(GRID_CELL_SIZE, GRID_CELL_SIZE)
 
         const gridParams = gridParamsGenerator(geoJSON)
 
-        const gridGenerator: GridGenerator = 
+        const gridGenerator: GridGenerator =
             isoxmlManager.options.gridGenerator ||
             cellCenterBasedGridGenerator
 
@@ -103,10 +93,10 @@ export class ExtendedGrid extends Grid {
         return entity
     }
 
-    toXML(): XMLElement { 
-        this.isoxmlManager.addFileToSave(this.binaryData, `${this.attributes.Filename}.bin`) 
-        return super.toXML() 
-    } 
+    toXML(): XMLElement {
+        this.isoxmlManager.addFileToSave(this.binaryData, `${this.attributes.Filename}.bin`)
+        return super.toXML()
+    }
 
     /** Supports only Grid of Type 2 */
     toGeoJSON(propertyNames: string[]): FeatureCollection {
@@ -184,6 +174,25 @@ export class ExtendedGrid extends Grid {
         }
 
         return this.allReferencedTZNCodes
+    }
+
+    /** Verifies that the binary file of this Grid has correct size.
+     * Adds a warning to "isoxmlManager" if the size is incorrect.
+     * @param isoxmlManager - the ISOXMLManager instance to add warnings to
+     * @param pdvCount - the number of ProcessDataVariable in the grid (used for Type 2 grids)
+     * */
+    verifyGridSize(isoxmlManager: ISOXMLManager, pdvCount: number) {
+        const nRows = this.attributes.GridMaximumRow
+        const nCols = this.attributes.GridMaximumColumn
+        const bytesPerCell = this.attributes.GridType === GridGridTypeEnum.GridType1 ? 1 : 4 * pdvCount
+        const expectedSize = nRows * nCols * bytesPerCell
+
+        if (expectedSize !== this.binaryData.length) {
+            isoxmlManager.addWarning(
+                `[${this.attributes.Filename}] Invalid size of grid file ${this.attributes.Filename}.bin: ` +
+                `expected ${expectedSize} bytes, but real size is ${this.binaryData.length}`
+            )
+        }
     }
 }
 

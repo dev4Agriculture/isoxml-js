@@ -39,7 +39,7 @@ export class ExtendedPolygon extends Polygon {
                 ...geoJSON.coordinates.map(
                     component => component.map(
                         (ring, idx) => ExtendedLineString.fromGeoJSONCoordinates(
-                            ring, 
+                            ring,
                             isoxmlManager,
                             idx
                                 ? LineStringLineStringTypeEnum.PolygonInterior
@@ -58,7 +58,7 @@ export class ExtendedPolygon extends Polygon {
                 PolygonType: polygonType,
                 LineString: component.map(
                     (ring, idx) => ExtendedLineString.fromGeoJSONCoordinates(
-                        ring, 
+                        ring,
                         isoxmlManager,
                             idx
                                 ? LineStringLineStringTypeEnum.PolygonInterior
@@ -94,7 +94,7 @@ export class ExtendedPolygon extends Polygon {
                 if (outerRings.length <= 1) {
                     splittedPolygons.push(polygon)
                     return
-                } 
+                }
 
                 const innerRings = polygon.attributes.LineString
                     .filter((ring) => ring.attributes.LineStringType === LineStringLineStringTypeEnum.PolygonInterior)

@@ -18,7 +18,7 @@ describe('Task Entity', () => {
             [isoxmlManager.createEntityFromAttributes(TAGS.ProcessDataVariable, {ProcessDataDDI: '0001'})],
             ['DOSE']
         )
-        
+
         expect(task.attributes.TreatmentZone).toHaveLength(2)
         expect(task.attributes.Grid).toHaveLength(1)
     })

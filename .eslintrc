@@ -13,7 +13,8 @@
     "@typescript-eslint/no-explicit-any": "off",
     "semi": "off",
     "@typescript-eslint/semi": ["error", "never"],
-    "max-len": ["error", { "code": 120 }]
+    "max-len": ["error", { "code": 120 }],
+    "no-trailing-spaces": "error"
   },
   "env": {
     "node": true

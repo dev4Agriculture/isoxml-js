@@ -27,7 +27,7 @@ function isoxmlManagerOptionsToAttributes(isoxmlManager: ISOXMLManager) {
 
 // This implementation doesn't support generation of External Files. Particularly:
 //   * During parsing from XML, all the external files will be parsed and merged into the instance of this class.
-//     All the XFR tags will be removed 
+//     All the XFR tags will be removed
 //   * During saving to XML, no external files will be saved even if XFR tags were manually added by user
 export class ExtendedISO11783TaskDataFile extends ISO11783TaskDataFile {
     public tag = TAGS.ISO11783TaskDataFile

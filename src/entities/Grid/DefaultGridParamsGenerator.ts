@@ -5,7 +5,7 @@ import { GridParametersGenerator } from ".."
 export function createGridParamsGenerator (
     targetCellWidth: number,
     targetCellHeight: number
-): GridParametersGenerator { 
+): GridParametersGenerator {
     return (geometry: any) => {
         const [minX, minY, maxX, maxY] = turfBbox(geometry)
 
@@ -25,5 +25,5 @@ export function createGridParamsGenerator (
             cellWidth: (maxX - minX) / numCols,
             cellHeight: (maxY - minY) / numRows
         }
-    }    
+    }
 }
