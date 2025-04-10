@@ -97,13 +97,13 @@ function parseClassesFromFile(realm: string, filename: string, classPrefix = '')
                 if (attr._attributes?.type) {
                     xsdType = attr._attributes?.type as string
                 } else {
-                    restrictions = 
+                    restrictions =
                         attr['xs:simpleType'][0]['xs:restriction'] ||
                         attr['xs:simpleType'][0]['xs:union'][0]['xs:simpleType'][0]['xs:restriction']
 
                     xsdType = restrictions[0]._attributes.base
 
-                    allowEmptyString = 
+                    allowEmptyString =
                         attr['xs:simpleType'][0]['xs:union']?.[0]._attributes['memberTypes'] === 'emptyString'
                 }
 

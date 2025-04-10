@@ -92,16 +92,16 @@ export class ExtendedTimeLog extends TimeLog {
         return this.isoxmlManager.getEntityByXmlId<ExtendedDeviceElement>(detId)
     }
 
-    toXML(): XMLElement { 
+    toXML(): XMLElement {
         const json = {
             [TAGS.Time]: this.timeLogHeader.toXML()
         }
         const xmlData = js2xml(json)
 
-        this.isoxmlManager.addFileToSave(xmlData, `${this.attributes.Filename}.xml`) 
-        this.isoxmlManager.addFileToSave(this.binaryData, `${this.attributes.Filename}.bin`) 
-        return super.toXML() 
-    } 
+        this.isoxmlManager.addFileToSave(xmlData, `${this.attributes.Filename}.xml`)
+        this.isoxmlManager.addFileToSave(this.binaryData, `${this.attributes.Filename}.bin`)
+        return super.toXML()
+    }
 
     parseBinaryFile(): TimeLogInfo {
 
@@ -296,7 +296,7 @@ export class ExtendedTimeLog extends TimeLog {
         })
 
         const newValuesInfo = parsedTimeLog.valuesInfo.map(valueInfo => {
-            const values = [...uniqueValues[valueInfo.valueKey]] 
+            const values = [...uniqueValues[valueInfo.valueKey]]
             if (values.length < 8) {
                 return {minValue: valueInfo.minValue, maxValue: valueInfo.maxValue}
             }

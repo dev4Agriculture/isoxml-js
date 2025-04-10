@@ -9,7 +9,7 @@ const XML_PARSE_OPTIONS: X2jOptionsOptional = {
     parseTagValue: false,
     parseAttributeValue: false,
     isArray: (tagName: string, jPath: string, isLeafNode: boolean, isAttribute: boolean) => !isAttribute,
-    attributeValueProcessor: (name: string, value: string) => 
+    attributeValueProcessor: (name: string, value: string) =>
         value.replace(/&amp;/g, '&')
           .replace(/&apos;/g, "'")
           .replace(/&quot;/g, '"')
@@ -22,7 +22,7 @@ const XML_BUILD_OPTIONS: XmlBuilderOptionsOptional = {
     ignoreAttributes: false,
     attributesGroupName: '_attributes',
     format: true,
-    attributeValueProcessor: (name: string, value: string) => 
+    attributeValueProcessor: (name: string, value: string) =>
         value.replace(/&/g, '&amp;')
           .replace(/'/g, '&apos;')
           .replace(/"/g, '&quot;')

@@ -24,7 +24,7 @@ export class ExtendedPartfield extends Partfield {
     }
 
     boundaryFromGeoJSON(geoJSON: TurfMultiPolygon | TurfPolygon, isoxmlManager: ISOXMLManager): void {
-        this.attributes.PolygonnonTreatmentZoneonly = 
+        this.attributes.PolygonnonTreatmentZoneonly =
             ExtendedPolygon.fromGeoJSON(geoJSON, PolygonPolygonTypeEnum.PartfieldBoundary, isoxmlManager)
         this.attributes.PartfieldArea = Math.round(area(geoJSON))
     }

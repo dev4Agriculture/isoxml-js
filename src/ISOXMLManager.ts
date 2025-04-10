@@ -258,8 +258,8 @@ export class ISOXMLManager {
         }
     }
 
-    public getParsedFile(filenameWithExtension: string, isBinary: true): Promise<Uint8Array> 
-    public getParsedFile(filenameWithExtension: string, isBinary: false): Promise<string> 
+    public getParsedFile(filenameWithExtension: string, isBinary: true): Promise<Uint8Array>
+    public getParsedFile(filenameWithExtension: string, isBinary: false): Promise<string>
     public getParsedFile(
         filenameWithExtension: string,
         isBinary: boolean,

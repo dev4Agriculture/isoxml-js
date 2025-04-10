@@ -107,7 +107,7 @@ function xml2attrs(
                 // warn about unknown non-proprietary attributes
                 isoxmlManager.addWarning(`[${internalId}] Unknown attribute "${xmlAttr}"`)
             }
-            return 
+            return
         }
         if (attrDescription.isPrimaryId) {
             return
@@ -177,7 +177,7 @@ export async function xml2ChildTags(
                 result['ProprietaryTags'][tagName] = result['ProprietaryTags'][tagName] || []
                 result['ProprietaryTags'][tagName].push(...xml[tagName])
             }
-            continue 
+            continue
         }
         result[refDescription.name] = []
         for (const [idx, childXml] of xml[tagName].entries()) {
@@ -187,7 +187,7 @@ export async function xml2ChildTags(
             )
         }
     }
-    return result 
+    return result
 }
 
 export function childTags2Xml(
@@ -202,12 +202,12 @@ export function childTags2Xml(
         const tagName = Object.keys(referencesDescription).find(tag => referencesDescription[tag].name === attrName)
         const refDescription = referencesDescription[tagName]
         if (!refDescription || (version === 3 && refDescription.isOnlyV4)) {
-            return 
+            return
         }
 
         result[tagName] = (entity.attributes[attrName] as Entity[]).map(entity => entity.toXML())
     })
-    return result 
+    return result
 }
 
 export async function fromXML(
