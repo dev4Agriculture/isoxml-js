@@ -1,4 +1,3 @@
-import { readFileSync } from "fs"
 import { DeviceProcessData, ValuePresentation } from "./baseEntities"
 import { TAGS } from "./baseEntities/constants"
 import { ISOXMLManager } from "./ISOXMLManager"
@@ -85,14 +84,4 @@ describe('Utils', () => {
         expect(valueInfo.offset).toBe(0)
         expect(valueInfo.scale).toBe(1)
     })
-
-    it('should warn when xmlId is used multiple times', async () => {
-        const isoxmlData = readFileSync('./data/duplicate-xmlid.zip')
-        const isoxmlManager = new ISOXMLManager({version: 4})
-
-        await isoxmlManager.parseISOXMLFile(new Uint8Array(isoxmlData.buffer), 'application/zip')
-
-        expect(isoxmlManager.getWarnings()).toHaveLength(2)
-    })
-
 })

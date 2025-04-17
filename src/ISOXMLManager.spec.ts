@@ -313,6 +313,16 @@ describe('ISOXML Manager', () => {
         expect(isoxmlManager.getWarnings()).toHaveLength(1)
     })
 
+    it('should add a warning when xmlId is used multiple times', async () => {
+        const isoxmlData = readFileSync('./data/duplicate-xmlid.zip')
+        const isoxmlManager = new ISOXMLManager({version: 4})
+
+        await isoxmlManager.parseISOXMLFile(new Uint8Array(isoxmlData.buffer), 'application/zip')
+
+        expect(isoxmlManager.getWarnings()).toHaveLength(2)
+    })
+
+
     it('should not parse zip files without main file', async () => {
         // create updated file
         const updatedZip = await modifyZip('./data/test1.zip', async zip => {
