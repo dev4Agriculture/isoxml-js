@@ -228,6 +228,11 @@ export async function fromXML(
         ...xml2attrs(xml, attributesDescription, isoxmlManager, updatedInternalId),
         ...children
     }, isoxmlManager, updatedInternalId)
+
+    if (entity && isoxmlManager.xmlReferences[xmlId]?.entity) {
+        isoxmlManager.addWarning(`[${xmlId}] Recieved another entity for this xmlId (overwriting current)`)
+    }
+
     xmlId && entity.isoxmlManager.registerEntity(entity, xmlId)
 
     return entity
