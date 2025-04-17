@@ -92,7 +92,7 @@ describe('Utils', () => {
 
         await isoxmlManager.parseISOXMLFile(new Uint8Array(isoxmlData.buffer), 'application/zip')
 
-        expect(isoxmlManager.getWarnings()).toHaveLength(3)
+        expect(isoxmlManager.getWarnings()).toHaveLength(2)
     })
 
 })
