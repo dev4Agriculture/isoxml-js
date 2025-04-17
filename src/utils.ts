@@ -230,7 +230,8 @@ export async function fromXML(
     }, isoxmlManager, updatedInternalId)
 
     if (entity && isoxmlManager.xmlReferences[xmlId]?.entity) {
-        isoxmlManager.addWarning(`[${xmlId}] Recieved another entity for this xmlId (overwriting current)`)
+        isoxmlManager.addWarning(`[${xmlId}] Read another entity with this xmlId`)
+        console.log("overwriting", xmlId, " now entity is:", entity)
     }
 
     xmlId && entity.isoxmlManager.registerEntity(entity, xmlId)
