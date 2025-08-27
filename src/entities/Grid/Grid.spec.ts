@@ -48,4 +48,13 @@ describe('Grid Entity', () => {
     grid.verifyGridSize(anotherIsoxmlManager, 2)
     expect(anotherIsoxmlManager.getWarnings()).toHaveLength(1)
   })
+
+  it('should parse a grid-element even when the binary-file is missing', async () => {
+    const isoxmlData = readFileSync('./data/grid-without-binary.zip')
+    const isoxmlManager = new ISOXMLManager()
+
+    await isoxmlManager.parseISOXMLFile(new Uint8Array(isoxmlData.buffer), 'application/zip')
+
+    expect(isoxmlManager.getWarnings()).toHaveLength(1)
+  })
 })
