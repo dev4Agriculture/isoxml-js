@@ -182,6 +182,10 @@ export class ExtendedGrid extends Grid {
      * @param pdvCount - the number of ProcessDataVariable in the grid (used for Type 2 grids)
      * */
     verifyGridSize(isoxmlManager: ISOXMLManager, pdvCount: number) {
+        if (!this.binaryData) {
+            return
+        }
+
         const nRows = this.attributes.GridMaximumRow
         const nCols = this.attributes.GridMaximumColumn
         const bytesPerCell = this.attributes.GridType === GridGridTypeEnum.GridType1 ? 1 : 4 * pdvCount
