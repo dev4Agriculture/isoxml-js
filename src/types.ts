@@ -64,6 +64,7 @@ export type ValueInformation = {
     DDINumber: number
     DDIString: string
     DDEntityName: string
+    pgnName: string
     unit: string
     scale: number
     offset: number

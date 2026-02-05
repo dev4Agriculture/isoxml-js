@@ -12,6 +12,7 @@ import {
     ValueInformation,
     XMLElement
 } from "./types"
+import PGNs from "./PGNs";
 
 type AttributeGenerator = (value: any, attrDescription: AttributeDescription, isoxmlManager: ISOXMLManager) => string
 type AttributeParser = (value: string, attrDescription: AttributeDescription, isoxmlManager: ISOXMLManager) => any
@@ -256,10 +257,12 @@ export function DDIToString(DDI: number): string {
 export function constructValueInformation(
     ddiString: string,
     vpn?: ValuePresentation | DeviceValuePresentation,
-    dpd?: DeviceProcessData
+    dpd?: DeviceProcessData,
+    pgnNumber?: number
 ): ValueInformation {
     const ddiNumber = parseInt(ddiString, 16)
     const ddEntity = DDEntities[ddiNumber]
+    const pgn = PGNs[pgnNumber]
     const unit = vpn ? (vpn.attributes.UnitDesignator || '') : (ddEntity?.unit || '')
     const scale = vpn ? vpn.attributes.Scale : (ddEntity?.bitResolution ?? 1)
     const offset = vpn ? vpn.attributes.Offset : 0
@@ -268,6 +271,7 @@ export function constructValueInformation(
         : Math.ceil(-Math.log10(ddEntity?.bitResolution || 1))
 
     const ddiName = ddEntity?.name
+    const pgnName = pgn?.name
     const dpdDesignator = dpd?.attributes.DeviceProcessDataDesignator
     const DDEntityName = ddiName && dpdDesignator
         ? `${dpdDesignator} (${ddiName})`
@@ -277,6 +281,7 @@ export function constructValueInformation(
         DDINumber: ddiNumber,
         DDIString: ddiString,
         DDEntityName,
+        pgnName,
         unit,
         scale,
         offset,

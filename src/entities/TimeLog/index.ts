@@ -32,6 +32,9 @@ export type DataLogValueInfo = ValueInformation & {
     maxValue?: number
     deviceElementId: string
     deviceElementDesignator?: string
+    pgn?: number
+    pgnStartBit?: number
+    pgnStopBit?: number
     valueKey: string
 }
 
@@ -81,6 +84,13 @@ export class ExtendedTimeLog extends TimeLog {
         })
 
         return entity
+    }
+
+    private getKey(ddi: string, detId: string, pgn?: number, pgn_start_bit?: number, pgn_stop_bit?: number) {
+        if (ddi != "DFFE")
+            return `${ddi}_${detId}`
+        else
+            return `${pgn}:${pgn_start_bit}:${pgn_stop_bit}_${ddi}_${detId}`
     }
 
     private getDLVDeviceElement(dataLogValue: TimelogDataLogValue) {
@@ -198,11 +208,15 @@ export class ExtendedTimeLog extends TimeLog {
 
                 for (let dlv = 0; dlv < count; dlv++) {
                     const dlvIdx = reader.nextUint8()
-                    const ddi = this.timeLogHeader.attributes.DataLogValue[dlvIdx].attributes.ProcessDataDDI
-                    const detId = this.timeLogHeader.attributes.DataLogValue[dlvIdx].attributes.DeviceElementIdRef.xmlId
+                    const dlvAttributes = this.timeLogHeader.attributes.DataLogValue[dlvIdx].attributes
+                    const ddi = dlvAttributes.ProcessDataDDI
+                    const detId = dlvAttributes.DeviceElementIdRef.xmlId
+                    const pgn = dlvAttributes.DataLogPGN
+                    const pgnStartBit = dlvAttributes.DataLogPGNStartBit
+                    const pgnStopBit = dlvAttributes.DataLogPGNStopBit
                     const value = reader.nextInt32()
 
-                    const key = `${ddi}_${detId}`
+                    const key = this.getKey(ddi, detId, pgn, pgnStartBit, pgnStopBit)
 
                     if (isValidPosition) {
                         if (!ranges[key]) {
@@ -243,24 +257,28 @@ export class ExtendedTimeLog extends TimeLog {
 
         const valuesInfo = (this.timeLogHeader.attributes.DataLogValue || []).map(dlv => {
             const ddi = dlv.attributes.ProcessDataDDI
+            const pgn = dlv.attributes.DataLogPGN
             const deviceElement = this.getDLVDeviceElement(dlv)
             const vpn = deviceElement?.getValuePresentation(ddi)
             const dpd = deviceElement?.getDataProcess(ddi)
 
-            const info = constructValueInformation(ddi, vpn, dpd) as DataLogValueInfo
+            const info = constructValueInformation(ddi, vpn, dpd, pgn) as DataLogValueInfo
 
             const detId = dlv.attributes.DeviceElementIdRef.xmlId
             const device = deviceElement?.getParentDevice()
 
-            const key = `${ddi}_${detId}`
+            const key = this.getKey(ddi, detId, pgn,
+                dlv.attributes.DataLogPGNStartBit, dlv.attributes.DataLogPGNStopBit)
 
             const deviceName = device?.attributes.DeviceDesignator ?? ''
             const deviceElementName = deviceElement?.attributes.DeviceElementDesignator ?? ''
 
             info.deviceElementId = detId
             info.deviceElementDesignator = [deviceName, deviceElementName].filter(e => e).join(' - ')
+            info.pgn = dlv.attributes.DataLogPGN
+            info.pgnStartBit = dlv.attributes.DataLogPGNStartBit
+            info.pgnStopBit = dlv.attributes.DataLogPGNStopBit
             info.valueKey = key
-
 
             if (key in ranges) {
                 info.minValue = ranges[key].min
